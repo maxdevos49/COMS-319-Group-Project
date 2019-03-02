@@ -1,0 +1,7 @@
+{
+    "ignore": [".git", "node_modules", "bin/**/*.ts", "test/**/*.ts"],
+    "watch": ["src"],
+    "exec": "npm run build && node bin/server.js",
+    "ext": "ts",
+    "delay": "10000"
+}
