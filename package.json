@@ -4,7 +4,7 @@
   "description": "CS 319 group project",
   "main": "server.js",
   "scripts": {
-    "build": "tsc && cd src/public && tsc && cd ../../",
+    "build": "tsc",
     "prestart": "npm run build",
     "start": "node bin/server.js",
     "dev": "nodemon"
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "dotenv": "^6.2.0",
+    "esm": "^3.2.9",
     "express": "^4.16.4"
   }
- 
 }
