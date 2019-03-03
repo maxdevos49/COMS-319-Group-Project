@@ -1,42 +1,35 @@
 {
     "folders": [
         {
-            //Entire project and access to the root directory
             "name": "Root",
             "path": "."
         },
         {
-            //Contains server code without the root files
             "name": "Server",
             "path": "src"
         },
         {
-            //Contains just the client side code
             "name": "Client",
             "path": "src/public"
         },
         {
-            //Contains just the client side code
+            "name": "Test",
+            "path": "test"
+        },
+        {
             "name": "Documentation",
             "path": "documentation"
         }
     ],
-    "extensions": {
-        "recommendations": [
-            "eg2.tslint",
-            "dbaeumer.vscode-eslint",
-            "msjsdiag.debugger-for-chrome"
-        ]
-    },
-    "launch": {
-        "configurations": [
-            {
-                "type": "node",
-                "request": "launch",
-                "name": "Launch Server",
-                "program": "${workspaceFolder:Root}/bin/server.js",
-                // "preLaunchTask": "tsc"
-            }
-        ]
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/*.js": { "when": "$(basename).ts" },
+            "**/*.js.m*": true,
+        }
     }
 }
