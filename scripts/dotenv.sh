@@ -3,7 +3,7 @@
 # Author Maxwell DeVos
 # Script for generating a default .env file for the
 # project. (Because they are not transfered with git)
-version=1.0
+version=1.1
 set -eu
 
 if [[ $* == --help || $* == -h ]];
@@ -28,7 +28,10 @@ NODE_ENVIROMENT=development
 
 #Server Port
 SERVER_PORT=8080
+DOMAIN=localhost
+TRANSPORT=http
 EOF
+        echo ".env file was generated. Version: $version";
     else
         echo "File $env_file already exists!";
     fi

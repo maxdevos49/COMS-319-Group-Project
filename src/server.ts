@@ -1,17 +1,30 @@
 import express from "express";
-import dotenv from "dotenv";
+import http from "http";
+import ip from "ip";
 
-if(!process.env.NODE_ENVIROMENT)
-    dotenv.config();
+//config
+import config from "./config";
+import setup from "./setup";
 
 const app: express.Application = express();
+const server: http.Server = http.createServer(app);
 
-app.get("/", function(req: any, res: any) {
-    res.send("Hello, World! \n" + process.env.SERVER_PORT);
+//view engine
+app.set("view engine", "vash");
+app.set("views", __dirname + "/views");
+app.use(express.static(__dirname + '/public'));
+
+//set the routes for the server to use
+app.use("/", setup());
+
+//start the server
+server.listen(config.server.port, function() {
+    console.log(`CS319 Project running at ${ip.address()}:${config.server.port}`);
 });
 
-app.listen(8080, function() {
-    console.log("Server listening on port 8080");
-    console.log("Hey");
+// Catch Errors
+server.on("error", function(error: any) {
+    if (error.code === "EADDRINUSE") {
+        console.error(`Current port address is in use. Try closing any other servers that could be using the same port as : ${config.server.port}`);
+    }
 });
-

@@ -1,0 +1,27 @@
+/**
+******Color Scheme******
+* Blue: #4484CE
+* Aluminumn: #D9D9D9
+* Light: #F9CF00
+* Tangerine: #F19F4D
+*/
+.bg-blue{
+    background-color: #4484CE !important;
+}
+
+.bg-aluminum{
+    background-color: #D9D9D9 !important;
+}
+
+.bg-yellow {
+    background-color: #F9CF00 !important;
+}
+
+.bg-tangerine {
+    background-color: #F19F4D !important;
+}
+
+/****Debug CSS******/
+.border {
+    border: 2px solid black !important;
+}

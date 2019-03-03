@@ -1,0 +1,13 @@
+@html.extend('Shared/_layout', function(model){
+
+    @html.block('content', function(model){
+
+        @{
+            model.title = "About";
+        }
+
+        <div class="col-md-10 bg-white" style="margin: 10px auto;">
+            <h1>About</h1>
+        </div>
+    })
+})

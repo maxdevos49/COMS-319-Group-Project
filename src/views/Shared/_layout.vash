@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @*Meta*@
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="Max DeVos, Mason Timmerman, Joseph Naberhaus, John Jago">
+
+        @*CSS*@
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="/css/layout.css">
+        <link rel="shortcut icon" href="/images/favicon.ico"/>
+
+		<title>@model.title | COMS319</title>
+    </head>
+    <body class="bg-aluminum" >
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
+            <a class="navbar-brand" href="/Home/">
+                COMS319 Project
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+     
+        <div class="bg-white">
+
+            @html.block('content')
+            
+        </div>
+
+        <footer class="font-small bg-aluminum pt-4">
+        
+            <div class="container-fluid text-center text-md-left">
+                <div class="row">
+                    <div class="col-md-6 mt-md-0 mt-3">
+                        <h5 class="text-uppercase text">COMS319</h5>
+                        <p class="text">About Project</p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none pb-3">
+
+                    <div class="col-md-3 mb-md-0 mb-3">
+                        <h5 class="text-uppercase text">Site</h5>
+                        <ul class="list-unstyled">
+                            <li class="nav-item"><a lass="nav-link" href="/Home/">Home</a></li>
+                            <li class="nav-item"><a lass="nav-link" href="/Home/about">About</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-3 mb-md-0 mb-3">
+                        <h5 class="text-uppercase text">Developers</h5>
+                        <ul class="list-unstyled">
+                            <li class="nav-item"><a lass="nav-link" href="https://github.com/Maxdevos49">Maxwell DeVos</a></li>
+                            <li class="nav-item"><a lass="nav-link" href="https://github.com/MasonLT199">Mason Timmerman</a></li>
+                            <li class="nav-item"><a lass="nav-link" href="https://github.com/johnjago">John Jago</a></li>
+                            <li class="nav-item"><a lass="nav-link" href="https://github.com/JosephNaberhaus">Joseph Naberhaus</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright text-center py-3 text">
+                © 2018 Copyright: Group 14
+            </div>
+        </footer>
+
+        <!--These need to be installed locally-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        
+        <!--Only necessary for forms-->
+        <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+        -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>
