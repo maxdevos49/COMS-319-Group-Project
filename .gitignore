@@ -1,6 +1,11 @@
 #CS319
 .gitignore
 
+#Typescript
+*.js
+*.js.map
+*.js.min
+
 #General
 node_modules
 bin
