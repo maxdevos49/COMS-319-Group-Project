@@ -28,7 +28,8 @@
         "@types/ip": "^1.1.0",
         "@types/node": "^11.10.4",
         "@types/socket.io": "^2.1.2",
-        "@types/uuid": "^3.4.4"
+        "@types/uuid": "^3.4.4",
+        "typescript": "^3.3.4000"
     },
     "dependencies": {
         "nodemon": "^1.18.10",
