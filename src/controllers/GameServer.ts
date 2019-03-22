@@ -11,7 +11,7 @@ export class GameServer {
     /**
      * The socket io room this game is listening to
      */
-    private ioRoom: Namespace;
+    private gameSocket: Namespace;
     /**
      * The clients that are connected to this server
      */
@@ -21,14 +21,14 @@ export class GameServer {
      */
     private playerNames: Map<v1, string>;
 
-    constructor(io: Server) {
+    constructor(matchmakingSocket: Server) {
         this.clients = new Map<v1, Socket>();
         this.playerNames = new Map<v1, string>();
 
         this.serverId = v1Gen();
-        this.ioRoom = io.of("/game/" + this.serverId)
+        this.gameSocket = matchmakingSocket.of(this.serverId);
 
-        this.ioRoom.on("/connection", this.onConnection)
+        this.gameSocket.on("/connection", this.onConnection)
     }
 
     private onConnection(socket: Socket) {

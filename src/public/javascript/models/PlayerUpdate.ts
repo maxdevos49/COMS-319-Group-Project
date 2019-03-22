@@ -8,7 +8,7 @@ export class PlayerUpdate {
     /**
      * The name of this player
      */
-    public name: string;
+    public name: string | undefined;
 
     /**
      * Constructs a new PlayerUpdate

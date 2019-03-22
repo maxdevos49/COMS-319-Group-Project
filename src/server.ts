@@ -5,6 +5,7 @@ import ip from "ip";
 //config
 import config from "./config";
 import setup from "./setup";
+import {GameMatchmaking} from "./controllers/GameMatchmaking";
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
@@ -28,3 +29,6 @@ server.on("error", function(error: any) {
         console.error(`Current port address is in use. Try closing any other servers that could be using the same port as : ${config.server.port}`);
     }
 });
+
+// Start games controller
+const gamesController: GameMatchmaking = new GameMatchmaking(server);
