@@ -32,11 +32,12 @@
         "typescript": "^3.3.4000"
     },
     "dependencies": {
-        "nodemon": "^1.18.10",
         "dotenv": "^6.2.0",
         "esm": "^3.2.9",
         "express": "^4.16.4",
         "ip": "^1.1.5",
+        "nodemon": "^1.18.10",
+        "socket.io": "^2.2.0",
         "uuid": "^3.3.2",
         "vash": "^0.12.6"
     },
