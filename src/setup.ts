@@ -4,8 +4,6 @@ const router: Router = express.Router();
 //controllers
 import homeController from "./controllers/Home";
 
-
-
 export default function() {
 
     //Home
