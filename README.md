@@ -20,3 +20,9 @@ At this point you should be ready to run the server. To do this use the command;
 npm run dev
 ```
 This will start a server that can be accessed on the default port of `8080`. It will also use nodemon to watch for any changes to files and recompile and restart server when it sees any.
+
+### Running the test suite
+
+```
+npm run test
+```
