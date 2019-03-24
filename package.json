@@ -6,7 +6,8 @@
     "scripts": {
         "setup": "./scripts/dotenv.sh -f && npm i",
         "build": "tsc",
-        "start": "npm i && tsc && node -r esm src/server.js",
+        "postinstall": "npm run build-ts",
+        "start": "node -r esm src/server.js",
         "devstart": "node -r esm --require dotenv/config src/server.js",
         "dev": "nodemon",
         "test": ""
@@ -22,6 +23,9 @@
         "NodeJS",
         "javascript"
     ],
+    "engines": {
+        "node": "10.15.0"
+    },
     "author": "Maxwell DeVos, Mason Timmerman, John Jago, Joseph Naberhaus",
     "license": "ISC",
     "devDependencies": {
