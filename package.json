@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "CS 319 group project",
     "main": "server.js",
+    "engines": {
+        "node": "10.15.0",
+        "npm": "6.8.0"
+    },
     "scripts": {
         "setup": "./scripts/dotenv.sh -f && npm i",
         "build": "tsc",
@@ -23,9 +27,6 @@
         "NodeJS",
         "javascript"
     ],
-    "engines": {
-        "node": "10.15.0"
-    },
     "author": "Maxwell DeVos, Mason Timmerman, John Jago, Joseph Naberhaus",
     "license": "ISC",
     "devDependencies": {
