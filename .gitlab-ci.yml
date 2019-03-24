@@ -21,13 +21,13 @@ build:
     stage: build
     script:
         - echo "Building Project..."
-        - tsc
+        - npm run build
 
 test:
     stage: test
     script:
         - echo "Running test..."
-        - tsc
+        - npm run build
         - npm run test
 
 deploy:
