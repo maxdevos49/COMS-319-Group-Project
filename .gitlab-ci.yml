@@ -3,11 +3,14 @@ image: node:latest
 cache:
     paths:
         - node_modules/
+        - .env
+        - *.js
 
 stages:
     - setup
     - build
     - test
+    - deploy
 
 setup:
     stage: setup
@@ -25,4 +28,11 @@ test:
     stage: test
     script:
         - echo "Running test..."
+        # - npm run build
         - npm run test
+
+deploy:
+    stage: deploy
+    script:
+      - echo "Deploying to heroku..."
+      - git push heroku develop
