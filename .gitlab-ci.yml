@@ -1,9 +1,8 @@
-image: node:10.15.0
+image: node:latest
 
 cache:
     paths:
         - node_modules/
-        -.env
 
 stages:
     - setup
@@ -14,7 +13,7 @@ setup:
     stage: setup
     script:
       - echo "Generating files and installing modules..."
-      - npm setup
+      - npm run setup
 
 build:
     stage: build
