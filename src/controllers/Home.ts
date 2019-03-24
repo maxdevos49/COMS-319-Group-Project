@@ -23,4 +23,11 @@ router.get("/about", (req: Request, res: Response) => {
     res.render("Home/about", { config: config });
 });
 
+/**
+ * GET:/changelog
+ */
+router.get("/changelog", (req: Request, res: Response) => {
+    res.render("Home/changelog");
+});
+
 export default router;

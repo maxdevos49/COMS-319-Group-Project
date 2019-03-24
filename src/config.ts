@@ -15,38 +15,38 @@ const config = {
         {
             name: "Maxwell DeVos",
             major: "Software Engineering",
-            year: "",
+            year: 2021,
             github: "https://github.com/Maxdevos49",
             website: "",
             bio: "",
-            image: ""
+            image: "/images/default-user.png"
         },
         {
             name: "Mason Timmerman",
             major: "Software Engineering",
-            year: "",
+            year: 2021,
             github: "https://github.com/MasonLT199",
             website: "",
             bio: "",
-            image: ""
+            image: "/images/default-user.png"
         },
         {
             name: "John Jago",
             major: "Software Engineering",
-            year: "",
+            year: 2021,
             github: "https://github.com/johnjago",
             website: "",
             bio: "",
-            image: ""
+            image: "/images/default-user.png"
         },
         {
             name: "Joseph Naberhaus",
             major: "Software Engineering",
-            year: "",
+            year: 2019,
             github: "https://github.com/JosephNaberhaus",
             website: "",
             bio: "",
-            image: ""
+            image: "/images/default-user.png"
         }
     ],
     server: {
