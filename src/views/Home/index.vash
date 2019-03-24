@@ -6,11 +6,7 @@
             model.title = "Home";
         }
        
-	    <div class="bg-white">
-
-            <p>Yay welcome to the CS319 Project</p>
-
-        </div>
+	    
 
     })
 })

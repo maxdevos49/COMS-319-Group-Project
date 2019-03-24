@@ -9,10 +9,6 @@
             "path": "src"
         },
         {
-            "name": "Client",
-            "path": "src/public"
-        },
-        {
             "name": "Test",
             "path": "test"
         },

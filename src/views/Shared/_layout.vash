@@ -31,6 +31,9 @@
                         <a class="nav-link" href="/Home/">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/Game/">Game</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/Home/about">About</a>
                     </li>
                 </ul>
@@ -57,18 +60,19 @@
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase text">Site</h5>
                         <ul class="list-unstyled">
-                            <li class="nav-item"><a lass="nav-link" href="/Home/">Home</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="/Home/about">About</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Home/">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Game/">Game</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Home/about">About</a></li>
                         </ul>
                     </div>
                     
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase text">Developers</h5>
                         <ul class="list-unstyled">
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/Maxdevos49">Maxwell DeVos</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/MasonLT199">Mason Timmerman</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/johnjago">John Jago</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/JosephNaberhaus">Joseph Naberhaus</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://github.com/Maxdevos49">Maxwell DeVos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://github.com/MasonLT199">Mason Timmerman</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://github.com/johnjago">John Jago</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://github.com/JosephNaberhaus">Joseph Naberhaus</a></li>
                         </ul>
                     </div>
                 </div>
