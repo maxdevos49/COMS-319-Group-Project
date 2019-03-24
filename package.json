@@ -6,8 +6,7 @@
     "scripts": {
         "setup": "./scripts/dotenv.sh -f && npm i",
         "build": "tsc",
-        "prestart": "npm run build",
-        "start": "node -r esm src/server.js",
+        "start": "tsc && node -r esm src/server.js",
         "devstart": "node -r esm --require dotenv/config src/server.js",
         "dev": "nodemon",
         "test": ""
