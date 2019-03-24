@@ -4,8 +4,6 @@ cache:
     paths:
         - node_modules/
         - .env
-        - src/*.js
-        - test/*.js
 
 stages:
     - setup
@@ -29,11 +27,14 @@ test:
     stage: test
     script:
         - echo "Running test..."
-        # - npm run build
+        - npm run build
         - npm run test
 
 deploy:
     stage: deploy
     script:
       - echo "Deploying to heroku..."
-      - git push heroku develop
+      - apt-get update -qy
+      - apt-get install -y ruby-dev
+      - gem install dpl
+      - dpl --provider=heroku --app=cs319-group-project --api-key=$HEROKU_API_KEY
