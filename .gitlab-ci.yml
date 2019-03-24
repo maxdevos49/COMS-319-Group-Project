@@ -4,8 +4,8 @@ cache:
     paths:
         - node_modules/
         - .env
-        - src/**/*.js
-        - test/**/*.js
+        - src/*.js
+        - test/*.js
 
 stages:
     - setup
