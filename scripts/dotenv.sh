@@ -3,7 +3,7 @@
 # Author Maxwell DeVos
 # Script for generating a default .env file for the
 # project. (Because they are not transfered with git)
-version=1.1
+version=1.2
 set -eu
 
 if [[ $* == --help || $* == -h ]];
@@ -27,7 +27,7 @@ else
 NODE_ENVIROMENT=development
 
 #Server Port
-SERVER_PORT=8080
+PORT=8080
 DOMAIN=localhost
 TRANSPORT=http
 EOF
