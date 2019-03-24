@@ -8,7 +8,7 @@
         "start": "node -r esm src/server.js",
         "devstart": "node -r esm --require dotenv/config src/server.js",
         "dev": "nodemon",
-        "setup": "sudo ./scripts/dotenv.sh -f && npm i",
+        "setup": "./scripts/dotenv.sh -f && npm i",
         "test": "ls"
     },
     "repository": {
