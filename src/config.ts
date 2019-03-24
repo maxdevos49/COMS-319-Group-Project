@@ -51,7 +51,7 @@ const config = {
     ],
     server: {
         enviroment: process.env.NODE_ENVIROMENT,
-        port: process.env.SERVER_PORT,
+        port: process.env.PORT,
         domain: process.env.DOMAIN,
         transport: process.env.TRANSPORT
     },
