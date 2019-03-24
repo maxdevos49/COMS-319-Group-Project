@@ -21,10 +21,11 @@ $ npm run dev
 ```
 This will start a server that can be accessed on the default port of `8080`. It will also use nodemon to watch for any changes to files and recompile and restart server when it sees any.
 
-## Deploying to Heroku
+## Deploying to Heroku for personal testing
+(Heroku CLI needed)
 ```
 $ heroku create
-$ git push heroku master
+$ git push heroku <branch-name>:master
 $ heroku open
 ```
 
