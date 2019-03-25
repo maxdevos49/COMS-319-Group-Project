@@ -16,7 +16,7 @@
         "dev": "nodemon",
         "clean": "find src -type f -name '*.js' -delete && find src -type f -name '*.js.*' -delete ",
         "pretest": "npm run clean",
-        "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register test/**/*.spec.ts",
+        "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register test/**/*.spec.ts"
     },
     "repository": {
         "type": "git",
