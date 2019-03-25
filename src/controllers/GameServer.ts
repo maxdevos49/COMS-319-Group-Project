@@ -17,7 +17,7 @@ export class GameServer {
      */
     private clients: Map<v1, Socket>;
     /**
-     * The map for every client to their respective id
+     * The map of every client id to their name
      */
     private playerNames: Map<v1, string>;
 
