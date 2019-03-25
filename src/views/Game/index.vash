@@ -1,13 +1,14 @@
 @html.extend('Shared/_layout', function(model){
 
     @html.block('content', function(model){
+        <script type="module" src="../javascript/phaser/phaser.js" defer></script>
+        <script type="module" src="../javascript/index.js" defer></script>
 
         @{
             model.title = "Game";
         }
 
-        <canvas id="canvas"></canvas>
-
+        <div id="game"></div>
     })
 })
 

@@ -57,13 +57,12 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "include": [
-    "src/**/*.ts",
-    "lib/**/*.ts"
+    "src/**/*.ts"
+  ],
+  "files": [
+    "type-defs/phaser.d.ts"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "files": [
-    "./type-defs/phaser.d.ts"
   ]
 }
