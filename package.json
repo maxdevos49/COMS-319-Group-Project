@@ -3,19 +3,24 @@
     "version": "1.0.0",
     "description": "CS 319 group project",
     "main": "server.js",
+    "engines": {
+        "node": "10.15.0",
+        "npm": "6.8.0"
+    },
     "scripts": {
+        "setup": "./scripts/dotenv.sh -f && npm i",
         "build": "tsc",
+        "postinstall": "npm run build",
         "start": "node -r esm src/server.js",
         "devstart": "node -r esm --require dotenv/config src/server.js",
         "dev": "nodemon",
         "clean": "find src -type f -name '*.js' -delete && find src -type f -name '*.js.*' -delete ",
         "pretest": "npm run clean",
         "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register test/**/*.spec.ts",
-        "setup": "sudo ./scripts/dotenv.sh -f && npm i"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/maxdevos49/COMS319-Project.git"
+        "url": "git+https://git.linux.iastate.edu/319spring19projectrepositories/taghreed/group-14.git"
     },
     "keywords": [
         "CS319",
@@ -37,8 +42,7 @@
         "@types/uuid": "^3.4.4",
         "chai": "^4.2.0",
         "mocha": "^6.0.2",
-        "ts-node": "^8.0.3",
-        "typescript": "^3.3.4000"
+        "ts-node": "^8.0.3"
     },
     "dependencies": {
         "dotenv": "^6.2.0",
@@ -48,7 +52,8 @@
         "nodemon": "^1.18.10",
         "socket.io": "^2.2.0",
         "uuid": "^3.3.2",
-        "vash": "^0.12.6"
+        "vash": "^0.12.6",
+        "typescript": "^3.3.4000"
     },
     "nodemonConfig": {
         "watch": [

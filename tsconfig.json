@@ -61,5 +61,8 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "./type-defs/phaser.d.ts"
   ]
 }
