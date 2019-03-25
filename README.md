@@ -9,16 +9,24 @@
 ## Instructions
 To get started first make sure you have `Node.js 10` installed. To do this you can use the command
 ```
-node -v
+$ node -v
 ```
-Second you will want to make sure all the node modules for the project are installed. The command to do this is:
+Second you will want to make sure all the node modules for the project are installed and also default .env file is generated. The command to do this is:
 ```
-npm i
+$ npm run setup
 ```
-##### `(If this fails you may need to use sudo)`
-
 At this point you should be ready to run the server. To do this use the command;
 ```
-npm run devstart
+$ npm run dev
 ```
 This will start a server that can be accessed on the default port of `8080`. It will also use nodemon to watch for any changes to files and recompile and restart server when it sees any.
+
+## Deploying to Heroku for personal testing
+(Heroku CLI needed)
+```
+$ heroku create
+$ git push heroku <branch-name>:master
+$ heroku open
+```
+
+

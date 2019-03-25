@@ -13,13 +13,13 @@
         <link rel="stylesheet" href="/css/layout.css">
         <link rel="shortcut icon" href="/images/favicon.ico"/>
 
-		<title>@model.title | COMS319</title>
+		<title>@model.title | CS319 Project</title>
     </head>
     <body class="bg-aluminum" >
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-blue">
             <a class="navbar-brand" href="/Home/">
-                COMS319 Project
+                CS319 Project
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,6 +29,12 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Game/">Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/changelog">Changelog</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/about">About</a>
@@ -48,7 +54,7 @@
             <div class="container-fluid text-center text-md-left">
                 <div class="row">
                     <div class="col-md-6 mt-md-0 mt-3">
-                        <h5 class="text-uppercase text">COMS319</h5>
+                        <h5 class="text-uppercase text">CS319 Project</h5>
                         <p class="text">About Project</p>
                     </div>
 
@@ -57,18 +63,20 @@
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase text">Site</h5>
                         <ul class="list-unstyled">
-                            <li class="nav-item"><a lass="nav-link" href="/Home/">Home</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="/Home/about">About</a></li>
+                            <li class="nav-item"><a href="/Home/">Home</a></li>
+                            <li class="nav-item"><a href="/Game/">Game</a></li>
+                            <li class="nav-item"><a href="/Home/changelog">Changelog</a></li>
+                            <li class="nav-item"><a href="/Home/about">About</a></li>
                         </ul>
                     </div>
                     
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase text">Developers</h5>
                         <ul class="list-unstyled">
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/Maxdevos49">Maxwell DeVos</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/MasonLT199">Mason Timmerman</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/johnjago">John Jago</a></li>
-                            <li class="nav-item"><a lass="nav-link" href="https://github.com/JosephNaberhaus">Joseph Naberhaus</a></li>
+                            <li class="nav-item"><a href="https://github.com/Maxdevos49">Maxwell DeVos</a></li>
+                            <li class="nav-item"><a href="https://github.com/MasonLT199">Mason Timmerman</a></li>
+                            <li class="nav-item"><a href="https://github.com/johnjago">John Jago</a></li>
+                            <li class="nav-item"><a href="https://github.com/JosephNaberhaus">Joseph Naberhaus</a></li>
                         </ul>
                     </div>
                 </div>

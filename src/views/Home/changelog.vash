@@ -1,0 +1,30 @@
+@html.extend('/Shared/_layout', function(model){
+
+    @html.block('content', function(model){
+
+        @{
+            model.title = "Changelog";
+        }
+       
+       <div class="container col-md-11">
+            <br/>
+            <h1>Changelog</h1>
+            <hr/>
+            <br/>
+            <pre>
+Version 1.0.0 Alpha
+===================
+
+Additions
+---------
+    *
+
+Bugfixes
+--------
+    *
+
+
+            </pre>
+        </div>
+    })
+})

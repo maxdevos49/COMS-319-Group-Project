@@ -1,0 +1,18 @@
+@html.extend('Shared/_layout', function(model){
+
+    @html.block('content', function(model){
+
+        @{
+            model.title = "Game";
+        }
+
+        <canvas id="canvas"></canvas>
+
+    })
+})
+
+
+
+
+
+
