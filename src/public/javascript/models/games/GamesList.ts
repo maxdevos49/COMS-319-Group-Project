@@ -4,7 +4,7 @@ export class GamesList {
     /**
      * The list of ids of every running on the server
      */
-    public gameIds: v1[];
+    public gameIds: string[];
 
     constructor() {
         this.gameIds = [];
