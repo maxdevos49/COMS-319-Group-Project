@@ -21,12 +21,12 @@ export class GameServer {
      */
     private playerNames: Map<v1, string>;
 
-    constructor(matchmakingSocket: Server) {
+    constructor(serverSocket: Server) {
         this.clients = new Map<v1, Socket>();
         this.playerNames = new Map<v1, string>();
 
         this.serverId = v1Gen();
-        this.gameSocket = matchmakingSocket.of(this.serverId);
+        this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
         this.gameSocket.on("/connection", this.onConnection);
     }
