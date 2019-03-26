@@ -33,7 +33,7 @@ const config = {
         {
             name: "John Jago",
             major: "Software Engineering",
-            year: 2021,
+            year: 2020,
             github: "https://github.com/johnjago",
             website: "",
             bio: "",
