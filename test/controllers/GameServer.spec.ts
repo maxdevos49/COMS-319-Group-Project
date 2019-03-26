@@ -66,5 +66,4 @@ describe('Game server', () => {
           firstClientSocket.emit("/update/assignname", "client1");
       });
   });
-
 });
