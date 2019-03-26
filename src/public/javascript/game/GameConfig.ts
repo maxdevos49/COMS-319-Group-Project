@@ -6,8 +6,8 @@ import {GameLoadScene} from "./scenes/GameLoadScene.js";
 let gameConfig: GameConfig = {
     title: "Example Game",
     version: "0.1",
-    width: 1280,
-    height: 720,
+    width: 800,
+    height: 600,
     type: Phaser.AUTO,
     parent: "game",
     scene: [BootScene, MainMenuScene, GameLoadScene, GameScene],
