@@ -6,9 +6,12 @@ import ip from "ip";
 import config from "./config";
 import setup from "./setup";
 import { GameMatchmaking } from "./controllers/GameMatchmaking";
+// Don't know of an es6 way to perform this import
+let socketIO = require("socket.io");
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
+const serverSocket = socketIO(server);
 
 //view engine
 app.set("view engine", "vash");
@@ -37,4 +40,4 @@ server.on("error", function(error: any) {
 });
 
 // Start games controller
-const gamesController: GameMatchmaking = new GameMatchmaking(server);
+const gamesController: GameMatchmaking = new GameMatchmaking(serverSocket);
