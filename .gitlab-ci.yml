@@ -20,9 +20,10 @@ build:
         - echo "Building Project..."
         - npm run build
     artifacts:
+    #doesnt work below correctly
         paths:
-            - src/**/*.js
-            - test/**/*.js
+            - src/
+            - test/
         expire_in: 1 week
 
 test:
