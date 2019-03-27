@@ -20,7 +20,6 @@ build:
         - echo "Building Project..."
         - npm run build
     artifacts:
-    #doesnt work below correctly
         paths:
             - src/
             - test/
@@ -30,14 +29,14 @@ test:
     stage: test
     script:
         - echo "Running test..."
-        # - npm run build
         - npm run test
 
 deploy:
     stage: deploy
-    script:
-        - echo "Deploying to heroku..."
+    before_script:
         - apt-get update -qy
         - apt-get install -y ruby-dev
         - gem install dpl
+    script:
+        - echo "Deploying to heroku..."
         - dpl --provider=heroku --app="cs319-group-project" --api-key=$HEROKU_API_KEY
