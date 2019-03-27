@@ -5,6 +5,11 @@ cache:
         - node_modules/
         - .env
 
+artifacts:
+    paths:
+        - src/**/*.js
+        - test/**/*.js
+
 stages:
     - build
     - test
@@ -24,7 +29,7 @@ test:
     stage: test
     script:
         - echo "Running test..."
-        - npm run build
+        # - npm run build
         - npm run test
 
 deploy:
