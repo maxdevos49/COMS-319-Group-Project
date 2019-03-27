@@ -6,16 +6,13 @@ cache:
         - .env
 
 stages:
-    - setup
     - build
     - test
     - deploy
 
-setup:
-    stage: setup
-    script:
-      - echo "Generating files and installing modules..."
-      - npm run setup
+before_script:
+    - echo "Generating files and installing modules..."
+    - npm run setup
 
 build:
     stage: build
@@ -33,8 +30,8 @@ test:
 deploy:
     stage: deploy
     script:
-      - echo "Deploying to heroku..."
-      - apt-get update -qy
-      - apt-get install -y ruby-dev
-      - gem install dpl
-      - dpl --provider=heroku --app="cs319-group-project" --api-key=$HEROKU_API_KEY
+        - echo "Deploying to heroku..."
+        - apt-get update -qy
+        - apt-get install -y ruby-dev
+        - gem install dpl
+        - dpl --provider=heroku --app="cs319-group-project" --api-key=$HEROKU_API_KEY
