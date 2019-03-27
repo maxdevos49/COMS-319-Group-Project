@@ -3,6 +3,9 @@
 *.js.map
 *.js.min
 
+#Include lib js files
+!src/public/lib/**/*.js
+
 #General
 node_modules
 bin
