@@ -29,12 +29,36 @@ test:
         - echo "Running test..."
         - npm run test
 
-deploy:
+deploy_development:
     stage: deploy
-    before_script:
-        - apt-get update -qy
-        - apt-get install -y ruby-dev
-        - gem install dpl
     script:
-        - echo "Deploying to heroku..."
-        - dpl --provider=heroku --app="cs319-group-project" --api-key=$HEROKU_API_KEY
+        - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git
+        - git push -f heroku master
+    # before_script:
+    #     - apt-get update -qy
+    #     - apt-get install -y ruby-dev
+    #     - gem install dpl
+#   only:
+#   - develop
+
+# deploy_production:
+#     stage: deploy
+#     before_script:
+#         - apt-get update -qy
+#         - apt-get install -y ruby-dev
+#         - gem install dpl
+#     script:
+#         - echo "Deploying to heroku..."
+#         - dpl --provider=heroku --app="prod-cs319" --api-key=$HEROKU_API_KEY
+#   only:
+#   - master
+
+#   deploy_stage:
+#     stage: deploy
+#     before_script:
+#         - apt-get update -qy
+#         - apt-get install -y ruby-dev
+#         - gem install dpl
+#     script:
+#         - echo "Deploying to heroku..."
+#         - dpl --provider=heroku --app="staging-cs319" --api-key=$HEROKU_API_KEY
