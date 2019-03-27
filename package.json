@@ -11,12 +11,11 @@
         "setup": "./scripts/dotenv.sh -f && npm i",
         "build": "tsc",
         "postinstall": "npm run build",
-        "start": "node -r esm src/server.js",
-        "devstart": "node -r esm --require dotenv/config src/server.js",
+        "start": "node -r esm -r source-map-support/register src/server.js",
+        "devstart": "node -r esm -r source-map-support/register --require dotenv/config src/server.js",
         "dev": "nodemon",
-        "clean": "find src -type f -name '*.js' -delete && find src -type f -name '*.js.*' -delete ",
-        "pretest": "npm run clean",
-        "test": "TS_NODE_COMPILER_OPTIONS='{ \"module\": \"commonjs\" }' mocha -r ts-node/register test/**/*.spec.ts"
+        "pretest": "npm run build",
+        "test": "mocha --exit --require=esm --require=source-map-support/register test/**/*.spec.js"
     },
     "repository": {
         "type": "git",
@@ -39,10 +38,11 @@
         "@types/mocha": "^5.2.6",
         "@types/node": "^11.10.4",
         "@types/socket.io": "^2.1.2",
+        "@types/socket.io-client": "^1.4.32",
         "@types/uuid": "^3.4.4",
         "chai": "^4.2.0",
         "mocha": "^6.0.2",
-        "ts-node": "^8.0.3"
+        "socket.io-client": "^2.2.0"
     },
     "dependencies": {
         "dotenv": "^6.2.0",
@@ -51,9 +51,10 @@
         "ip": "^1.1.5",
         "nodemon": "^1.18.10",
         "socket.io": "^2.2.0",
+        "source-map-support": "^0.5.11",
+        "typescript": "^3.3.4000",
         "uuid": "^3.3.2",
-        "vash": "^0.12.6",
-        "typescript": "^3.3.4000"
+        "vash": "^0.12.6"
     },
     "nodemonConfig": {
         "watch": [
