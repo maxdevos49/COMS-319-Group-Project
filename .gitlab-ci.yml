@@ -9,6 +9,8 @@ stages:
     - build
     - test
     - deploy
+    - deploy_dev
+    - deploy_prod
 
 build:
     stage: build
@@ -30,7 +32,7 @@ test:
         - npm run test
 
 deploy_production:
-    stage: deploy
+    stage: deploy_prod
     before_script:
         - git config user.email "maxdevos@iastate.edu"
         - git config user.name "GitLab CI on behalf of Maxwell DeVos"
@@ -42,7 +44,7 @@ deploy_production:
     - master
 
 deploy_development:
-    stage: deploy
+    stage: deploy_dev
     before_script:
         - git config user.email "maxdevos@iastate.edu"
         - git config user.name "GitLab CI on behalf of Maxwell DeVos"
