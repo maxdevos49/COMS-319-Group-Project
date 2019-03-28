@@ -5,7 +5,7 @@ stages:
     - test
     - deploy
     - deploy_dev
-    # - deploy_prod
+    - deploy_prod
 
 build:
     stage: build
