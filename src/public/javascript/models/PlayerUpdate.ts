@@ -4,7 +4,7 @@ export class PlayerUpdate {
     /**
      * The id of this player
      */
-    public id: v1;
+    public id: string;
     /**
      * The name of this player
      */
@@ -15,7 +15,7 @@ export class PlayerUpdate {
      * @param id The id of this player
      * @param name THe name of this player
      */
-    constructor(id: v1, name: string | undefined) {
+    constructor(id: string, name: string | undefined) {
         this.id = id;
         this.name = name;
     }

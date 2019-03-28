@@ -1,13 +1,12 @@
-import { v1 } from "uuid/interfaces";
 import { Namespace, Server, Socket } from "socket.io";
 import { PlayerUpdate } from "../public/javascript/models/PlayerUpdate";
-let v1Gen = require("uuid/v1");
+import v1Gen from "uuid/v1";
 
 export class GameServer {
     /**
      * The unique server id which identifies this server and is used in it's routes
      */
-    public serverId: v1;
+    public serverId: string;
     /**
      * The socket io room this game is listening to
      */
@@ -15,46 +14,47 @@ export class GameServer {
     /**
      * The clients that are connected to this server
      */
-    private clients: Map<v1, Socket>;
+    private clients: Map<string, Socket>;
     /**
-     * The map for every client to their respective id
+     * The map of every client id to their name
      */
-    private playerNames: Map<v1, string>;
+    private playerNames: Map<string, string>;
 
-    constructor(matchmakingSocket: Server) {
-        this.clients = new Map<v1, Socket>();
-        this.playerNames = new Map<v1, string>();
+    constructor(serverSocket: Server) {
+        this.clients = new Map<string, Socket>();
+        this.playerNames = new Map<string, string>();
 
         this.serverId = v1Gen();
-        this.gameSocket = matchmakingSocket.of(this.serverId);
+        this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
-        this.gameSocket.on("/connection", this.onConnection);
-    }
+        this.gameSocket.on("connection", (socket: Socket) => {
+            console.debug("A new client has connected to game: " + this.serverId);
+            let newClientId: string = v1Gen();
 
-    private onConnection(socket: Socket) {
+            // Send the new client their id
+            socket.emit("/update/assignid", newClientId);
 
-        let newClientId: v1 = v1Gen();
-        this.clients.set(newClientId, socket);
+            // Set the clients name when that update is received
+            socket.on("/update/assignname", (name: string) => {
+                // Inform every other connected player that a new player has connected and inform new player of the existing players
+                let newPlayerUpdate = new PlayerUpdate(newClientId, name);
 
-        // Send the new client their id
-        socket.emit("/update/assignid", newClientId);
+                this.clients.forEach((playerSocket: Socket, playerId: string) => {
+                    // Inform the old player of the new player
+                    playerSocket.emit("/update/playerupdate", newPlayerUpdate);
+                    // Inform the new player of the old player
+                    socket.emit(
+                        "/update/playerupdate",
+                        new PlayerUpdate(playerId, this.playerNames.get(playerId))
+                    );
+                });
 
-        // Set the clients name when that update is received
-        socket.on("/update/assignname", (name: string) => {
-            this.playerNames.set(newClientId, name);
-            // Inform every other connected player that a new player has connected and inform new player of the existing players
-            let newPlayerUpdate = new PlayerUpdate(newClientId, name);
+                // Handshake is complete, add new client
+                this.clients.set(newClientId, socket);
+                this.playerNames.set(newClientId, name);
 
-            this.clients.forEach((playerSocket: Socket, playerId: v1) => {
-                // Inform the old player of the new player
-                playerSocket.emit("/update/playerupdate", newPlayerUpdate);
-                // Inform the new player of the old player
-                socket.emit(
-                    "/update/playerupdate",
-                    new PlayerUpdate(playerId, this.playerNames.get(playerId))
-                );
+                socket.emit("/update/begingame");
             });
         });
-        
     }
 }

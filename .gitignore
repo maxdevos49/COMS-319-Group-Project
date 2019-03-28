@@ -12,7 +12,7 @@ bin
 .DS_Store
 
 #Security
-.env
+*.env
 *.csr
 *.key
 *.pem
