@@ -1,40 +1,66 @@
 image: node:latest
 
+stages:
+    - build
+    - test
+    - deploy_prod
+    - deploy_dev
+    - deploy
+
 cache:
     paths:
         - node_modules/
         - .env
 
-stages:
-    - setup
-    - build
-    - test
-    - deploy
-
-setup:
-    stage: setup
-    script:
-      - echo "Generating files and installing modules..."
-      - npm run setup
-
 build:
     stage: build
+    before_script:
+        - npm run setup
     script:
         - echo "Building Project..."
         - npm run build
+    artifacts:
+        paths:
+            - src/
+            - test/
+        expire_in: 1 day
 
 test:
     stage: test
     script:
         - echo "Running test..."
-        - npm run build
         - npm run test
 
-deploy:
-    stage: deploy
+deploy_production:
+    stage: deploy_prod
+    before_script:
+        - git config user.email "maxdevos@iastate.edu"
+        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
     script:
-      - echo "Deploying to heroku..."
-      - apt-get update -qy
-      - apt-get install -y ruby-dev
-      - gem install dpl
-      - dpl --provider=heroku --app="cs319-group-project" --api-key=$HEROKU_API_KEY
+        - git checkout $CI_COMMIT_REF_NAME
+        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/prod-cs319.git $CI_COMMIT_REF_NAME:master
+    only:
+        - master
+
+deploy_development:
+    stage: deploy_dev
+    before_script:
+        - git config user.email "maxdevos@iastate.edu"
+        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+    script:
+        - git checkout $CI_COMMIT_REF_NAME
+        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master
+    only:
+        - develop
+
+deploy_stage:
+    stage: deploy
+    before_script:
+        - git config user.email "maxdevos@iastate.edu"
+        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+    script:
+        - git checkout $CI_COMMIT_REF_NAME
+        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-cs319.git $CI_COMMIT_REF_NAME:master
