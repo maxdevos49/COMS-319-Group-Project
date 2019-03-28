@@ -4,8 +4,8 @@ stages:
     - build
     - test
     - deploy
-    - deploy_dev
-    - deploy_prod
+    # - deploy_dev
+    # - deploy_prod
 
 build:
     stage: build
@@ -30,29 +30,29 @@ test:
         - echo "Running test..."
         - npm run test
 
-deploy_production:
-    stage: deploy_prod
-    before_script:
-        - git config user.email "maxdevos@iastate.edu"
-        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
-    script:
-        - git checkout $CI_COMMIT_REF_NAME
-        - git commit --allow-empty -m "Publish to Heroku at $(date)"
-        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/prod-cs319.git $CI_COMMIT_REF_NAME:master
-  only:
-    - master
+# deploy_production:
+#     stage: deploy_prod
+#     before_script:
+#         - git config user.email "maxdevos@iastate.edu"
+#         - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+#     script:
+#         - git checkout $CI_COMMIT_REF_NAME
+#         - git commit --allow-empty -m "Publish to Heroku at $(date)"
+#         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/prod-cs319.git $CI_COMMIT_REF_NAME:master
+#   only:
+#     - master
 
-deploy_development:
-    stage: deploy_dev
-    before_script:
-        - git config user.email "maxdevos@iastate.edu"
-        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
-    script:
-        - git checkout $CI_COMMIT_REF_NAME
-        - git commit --allow-empty -m "Publish to Heroku at $(date)"
-        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master
-  only:
-    - develop
+# deploy_development:
+#     stage: deploy_dev
+#     before_script:
+#         - git config user.email "maxdevos@iastate.edu"
+#         - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+#     script:
+#         - git checkout $CI_COMMIT_REF_NAME
+#         - git commit --allow-empty -m "Publish to Heroku at $(date)"
+#         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master
+#   only:
+#     - develop
 
 deploy_stage:
     stage: deploy
