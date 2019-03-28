@@ -7,6 +7,11 @@ stages:
     - deploy_dev
     - deploy
 
+cache:
+    paths:
+        - node_modules/
+        - .env
+
 build:
     stage: build
     before_script:
@@ -18,11 +23,7 @@ build:
         paths:
             - src/
             - test/
-            - .env
         expire_in: 1 day
-    cache:
-        paths:
-            - node_modules/
 
 test:
     stage: test
