@@ -36,7 +36,7 @@ $ heroku open
 ```
 
 ## Deployment Links
- - Newest commit: [staging-cs319.herokuapp.com](staging-cs319.herokuapp.com)
- - Develop Branch: [dev-cs319.herokuapp.com](dev-cs319.herokuapp.com)
- - Master Branch: [prod-cs319.herokuapp.com](prod-cs319.herokuapp.com)
+ - Newest commit: [https://staging-cs319.herokuapp.com](https://staging-cs319.herokuapp.com)
+ - Develop Branch: [https://dev-cs319.herokuapp.com](https://dev-cs319.herokuapp.com)
+ - Master Branch: [https://prod-cs319.herokuapp.com](https://prod-cs319.herokuapp.com)
  
