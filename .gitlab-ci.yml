@@ -31,12 +31,11 @@ test:
 
 deploy_development:
     stage: deploy
-    before_script:
-        - git config user.email "maxdevos@iastate.edu"
-        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+    # before_script:
+    #     - git config user.email "maxdevos@iastate.edu"
+    #     - git config user.name "GitLab CI on behalf of Maxwell DeVos"
     script:
-        # - git checkout -b $CI_COMMIT_REF_NAME
-        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        # - git commit --allow-empty -m "Publish to Heroku at $(date)"
         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master
     # before_script:
     #     - apt-get update -qy
