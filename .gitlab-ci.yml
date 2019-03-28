@@ -37,17 +37,17 @@ deploy_development:
     script:
         - git commit --allow-empty -m "Publish to Heroku at $(date)"
         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master
-  only:
-  - develop
+#   only:
+#   - develop
 
-deploy_production:
-    stage: deploy
-    before_script:
-    script:
-        - echo "Deploying to heroku..."
-        - dpl --provider=heroku --app="prod-cs319" --api-key=$HEROKU_API_KEY
-  only:
-  - master
+# deploy_production:
+#     stage: deploy
+#     before_script:
+#     script:
+#         - echo "Deploying to heroku..."
+#         - dpl --provider=heroku --app="prod-cs319" --api-key=$HEROKU_API_KEY
+#   only:
+#   - master
 
 #   deploy_stage:
 #     stage: deploy
