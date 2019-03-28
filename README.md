@@ -34,3 +34,9 @@ $ heroku create
 $ git push heroku <branch-name>:master
 $ heroku open
 ```
+
+## Deployment Links
+ - Newest commit: [staging-cs319.herokuapp.com](staging-cs319.herokuapp.com)
+ - Develop Branch: [dev-cs319.herokuapp.com](dev-cs319.herokuapp.com)
+ - Master Branch: [prod-cs319.herokuapp.com](prod-cs319.herokuapp.com)
+ 
