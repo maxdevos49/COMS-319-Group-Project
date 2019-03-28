@@ -3,9 +3,9 @@ image: node:latest
 stages:
     - build
     - test
-    - deploy
-    - deploy_dev
     - deploy_prod
+    - deploy_dev
+    - deploy
 
 build:
     stage: build
