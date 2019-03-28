@@ -8,7 +8,7 @@ cache:
 stages:
     # - build
     # - test
-    - deploy_development
+    - deploy
 
 # build:
 #     stage: build
