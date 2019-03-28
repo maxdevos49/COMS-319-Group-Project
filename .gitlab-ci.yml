@@ -18,11 +18,11 @@ build:
         paths:
             - src/
             - test/
+            - .env
         expire_in: 1 day
     cache:
         paths:
             - node_modules/
-            - .env
 
 test:
     stage: test
