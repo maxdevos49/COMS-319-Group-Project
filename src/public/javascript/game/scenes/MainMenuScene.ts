@@ -1,4 +1,8 @@
+import {TextInputField} from "../gui/TextInputField.js";
+
 export class MainMenuScene extends Phaser.Scene {
+    nameField: TextInputField;
+
     constructor() {
         super({
             key: "MainMenuScene"
@@ -6,6 +10,6 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     preload(): void {
-        this.add.text(100, 100, "You are now in the main menu!", {color: "#f10006"});
+        this.nameField = new TextInputField(this, 10, 10, 200, 50);
     }
 }
