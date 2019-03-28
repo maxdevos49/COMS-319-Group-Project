@@ -34,14 +34,14 @@
         "@types/ip": "^1.1.0",
         "@types/node": "^11.10.4",
         "@types/socket.io": "^2.1.2",
-        "@types/uuid": "^3.4.4"
+        "@types/uuid": "^3.4.4",
+        "nodemon": "^1.18.10"
     },
     "dependencies": {
         "dotenv": "^6.2.0",
         "esm": "^3.2.9",
         "express": "^4.16.4",
         "ip": "^1.1.5",
-        "nodemon": "^1.18.10",
         "socket.io": "^2.2.0",
         "uuid": "^3.3.2",
         "vash": "^0.12.6",
