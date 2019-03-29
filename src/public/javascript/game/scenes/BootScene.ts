@@ -8,6 +8,7 @@ export class BootScene extends Phaser.Scene {
     preload(): void {
         // Load graphics for the main menu here
         // Loading animation setup will also go here
+        this.load.bitmapFont('november', '/res/November.png', '/res/November.fnt');
     }
 
     update(): void {

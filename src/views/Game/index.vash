@@ -7,8 +7,9 @@
         @{
             model.title = "Game";
         }
-
-        <div id="game"></div>
+        <div id="gameContainer" class="text-center">
+            <div id="game"></div>
+        </div>
     })
 })
 
