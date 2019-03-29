@@ -28,7 +28,10 @@ export class MainMenuScene extends Phaser.Scene {
         // Enter game button
         this.joinGameButton = new Button(this, (this.sys.canvas.width / 2) + 150, 300, 140, 55, "november", "Join Game", 30);
         this.joinGameButton.addOnClickListener(() => {
-           this.scene.start("GameLoadScene");
+            if (this.nameField.getText() !== "") {
+                this.scene.start("GameLoadScene");
+                this.registry.set("name", this.nameField.getText());
+            }
         });
     }
 }

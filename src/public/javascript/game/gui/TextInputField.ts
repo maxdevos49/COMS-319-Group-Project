@@ -86,5 +86,10 @@ export class TextInputField extends Phaser.GameObjects.Container {
             }
         });
     }
-
+    /**
+     * Gets the text contents of this input field
+     */
+    public getText(): string {
+        return this.text.text;
+    }
 }
