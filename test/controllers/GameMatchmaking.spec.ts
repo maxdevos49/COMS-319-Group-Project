@@ -22,6 +22,6 @@ describe('Game Matchmaking', () => {
            done();
        });
        // Now that the behaviour for the response has been specified request games list
-       clientSocket.emit("/list");
+       clientSocket.emit("/list");//triggers the list
    })
 });
