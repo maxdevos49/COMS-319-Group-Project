@@ -19,7 +19,7 @@ let gameConfig: GameConfig = {
         debug: false
     },
 
-    backgroundColor: "#ffffff"
+    backgroundColor: "#FFFFFF"
 };
 
 export {gameConfig};
