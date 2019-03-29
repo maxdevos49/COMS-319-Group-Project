@@ -40,7 +40,7 @@ export class TextInputField extends Phaser.GameObjects.Container {
         this.background.setStrokeStyle(2, 0x000000);
         this.add(this.background);
         // Add the text display
-        this.text = new Phaser.GameObjects.BitmapText(scene, 10, 10, "november", "", fontSize);
+        this.text = new Phaser.GameObjects.BitmapText(scene, 10, 10, fontName, "", fontSize);
         this.add(this.text);
         // Add to the scene
         scene.add.existing(this);

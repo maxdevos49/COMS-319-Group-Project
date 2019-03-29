@@ -13,7 +13,7 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     init(): void {
-        this.cameras.main.setBackgroundColor(0xFF0000);
+        this.cameras.main.setBackgroundColor(0x611717);
     }
 
     preload(): void {
@@ -24,8 +24,11 @@ export class MainMenuScene extends Phaser.Scene {
         this.enterNameText = this.add.bitmapText(0, 250, "november", "Please enter your name:", 40);
         this.enterNameText.setX((this.sys.canvas.width / 2) - (this.enterNameText.getTextBounds().local.width / 2));
         // Text field for the name
-        this.nameField = new TextInputField(this, (this.sys.canvas.width / 2) - 200, 300, 400, 55, "november");
+        this.nameField = new TextInputField(this, (this.sys.canvas.width / 2) - 300, 300, 440, 55, "november", 40);
         // Enter game button
-        this.joinGameButton = new Button(this, 10, 10, 100, 40, "november", "Join Game");
+        this.joinGameButton = new Button(this, (this.sys.canvas.width / 2) + 150, 300, 140, 55, "november", "Join Game", 30);
+        this.joinGameButton.addOnClickListener(() => {
+           this.scene.start("GameLoadScene");
+        });
     }
 }
