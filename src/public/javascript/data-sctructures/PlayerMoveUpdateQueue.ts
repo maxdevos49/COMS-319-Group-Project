@@ -26,7 +26,11 @@ export class PlayerMoveUpdateQueue {
      *          specifies how many frames in the future an update can be and still be accepted
      */
     constructor(maxFrameLag: number, maxFramePrediction: number = maxFrameLag) {
+        this.maxFrameLag = maxFrameLag;
+        this.maxFramePrediction = maxFramePrediction;
 
+        this.currentFrame = 0;
+        this.playerUpdateMap = new Map<string, PlayerMoveUpdate>();
     }
 
     /**
@@ -35,13 +39,29 @@ export class PlayerMoveUpdateQueue {
      * within the PlayerMoveUpdate will not change
      *
      * Only the most recent update will be kept. If the data structure receives an update for frame 1, 5, 10 only the
-     * one for frame 10 will be saved. Even if internally the simulation
+     * one for frame 10 will be saved.
+     *
+     * In the above example if the queue has maxFramePrediction set to 4, and the queue's current frame is 4 then
+     * frame 5 will be saved.
      *
      * If the frame is further behind than the maximum allowed lag then it will be not be saved
      * @param newUpdate The move update to add to this queue
      */
     public addPlayerMoveUpdate(newUpdate: PlayerMoveUpdate): void {
-
+        // Check that the frame of the new update isn't to far in the past or future
+        // TODO: Inform client when this happens so they can compensate
+        if ((this.currentFrame - this.maxFrameLag) <= newUpdate.frame &&
+            newUpdate.frame <= (this.currentFrame + this.maxFramePrediction)) {
+            // Check if an update already exists
+            if (this.playerUpdateMap.has(newUpdate.id)) {
+                // Check if the new update is more recent and overwrite the old one if it is
+                if (this.playerUpdateMap.get(newUpdate.id).frame <= newUpdate.frame) {
+                    this.playerUpdateMap.set(newUpdate.id, newUpdate);
+                }
+            } else {
+                this.playerUpdateMap.set(newUpdate.id, newUpdate);
+            }
+        }
     }
 
     /**
@@ -49,7 +69,13 @@ export class PlayerMoveUpdateQueue {
      * no move update is found then returns null.
      */
     public popPlayerMoveUpdate(id: string): PlayerMoveUpdate | null {
-        return null;
+        if (this.playerUpdateMap.has(id)) {
+            let temp: PlayerMoveUpdate = this.playerUpdateMap.get(id);
+            this.playerUpdateMap.delete(id);
+            return temp;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -57,7 +83,18 @@ export class PlayerMoveUpdateQueue {
      * once the final pop has been performed on this object for the current physics frame.
      */
     public incrementFrame(): void {
-
+        this.currentFrame++;
+        // Check if any updates are now retroactively to far in the past. This shouldn't happen often but it would be
+        // odd if this check didn't exist
+        let toDeleteIds: string[] = [];
+        this.playerUpdateMap.forEach((update: PlayerMoveUpdate, id: string) => {
+            if ((this.currentFrame - this.maxFrameLag) > update.frame) {
+                toDeleteIds.push(id);
+            }
+        });
+        toDeleteIds.forEach((id: string) => {
+           this.playerUpdateMap.delete(id);
+        });
     };
 
 }

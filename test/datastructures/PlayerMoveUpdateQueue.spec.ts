@@ -40,14 +40,13 @@ describe("Player Move Update Queue", () => {
        moveUpdateQueue.incrementFrame();
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateOld);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateNew);
-       expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateOld);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateNew);
    });
 
    it("Should alias future updates as the next frame if not to far in the future", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10, 10);
-       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 0, false, PlayerMoveDirection.None);
-       let testMoveUpdateFarFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 0, false, PlayerMoveDirection.None);
+       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 5, 0, false, PlayerMoveDirection.None);
+       let testMoveUpdateFarFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 180, true, PlayerMoveDirection.None);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFuture);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFarFuture);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateFuture);
