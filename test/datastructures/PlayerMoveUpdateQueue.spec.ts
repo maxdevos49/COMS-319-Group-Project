@@ -44,10 +44,12 @@ describe("Player Move Update Queue", () => {
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateNew);
    });
 
-   it("Should alias future updates as the next frame", () => {
-       let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
-       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 20, 0, false, PlayerMoveDirection.None);
+   it("Should alias future updates as the next frame if not to far in the future", () => {
+       let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10, 10);
+       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 0, false, PlayerMoveDirection.None);
+       let testMoveUpdateFarFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 0, false, PlayerMoveDirection.None);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFuture);
+       moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFarFuture);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateFuture);
    })
 
