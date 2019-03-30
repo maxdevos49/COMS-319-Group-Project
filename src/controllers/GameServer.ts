@@ -1,5 +1,5 @@
 import { Namespace, Server, Socket } from "socket.io";
-import { PlayerUpdate } from "../public/javascript/models/PlayerUpdate";
+import { PlayerUpdate } from "../public/javascript/models/games/PlayerUpdate";
 import v1Gen from "uuid/v1";
 
 export class GameServer {
