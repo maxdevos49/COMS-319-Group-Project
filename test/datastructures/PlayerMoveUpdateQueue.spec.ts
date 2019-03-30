@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import {PlayerMoveUpdateQueue} from "../../src/public/javascript/data-sctructures/PlayerMoveUpdateQueue";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
+import {monitorEventLoopDelay} from "perf_hooks";
 
 describe("Player Move Update Queue", () => {
    it("Should initialize without a player move update for a given player", () => {
@@ -31,7 +32,7 @@ describe("Player Move Update Queue", () => {
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdate1);
    });
 
-   it("Should deliver aliased frames in order", () => {
+   it("Should alias the most recent frame update as the next and remove older ones", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
        let testMoveUpdateOld: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None);
        let testMoveUpdateNew: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 1, 180, false, PlayerMoveDirection.None);
@@ -42,6 +43,13 @@ describe("Player Move Update Queue", () => {
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateOld);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateNew);
    });
+
+   it("Should alias future updates as the next frame", () => {
+       let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
+       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 20, 0, false, PlayerMoveDirection.None);
+       moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFuture);
+       expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateFuture);
+   })
 
    it("Should not pop the same move update more than once", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
@@ -56,22 +64,5 @@ describe("Player Move Update Queue", () => {
        moveUpdateQueue.incrementFrame();
        moveUpdateQueue.addPlayerMoveUpdate(new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None));
        expect(moveUpdateQueue.popPlayerMoveUpdate(("testid1"))).is.null;
-   });
-
-   it("Should have new update override old update if it is aliasing the frame of the new one", () => {
-       let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
-       let testMoveUpdateOld: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None);
-       let testMoveUpdateNew: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 1, 180, true, PlayerMoveDirection.None);
-       moveUpdateQueue.incrementFrame();
-       // The old one should alias the first one
-       moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateOld);
-       moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateNew);
-       expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateNew);
-       expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).is.null;
-       // Order should not matter
-       moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateNew);
-       moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateOld);
-       expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateNew);
-       expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).is.null;
    });
 });
