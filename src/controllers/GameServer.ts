@@ -40,6 +40,9 @@ export class GameServer {
             // Send the new client their id
             socket.emit("/update/assignid", newClientId);
 
+            // Add the player to the simulation
+            this.simulation.addPlayer(newClientId);
+
             // Set the clients name when that update is received
             socket.on("/update/assignname", (name: string) => {
                 // Inform every other connected player that a new player has connected and inform new player of the existing players
