@@ -1,6 +1,7 @@
 import { Namespace, Server, Socket } from "socket.io";
 import { PlayerUpdate } from "../public/javascript/models/games/PlayerUpdate";
 import v1Gen from "uuid/v1";
+import {GameSimulation} from "./GameSimulation";
 
 export class GameServer {
     /**
@@ -39,9 +40,6 @@ export class GameServer {
             // Send the new client their id
             socket.emit("/update/assignid", newClientId);
 
-            // Add the player to the simulation
-            this.simulation.addPlayer(newClientId);
-
             // Set the clients name when that update is received
             socket.on("/update/assignname", (name: string) => {
                 // Inform every other connected player that a new player has connected and inform new player of the existing players
@@ -61,6 +59,8 @@ export class GameServer {
                 this.clients.set(newClientId, socket);
                 this.playerNames.set(newClientId, name);
 
+                // Add the player to the simulation
+                this.simulation.addPlayer(newClientId);
                 socket.emit("/update/begingame");
             });
         });
