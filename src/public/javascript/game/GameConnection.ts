@@ -1,5 +1,5 @@
 import { GamesList } from "../models/games/GamesList.js";
-import { PlayerUpdate } from "../models/PlayerUpdate.js";
+import { PlayerUpdate } from "../models/games/PlayerUpdate.js";
 
 /**
  *
