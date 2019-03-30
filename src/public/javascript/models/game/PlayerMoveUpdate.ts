@@ -6,23 +6,39 @@ export class PlayerMoveUpdate {
     /**
      * The id of the player this move update is for
      */
-    id: string;
+    public id: string;
     /**
      * The frame this update is for
      */
-    frame: number;
+    public frame: number;
     /**
      * The angle in radians that the player is facing
      */
-    facing: number;
+    public facing: number;
     /**
      * Whether the facing direction of the player should be changed to reflect the facing property
      */
-    updateFacing: boolean;
+    public updateFacing: boolean;
     /**
      * The direction the player is moving or the None enum value if the player is not moving
      */
-    moveDirection: PlayerMoveDirection;
+    public moveDirection: PlayerMoveDirection;
+
+    /**
+     * Constructs a new player move update object
+     * @param id The id of the player this move update is for
+     * @param frame The frame this update is for
+     * @param facing The angle in radians that the player is facing
+     * @param updateFacing Whether the facing direction of the player should be changed to reflect the facing property
+     * @param moveDirection  The direction the player is moving or the None enum value if the player is not moving
+     */
+    constructor(id: string, frame: number, facing: number, updateFacing: boolean, moveDirection: PlayerMoveDirection) {
+        this.id = id;
+        this.frame = frame;
+        this.facing = facing;
+        this.updateFacing = updateFacing;
+        this.moveDirection = moveDirection;
+    }
 }
 
 /**

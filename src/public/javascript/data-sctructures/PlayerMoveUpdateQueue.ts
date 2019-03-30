@@ -16,14 +16,15 @@ export class PlayerMoveUpdateQueue {
      * If the frame is further behind than the maximum allowed lag then it will be not be saved
      * @param newUpdate The move update to add to this queue
      */
-    public addPlayerMoveUpdate(newUpdate: PlayerMoveUpdateQueue): void {
+    public addPlayerMoveUpdate(newUpdate: PlayerMoveUpdate): void {
 
     }
 
     /**
-     * Pops the update that should be performed next off of the queue. This will be the oldest update on the queue
+     * Pops the update that should be performed next off of the queue. This will be the oldest update on the queue. If
+     * no move update is found then returns null.
      */
-    public popPlayerMoveUpdate(id: string): PlayerMoveUpdate {
+    public popPlayerMoveUpdate(id: string): PlayerMoveUpdate | null {
         return null;
     }
 
