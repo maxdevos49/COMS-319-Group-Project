@@ -14,7 +14,7 @@
         "devstart": "node -r esm -r source-map-support/register --require dotenv/config src/server.js",
         "dev": "nodemon",
         "pretest": "npm run build",
-        "test": "mocha --exit --require=esm --require=source-map-support/register test/**/*.spec.js"
+        "test": "mocha --exit --require=esm --require=source-map-support/register --require dotenv/config test/**/*.spec.js"
     },
     "repository": {
         "type": "git",

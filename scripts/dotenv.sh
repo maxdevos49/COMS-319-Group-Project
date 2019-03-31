@@ -34,7 +34,7 @@ DOMAIN=localhost
 TRANSPORT=http
 
 #Database
-MONGODB_URI="mongodb://user:1Password@ds141697.mlab.com:41697/dev-cs319"
+MONGODB_URI="mongodb://user:1Password@ds155634.mlab.com:55634/dev-cs319"
 
 #Hash
 HASH_SALT=5

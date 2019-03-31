@@ -55,6 +55,12 @@ const config = {
         domain: process.env.DOMAIN,
         transport: process.env.TRANSPORT
     },
+    hash: {
+        salt: process.env.HASH_SALT
+    },
+    database: {
+        dbUrl: process.env.MONGODB_URI
+    },
     controllers: [{ controller: "Home" }, { controller: "Game" }]
 };
 

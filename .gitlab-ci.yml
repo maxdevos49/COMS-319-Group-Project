@@ -64,6 +64,3 @@ deploy_stage:
         - git checkout $CI_COMMIT_REF_NAME
         - git commit --allow-empty -m "Publish to Heroku at $(date)"
         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-cs319.git $CI_COMMIT_REF_NAME:master
-    environment:
-        name: "staging"
-        url: "https://staging-cs319.herokuapp.com"
