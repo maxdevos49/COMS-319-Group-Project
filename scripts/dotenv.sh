@@ -3,7 +3,7 @@
 # Author Maxwell DeVos
 # Script for generating a default .env file for the
 # project. (Because they are not transfered with git)
-version=1.2
+version=1.3
 set -eu
 
 if [[ $* == --help || $* == -h ]];
@@ -23,6 +23,8 @@ else
 #Enviroment Variables for CS319
 #generated with script v$version
 
+#Do not commit this file!
+
 #NODE Enviroment
 NODE_ENVIROMENT=development
 
@@ -30,6 +32,12 @@ NODE_ENVIROMENT=development
 PORT=8080
 DOMAIN=localhost
 TRANSPORT=http
+
+#Database
+MONGODB_URI="mongodb://user:1Password@ds141697.mlab.com:41697/dev-cs319"
+
+#Hash
+HASH_SALT=5
 EOF
         echo ".env file was generated. Version: $version";
     else

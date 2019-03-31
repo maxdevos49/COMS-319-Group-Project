@@ -6,6 +6,9 @@
 #Include lib js files
 !src/public/lib/**/*.js
 
+#include vash helpers
+!src/helpers/vash/**/*.js
+
 #General
 node_modules
 bin

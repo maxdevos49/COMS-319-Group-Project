@@ -58,7 +58,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts", "src/helpers/vash/vashHelpers.js"
   ],
   "files": [
     "type-defs/phaser.d.ts"
