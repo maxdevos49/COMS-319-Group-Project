@@ -1,11 +1,11 @@
-import { Server } from "socket.io";
-import socketIO from "socket.io";
+import socketIO, {Server} from "socket.io";
 import socketIOClient from "socket.io-client";
 
 import {expect} from "chai";
 
-import { GameServer } from '../../src/controllers/GameServer';
+import {GameServer} from '../../src/controllers/GameServer';
 import {PlayerUpdate} from "../../src/public/javascript/models/games/PlayerUpdate";
+import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 
 
 describe('Game server', () => {

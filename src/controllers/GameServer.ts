@@ -1,6 +1,9 @@
 import { Namespace, Server, Socket } from "socket.io";
 import { PlayerUpdate } from "../public/javascript/models/games/PlayerUpdate";
 import v1Gen from "uuid/v1";
+import {GameSimulation} from "./GameSimulation";
+import {PlayerMoveUpdateQueue} from "../public/javascript/data-sctructures/PlayerMoveUpdateQueue";
+import {PlayerMoveUpdate} from "../public/javascript/models/game/PlayerMoveUpdate";
 
 export class GameServer {
     /**
@@ -19,12 +22,24 @@ export class GameServer {
      * The map of every client id to their name
      */
     private playerNames: Map<string, string>;
+    /**
+     * The simulation of the physical game world.
+     */
+    private simulation: GameSimulation;
+    /**
+     * The queue like structure that move updates are buffered in
+     */
+    private moveUpdateQueue: PlayerMoveUpdateQueue;
 
     constructor(serverSocket: Server) {
         this.clients = new Map<string, Socket>();
         this.playerNames = new Map<string, string>();
 
         this.serverId = v1Gen();
+        this.simulation = new GameSimulation();
+        this.moveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
+
+        // Initialize socket
         this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
         this.gameSocket.on("connection", (socket: Socket) => {
@@ -53,7 +68,13 @@ export class GameServer {
                 this.clients.set(newClientId, socket);
                 this.playerNames.set(newClientId, name);
 
+                // Add the player to the simulation
+                this.simulation.addPlayer(newClientId);
                 socket.emit("/update/begingame");
+            });
+            // Game player move update endpoint
+            socket.on("/update/playermove", (newUpdate: PlayerMoveUpdate) => {
+               this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
             });
         });
     }
