@@ -2,19 +2,7 @@ import { b2World, b2Vec2 } from "../../lib/box2d-physics-engine/Box2D";
 
 import { Player } from "./Player";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../public/javascript/models/game/PlayerMoveUpdate";
-
-// no gravity since this is a top down game and we don't want the players
-// to move anywhere without their consent
-const gravity = new b2Vec2(0, 0);
-
-// simulate physics equations 30 times per second
-const fps: number = 30;
-const timeStep: number = 1 / fps;
-
-// tuning the constraint solver: larger values means better accuracy but
-// worse performance
-const velocityIterations: number = 6;
-const positionIterations: number = 2;
+import { PlayerMoveUpdateQueue } from "../public/javascript/data-sctructures/PlayerMoveUpdateQueue";
 
 interface Change {
   dx: number;
@@ -31,9 +19,16 @@ export class GameSimulation {
   private world: b2World;
 
   /**
-   * The frames per second processed by the physics engine.
+   * The number of times per second tht Box2D will process physics equations.
    */
-  private fps: number;
+  private timeStep: number;
+
+  /**
+   * Constraint solvers: larger values means better accuracy but worse
+   * performance.
+   */
+  private velocityIterations: number = 6;
+  private positionIterations: number = 2;
 
   /**
    * The current frame number of the simulation.
@@ -42,21 +37,34 @@ export class GameSimulation {
 
   /**
    * List of players (dynamic bodies) in the simulation.
-   * Map makes it easier to update players by their ID.
+   * The Map makes it easier to update players by their ID.
    */
   private players: Map<string, Player>;
 
   /**
-   * Construct a new simulation. The simulation begins running as soon as it
-   * is created.
+   * A reference to the move queue in the game server.
    */
-  constructor(begin: boolean = true) {
+  private moves: PlayerMoveUpdateQueue;
+
+  /**
+   * Construct a new simulation. The simulation starts running as soon as it
+   * is created unless the start parameter is false (it's true by default).
+   *
+   * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
+   * @param {boolean} start - True if the simulation should start right away.
+   */
+  constructor(moves: PlayerMoveUpdateQueue, start: boolean = true) {
+    // init for Box2D
+    const gravity = new b2Vec2(0, 0);
     this.world = new b2World(gravity);
-    this.fps = fps;
+    this.timeStep = 1 / 30;
+    this.velocityIterations = 6;
+    this.positionIterations = 2;
+
     this.frame = 0;
     this.players = new Map<string, Player>();
-
-    if (begin) {
+    this.moves = moves;
+    if (start) {
       setInterval(this.nextFrame, 1000);
     }
   }
@@ -67,7 +75,8 @@ export class GameSimulation {
    * @return {void}
    */
   nextFrame(): void {
-    this.world.Step(timeStep, velocityIterations, positionIterations);
+    // TODO: iterate through players and process updates
+    this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
     this.frame++;
   }
 
@@ -86,16 +95,20 @@ export class GameSimulation {
    *
    * @param {PlayerMoveUpdate} move - An object containing move information.
    */
-  updateMove(move: PlayerMoveUpdate): void {
-    let player: Player | undefined = this.players.get(move.id);
-    player = (player as Player);
-    if (move.updateFacing) {
-      player.getBody().SetAngle(move.facing);
+  updateMove(move: PlayerMoveUpdate | null): void {
+    if (move === null) {
+      return;
     }
-    const oldPos = player.getBody().GetPosition();
-    const change = this.getPositionChange(move.moveDirection);
-    const newPos = new b2Vec2(oldPos.x + change.dx, oldPos.y + change.dy);
-    player.getBody().SetPosition(newPos);
+    let player: Player | undefined = this.players.get(move.id);
+    if (player !== undefined) {
+      if (move.updateFacing) {
+        player.getBody().SetAngle(move.facing);
+      }
+      const oldPos = player.getBody().GetPosition();
+      const change = this.getPositionChange(move.moveDirection);
+      const newPos = new b2Vec2(oldPos.x + change.dx, oldPos.y + change.dy);
+      player.getBody().SetPosition(newPos);
+    }
   }
 
   getFrame(): number {
