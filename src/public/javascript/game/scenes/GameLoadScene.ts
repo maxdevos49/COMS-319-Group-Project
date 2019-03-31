@@ -1,4 +1,5 @@
 import { GameConnection } from "../GameConnection.js";
+import {Player} from "../objects/Player";
 
 export class GameLoadScene extends Phaser.Scene {
     
@@ -13,12 +14,14 @@ export class GameLoadScene extends Phaser.Scene {
     }
 
     preload(): void {
-        // Load game components here
-        // Animation will also go here
-        this.add.text(10, 10, "Your name is: " + this.registry.get("name"), {
-            fill: "0xFF0000"
-        });
+        this.load.atlas("/res/spritesAtlas");
 
         this.gameSocket.addNickName(this.registry.get("name"));
+    }
+
+    create(): void {
+        Player.createAnimations(this.anims);
+
+        this.scene.start("GameScene");
     }
 }
