@@ -4,15 +4,16 @@ export class Player extends Phaser.GameObjects.Sprite {
      * @param animationManager The animation manager to register the animations into
      */
     public static createAnimations(animationManager: Phaser.Animations.AnimationManager) {
+        console.log(
         animationManager.create({
             key: "objects/player/walking",
             frames: [
-                {key: 'objects/player/walking/1', frame: 0},
-                {key: 'objects/player/walking/2', frame: 1}
+                {key: "sprites", frame: 'objects/player/walking/1'},
+                {key: "sprites", frame: 'objects/player/walking/2'}
             ],
-            frameRate: 30,
+            frameRate: 2,
             repeat: -1
-        });
+        }));
     }
     /**
      * The id of this player
@@ -27,7 +28,8 @@ export class Player extends Phaser.GameObjects.Sprite {
      * @param id The id of the player to be created
      */
     constructor(scene: Phaser.Scene, x: number, y: number, id: string) {
-        super(scene, x, y, "player");
+        super(scene, x, y, "sprites");
+        this.play("objects/player/walking");
         this.id =id;
     }
 }
