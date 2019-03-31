@@ -5,7 +5,7 @@ import socketIOClient from "socket.io-client";
 import {expect} from "chai";
 
 import { GameServer } from '../../src/controllers/GameServer';
-import {PlayerUpdate} from "../../src/public/javascript/models/PlayerUpdate";
+import {PlayerUpdate} from "../../src/public/javascript/models/games/PlayerUpdate";
 
 
 describe('Game server', () => {
