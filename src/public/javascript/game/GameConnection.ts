@@ -11,22 +11,22 @@ export class GameConnection {
      * Socket Connection Object
      */
     private socket: SocketIOClient.Socket;
-
     /**
      * The namespace id
      */
     public roomId: string;
-
     /**
      * The Client Id
      */
     public clientId: string;
-
     /**
-     * The queue which new position updates added to when received by there server
+     * The queue which new position updates are added to when received by there server
      */
     public positionUpdates: PositionUpdateQueue;
-
+    /**
+     * Array of new players that the server has sent
+     */
+    public newPlayersIds: PlayerUpdate[];
     /**
      * Creates a new game socket connection
      */
@@ -36,6 +36,7 @@ export class GameConnection {
         this.socket = io("/games");
 
         this.positionUpdates = new PositionUpdateQueue();
+        this.newPlayersIds = [];
 
         this.handshake();
     }
@@ -75,6 +76,7 @@ export class GameConnection {
                     otherPlayer.name
                 }`
             );
+            this.newPlayersIds.push(otherPlayer);
         });
     }
 
