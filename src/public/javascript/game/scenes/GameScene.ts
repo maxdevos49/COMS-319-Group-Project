@@ -32,10 +32,13 @@ export class GameScene extends Phaser.Scene {
         this.players.push(this.clientPlayer);
 
         this.clientPlayer.setRotation(Math.PI);
+
+        this.cameras.main.startFollow(this.clientPlayer);
+        this.cameras.main.setDeadzone(100,100);
     }
 
     update(): void {
-        this.clientPlayer.setRotation(this.clientPlayer.rotation += .01);
+
     }
 
 }

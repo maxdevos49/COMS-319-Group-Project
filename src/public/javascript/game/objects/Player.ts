@@ -29,7 +29,10 @@ export class Player extends Phaser.GameObjects.Sprite {
      */
     constructor(scene: Phaser.Scene, x: number, y: number, id: string) {
         super(scene, x, y, "sprites");
+        scene.physics.world.enable(this);
         this.play("objects/player/walking");
         this.id =id;
+
+        this.body.velocity.set(100,0);
     }
 }
