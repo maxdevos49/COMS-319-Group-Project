@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import socketIO from "socket.io";
-import config from "./config";
 import http from "http";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
+import config from "./config";
 import GameMatchmaking from "./controllers/GameMatchmaking";
 import homeController from "./controllers/Home";
 import gameController from "./controllers/Game";
@@ -12,9 +14,13 @@ const router: express.Router = express.Router();
 
 export default function(server: http.Server) {
     //database
-    if (!config.database.dbUrl)
-        throw console.log("Database string is nnot valid");
+    if (!config.database.dbUrl) throw "Database string is not valid";
     mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
+
+    //middleware
+    router.use(cookieParser());
+    router.use(bodyParser.urlencoded({ extended: false }));
+    router.use(bodyParser.json());
 
     //game controllers and sockets
     const io = socketIO(server);
