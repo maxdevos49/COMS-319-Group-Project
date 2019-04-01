@@ -22,4 +22,13 @@ export class PlayerPositionUpdate {
      * The rotation of the player in radians
      */
     public facing: number;
+    /**
+     * What the player is currently doing
+     */
+    public state: PlayerActionState;
+}
+
+enum PlayerActionState {
+    Still,
+    Walking
 }
