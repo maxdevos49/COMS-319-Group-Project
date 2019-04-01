@@ -35,8 +35,6 @@ export class Player extends Phaser.GameObjects.Sprite implements GameObject {
         scene.physics.world.enable(this);
         this.play("objects/player/walking");
         this.id =id;
-
-        this.body.velocity.set(100,0);
     }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {

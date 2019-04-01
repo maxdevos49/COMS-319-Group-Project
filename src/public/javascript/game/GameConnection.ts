@@ -1,7 +1,7 @@
 import { GamesList } from "../models/games/GamesList.js";
 import { PlayerUpdate } from "../models/games/PlayerUpdate.js";
-import {PositionUpdateQueue} from "../data-sctructures/PositionUpdateQueue";
-import {PositionUpdate} from "../models/game/PositionUpdate";
+import {PositionUpdateQueue} from "../data-sctructures/PositionUpdateQueue.js";
+import {PositionUpdate} from "../models/game/PositionUpdate.js";
 
 /**
  *
@@ -34,6 +34,8 @@ export class GameConnection {
         this.roomId = "";
         this.clientId = "";
         this.socket = io("/games");
+
+        this.positionUpdates = new PositionUpdateQueue();
 
         this.handshake();
     }

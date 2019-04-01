@@ -36,7 +36,7 @@ export class GameServer {
         this.playerNames = new Map<string, string>();
 
         this.serverId = v1Gen();
-        this.simulation = new GameSimulation();
+        //this.simulation = new GameSimulation();
         this.moveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
 
         // Initialize socket
@@ -69,7 +69,7 @@ export class GameServer {
                 this.playerNames.set(newClientId, name);
 
                 // Add the player to the simulation
-                this.simulation.addPlayer(newClientId);
+                //this.simulation.addPlayer(newClientId);
                 socket.emit("/update/begingame");
             });
             // Game player move update endpoint

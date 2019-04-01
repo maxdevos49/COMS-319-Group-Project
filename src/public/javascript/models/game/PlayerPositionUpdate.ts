@@ -1,7 +1,7 @@
 /**
  * Defines an update that the server sends to the client informing them where every player in the game is
  */
-import {PositionUpdate} from "./PositionUpdate";
+import {PositionUpdate} from "./PositionUpdate.js";
 
 export class PlayerPositionUpdate implements PositionUpdate {
     frame: number;
@@ -43,7 +43,7 @@ export class PlayerPositionUpdate implements PositionUpdate {
 
 }
 
-enum PlayerActionState {
+export enum PlayerActionState {
     Still,
     Walking
 }
