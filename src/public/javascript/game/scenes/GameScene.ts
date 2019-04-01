@@ -7,7 +7,7 @@ export class GameScene extends Phaser.Scene {
      */
     connection: GameConnection;
     /**
-     * The array of players including the player themselves
+     * The map from id to game object that contains all game objects in the game
      */
     private players: Player[];
     /**

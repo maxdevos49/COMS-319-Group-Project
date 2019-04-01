@@ -1,4 +1,7 @@
-export class Player extends Phaser.GameObjects.Sprite {
+import {GameObject} from "./GameObject";
+import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate";
+
+export class Player extends Phaser.GameObjects.Sprite implements GameObject {
     /**
      * Registers the animations used by player objects
      * @param animationManager The animation manager to register the animations into
@@ -34,5 +37,10 @@ export class Player extends Phaser.GameObjects.Sprite {
         this.id =id;
 
         this.body.velocity.set(100,0);
+    }
+
+    applyUpdate(newUpdate: PlayerPositionUpdate): void {
+        this.setPosition(newUpdate.x, newUpdate.y);
+        this.setRotation(newUpdate.facing);
     }
 }
