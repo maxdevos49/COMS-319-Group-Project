@@ -1,15 +1,11 @@
 /**
  * Defines an update that the server sends to the client informing them where every player in the game is
  */
-export class PlayerPositionUpdate {
-    /**
-     * The id of the player this move update is for
-     */
-    public id: string;
-    /**
-     * The frame this update is for
-     */
-    public frame: number;
+import {PositionUpdate} from "./PositionUpdate";
+
+export class PlayerPositionUpdate implements PositionUpdate {
+    frame: number;
+    id: string;
     /**
      * The x coordinate of the player
      */
