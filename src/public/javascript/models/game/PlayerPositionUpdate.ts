@@ -22,6 +22,25 @@ export class PlayerPositionUpdate implements PositionUpdate {
      * What the player is currently doing
      */
     public state: PlayerActionState;
+
+    /**
+     * Constructs a new PlayerPositionUpdate with the given properties
+     * @param frame The fame this update is for
+     * @param id The id of the player this update is for
+     * @param x The new x coordinate of the player
+     * @param y The new y coordinate of the player
+     * @param facing The angle the player is facing in radians
+     * @param state What the player is currently doing
+     */
+    constructor(frame: number, id: string, x: number, y: number, facing: number, state: PlayerActionState) {
+        this.frame = frame;
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.facing = facing;
+        this.state = state;
+    }
+
 }
 
 enum PlayerActionState {
