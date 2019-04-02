@@ -60,12 +60,11 @@ export class GameSimulation {
     this.timeStep = 1 / 30;
     this.velocityIterations = 6;
     this.positionIterations = 2;
-
     this.frame = 0;
     this.players = new Map<string, Player>();
     this.moves = moves;
     if (start) {
-      setInterval(this.nextFrame, 1000);
+      setInterval(() => {this.nextFrame()}, 1000);
     }
   }
 
