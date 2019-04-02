@@ -54,7 +54,7 @@ export class GameSimulation {
    * @param {boolean} start - True if the simulation should start right away.
    */
   constructor(moves: PlayerMoveUpdateQueue, start: boolean = true) {
-    // init for Box2D
+    // contains init for Box2D
     const gravity = new b2Vec2(0, 0);
     this.world = new b2World(gravity);
     this.timeStep = 1 / 30;
@@ -78,6 +78,7 @@ export class GameSimulation {
       const move = this.moves.popPlayerMoveUpdate(player.getId());
       this.updateMove(move);
     });
+    this.moves.incrementFrame();
     this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
     this.frame++;
   }
