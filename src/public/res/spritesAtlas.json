@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "spritesAtlas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 204,
+				"h": 102
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "objects/player/walking/1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 100,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/player/walking/2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					},
+					"frame": {
+						"x": 103,
+						"y": 1,
+						"w": 100,
+						"h": 100
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:f9f62c6c593e005dd80419c1afa0375a:b3fd7d2fc812d9465a02c8fbe8d3680f:941fdc8fcb393b91cb8b27a54e5a9c98$"
+	}
+}
