@@ -2,7 +2,7 @@ import {Player} from "../objects/Player.js";
 import {GameConnection} from "../GameConnection.js";
 import {GameObject} from "../objects/GameObject.js";
 import {PositionUpdate} from "../../models/game/PositionUpdate.js";
-import {PlayerActionState, PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
+import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
 import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
 
 export class GameScene extends Phaser.Scene {

@@ -84,8 +84,10 @@ export class GameConnection {
      * Registers the client position update endpoint
      */
     private positionUpdate(): void {
-        this.socket.on("/update/position", (newUpdate: PositionUpdate) => {
-            this.positionUpdates.addUpdate(newUpdate);
+        this.socket.on("/update/position", (newUpdates: PositionUpdate[]) => {
+            newUpdates.forEach((update: PositionUpdate) => {
+                this.positionUpdates.addUpdate(update);
+            });
         });
     }
 
