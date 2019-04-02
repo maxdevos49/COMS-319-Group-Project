@@ -36,8 +36,8 @@ export class GameServer {
         this.playerNames = new Map<string, string>();
 
         this.serverId = v1Gen();
-        this.simulation = new GameSimulation();
         this.moveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
+        this.simulation = new GameSimulation(this.moveUpdateQueue);
 
         // Initialize socket
         this.gameSocket = serverSocket.of("/games/" + this.serverId);
