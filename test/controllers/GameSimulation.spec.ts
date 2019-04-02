@@ -19,6 +19,29 @@ describe('GameSimulation', () => {
     expect(simulation).to.have.property("timeStep").that.equals(1/30);
   });
 
+  it('should extract a move from the queue for each player during a physics frame', () => {
+    const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
+    const simulation: GameSimulation = new GameSimulation(updateQueue, false);
+    simulation.addPlayer("1");
+    simulation.addPlayer("2");
+    const player1Update: PlayerMoveUpdate = new PlayerMoveUpdate("1", 0, 1, true, PlayerMoveDirection.Down);
+    const player2Update: PlayerMoveUpdate = new PlayerMoveUpdate("2", 0, 1, true, PlayerMoveDirection.Down);
+    updateQueue.addPlayerMoveUpdate(player1Update);
+    updateQueue.addPlayerMoveUpdate(player2Update);
+    simulation.nextFrame();
+    simulation.nextFrame();
+
+    expect(updateQueue.size()).to.equal(0);
+  });
+
+  it('should update the frame count after performing a physics frame', () => {
+    const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
+    const simulation: GameSimulation = new GameSimulation(updateQueue, false);
+    simulation.nextFrame();
+
+    expect(simulation.getFrame()).to.equal(1);
+  });
+
   describe('#addPlayer()', () => {
     it('should add a player to the simulation', function() {
       const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
