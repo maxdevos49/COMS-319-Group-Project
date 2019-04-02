@@ -75,7 +75,10 @@ export class GameSimulation {
    * @return {void}
    */
   nextFrame(): void {
-    // TODO: iterate through players and process updates
+    this.getPlayers().forEach((player) => {
+      const move = this.moves.popPlayerMoveUpdate(player.getId());
+      this.updateMove(move);
+    });
     this.world.Step(this.timeStep, this.velocityIterations, this.positionIterations);
     this.frame++;
   }
