@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {PositionUpdateQueue} from "../../src/public/javascript/data-sctructures/PositionUpdateQueue";
+import {PositionUpdateQueue} from "../../src/public/javascript/data-structures/PositionUpdateQueue";
 import {PositionUpdate} from "../../src/public/javascript/models/game/PositionUpdate";
 
 describe("Position update queue", () => {

@@ -1,6 +1,6 @@
 import { GamesList } from "../models/games/GamesList.js";
 import { PlayerUpdate } from "../models/games/PlayerUpdate.js";
-import {PositionUpdateQueue} from "../data-sctructures/PositionUpdateQueue.js";
+import {PositionUpdateQueue} from "../data-structures/PositionUpdateQueue.js";
 import {PositionUpdate} from "../models/game/PositionUpdate.js";
 
 /**

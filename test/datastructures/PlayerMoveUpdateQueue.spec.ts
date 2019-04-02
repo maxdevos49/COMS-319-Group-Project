@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {PlayerMoveUpdateQueue} from "../../src/public/javascript/data-sctructures/PlayerMoveUpdateQueue";
+import {PlayerMoveUpdateQueue} from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 
 describe("Player Move Update Queue", () => {
