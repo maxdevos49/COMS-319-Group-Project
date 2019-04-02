@@ -6,9 +6,12 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 import config from "./config";
-import GameMatchmaking from "./controllers/GameMatchmaking";
+import { GameMatchmaking } from "./controllers/GameMatchmaking";
 import homeController from "./controllers/Home";
 import gameController from "./controllers/Game";
+import authController from "./controllers/Auth";
+
+import "./helpers/vash/helpers";
 
 const router: express.Router = express.Router();
 
@@ -29,6 +32,7 @@ export default function(server: http.Server) {
     //web page controllers
     router.use("/Home", homeController);
     router.use("/Game", gameController);
+    router.use("/Auth", authController);
 
     //redirect to a known route for the home controller
     router.get("/", (req: express.Request, res: express.Response) => {

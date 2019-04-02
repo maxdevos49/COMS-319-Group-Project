@@ -1,6 +1,6 @@
-//vash throws a fit with typescript
+//vash throws a fit with typescript. Good Luck if you dare try
 import vash from "vash";
-import validation from "validation.js";
+import processValidation from "validation.js";
 
 /**
  * Module containing useful vash helpers for faster page building
@@ -8,10 +8,12 @@ import validation from "validation.js";
 
 /**
  * LabelFor()
+ * @param { Function } property represents the property to select
+ * @param { Object } attributes represents html attributes
  * @returns html markup representing a label
  */
 vash.helpers.LabelFor = function(model, attributes = {}) {
-    property = model(this.model.model);
+    let property = model(this.model.model);
 
     this.buffer.push(`
             <label 
@@ -24,10 +26,13 @@ vash.helpers.LabelFor = function(model, attributes = {}) {
 
 /**
  * TextBoxFor()
+ * @param { Function } property represents the property to select
+ * @param { String } value value to give the text box
+ * @param { Object } attributes represents html attributes
  * @returns html markup representing a text box
  */
 vash.helpers.TextBoxFor = function(model, value = "", attributes = {}) {
-    property = model(this.model.model);
+    let property = model(this.model.model);
     value = model(this.model.data);
 
     Object.assign(attributes, processValidation(property));
@@ -44,10 +49,11 @@ vash.helpers.TextBoxFor = function(model, value = "", attributes = {}) {
 
 /**
  * HiddenFor()
+ * @param { Function } property represents the property to select
  * @returns html markup representing a hidden input
  */
 vash.helpers.HiddenFor = function(model) {
-    property = model(this.model.model);
+    let property = model(this.model.model);
     value = model(this.model.data);
 
     this.buffer.push(`
@@ -60,10 +66,13 @@ vash.helpers.HiddenFor = function(model) {
 
 /**
  * EditorFor()
+ * @param { Function } property represents the property to select
+ * @param { String } value value to give the input box
+ * @param { Object } attributes represents html attributes
  * @returns html markup representing a text box
  */
 vash.helpers.EditorFor = function(model, value = "", attributes = {}) {
-    property = model(this.model.model);
+    let property = model(this.model.model);
     value = model(this.model.data);
 
     type = property.subtype ? property.subtype : getType(property.type.name);
@@ -82,10 +91,13 @@ vash.helpers.EditorFor = function(model, value = "", attributes = {}) {
 
 /**
  * PasswordBoxFor()
+ * @param { Function } property represents the property to select
+ * @param { String } value value to give the input box
+ * @param { Object } attributes represents html attributes
  * @returns html markup representing a text box
  */
 vash.helpers.PasswordBoxFor = function(model, value = "", attributes = {}) {
-    property = model(this.model.model);
+    let property = model(this.model.model);
 
     Object.assign(attributes, processValidation(property));
 
@@ -101,14 +113,13 @@ vash.helpers.PasswordBoxFor = function(model, value = "", attributes = {}) {
 
 /**
  * ValdidationMessageFor()
+ * @param { Function } property represents the property to select
+ * @param { String? } value value to give the input box
+ * @param { Object } attributes represents html attributes
  * @returns html markup representing validation needed for a specific model property
  */
-vash.helpers.ValidationMessageFor = function(
-    model,
-    error = "",
-    attributes = {}
-) {
-    property = model(this.model.model);
+vash.helpers.ValidationMessageFor = function(model, error = "", attributes = {}) {
+    let property = model(this.model.model);
 
     this.buffer.push(`
             <div 
@@ -123,18 +134,11 @@ vash.helpers.ValidationMessageFor = function(
 
 /**
  * DisplayFor()
+ * @param { Function } property represents the property to select
  * @returns the value of a model property
  */
-vash.helpers.DisplayFor = function(model, options = null) {
-    property = model(this.model.data);
-    propertyModel = model(this.model.model);
-
-    // if (propertyModel.type) {
-    //     // if (propertyModel.type.name === "Date") {
-    //     //     let date = new Date(Date.parse(property));
-    //     //     property = `${date.toLocaleString()}`;
-    //     // }
-    // }
+vash.helpers.DisplayFor = function(model) {
+    let property = model(this.model.data);
 
     if (property === 0) {
         property = property.toString();
@@ -145,23 +149,22 @@ vash.helpers.DisplayFor = function(model, options = null) {
 
 /**
  * DisplayNameFor()
+ * @param { Function } model the propery
  * @returns the name of a model property
  */
 vash.helpers.DisplayNameFor = function(model) {
-    property = model(this.model.model);
+    let property = model(this.model.model);
     this.buffer.push(property.name || property.path);
 };
 
 /**
  * @html.Navigator();
- * @summary used to create similar links and buttons for navigating the website. Not forms.
+ * @param { String } type string represnting the button type
+ * @param { String } text string representing what shoulf be shown on the button
+ * @param { String } route string representing the route for the link
+ * @param { Object } attributes object containing key value pairs of html attributes
  */
-vash.helpers.Navigator = function(
-    type,
-    text = null,
-    route = "#",
-    attributes = {}
-) {
+vash.helpers.Navigator = function(type, text = null, route = "#", attributes = {}) {
     if (text) {
         text = " " + text;
     } else {
@@ -178,8 +181,10 @@ vash.helpers.Navigator = function(
 };
 
 /**
- * @html.Input();
- * @summary Used for creating submit buttons or other things for forms
+ * @html.Input()
+ * @param { String } type string represnting the button type
+ * @param { String } text string representing what shoulf be shown on the button
+ * @param { Object } attributes object containing key value pairs of html attributes
  */
 vash.helpers.Input = function(type, text = null, attributes = {}) {
     if (text) {
@@ -209,7 +214,8 @@ vash.helpers.Save = "save";
 vash.helpers.Back = "back";
 
 /**
- * @param {String} type
+ * @param { String } type
+ * @returns { String } bootstrap 4 classes for backgrounds
  */
 function typeClass(type) {
     if (type === "create") {
@@ -233,6 +239,7 @@ function typeClass(type) {
 
 /**
  * @param {String} type
+ * @returns { String } representing the icon html
  */
 function typeIcon(type) {
     if (type === "create") {
@@ -256,8 +263,8 @@ function typeIcon(type) {
 
 /**
  * Generates the form type based on the type of property
- *
- * @param {*} giventype
+ * @param { * } giventype
+ * @returns { String } representing the type of the property
  */
 function getType(giventype) {
     if (giventype === "String") {
@@ -273,7 +280,7 @@ function getType(giventype) {
 
 /**
  * Helper function that turns the attribute object into a html attribute string for insertsion into an html tag
- * @param {*} attributes
+ * @param { Object } attributes represents html attributes in key value form
  * @returns a string of html attributes
  */
 function processAttributes(attributes) {

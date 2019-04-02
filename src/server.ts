@@ -32,4 +32,6 @@ server.on("error", function(error: any) {
     }
 });
 
+export default app;
+
 

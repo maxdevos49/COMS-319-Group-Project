@@ -1,7 +1,8 @@
 import express, { Response, Request, NextFunction } from "express";
 import http from "http";
 import { expect } from "chai";
-import permit from "../../src/middleware/permit";
+
+import permit from "../../src/middleware/permit.js";
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);

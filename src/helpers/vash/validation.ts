@@ -3,7 +3,7 @@
  * @param property
  * @returns an object representing attributes needed for jquery unobtrusive validation
  */
-export default function (property) {
+export default function(property: any) {
     let result = { "data-val": "true" };
     /**
      * Required
@@ -13,12 +13,12 @@ export default function (property) {
         if (Array.isArray(property.required)) {
             //use custom message
             Object.assign(result, { "data-val-required": property.required[1] });
-        }
-        else {
+        } else {
             //use generic message
             Object.assign(result, { "data-val-required": `${property.display || property.path} is required!` });
         }
     }
+
     /**
      * Minimum Length
      */
@@ -30,8 +30,7 @@ export default function (property) {
                 "data-val-minlength-min": property.minlength[0],
                 "data-val-minlength": property.minlength[1]
             });
-        }
-        else {
+        } else {
             //use generic message
             Object.assign(result, {
                 "data-val-minlength-min": property.minlength,
@@ -39,6 +38,7 @@ export default function (property) {
             });
         }
     }
+
     /**
      * Maximum Length
      */
@@ -50,8 +50,7 @@ export default function (property) {
                 "data-val-maxlength-max": property.maxlength[0],
                 "data-val-maxlength": property.maxlength[1]
             });
-        }
-        else {
+        } else {
             //use generic message
             Object.assign(result, {
                 "data-val-maxlength-max": property.maxlength,
@@ -59,6 +58,7 @@ export default function (property) {
             });
         }
     }
+
     /**
      * Equal To
      */
@@ -70,8 +70,7 @@ export default function (property) {
                 "data-val-equalto-other": property.matches[0],
                 "data-val-equalto": property.matches[1]
             });
-        }
-        else {
+        } else {
             //use generic message
             Object.assign(result, {
                 "data-val-equalto-other": property.matches,
@@ -79,6 +78,6 @@ export default function (property) {
             });
         }
     }
+
     return result;
 }
-//# sourceMappingURL=validation.js.map

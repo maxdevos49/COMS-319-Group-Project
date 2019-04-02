@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+      "baseUrl": ".",
+      "paths": { "*": ["types/*"] },
     /* Basic Options */
     "target": "es6",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */
     "module": "es6",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
@@ -58,7 +60,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts", "src/helpers/vash/vashHelpers.js"
+    "test/**/*.ts", "src/helpers/vash/helpers.js"
   ],
   "files": [
     "type-defs/phaser.d.ts"

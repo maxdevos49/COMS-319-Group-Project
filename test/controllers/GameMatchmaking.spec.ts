@@ -2,7 +2,7 @@ import {expect} from "chai";
 import socketIO, {Server} from "socket.io";
 import socketIOClient from "socket.io-client";
 
-import GameMatchmaking from "../../src/controllers/GameMatchmaking";
+import {GameMatchmaking} from "../../src/controllers/GameMatchmaking";
 import {GamesList} from "../../src/public/javascript/models/games/GamesList";
 import {GameServer} from "../../src/controllers/GameServer";
 

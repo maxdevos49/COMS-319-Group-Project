@@ -3,7 +3,7 @@ import {Namespace, Server, Socket} from "socket.io";
 import { GameServer } from "./GameServer";
 import {GamesList} from "../public/javascript/models/games/GamesList";
 
-export default class GameMatchmaking {
+export class GameMatchmaking {
     /**
      * The root server socket of this server
      */
