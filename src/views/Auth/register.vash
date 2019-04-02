@@ -20,24 +20,12 @@
                     <h2>B.R.T.D.</h2>
                     <h5>Register</h5>
                 </div>
-                <form class="form text-muted" method="POST" action="/Auth/register.html" style="padding: 3vh;">
+                <form class="form text-muted" method="POST" action="/Auth/register" style="padding: 3vh;">
                     @*Email*@
                     <div class="form-group">
                         @html.LabelFor(model => model.email)
                         @html.EditorFor(model => model.email, null, { class: "form-control", autocomplete: "email"})
                         @html.ValidationMessageFor(model => model.email)
-                    </div>
-                    @*Firstname*@
-                    <div class="form-group">
-                        @html.LabelFor(model => model.firstname)
-                        @html.EditorFor(model => model.firstname, null, { class: "form-control", autocomplete: "firstname"})
-                        @html.ValidationMessageFor(model => model.firstname)
-                    </div>
-                    @*Lastname*@
-                    <div class="form-group">
-                        @html.LabelFor(model => model.lastname)
-                        @html.EditorFor(model => model.lastname, null, { class: "form-control"})
-                        @html.ValidationMessageFor(model => model.lastname)
                     </div>
                     @*Password*@
                     <div class="form-group">

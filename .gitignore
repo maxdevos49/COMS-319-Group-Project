@@ -9,6 +9,8 @@
 #include vash helpers
 !src/helpers/vash/**/*.js
 
+!src/models/**/*.js
+
 #General
 node_modules
 bin

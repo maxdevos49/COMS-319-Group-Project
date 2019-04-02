@@ -1,6 +1,6 @@
 //vash throws a fit with typescript. Good Luck if you dare try
 import vash from "vash";
-import processValidation from "validation.js";
+import processValidation from "./validation";
 
 /**
  * Module containing useful vash helpers for faster page building
@@ -14,10 +14,10 @@ import processValidation from "validation.js";
  */
 vash.helpers.LabelFor = function(model, attributes = {}) {
     let property = model(this.model.model);
-
+    console.log(property)
     this.buffer.push(`
             <label 
-              for="${property.path}" 
+              for="${property.path}"
               ${processAttributes(attributes)}>
                 ${property.name || property.path}
             </label>
@@ -75,7 +75,7 @@ vash.helpers.EditorFor = function(model, value = "", attributes = {}) {
     let property = model(this.model.model);
     value = model(this.model.data);
 
-    type = property.subtype ? property.subtype : getType(property.type.name);
+    let type = property.subtype ? property.subtype : getType(property.type.name);
 
     Object.assign(attributes, processValidation(property));
 
