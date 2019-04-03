@@ -5,54 +5,39 @@ const Schema = mongoose.Schema;
 
 /**
  * Base Account model
- * @summary Should include all properties for this model with name attrubutes
  */
 
 const AccountModel = new Schema({
     nickname: {
         type: String,
-        name: "Nickname",
-        minlength: 4,
-        maxlength: 30,
         required: true
     },
     email: {
         type: String,
-        name: "Email",
-        minlength: 5,
-        maxlength: 40,
         lowercase: true,
         required: true
     },
     password: {
         type: String,
-        name: "Password",
-        minlength: 8,
-        maxlength: 50,
         required: true
     },
     role: {
         type: String,
-        name: "Role",
         default: "user"
     },
     isActive: {
         type: Boolean,
-        name: "Status",
         default: true
     },
     createdOn: {
         type: Date,
-        name: "Created On",
         default: Date.now()
     },
     updatedOn: {
-        type: Date,
-        name: "Updated On"
+        type: Date
     },
     updatedBy: {
-        type: String,
-        name: "Updated By"
+        type: String
     }
 });
 
@@ -97,4 +82,4 @@ AccountModel.post("validate", (doc, next) => {
     next();
 });
 
-module.exports = mongoose.model("Accounts", AccountModel);;
+module.exports = mongoose.model("Accounts", AccountModel);

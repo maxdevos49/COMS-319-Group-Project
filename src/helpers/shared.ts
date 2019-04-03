@@ -1,5 +1,7 @@
+import { Response } from "express";
 import bcrypt from "bcryptjs";
 import config from "../config";
+import { IAuthentication, IModelResult, IViewModel } from "./vash/vashInterface";
 
 /**
  * Shared class for commonly reused code`
@@ -11,7 +13,7 @@ class Shared {
      * @returns a string representing a hash
      */
     static hashString(str: string): string {
-        if(!config.hash.salt) throw "Salt is invalid";
+        if (!config.hash.salt) throw "Salt is invalid";
         let salt = bcrypt.genSaltSync(parseInt(config.hash.salt));
         return bcrypt.hashSync(str, salt);
     }
@@ -26,13 +28,13 @@ class Shared {
         return bcrypt.compareSync(str, hash);
     }
 
-      /**
+    /**
      * Method designed to escape html in a string
      * @param text
      * @returns an escaped string
      */
     static escapeHtml(text: string): string {
-        let map:any = {
+        let map: any = {
             "&": "&amp;",
             "<": "&lt;",
             ">": "&gt;",
@@ -40,56 +42,41 @@ class Shared {
             "'": "&#039;"
         };
 
-        return text.replace(/[&<>"']/g, function (m) {
+        return text.replace(/[&<>"']/g, function(m) {
             return map[m];
         });
     }
 
     /**
      * Creates a model for a view to use to display data
-     * @param givenResponse 
+     * @param givenResponse express response object
      * @param givenModel
      * @param givenData
      * @returns an object containing all the information the view needs to function
      */
-    static getModel(givenResponse: any, givenModel:any = null, givenData:any = null): any {
-
-        //TODO Change this someday as it is error prone in special senarios
-
-        //init result object
-        let result: any = {
-            authentication: {},
-            model: {},
-            data: {},
-            validation: {}
+    static getModel(givenResponse: Response, givenModel?: IViewModel, givenData?: any): IModelResult {
+        //process auth
+        let modelResult: IModelResult = {
+            authentication: givenResponse.locals.authentication
         };
 
-        //model processing
-        if (givenModel) {
-            result.model = givenModel.schema.tree;
-            //add path
-            for (let key in givenModel.schema.tree) {
-                result.model[key].path = key;
-            }
-        }
+        //process viewmodel
+        modelResult.model = givenModel;
 
-        // validation processing
-        // if (givenResponse.user.error) {
-        //     //add validation
-        //     for (let key in givenResponse.user.error) {
-        //         if (givenResponse.user.error[key].properties) {
-        //             result.validation[key] = givenResponse.user.error[key].properties.message;
-        //         }
+        //process data
+        modelResult.data = givenData;
+
+        //process validation errors
+        // if (givenResponse.locals.error) {
+        //add validation
+        // for (let key in givenResponse.locals.error) {
+        //     if (givenResponse.locals.error[key].properties) {
+        //         modelResult.validation[key] = givenResponse.locals.error[key].properties.message;
         //     }
         // }
+        // }
 
-        //add authentication
-        result.authentication = givenResponse.user;
-
-        //add data
-        result.data = givenData || givenResponse.req.body;
-
-        return result;
+        return modelResult;
     }
 }
 
