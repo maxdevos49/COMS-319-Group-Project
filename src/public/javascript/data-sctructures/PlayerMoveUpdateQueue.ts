@@ -97,4 +97,12 @@ export class PlayerMoveUpdateQueue {
         });
     };
 
+    /**
+     * Returns the size of the update queue.
+     *
+     * @return {number} The number of updates in the queue.
+     */
+    public size(): number {
+        return this.playerUpdateMap.size;
+    }
 }
