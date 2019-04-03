@@ -4,7 +4,7 @@ import {GameObject} from "../objects/GameObject.js";
 import {PositionUpdate} from "../../models/game/PositionUpdate.js";
 import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
 import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
-import {PlayerMoveDirection, PlayerMoveUpdate} from "../../models/game/PlayerMoveUpdate.js";
+
 
 export class GameScene extends Phaser.Scene {
     /**
