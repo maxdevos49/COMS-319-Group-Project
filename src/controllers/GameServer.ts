@@ -4,6 +4,7 @@ import v1Gen from "uuid/v1";
 import {GameSimulation} from "./GameSimulation";
 import {PlayerMoveUpdateQueue} from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveUpdate} from "../public/javascript/models/game/PlayerMoveUpdate";
+import {PositionUpdate} from "../public/javascript/models/game/PositionUpdate";
 
 export class GameServer {
     /**
@@ -36,7 +37,7 @@ export class GameServer {
         this.playerNames = new Map<string, string>();
 
         this.serverId = v1Gen();
-        this.moveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
+        this.moveUpdateQueue = new PlayerMoveUpdateQueue(100000, 10);
         this.simulation = new GameSimulation(this.moveUpdateQueue);
 
         // Initialize socket
@@ -77,5 +78,16 @@ export class GameServer {
                this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
             });
         });
+
+        // 30 times a second
+        setInterval(() => {
+            // Process a physics frames
+            this.simulation.nextFrame();
+            // Pack up all of the PositionUpdates and send them to all clients
+            let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
+            this.gameSocket.emit("/update/position", updates);
+        }, this.simulation.timeStep * 1000);
     }
+
+
 }

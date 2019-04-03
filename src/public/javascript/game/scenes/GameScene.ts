@@ -4,6 +4,7 @@ import {GameObject} from "../objects/GameObject.js";
 import {PositionUpdate} from "../../models/game/PositionUpdate.js";
 import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
 import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
+import {PlayerMoveDirection, PlayerMoveUpdate} from "../../models/game/PlayerMoveUpdate.js";
 
 export class GameScene extends Phaser.Scene {
     /**
@@ -18,6 +19,7 @@ export class GameScene extends Phaser.Scene {
      * A reference to the player that this client is playing
      */
     private clientPlayer: Player;
+
     constructor() {
         super({
             key: "GameScene"
@@ -37,12 +39,13 @@ export class GameScene extends Phaser.Scene {
 
         this.clientPlayer.setRotation(Math.PI);
 
-        this.cameras.main.startFollow(this.clientPlayer);
-        this.cameras.main.setDeadzone(100,100);
+       // this.cameras.main.startFollow(this.clientPlayer);
+       // this.cameras.main.setDeadzone(100,100);
     }
 
     update(): void {
         // Check for new players
+        let newPlayerUpdatesToRemove: PlayerUpdate[] = [];
         this.connection.newPlayersIds.forEach((newPlayerUpdate: PlayerUpdate) => {
            // Only use the update if a position update has been sent for it already
            let positionUpdateForPlayer: PositionUpdate = this.connection.positionUpdates.popUpdate(newPlayerUpdate.id);
@@ -53,7 +56,11 @@ export class GameScene extends Phaser.Scene {
                this.objects.set(newPlayer.id, newPlayer);
                // Apply the position update so the player is placed correctly
                newPlayer.applyUpdate(positionUpdateForPlayer as PlayerPositionUpdate);
+               newPlayerUpdatesToRemove.push(newPlayerUpdate);
            }
+        });
+        newPlayerUpdatesToRemove.forEach((toRemove: PlayerUpdate) => {
+           this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
         });
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {

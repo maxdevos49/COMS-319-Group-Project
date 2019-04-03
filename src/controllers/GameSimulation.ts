@@ -3,6 +3,7 @@ import { b2World, b2Vec2 } from "../../lib/box2d-physics-engine/Box2D";
 import { Player } from "./Player";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../public/javascript/models/game/PlayerMoveUpdate";
 import { PlayerMoveUpdateQueue } from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
+import {PositionUpdate} from "../public/javascript/models/game/PositionUpdate";
 
 interface Change {
   dx: number;
@@ -21,7 +22,7 @@ export class GameSimulation {
   /**
    * The number of times per second tht Box2D will process physics equations.
    */
-  private timeStep: number;
+  public timeStep: number;
 
   /**
    * Constraint solvers: larger values means better accuracy but worse
@@ -51,9 +52,8 @@ export class GameSimulation {
    * is created unless the start parameter is false (it's true by default).
    *
    * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
-   * @param {boolean} start - True if the simulation should start right away.
    */
-  constructor(moves: PlayerMoveUpdateQueue, start: boolean = true) {
+  constructor(moves: PlayerMoveUpdateQueue) {
     // contains init for Box2D
     const gravity = new b2Vec2(0, 0);
     this.world = new b2World(gravity);
@@ -63,9 +63,6 @@ export class GameSimulation {
     this.frame = 0;
     this.players = new Map<string, Player>();
     this.moves = moves;
-    if (start) {
-      setInterval(() => {this.nextFrame()}, 1000);
-    }
   }
 
   /**
@@ -73,7 +70,7 @@ export class GameSimulation {
    *
    * @return {void}
    */
-  nextFrame(): void {
+  public nextFrame(): void {
     this.getPlayers().forEach((player) => {
       const move = this.moves.popPlayerMoveUpdate(player.getId());
       this.updateMove(move);
@@ -88,7 +85,7 @@ export class GameSimulation {
    *
    * @param {string} id - The UUID of the player.
    */
-  addPlayer(id: string): void {
+  public addPlayer(id: string): void {
     const player: Player = new Player(id, this.world);
     this.players.set(id, player);
   }
@@ -98,7 +95,7 @@ export class GameSimulation {
    *
    * @param {PlayerMoveUpdate} move - An object containing move information.
    */
-  updateMove(move: PlayerMoveUpdate | null): void {
+  public updateMove(move: PlayerMoveUpdate | null): void {
     if (move === null) {
       return;
     }
@@ -114,12 +111,23 @@ export class GameSimulation {
     }
   }
 
-  getFrame(): number {
+  public getFrame(): number {
     return this.frame;
   }
 
-  getPlayers(): Player[] {
+  public getPlayers(): Player[] {
     return Array.from(this.players.values());
+  }
+
+    /**
+     * Gets an array of position updates for every object that is in the simulation
+     */
+  public getPositionUpdates(): PositionUpdate[] {
+    let updates: PositionUpdate[] = [];
+    this.players.forEach((player: Player, id: string) => {
+        updates.push(player.getPositionUpdate(this.frame))
+    });
+    return updates;
   }
 
   private getPositionChange(dir: PlayerMoveDirection): Change {
@@ -130,28 +138,28 @@ export class GameSimulation {
         break;
       case PlayerMoveDirection.UpRight:
         c.dx = 1;
-        c.dy = 1;
+        c.dy = -1;
         break;
       case PlayerMoveDirection.Up:
-        c.dy = 1;
+        c.dy = -1;
         break;
       case PlayerMoveDirection.LeftUp:
         c.dx = -1;
-        c.dy = 1;
+        c.dy = -1;
         break;
       case PlayerMoveDirection.Left:
         c.dx = -1;
         break;
       case PlayerMoveDirection.DownLeft:
         c.dx = -1;
-        c.dy = -1;
+        c.dy = 1;
         break;
       case PlayerMoveDirection.Down:
-        c.dy = -1;
+        c.dy = 1;
         break;
       case PlayerMoveDirection.RightDown:
         c.dx = 1;
-        c.dy = -1;
+        c.dy = 1;
         break;
     }
     return c;

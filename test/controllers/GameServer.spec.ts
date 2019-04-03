@@ -78,10 +78,12 @@ describe('Game server', () => {
       });
 
       clientSocket.on("/update/assignid", (id: string) => {
-          clientSocket.on("/update/position", (update: PositionUpdate[]) => {
-              // Player should be added eventually
-              if (update.length != 0) {
-                  expect(update).to.have.property("id").that.equals(id);
+          clientSocket.on("/update/position", (updates: PositionUpdate[]) => {
+              // Wait until the updates contains the player
+              let index = updates.findIndex((update: PositionUpdate) => update.id == id);
+              if (updates.length != -1) {
+                  expect(updates[index]).to.have.property("id").that.equals(id);
+                  clientSocket.close();
                   done();
               }
           });

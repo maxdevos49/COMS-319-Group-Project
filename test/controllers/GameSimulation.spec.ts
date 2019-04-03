@@ -21,7 +21,7 @@ describe('GameSimulation', () => {
 
   it('should extract a move from the queue for each player during a physics frame', () => {
     const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
-    const simulation: GameSimulation = new GameSimulation(updateQueue, false);
+    const simulation: GameSimulation = new GameSimulation(updateQueue);
     simulation.addPlayer("1");
     simulation.addPlayer("2");
     const player1Update: PlayerMoveUpdate = new PlayerMoveUpdate("1", 0, 1, true, PlayerMoveDirection.Down);
@@ -36,7 +36,7 @@ describe('GameSimulation', () => {
 
   it('should update the frame count after performing a physics frame', () => {
     const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
-    const simulation: GameSimulation = new GameSimulation(updateQueue, false);
+    const simulation: GameSimulation = new GameSimulation(updateQueue);
     simulation.nextFrame();
 
     expect(simulation.getFrame()).to.equal(1);
