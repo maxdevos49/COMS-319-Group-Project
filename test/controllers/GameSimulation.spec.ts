@@ -3,7 +3,7 @@ import v1Gen from "uuid/v1";
 
 import { GameSimulation } from '../../src/controllers/GameSimulation';
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../src/public/javascript/models/game/PlayerMoveUpdate";
-import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-sctructures/PlayerMoveUpdateQueue";
+import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
 import { Player } from "../../src/controllers/Player";
 
 describe('GameSimulation', () => {

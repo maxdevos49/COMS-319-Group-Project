@@ -1,7 +1,6 @@
 import {expect} from "chai";
-import {PlayerMoveUpdateQueue} from "../../src/public/javascript/data-sctructures/PlayerMoveUpdateQueue";
+import {PlayerMoveUpdateQueue} from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
-import {monitorEventLoopDelay} from "perf_hooks";
 
 describe("Player Move Update Queue", () => {
    it("Should initialize without a player move update for a given player", () => {

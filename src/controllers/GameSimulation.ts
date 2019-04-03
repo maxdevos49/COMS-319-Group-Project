@@ -2,7 +2,7 @@ import { b2World, b2Vec2 } from "../../lib/box2d-physics-engine/Box2D";
 
 import { Player } from "./Player";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../public/javascript/models/game/PlayerMoveUpdate";
-import { PlayerMoveUpdateQueue } from "../public/javascript/data-sctructures/PlayerMoveUpdateQueue";
+import { PlayerMoveUpdateQueue } from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
 
 interface Change {
   dx: number;

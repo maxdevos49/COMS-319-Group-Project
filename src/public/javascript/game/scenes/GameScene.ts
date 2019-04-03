@@ -1,5 +1,9 @@
 import {Player} from "../objects/Player.js";
 import {GameConnection} from "../GameConnection.js";
+import {GameObject} from "../objects/GameObject.js";
+import {PositionUpdate} from "../../models/game/PositionUpdate.js";
+import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
+import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
 
 export class GameScene extends Phaser.Scene {
     /**
@@ -7,9 +11,9 @@ export class GameScene extends Phaser.Scene {
      */
     connection: GameConnection;
     /**
-     * The array of players including the player themselves
+     * The map from id to game object that contains all game objects in the game
      */
-    private players: Player[];
+    private objects: Map<string, GameObject>;
     /**
      * A reference to the player that this client is playing
      */
@@ -19,7 +23,7 @@ export class GameScene extends Phaser.Scene {
             key: "GameScene"
         });
 
-        this.players = [];
+        this.objects = new Map<string, GameObject>();
     }
 
     init(connection: GameConnection): void {
@@ -27,9 +31,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.clientPlayer = new Player(this, 100, 100, this.connection.clientId);
+        this.clientPlayer = new Player(this, 0, 0, this.connection.clientId);
         this.add.existing(this.clientPlayer);
-        this.players.push(this.clientPlayer);
+        this.objects.set(this.clientPlayer.id, this.clientPlayer);
 
         this.clientPlayer.setRotation(Math.PI);
 
@@ -38,7 +42,26 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(): void {
-
+        // Check for new players
+        this.connection.newPlayersIds.forEach((newPlayerUpdate: PlayerUpdate) => {
+           // Only use the update if a position update has been sent for it already
+           let positionUpdateForPlayer: PositionUpdate = this.connection.positionUpdates.popUpdate(newPlayerUpdate.id);
+           if (positionUpdateForPlayer != null) {
+               // Add player to game
+               let newPlayer: Player = new Player(this, 0, 0, newPlayerUpdate.id);
+               this.add.existing(newPlayer);
+               this.objects.set(newPlayer.id, newPlayer);
+               // Apply the position update so the player is placed correctly
+               newPlayer.applyUpdate(positionUpdateForPlayer as PlayerPositionUpdate);
+           }
+        });
+        // Apply updates
+        this.objects.forEach((object: GameObject, id: string) => {
+           let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
+           if (tempUpdate != null) {
+               object.applyUpdate(tempUpdate);
+           }
+        });
     }
 
 }

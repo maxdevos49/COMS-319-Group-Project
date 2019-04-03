@@ -1,5 +1,7 @@
 import { GamesList } from "../models/games/GamesList.js";
 import { PlayerUpdate } from "../models/games/PlayerUpdate.js";
+import {PositionUpdateQueue} from "../data-structures/PositionUpdateQueue.js";
+import {PositionUpdate} from "../models/game/PositionUpdate.js";
 
 /**
  *
@@ -9,17 +11,22 @@ export class GameConnection {
      * Socket Connection Object
      */
     private socket: SocketIOClient.Socket;
-
     /**
      * The namespace id
      */
     public roomId: string;
-
     /**
      * The Client Id
      */
     public clientId: string;
-
+    /**
+     * The queue which new position updates are added to when received by there server
+     */
+    public positionUpdates: PositionUpdateQueue;
+    /**
+     * Array of new players that the server has sent
+     */
+    public newPlayersIds: PlayerUpdate[];
     /**
      * Creates a new game socket connection
      */
@@ -27,6 +34,9 @@ export class GameConnection {
         this.roomId = "";
         this.clientId = "";
         this.socket = io("/games");
+
+        this.positionUpdates = new PositionUpdateQueue();
+        this.newPlayersIds = [];
 
         this.handshake();
     }
@@ -42,7 +52,7 @@ export class GameConnection {
             this.receiveClientId();
             this.beginGame();
             this.playerUpdate();
-
+            this.positionUpdate();
 
         });
     }
@@ -66,6 +76,18 @@ export class GameConnection {
                     otherPlayer.name
                 }`
             );
+            this.newPlayersIds.push(otherPlayer);
+        });
+    }
+
+    /**
+     * Registers the client position update endpoint
+     */
+    private positionUpdate(): void {
+        this.socket.on("/update/position", (newUpdates: PositionUpdate[]) => {
+            newUpdates.forEach((update: PositionUpdate) => {
+                this.positionUpdates.addUpdate(update);
+            });
         });
     }
 
