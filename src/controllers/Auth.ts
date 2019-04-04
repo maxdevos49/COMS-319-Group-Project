@@ -16,8 +16,8 @@ router.post(
     "/register",
     permit(["public"], "/"),
     passport.authenticate("local-signup", {
-        successRedirect: "/dashboard",
-        failureRedirect: "/register"
+        successRedirect: "/auth/dashboard",
+        failureRedirect: "/auth/register"
     })
 );
 
@@ -28,8 +28,8 @@ router.post(
     "/login",
     permit(["public"], "/"),
     passport.authenticate("local-login", {
-        successRedirect: "/dashboard",
-        failureRedirect: "/login"
+        successRedirect: "/auth/dashboard",
+        failureRedirect: "/auth/login"
     })
 );
 
@@ -51,7 +51,7 @@ router.get("/register", permit(["public"], "/"), (req: Request, res: Response) =
  * GET:/Auth/dashboard.html
  */
 router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
-    return res.render("Auth/dashboard", Shared.getModel(res, RegisterViewModel));
+    return res.render("Auth/dashboard");
 });
 
 /**
