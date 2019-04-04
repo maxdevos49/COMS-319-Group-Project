@@ -1,7 +1,7 @@
 import { Namespace, Server, Socket } from "socket.io";
 import { PlayerUpdate } from "../public/javascript/models/games/PlayerUpdate";
 import v1Gen from "uuid/v1";
-import {GameSimulation} from "./GameSimulation";
+import {GameSimulation} from "./simulation/GameSimulation";
 import {PlayerMoveUpdateQueue} from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveUpdate} from "../public/javascript/models/game/PlayerMoveUpdate";
 import {PositionUpdate} from "../public/javascript/models/game/PositionUpdate";

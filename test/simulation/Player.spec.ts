@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {b2Vec2} from "../../lib/box2d-physics-engine/Common/b2Math";
 import {b2World} from "../../lib/box2d-physics-engine/Dynamics/b2World";
-import {Player} from "../../src/controllers/Player";
+import {Player} from "../../src/controllers/simulation/Player";
 import {PlayerPositionUpdate} from "../../src/public/javascript/models/game/PlayerPositionUpdate";
 
 describe("Simulation Player Object", () => {

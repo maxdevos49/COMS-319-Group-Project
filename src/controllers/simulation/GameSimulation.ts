@@ -1,9 +1,9 @@
-import { b2World, b2Vec2 } from "../../lib/box2d-physics-engine/Box2D";
+import { b2World, b2Vec2 } from "../../../lib/box2d-physics-engine/Box2D";
 
 import { Player } from "./Player";
-import { PlayerMoveUpdate, PlayerMoveDirection } from "../public/javascript/models/game/PlayerMoveUpdate";
-import { PlayerMoveUpdateQueue } from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {PositionUpdate} from "../public/javascript/models/game/PositionUpdate";
+import { PlayerMoveUpdate, PlayerMoveDirection } from "../../public/javascript/models/game/PlayerMoveUpdate";
+import { PlayerMoveUpdateQueue } from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
+import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
 
 interface Change {
   dx: number;
