@@ -60,7 +60,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts", "src/helpers/vash/helpers.js"
+    "test/**/*.ts", "src/helpers/vash/helpers.ts"
   ],
   "files": [
     "type-defs/phaser.d.ts"

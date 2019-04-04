@@ -21,27 +21,38 @@
                     <h5>Register</h5>
                 </div>
                 <form class="form text-muted" method="POST" action="/Auth/register" style="padding: 3vh;">
+
+                    @*Nickname*@
+                    <div class="form-group">
+                        @html.LabelFor(model => model.nickname)
+                        @html.EditorFor(model => model.nickname, null, { class: "form-control"})
+                        @html.ValidationMessageFor(model => model.nickname)
+                    </div>
+
                     @*Email*@
                     <div class="form-group">
                         @html.LabelFor(model => model.email)
                         @html.EditorFor(model => model.email, null, { class: "form-control", autocomplete: "email"})
                         @html.ValidationMessageFor(model => model.email)
                     </div>
+
                     @*Password*@
-                    <div class="form-group">
+                   <div class="form-group">
                         @html.LabelFor(model => model.password)
                         @html.PasswordBoxFor(model => model.password, null, { class: "form-control", autocomplete: "new-password"})
                         @html.ValidationMessageFor(model => model.password)
                     </div>
+
                     @*PasswordConfirmation*@
                     <div class="form-group">
                         @html.LabelFor(model => model.passwordConfirmation)
                         @html.PasswordBoxFor(model => model.passwordConfirmation, null, { class: "form-control", autocomplete: "new-password"})
                         @html.ValidationMessageFor(model => model.passwordConfirmation)
                     </div>
-                    @*Submit*@
+
+                     @*Submit*@
                     <div>
-                        <input class="btn btn-success" type="submit" value="Register"> 
+                        <input class="btn btn-success" type="submit" value="Register">
                     </div>
                 </form>
             </div>

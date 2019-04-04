@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+
 const Schema = mongoose.Schema;
+
 const AccountModel = new Schema({
     nickname: {
         type: String,
@@ -33,5 +35,6 @@ const AccountModel = new Schema({
         type: String
     }
 });
+
+
 export default mongoose.model("Accounts", AccountModel);
-//# sourceMappingURL=Account.js.map

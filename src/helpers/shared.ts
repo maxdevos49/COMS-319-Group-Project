@@ -57,11 +57,11 @@ class Shared {
     static getModel(givenResponse: Response, givenModel?: IViewModel, givenData?: any): IModelResult {
         //process auth
         let modelResult: IModelResult = {
-            authentication: givenResponse.locals.authentication
+            authentication: !givenResponse.locals.authentication ? { role: ["public"] } : givenResponse.locals.authentication
         };
 
         //process viewmodel
-        modelResult.model = givenModel;
+        modelResult.viewModel = givenModel;
 
         //process data
         modelResult.data = givenData;

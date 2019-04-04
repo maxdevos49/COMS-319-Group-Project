@@ -1,15 +1,18 @@
 import express, { Request, Response, Router } from "express";
+import passport from "passport";
+
 const router: Router = express.Router();
 
 import permit from "../middleware/permit";
 import Shared from "../helpers/shared";
-const Account = require("../models/Account")
+import AccountViewModel from "../viewModels/AccountViewModel";
+// const Account = require("../models/Account");
 
 /**
  * GET:/Auth/register.html
  */
 router.get("/register", (req: Request, res: Response) => {
-    return res.render("Auth/register", Shared.getModel(res, Account));
+    return res.render("Auth/register", Shared.getModel(res, AccountViewModel));
 });
 
 /**
@@ -48,46 +51,29 @@ router.post("/register", permit(["public"]), (req: Request, res: Response) => {
 });
 
 /**
- * GET:/Auth/registerConfirmation.html:id?
+ * GET:/Auth/login.html
  */
-router.get("/registerConfirmation:id?", permit(["public"]), (req: Request, res: Response) => {
-    // let id = req.query.id;
-    // Account.findOne({ _id: id, status: false }, (err, data) => {
-    //     if (err) throw err;
-    //     return res.render(
-    //         "Auth/registerConfirmation",
-    //         Shared.getModel(res, Account, data)
-    //     );
-    // });
+router.get("/login", permit(["public"]), (req: Request, res: Response) => {
+    return res.render("Auth/login", Shared.getModel(res, AccountViewModel));
 });
 
 /**
- * GET:/Auth/emailConfirmation.html:id?
+ * POST:/Auth/login.html
  */
-router.get("/emailConfirmation:id?", permit(["public"]), (req: Request, res: Response) => {
-    // let id = req.query.id;
-    // Account.findOneAndUpdate(
-    //     { _id: id, status: false },
-    //     { status: true },
-    //     { new: true },
-    //     (err, data) => {
-    //         if (err) throw err;
-    //         return res.render(
-    //             "Auth/emailConfirmation",
-    //             Shared.getModel(res, Account, data)
-    //         );
-    //     }
-    // );
+router.post("/login", passport.authenticate("local", { successRedirect: "/dashboard", failureRedirect: "/login" }));
+
+/**
+ * GET:/Auth/dashboard.html
+ */
+router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+    return res.render("Auth/dashboard", Shared.getModel(res, AccountViewModel));
 });
 
 /**
  * GET:/Auth/forgotPassword.html
  */
-router.get("/forgotPassword.html", permit(["public"]), (req: Request, res: Response) => {
-    // return res.render(
-    //     "Auth/forgotPassword",
-    //     Shared.getModel(res, LocalRegisterAccount)
-    // );
+router.get("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {
+    return res.render("Auth/register", Shared.getModel(res, AccountViewModel));
 });
 
 /**
@@ -127,7 +113,7 @@ router.post("/forgotPassword", permit(["public"]), (req: Request, res: Response)
  * GET:/Auth/forgotConfirmation.html
  */
 router.get("/forgotConfirmation", (req: Request, res: Response) => {
-    // return res.render("Auth/forgotConfirmation", Shared.getModel(res));
+    return res.render("Auth/forgotConfirmation", Shared.getModel(res, AccountViewModel));
 });
 
 /**
@@ -180,56 +166,6 @@ router.post("/resetPassword", (req: Request, res: Response) => {
     //         Shared.getModel(res, LocalRegisterAccount, { invalid: true })
     //     );
     // }
-});
-
-/**
- * GET:/Auth/login.html
- */
-router.get("/login", (req: Request, res: Response) => {
-    return res.render("Auth/login", Shared.getModel(res, Account));
-});
-
-/**
- * POST:/Auth/login.html
- */
-router.post("/login", permit(["public"]), (req: Request, res: Response) => {
-    // passport.authenticate("local", { session: false }, (err, user, info) => {
-    //     if (err || !user) {
-    //         res.user.error = info.error;
-    //         return res.render(
-    //             "Auth/login",
-    //             Shared.getModel(res, LocalRegisterAccount)
-    //         );
-    //     }
-    //     req.login(user, { session: false }, err => {
-    //         if (err) {
-    //             res.user.error = err;
-    //             return res.render(
-    //                 "Auth/login",
-    //                 Shared.getModel(res, LocalRegisterAccount)
-    //             );
-    //         }
-    //         const token = generateToken(user);
-    //         res.cookie("WWW-Authenticate", token, {
-    //             maxAge: config.token.exp,
-    //             httpOnly: true
-    //         });
-    //         return res.redirect("/Auth/dashboard.html");
-    //     });
-    // })(req, res);
-});
-
-/**
- * GET:/Auth/dashboard.html
- */
-router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
-    //     Account.findById(res.user.id, function(err, data) {
-    //         if (err) throw err;
-    //         return res.render(
-    //             "Auth/dashboard",
-    //             Shared.getModel(res, LocalRegisterAccount, data)
-    //         );
-    //     });
 });
 
 /**

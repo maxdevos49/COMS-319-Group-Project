@@ -4,6 +4,7 @@ import { IViewModel, IViewProperty } from "../../src/helpers/vash/vashInterface"
 class TestViewModel implements IViewModel {
     firstname: IViewProperty = {
         type: String,
+        path: "firstname",
         name: "Firstname",
         maxlength: 10,
         minlength: 4

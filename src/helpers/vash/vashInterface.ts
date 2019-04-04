@@ -1,5 +1,3 @@
-import { Schema } from "mongoose";
-
 export interface IAuthentication {
     /**
      * The first name of the currently logged in user
@@ -31,18 +29,21 @@ export interface IAuthentication {
      */
     token?: string;
 }
-
 export interface IViewModel {
     /**
-     * This just enforces only specific classes
+     * Outputs the class as json
      */
 }
-
 export interface IViewProperty {
     /**
      * The type constructor function
      */
     type: Function;
+
+    /**
+     * The database property name
+     */
+    path: string;
 
     /**
      * The display name of the property
@@ -71,9 +72,8 @@ export interface IViewProperty {
      */
     matches?: string;
 }
-
-export interface IValidation {}
-
+export interface IValidation {
+}
 export interface IModelResult {
     /**
      * The authentication object
@@ -83,7 +83,7 @@ export interface IModelResult {
     /**
      * The view model for the view
      */
-    model?: IViewModel;
+    viewModel?: IViewModel;
 
     /**
      * The data refrenced from the view model
@@ -94,4 +94,11 @@ export interface IModelResult {
      * Validatoin errors object
      */
     validation?: IValidation[];
+}
+export enum InputType {
+    String = "String",
+    Number = "Number",
+    Date = "Date",
+    Boolean = "Boolean",
+    Other = ""
 }

@@ -4,6 +4,8 @@ import socketIO from "socket.io";
 import http from "http";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import passport from "passport";
+import session from "express-session";
 
 import config from "./config";
 import { GameMatchmaking } from "./controllers/GameMatchmaking";
@@ -19,6 +21,13 @@ export default function(server: http.Server) {
     //database
     if (!config.database.dbUrl) throw "Database string is not valid";
     mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
+
+    //passport
+    if (!config.session.secret) throw "Session secret is invalid";
+    router.use(session({ secret: config.session.secret }));
+    // Make sure this comes after the express session
+    router.use(passport.initialize());
+    router.use(passport.session());
 
     //middleware
     router.use(cookieParser());

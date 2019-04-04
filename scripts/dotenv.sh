@@ -3,7 +3,7 @@
 # Author Maxwell DeVos
 # Script for generating a default .env file for the
 # project. (Because they are not transfered with git)
-version=1.3
+version=1.4
 set -eu
 
 if [[ $* == --help || $* == -h ]];
@@ -38,6 +38,9 @@ MONGODB_URI="mongodb://user:1Password@ds155634.mlab.com:55634/dev-cs319"
 
 #Hash
 HASH_SALT=5
+
+#Session
+SECRET="supersecret"
 EOF
         echo ".env file was generated. Version: $version";
     else
