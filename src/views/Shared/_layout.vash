@@ -40,7 +40,7 @@
                         <a class="nav-link" href="/Home/about">About</a>
                     </li>
 
-                    @if(model.authentication.role[0] == "public"){
+                    @if(model.authentication.role === "public"){
 
                     <li class="nav-item">
                         <a class="btn btn-outline-light" href="/Auth/login">Login</a>

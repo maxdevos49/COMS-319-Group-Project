@@ -1,6 +1,6 @@
 import { IViewProperty, IViewModel } from "../helpers/vash/vashInterface";
 
-export default class AccountViewModel implements IViewModel {
+export default class RegisterViewModel implements IViewModel {
     public nickname: IViewProperty = {
         type: String,
         path: "nickname",
@@ -38,8 +38,8 @@ export default class AccountViewModel implements IViewModel {
         required: true
     };
 
-    static toObject(): any {
-        return new AccountViewModel();
+    static toObject(): RegisterViewModel {
+        return new RegisterViewModel();
     }
 
     /**

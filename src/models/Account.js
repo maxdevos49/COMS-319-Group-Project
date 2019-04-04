@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const AccountModel = new Schema({
+const AccountSchema = new Schema({
     nickname: {
         type: String,
         required: true
@@ -16,7 +16,7 @@ const AccountModel = new Schema({
     },
     role: {
         type: String,
-        default: ["user"]
+        required: true
     },
     isActive: {
         type: Boolean,
@@ -33,5 +33,5 @@ const AccountModel = new Schema({
         type: String
     }
 });
-export default mongoose.model("Accounts", AccountModel);
+export default mongoose.model("Account", AccountSchema);
 //# sourceMappingURL=Account.js.map

@@ -10,7 +10,11 @@ const PORT = 7890;
 
 //mock role
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.locals.role = "public";
+    res.locals = {
+        authentication: {
+            role: "public"
+        }
+    }
     next();
 });
 

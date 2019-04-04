@@ -8,7 +8,7 @@ function permit(allowed: string[], redirect: string = "/") {
     const isAllowed = (role: string) => allowed.indexOf(role) > -1;
 
     return (req: Request, res: Response, next: NextFunction) => {
-        if (res.locals && isAllowed(res.locals.role)) next();
+        if (isAllowed(res.locals.authentication.role)) next();
         else {
             res.redirect(redirect);
         }

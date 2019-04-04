@@ -14,8 +14,8 @@
             </button>
         </div>
         }
-        <div class="container">
-            <div class="col-md-5 bg-white" style="margin: 50px auto; padding: 0;">
+        <div class="container col-md-10" style="padding: 50px;">
+            <div class="col-md-5 bg-white" style="margin: auto; padding: 0; box-shadow: 4px 4px 10px">
                 <div class="bg-success text-light" style="padding: 3vh;">
                     <h2>B.R.T.D.</h2>
                     <h5>Register</h5>

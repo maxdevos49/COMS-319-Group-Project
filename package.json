@@ -44,13 +44,15 @@
         "@types/socket.io": "^2.1.2",
         "@types/socket.io-client": "^1.4.32",
         "@types/uuid": "^3.4.4",
+        "@types/cookie-parser": "^1.4.1",
+        "source-map-support": "^0.5.11",
+        "ts-node": "^8.0.3",
         "chai": "^4.2.0",
         "mocha": "^6.0.2",
         "nodemon": "^1.18.10",
         "socket.io-client": "^2.2.0"
     },
     "dependencies": {
-        "@types/cookie-parser": "^1.4.1",
         "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.4",
         "dotenv": "^6.2.0",
@@ -62,7 +64,6 @@
         "passport": "^0.4.0",
         "passport-local": "^1.0.0",
         "socket.io": "^2.2.0",
-        "source-map-support": "^0.5.11",
         "typescript": "^3.3.4000",
         "uuid": "^3.3.2",
         "vash": "^0.12.6"

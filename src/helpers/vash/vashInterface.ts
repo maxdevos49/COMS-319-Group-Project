@@ -1,13 +1,8 @@
 export interface IAuthentication {
     /**
-     * The first name of the currently logged in user
+     * The session token of the logged in user.
      */
-    firstname?: string;
-
-    /**
-     * The last name of the currently logged in user
-     */
-    lastname?: string;
+    id?: string;
 
     /**
      * The nickname of the currently logged in user
@@ -17,17 +12,7 @@ export interface IAuthentication {
     /**
      * The role of the currently logged in user
      */
-    role: string[];
-
-    /**
-     * The email of the logged in user
-     */
-    email?: string;
-
-    /**
-     * The session token of the logged in user.
-     */
-    token?: string;
+    role: string;
 }
 export interface IViewModel {
     /**
@@ -72,8 +57,7 @@ export interface IViewProperty {
      */
     matches?: string;
 }
-export interface IValidation {
-}
+export interface IValidation {}
 export interface IModelResult {
     /**
      * The authentication object

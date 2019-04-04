@@ -13,6 +13,9 @@ import homeController from "./controllers/Home";
 import gameController from "./controllers/Game";
 import authController from "./controllers/Auth";
 
+import localStrat from "./middleware/passport";
+import authentication from "./middleware/authentication";
+
 import "./helpers/vash/helpers";
 
 const router: express.Router = express.Router();
@@ -24,15 +27,17 @@ export default function(server: http.Server) {
 
     //passport
     if (!config.session.secret) throw "Session secret is invalid";
-    router.use(session({ secret: config.session.secret }));
+    router.use(session({ secret: config.session.secret, resave: false, saveUninitialized: false }));
     // Make sure this comes after the express session
-    router.use(passport.initialize());
-    router.use(passport.session());
+
+    localStrat(passport);
 
     //middleware
-    router.use(cookieParser());
     router.use(bodyParser.urlencoded({ extended: false }));
     router.use(bodyParser.json());
+    router.use(passport.initialize());
+    router.use(passport.session());
+    router.use(authentication);
 
     //game controllers and sockets
     const io = socketIO(server);

@@ -1,8 +1,21 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const Schema = mongoose.Schema;
 
-const AccountModel = new Schema({
+export interface IAccount {
+    id: string;
+    nickname: string;
+    email: string;
+    password?: string;
+    role?: string[];
+    isActive?: Boolean;
+    createdOn?: Date;
+    updatedOn?: Date;
+    updatedBy?: String;
+}
+
+const AccountSchema = new Schema({
     nickname: {
         type: String,
         required: true
@@ -18,7 +31,7 @@ const AccountModel = new Schema({
     },
     role: {
         type: String,
-        default: ["user"]
+        required: true
     },
     isActive: {
         type: Boolean,
@@ -36,5 +49,4 @@ const AccountModel = new Schema({
     }
 });
 
-
-export default mongoose.model("Accounts", AccountModel);
+export default mongoose.model("Account", AccountSchema);
