@@ -78,16 +78,19 @@ export class GameServer {
                this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
             });
         });
-
         // 30 times a second
-        setInterval(() => {
-            // Process a physics frames
-            this.simulation.nextFrame();
-            // Pack up all of the PositionUpdates and send them to all clients
-            let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
-            this.gameSocket.emit("/update/position", updates);
-        }, this.simulation.timeStep * 1000);
+        setInterval(() => this.nextFrame(), this.simulation.timeStep * 1000);
     }
 
-
+    /**
+     * Performs one frame process, this causes the simulation to take one step (one frame) forward and then sends
+     * updates to the clients.
+     */
+    private nextFrame(): void {
+        // Process a physics frames
+        this.simulation.nextFrame();
+        // Pack up all of the PositionUpdates and send them to all clients
+        let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
+        this.gameSocket.emit("/update/position", updates);
+    }
 }
