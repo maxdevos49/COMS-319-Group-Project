@@ -5,6 +5,7 @@ import {PositionUpdate} from "../../models/game/PositionUpdate.js";
 import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
 import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
 import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
+import { UserInput } from "../objects/UserInput.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -20,6 +21,10 @@ export class GameScene extends Phaser.Scene {
      * A reference to the player that this client is playing
      */
     private clientPlayer: Player;
+    /**
+     * The user input object that will move the player.
+     */
+    private uInput: UserInput;
 
     constructor() {
         super({
@@ -39,6 +44,8 @@ export class GameScene extends Phaser.Scene {
         this.objects.set(this.clientPlayer.id, this.clientPlayer);
 
         this.clientPlayer.setRotation(Math.PI);
+
+        this.uInput = new UserInput(this, this.clientPlayer);
 
        // this.cameras.main.startFollow(this.clientPlayer);
        // this.cameras.main.setDeadzone(100,100);
@@ -63,6 +70,8 @@ export class GameScene extends Phaser.Scene {
         newPlayerUpdatesToRemove.forEach((toRemove: PlayerUpdate) => {
            this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
         });
+
+        this.clientPlayer.moveUpdate = this.uInput.changeDirection(this.uInput.checkDirection());
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {

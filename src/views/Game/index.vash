@@ -2,7 +2,7 @@
 
     @html.block('content', function(model){
         <script src="/socket.io/socket.io.js"></script>
-        <script type="module" src="/javascript/phaser/phaser.js" defer></script>
+        <script type="module" src="/lib/phaser/phaser.min.js" defer></script>
         <script type="module" src="/javascript/game/index.js" defer></script>
 
         @{

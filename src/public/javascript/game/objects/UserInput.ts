@@ -1,12 +1,12 @@
 import {Player} from "../objects/Player.js";
 import {GameScene} from "../scenes/GameScene";
-import { PlayerMoveDirection } from "../../models/game/PlayerMoveUpdate.js";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
 
 export class UserInput {
     /**
      * A reference to the player that this user input is moving
      */
-    private player: Player;
+    public player: Player;
     /**
      * The W key
      */
@@ -40,7 +40,12 @@ export class UserInput {
      */
     private keyRight: Phaser.Input.Keyboard.Key;
 
-
+    /**
+     * Creates a UserInput object that handles input from the user.
+     * 
+     * @param scene the scene the player is in
+     * @param player the player to be moved
+     */
     constructor(scene: GameScene, player: Player) {
         this.player = player;
 
@@ -74,6 +79,10 @@ export class UserInput {
         } else {
             return PlayerMoveDirection.None;
         }
+    }
+
+    changeDirection(direction: PlayerMoveDirection): PlayerMoveUpdate {
+        return new PlayerMoveUpdate(this.player.id, 0, 0, true, direction);
     }
     
 }

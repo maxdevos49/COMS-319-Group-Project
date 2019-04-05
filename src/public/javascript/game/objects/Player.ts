@@ -28,7 +28,7 @@ export class Player extends Phaser.GameObjects.Sprite implements GameObject {
      * Player move update to be sent to the server.
      */
     public moveUpdate: PlayerMoveUpdate;
-    
+
     /**
      * Creates a new player in the given scene
      * @param scene The scene that the player should be created in
