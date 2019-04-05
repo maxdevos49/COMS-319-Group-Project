@@ -5,6 +5,8 @@ import {expect} from "chai";
 
 import {GameServer} from '../../src/controllers/GameServer';
 import {PlayerUpdate} from "../../src/public/javascript/models/games/PlayerUpdate";
+import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
+import {PositionUpdate} from "../../src/public/javascript/models/game/PositionUpdate";
 
 
 describe('Game server', () => {
@@ -63,6 +65,28 @@ describe('Game server', () => {
           });
           // Complete the first clients handshake
           firstClientSocket.emit("/update/assignname", "client1");
+      });
+  });
+
+  it('should send send position updates to client', (done) => {
+      const gameServer: GameServer = new GameServer(gameSocket);
+      let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
+      // Wait until the first client has connected
+      clientSocket.on("connect", () => {
+          // Complete the first clients handshake
+          clientSocket.emit("/update/assignname", "client1");
+      });
+
+      clientSocket.on("/update/assignid", (id: string) => {
+          clientSocket.on("/update/position", (updates: PositionUpdate[]) => {
+              // Wait until the updates contains the player
+              let index = updates.findIndex((update: PositionUpdate) => update.id == id);
+              if (index != -1) {
+                  expect(updates[index]).to.have.property("id").that.equals(id);
+                  clientSocket.close();
+                  done();
+              }
+          });
       });
   });
 });

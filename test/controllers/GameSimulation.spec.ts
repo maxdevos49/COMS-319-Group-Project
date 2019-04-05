@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import v1Gen from "uuid/v1";
 
-import { GameSimulation } from '../../src/controllers/GameSimulation';
+import { GameSimulation } from '../../src/controllers/simulation/GameSimulation';
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
-import { Player } from "../../src/controllers/Player";
+import { Player } from "../../src/controllers/simulation/Player";
 
 describe('GameSimulation', () => {
   it('should initialize a world', () => {
@@ -21,7 +21,7 @@ describe('GameSimulation', () => {
 
   it('should extract a move from the queue for each player during a physics frame', () => {
     const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
-    const simulation: GameSimulation = new GameSimulation(updateQueue, false);
+    const simulation: GameSimulation = new GameSimulation(updateQueue);
     simulation.addPlayer("1");
     simulation.addPlayer("2");
     const player1Update: PlayerMoveUpdate = new PlayerMoveUpdate("1", 0, 1, true, PlayerMoveDirection.Down);
@@ -36,7 +36,7 @@ describe('GameSimulation', () => {
 
   it('should update the frame count after performing a physics frame', () => {
     const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
-    const simulation: GameSimulation = new GameSimulation(updateQueue, false);
+    const simulation: GameSimulation = new GameSimulation(updateQueue);
     simulation.nextFrame();
 
     expect(simulation.getFrame()).to.equal(1);
@@ -76,7 +76,7 @@ describe('GameSimulation', () => {
       // the player should now be at (0, 1) and be turned 1 rad
       expect(player.getBody().GetAngle()).to.equal(1);
       expect(player.getBody().GetPosition().x).to.equal(0);
-      expect(player.getBody().GetPosition().y).to.equal(1);
+      expect(player.getBody().GetPosition().y).to.equal(-1);
 
       // simulate a second move
       move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.LeftUp);
@@ -84,7 +84,7 @@ describe('GameSimulation', () => {
 
       expect(player.getBody().GetAngle()).to.equal(1);
       expect(player.getBody().GetPosition().x).to.equal(-1);
-      expect(player.getBody().GetPosition().y).to.equal(2);
+      expect(player.getBody().GetPosition().y).to.equal(-2);
     });
 
     it('should apply a default move if it receives no move update', () => {
