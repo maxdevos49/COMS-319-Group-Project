@@ -56,7 +56,7 @@ export default function(server: http.Server) {
     //respond with a 404 request if the document was not found
     router.use((req: express.Request, res: express.Response) => {
         res.status(404);
-        res.render("shared/404");
+        res.render("Shared/404");
     });
 
     return router;

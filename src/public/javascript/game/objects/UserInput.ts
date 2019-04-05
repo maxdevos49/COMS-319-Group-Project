@@ -1,12 +1,12 @@
 import {Player} from "../objects/Player.js";
 import {GameScene} from "../scenes/GameScene";
-import { PlayerMoveDirection } from "../../models/game/PlayerMoveUpdate.js";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
 
 export class UserInput {
     /**
      * A reference to the player that this user input is moving
      */
-    private player: Player;
+    public player: Player;
     /**
      * The W key
      */
@@ -39,11 +39,25 @@ export class UserInput {
      * The RIGHT key
      */
     private keyRight: Phaser.Input.Keyboard.Key;
+    /**
+     * The mouse pointer
+     */
+    private mousePointer: Phaser.Input.Pointer;
+    /**
+     * The main camera from the game scene
+     */
+    private camera: Phaser.Cameras.Scene2D.Camera;
 
-
+    /**
+     * Creates a UserInput object that handles input from the user.
+     * 
+     * @param scene the scene the player is in
+     * @param player the player to be moved
+     */
     constructor(scene: GameScene, player: Player) {
         this.player = player;
-
+        this.camera = scene.cameras.main;
+        // Keyboard inputs
         this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyS = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -52,6 +66,8 @@ export class UserInput {
         this.keyLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.keyDown = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.keyRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        // Mouse inputs
+        this.mousePointer = scene.input.activePointer;
     }
 
     checkDirection(): PlayerMoveDirection {
@@ -74,6 +90,16 @@ export class UserInput {
         } else {
             return PlayerMoveDirection.None;
         }
+    }
+
+    public getMoveUpdateFromInput(): PlayerMoveUpdate {
+        // Can't use world x/y because they don't update often enough
+        let mouseX = this.mousePointer.x + this.camera.worldView.x;
+        let mouseY = this.mousePointer.y + this.camera.worldView.y;
+        // Y coordinates are flipped
+        let angleFromPlayer = Math.atan2(this.player.y - mouseY, this.player.x - mouseX) - (Math.PI / 2);
+
+        return new PlayerMoveUpdate(this.player.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection());
     }
     
 }
