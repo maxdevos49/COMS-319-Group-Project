@@ -5,7 +5,6 @@ import {expect} from "chai";
 
 import {GameServer} from '../../src/controllers/GameServer';
 import {PlayerUpdate} from "../../src/public/javascript/models/games/PlayerUpdate";
-import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 
 
 describe('Game server', () => {
