@@ -5,12 +5,7 @@ const config = {
     version: "1.0.0",
     description:
         "B.R.T.D is a Top Down Battle Royal Game inspired from the many currently popular battle royal games. Add more and also add it too layout file...",
-    owner: [
-        "Maxwell DeVos",
-        "Mason Timmerman",
-        "Joeseph Naberhaus",
-        "John Jago"
-    ],
+    owner: ["Maxwell DeVos", "Mason Timmerman", "Joeseph Naberhaus", "John Jago"],
     Developers: [
         {
             name: "Maxwell DeVos",
@@ -54,6 +49,15 @@ const config = {
         port: process.env.PORT,
         domain: process.env.DOMAIN,
         transport: process.env.TRANSPORT
+    },
+    hash: {
+        salt: process.env.HASH_SALT
+    },
+    database: {
+        dbUrl: process.env.MONGODB_URI
+    },
+    session: {
+        secret: process.env.SECRET
     },
     controllers: [{ controller: "Home" }, { controller: "Game" }]
 };

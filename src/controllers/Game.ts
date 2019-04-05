@@ -1,17 +1,18 @@
 import express, { Request, Response, Router } from "express";
+import permit from "../middleware/permit";
 const router: Router = express.Router();
 
 /**
  * GET:/index
  */
-router.get("/index", (req: Request, res: Response) => {
+router.get("/index", permit(["user"], "/auth/login"), (req: Request, res: Response) => {
     res.render("Game/index");
 });
 
 /**
  * GET:/index
  */
-router.get("/", (req: Request, res: Response) => {
+router.get("/", permit(["user"], "/auth/login"), (req: Request, res: Response) => {
     res.render("Game/index");
 });
 
