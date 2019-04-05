@@ -38,6 +38,7 @@ deploy_production:
         - git config user.name "GitLab CI on behalf of Maxwell DeVos"
     script:
         - git checkout $CI_COMMIT_REF_NAME
+        - git pull --rebase
         - git commit --allow-empty -m "Publish to Heroku at $(date)"
         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/prod-cs319.git $CI_COMMIT_REF_NAME:master -f
     only:
@@ -50,6 +51,7 @@ deploy_development:
         - git config user.name "GitLab CI on behalf of Maxwell DeVos"
     script:
         - git checkout $CI_COMMIT_REF_NAME
+        - git pull --rebase
         - git commit --allow-empty -m "Publish to Heroku at $(date)"
         - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master -f
     only:
