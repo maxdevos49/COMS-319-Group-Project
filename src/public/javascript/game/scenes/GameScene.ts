@@ -64,7 +64,9 @@ export class GameScene extends Phaser.Scene {
             // Send move updates to server
             if (object instanceof Player) {
                 const player: Player = object as Player;
-                this.connection.sendMove(player.moveUpdate);
+                if (player.moveUpdate !== null && player.moveUpdate !== undefined) {
+                    this.connection.sendMove(player.moveUpdate);
+                }
             }
         });
     }
