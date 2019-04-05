@@ -43,6 +43,10 @@ export class UserInput {
      * The mouse pointer
      */
     private mousePointer: Phaser.Input.Pointer;
+    /**
+     * The main camera from the game scene
+     */
+    private camera: Phaser.Cameras.Scene2D.Camera;
 
     /**
      * Creates a UserInput object that handles input from the user.
@@ -52,6 +56,7 @@ export class UserInput {
      */
     constructor(scene: GameScene, player: Player) {
         this.player = player;
+        this.camera = scene.cameras.main;
         // Keyboard inputs
         this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -88,8 +93,10 @@ export class UserInput {
     }
 
     public getMoveUpdateFromInput(): PlayerMoveUpdate {
-        let mouseX = this.mousePointer.x;
-        let mouseY = this.mousePointer.y;
+        // Can't use world x/y because they don't update often enough
+        let mouseX = this.mousePointer.x + this.camera.worldView.x;
+        let mouseY = this.mousePointer.y + this.camera.worldView.y;
+        console.log(this.camera.worldView.x + " " + this.camera.worldView.y);
         // Y coordinates are flipped
         let angleFromPlayer = Math.atan2(this.player.y - mouseY, this.player.x - mouseX) - (Math.PI / 2);
 
