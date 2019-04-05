@@ -38,11 +38,4 @@ export default class RegisterViewModel implements IViewModel {
         required: true
     };
 
-    static toObject(): RegisterViewModel {
-        return new RegisterViewModel();
-    }
-
-    /**
-     * Mongoose find,update, and add queries here.
-     */
 }

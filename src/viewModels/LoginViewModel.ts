@@ -19,11 +19,4 @@ export default class LoginViewModel implements IViewModel {
         required: true
     };
 
-    static toObject(): LoginViewModel {
-        return new LoginViewModel();
-    }
-
-    /**
-     * Mongoose find,update, and add queries here.
-     */
 }

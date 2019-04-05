@@ -13,7 +13,7 @@ import { IViewProperty, IViewModel, InputType } from "./vashInterface";
  * @returns html markup representing a label
  */
 vash.helpers.LabelFor = function (model: Function, attributes?: any) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     this.buffer.push(`
@@ -33,7 +33,7 @@ vash.helpers.LabelFor = function (model: Function, attributes?: any) {
  * @returns html markup representing a text box
  */
 vash.helpers.TextBoxFor = function (model: Function, value?: string | number, attributes?: any) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     //dont throw undefined for lack of data
@@ -57,7 +57,7 @@ vash.helpers.TextBoxFor = function (model: Function, value?: string | number, at
  * @returns html markup representing a hidden input
  */
 vash.helpers.HiddenFor = function (model: Function, value?: string | number) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     //dont throw undefined for lack of data
@@ -82,7 +82,7 @@ vash.helpers.HiddenFor = function (model: Function, value?: string | number) {
  * @returns html markup representing a text box
  */
 vash.helpers.EditorFor = function (model: Function, value?: string, attributes?: any) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     //dont throw undefined for lack of data
@@ -110,7 +110,7 @@ vash.helpers.EditorFor = function (model: Function, value?: string, attributes?:
  * @returns html markup representing a text box
  */
 vash.helpers.PasswordBoxFor = function (model: Function, value?: string, attributes: any = {}) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     Object.assign(attributes, processValidation(property));
@@ -133,7 +133,7 @@ vash.helpers.PasswordBoxFor = function (model: Function, value?: string, attribu
  * @returns html markup representing validation needed for a specific model property
  */
 vash.helpers.ValidationMessageFor = function (model: Function, error?: string, attributes?: any) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     this.buffer.push(`
@@ -189,7 +189,7 @@ vash.helpers.ValidationSummary = function () {
  * @returns the name of a model property
  */
 vash.helpers.DisplayNameFor = function (model: Function) {
-    let m: IViewModel = this.model.viewModel.toObject();
+    let m: IViewModel = new this.model.viewModel();
     let property: IViewProperty = model(m);
 
     this.buffer.push(property.name || property.path);
