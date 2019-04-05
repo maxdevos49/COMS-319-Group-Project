@@ -1,0 +1,44 @@
+@html.extend('Shared/_layout', function(model){
+
+    @html.block('content', function(model){
+
+        @{
+            model.title = "Login";
+        }
+
+        @html.ValidationSummary()
+        
+        <div class="container col-md-10" style="padding: 50px;">
+            <div class="col-sm-8 bg-white" style="margin: auto; padding: 0; box-shadow: 4px 4px 10px">
+                <div class="bg-success text-light" style=" padding: 3vh;">
+                    <h2>B.R.T.D.</h2>
+                    <h5>Login</h5>
+                </div>
+                <div class="row text-muted">
+                    <div class="col-sm-4 container" style="padding: 3vh;">
+                        <a class="btn btn-warning" style="margin: 1vh;" href="/Auth/register">Register</a>
+                    </div>
+                    <div class="col-sm-8" style=" padding: 0;">
+                        <form class="form" method="POST" action="/Auth/login" style="padding: 3vh;">
+                            <div class="form-group">
+                                @html.LabelFor(model => model.email)
+                                @html.EditorFor(model => model.email, null, { class: "form-control", autocomplete: "email"})
+                                @html.ValidationMessageFor(model => model.email)
+                            </div>
+                            <div class="form-group">
+                                @html.LabelFor(model => model.password)
+                                @html.PasswordBoxFor(model => model.password, null, {class: "form-control", autocomplete: "current-password"})
+                                @html.ValidationMessageFor(model => model.password)
+                                <a href="/auth/forgotPassword">Forgot Password?</a>
+                            </div>
+                            <div>
+                                <button class="btn btn-success" type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    })
+})

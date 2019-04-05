@@ -14,7 +14,7 @@
         "devstart": "node -r esm -r source-map-support/register --require dotenv/config src/server.js",
         "dev": "nodemon",
         "pretest": "npm run build",
-        "test": "mocha --exit --require=esm --require=source-map-support/register test/**/*.spec.js"
+        "test": "mocha --exit --require=esm --require=source-map-support/register --require dotenv/config test/**/*.spec.js"
     },
     "repository": {
         "type": "git",
@@ -30,27 +30,39 @@
     "author": "Maxwell DeVos, Mason Timmerman, John Jago, Joseph Naberhaus",
     "license": "ISC",
     "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
         "@types/chai": "^4.1.7",
+        "@types/cookie-parser": "^1.4.1",
         "@types/dotenv": "^6.1.0",
         "@types/express": "^4.16.1",
+        "@types/express-session": "^1.15.12",
         "@types/ip": "^1.1.0",
         "@types/mocha": "^5.2.6",
+        "@types/mongoose": "^5.3.24",
         "@types/node": "^11.10.4",
+        "@types/passport": "^1.0.0",
+        "@types/passport-local": "^1.0.33",
         "@types/socket.io": "^2.1.2",
         "@types/socket.io-client": "^1.4.32",
         "@types/uuid": "^3.4.4",
         "chai": "^4.2.0",
         "mocha": "^6.0.2",
-        "socket.io-client": "^2.2.0",
-        "nodemon": "^1.18.10"
+        "nodemon": "^1.18.10",
+        "socket.io-client": "^2.2.0"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "source-map-support": "^0.5.11",
+        "cookie-parser": "^1.4.4",
         "dotenv": "^6.2.0",
         "esm": "^3.2.9",
         "express": "^4.16.4",
+        "express-session": "^1.15.6",
         "ip": "^1.1.5",
+        "mongoose": "^5.4.20",
+        "passport": "^0.4.0",
+        "passport-local": "^1.0.0",
         "socket.io": "^2.2.0",
-        "source-map-support": "^0.5.11",
         "typescript": "^3.3.4000",
         "uuid": "^3.3.2",
         "vash": "^0.12.6"
