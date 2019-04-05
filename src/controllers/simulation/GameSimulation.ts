@@ -134,32 +134,32 @@ export class GameSimulation {
     const c: Change = { dx: 0, dy: 0 };
     switch (dir) {
       case PlayerMoveDirection.Right:
-        c.dx = 1;
+        c.dx = 3;
         break;
       case PlayerMoveDirection.UpRight:
-        c.dx = 1;
-        c.dy = -1;
+        c.dx = 3;
+        c.dy = -3;
         break;
       case PlayerMoveDirection.Up:
-        c.dy = -1;
+        c.dy = -3;
         break;
       case PlayerMoveDirection.UpLeft:
-        c.dx = -1;
-        c.dy = -1;
+        c.dx = -3;
+        c.dy = -3;
         break;
       case PlayerMoveDirection.Left:
-        c.dx = -1;
+        c.dx = -3;
         break;
       case PlayerMoveDirection.DownLeft:
-        c.dx = -1;
-        c.dy = 1;
+        c.dx = -3;
+        c.dy = 3;
         break;
       case PlayerMoveDirection.Down:
-        c.dy = 1;
+        c.dy = 3;
         break;
       case PlayerMoveDirection.DownRight:
-        c.dx = 1;
-        c.dy = 1;
+        c.dx = 3;
+        c.dy = 3;
         break;
     }
     return c;

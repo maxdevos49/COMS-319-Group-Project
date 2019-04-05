@@ -96,7 +96,6 @@ export class UserInput {
         // Can't use world x/y because they don't update often enough
         let mouseX = this.mousePointer.x + this.camera.worldView.x;
         let mouseY = this.mousePointer.y + this.camera.worldView.y;
-        console.log(this.camera.worldView.x + " " + this.camera.worldView.y);
         // Y coordinates are flipped
         let angleFromPlayer = Math.atan2(this.player.y - mouseY, this.player.x - mouseX) - (Math.PI / 2);
 
