@@ -1,5 +1,6 @@
 import {GameObject} from "./GameObject";
 import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate";
+import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate";
 
 export class Player extends Phaser.GameObjects.Sprite implements GameObject {
     /**
@@ -22,6 +23,10 @@ export class Player extends Phaser.GameObjects.Sprite implements GameObject {
      * The id of this player
      */
     public id: string;
+    /**
+     * Player move update to be sent to the server.
+     */
+    public moveUpdate: PlayerMoveUpdate;
 
     /**
      * Creates a new player in the given scene

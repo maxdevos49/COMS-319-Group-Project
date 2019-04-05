@@ -14,7 +14,7 @@ export class GameServer {
     /**
      * The socket io room this game is listening to
      */
-    private gameSocket: Namespace;
+    public gameSocket: Namespace;
     /**
      * The clients that are connected to this server
      */
@@ -75,7 +75,7 @@ export class GameServer {
             });
             // Game player move update endpoint
             socket.on("/update/playermove", (newUpdate: PlayerMoveUpdate) => {
-               this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
+                this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
             });
         });
         // 30 times a second

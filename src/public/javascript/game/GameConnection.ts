@@ -2,9 +2,10 @@ import { GamesList } from "../models/games/GamesList.js";
 import { PlayerUpdate } from "../models/games/PlayerUpdate.js";
 import {PositionUpdateQueue} from "../data-structures/PositionUpdateQueue.js";
 import {PositionUpdate} from "../models/game/PositionUpdate.js";
+import { PlayerMoveUpdate } from "../models/game/PlayerMoveUpdate.js";
 
 /**
- *
+ * Socket endpoints for the client.
  */
 export class GameConnection {
     /**
@@ -47,7 +48,7 @@ export class GameConnection {
     private connection(): void {
         this.socket.on("connect", () => {
             console.log("Connected to server!");
-            
+
             //register any socket routes here
             this.receiveClientId();
             this.beginGame();
@@ -121,5 +122,12 @@ export class GameConnection {
      */
     public addNickName(givenNickName: string): void {
         this.socket.emit("/update/assignname", givenNickName);
+    }
+
+    /**
+     * Send a move update to the server.
+     */
+    public sendMove(move: PlayerMoveUpdate): void {
+        this.socket.emit("/update/playermove", move);
     }
 }

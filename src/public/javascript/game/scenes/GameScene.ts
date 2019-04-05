@@ -64,10 +64,18 @@ export class GameScene extends Phaser.Scene {
         });
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
-           let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
-           if (tempUpdate != null) {
-               object.applyUpdate(tempUpdate);
-           }
+            // Apply updates from server
+            let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
+            if (tempUpdate != null) {
+                object.applyUpdate(tempUpdate);
+            }
+            // Send move updates to server
+            if (object instanceof Player) {
+                const player: Player = object as Player;
+                if (player.moveUpdate !== null && player.moveUpdate !== undefined) {
+                    this.connection.sendMove(player.moveUpdate);
+                }
+            }
         });
 
         
