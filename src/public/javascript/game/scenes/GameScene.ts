@@ -55,12 +55,17 @@ export class GameScene extends Phaser.Scene {
                newPlayer.applyUpdate(positionUpdateForPlayer as PlayerPositionUpdate);
            }
         });
-        // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
-           let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
-           if (tempUpdate != null) {
-               object.applyUpdate(tempUpdate);
-           }
+            // Apply updates from server
+            let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
+            if (tempUpdate != null) {
+                object.applyUpdate(tempUpdate);
+            }
+            // Send move updates to server
+            if (object instanceof Player) {
+                const player: Player = object as Player;
+                this.connection.sendMove(player.moveUpdate);
+            }
         });
     }
 
