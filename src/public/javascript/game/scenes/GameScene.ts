@@ -62,6 +62,8 @@ export class GameScene extends Phaser.Scene {
                object.applyUpdate(tempUpdate);
            }
         });
+
+        
     }
 
 }
