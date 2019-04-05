@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from "express";
+import express, { Request, Response, Router, response } from "express";
 import passport from "passport";
 
 const router: Router = express.Router();
@@ -10,45 +10,58 @@ import RegisterViewModel from "../viewModels/RegisterViewModel";
 import LoginViewModel from "../viewModels/LoginViewModel";
 
 /**
- * POST:/Auth/register.html
+ * POST:/Auth/register
  */
-router.post(
-    "/register",
-    permit(["public"], "/"),
-    passport.authenticate("local-signup", {
-        successRedirect: "/auth/dashboard",
-        failureRedirect: "/auth/register"
-    })
-);
+router.post("/register", permit(["public"]), (req: Request, res: Response) => {
+
+    passport.authenticate("local-signup", { session: true }, (err, user, info) => {
+
+        //Display any validation messages
+        if (info) {
+            res.locals.validation = info;
+            return res.render("Auth/register", Shared.getModel(res, RegisterViewModel, req.body));
+        }
+
+        return res.redirect("/auth/dashboard");
+
+    })(req, res)
+});
 
 /**
- * POST:/Auth/login.html
+ * POST:/Auth/login
  */
-router.post(
-    "/login",
-    permit(["public"], "/"),
-    passport.authenticate("local-login", {
-        successRedirect: "/auth/dashboard",
-        failureRedirect: "/auth/login"
-    })
-);
+router.post("/login", permit(["public"]), (req: Request, res: Response) => {
+    passport.authenticate("local-login", { session: true }, (err, user, info) => {
+
+        //Display any validation messages
+        if (info) {
+            res.locals.validation = info;
+            return res.render("Auth/login", Shared.getModel(res, LoginViewModel, req.body));
+        }
+
+        req.login(user, (err) => {
+            return res.redirect("/auth/dashboard");
+        });
+
+    })(req, res)
+});
 
 /**
- * GET:/Auth/login.html
+ * GET:/Auth/login
  */
 router.get("/login", permit(["public"], "/"), (req: Request, res: Response) => {
     return res.render("Auth/login", Shared.getModel(res, LoginViewModel));
 });
 
 /**
- * GET:/Auth/register.html
+ * GET:/Auth/register
  */
 router.get("/register", permit(["public"], "/"), (req: Request, res: Response) => {
     return res.render("Auth/register", Shared.getModel(res, RegisterViewModel));
 });
 
 /**
- * GET:/Auth/dashboard.html
+ * GET:/Auth/dashboard
  */
 router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
     return res.render("Auth/dashboard");
@@ -63,26 +76,26 @@ router.get("/logout", (req: Request, res: Response) => {
 });
 
 /**
- * GET:/Auth/forgotPassword.html
+ * GET:/Auth/forgotPassword
  */
 // router.get("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {
 //     return res.render("Auth/register", Shared.getModel(res, RegisterViewModel));
 // });
 
 /**
- * POST:/Auth/forgotPassword.html
+ * POST:/Auth/forgotPassword
  */
 // router.post("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {});
 
 /**
- * GET:/Auth/forgotConfirmation.html
+ * GET:/Auth/forgotConfirmation
  */
 // router.get("/forgotConfirmation", (req: Request, res: Response) => {
 //     return res.render("Auth/forgotConfirmation", Shared.getModel(res, RegisterViewModel));
 // });
 
 /**
- * GET:/Auth/resetPassword.html:token?
+ * GET:/Auth/resetPassword:token?
  */
 // router.get("/resetPassword:token?", (req: Request, res: Response) => {});
 

@@ -12,7 +12,7 @@ import { IViewProperty, IViewModel, InputType } from "./vashInterface";
  * @param attributes represents html attributes
  * @returns html markup representing a label
  */
-vash.helpers.LabelFor = function(model: Function, attributes?: any) {
+vash.helpers.LabelFor = function (model: Function, attributes?: any) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
 
@@ -32,7 +32,7 @@ vash.helpers.LabelFor = function(model: Function, attributes?: any) {
  * @param attributes represents html attributes
  * @returns html markup representing a text box
  */
-vash.helpers.TextBoxFor = function(model: Function, value?: string | number, attributes?: any) {
+vash.helpers.TextBoxFor = function (model: Function, value?: string | number, attributes?: any) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
 
@@ -56,9 +56,12 @@ vash.helpers.TextBoxFor = function(model: Function, value?: string | number, att
  * @param property represents the property to select
  * @returns html markup representing a hidden input
  */
-vash.helpers.HiddenFor = function(model: Function, value?: string | number) {
+vash.helpers.HiddenFor = function (model: Function, value?: string | number) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
+
+    //dont throw undefined for lack of data
+    if (this.model.data) value = model(this.model.data);
 
     //dont throw undefined for lack of data
     if (this.model.data) value = model(this.model.data);
@@ -78,9 +81,12 @@ vash.helpers.HiddenFor = function(model: Function, value?: string | number) {
  * @param attributes represents html attributes
  * @returns html markup representing a text box
  */
-vash.helpers.EditorFor = function(model: Function, value?: string, attributes?: any) {
+vash.helpers.EditorFor = function (model: Function, value?: string, attributes?: any) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
+
+    //dont throw undefined for lack of data
+    if (this.model.data) value = model(this.model.data);
 
     let type: string = getType(property.type.name as InputType); //property.subtype ? property.subtype :
 
@@ -103,7 +109,7 @@ vash.helpers.EditorFor = function(model: Function, value?: string, attributes?: 
  * @param attributes represents html attributes
  * @returns html markup representing a text box
  */
-vash.helpers.PasswordBoxFor = function(model: Function, value?: string, attributes = {}) {
+vash.helpers.PasswordBoxFor = function (model: Function, value?: string, attributes: any = {}) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
 
@@ -126,7 +132,7 @@ vash.helpers.PasswordBoxFor = function(model: Function, value?: string, attribut
  * @param attributes represents html attributes
  * @returns html markup representing validation needed for a specific model property
  */
-vash.helpers.ValidationMessageFor = function(model: Function, error?: string, attributes?: any) {
+vash.helpers.ValidationMessageFor = function (model: Function, error?: string, attributes?: any) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
 
@@ -146,7 +152,7 @@ vash.helpers.ValidationMessageFor = function(model: Function, error?: string, at
  * @param property represents the property to select
  * @returns the value of a model property
  */
-vash.helpers.DisplayFor = function(model: Function) {
+vash.helpers.DisplayFor = function (model: Function) {
     let value: any = model(this.model.data);
 
     //0 is falsy but we still want to display it so lets make it a string
@@ -156,11 +162,33 @@ vash.helpers.DisplayFor = function(model: Function) {
 };
 
 /**
+ * ValidationSummary()
+ * Displays any validation errors to the page
+ */
+vash.helpers.ValidationSummary = function () {
+    if (this.model.validation) {
+
+        this.model.validation.forEach((info: any) => {
+
+            this.buffer.push(`
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Validation: </strong>${info.message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            `);
+
+        });
+    }
+}
+
+/**
  * DisplayNameFor()
  * @param model the propery
  * @returns the name of a model property
  */
-vash.helpers.DisplayNameFor = function(model: Function) {
+vash.helpers.DisplayNameFor = function (model: Function) {
     let m: IViewModel = this.model.viewModel.toObject();
     let property: IViewProperty = model(m);
 
@@ -174,7 +202,7 @@ vash.helpers.DisplayNameFor = function(model: Function) {
  * @param route string representing the route for the link
  * @param attributes object containing key value pairs of html attributes
  */
-vash.helpers.Navigator = function(type: ButtonTypes, text?: string, route?: string, attributes: any = {}) {
+vash.helpers.Navigator = function (type: ButtonTypes, text?: string, route?: string, attributes: any = {}) {
     if (text) text = " " + text;
     else text = "";
 
@@ -193,7 +221,7 @@ vash.helpers.Navigator = function(type: ButtonTypes, text?: string, route?: stri
  * @param text string representing what shoulf be shown on the button
  * @param attributes object containing key value pairs of html attributes
  */
-vash.helpers.Input = function(type: ButtonTypes, text?: string, attributes: any = {}) {
+vash.helpers.Input = function (type: ButtonTypes, text?: string, attributes: any = {}) {
     if (text) {
         text = " " + text;
     } else {
@@ -305,7 +333,7 @@ function processAttributes(attributes?: any): string {
     if (!attributes) return "";
 
     return Object.keys(attributes)
-        .map(function(attribute) {
+        .map(function (attribute) {
             return `${attribute}="${attributes[attribute]}"`;
         })
         .join(" ");

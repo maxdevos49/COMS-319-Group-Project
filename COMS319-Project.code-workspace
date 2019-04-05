@@ -33,8 +33,14 @@
             "**/.hg": true,
             "**/CVS": true,
             "**/.DS_Store": true,
-            "**/*.js": { "when": "$(basename).ts" },
-            "**/*.js.m*": true
+            "**/*.js": {
+                "when": "$(basename).ts"
+            },
+            "**/*.js.m*": true,
+            "**/.classpath": true,
+            "**/.project": true,
+            "**/.settings": true,
+            "**/.factorypath": true
         }
     }
 }

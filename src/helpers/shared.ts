@@ -42,7 +42,7 @@ class Shared {
             "'": "&#039;"
         };
 
-        return text.replace(/[&<>"']/g, function(m) {
+        return text.replace(/[&<>"']/g, function (m) {
             return map[m];
         });
     }
@@ -66,15 +66,10 @@ class Shared {
         //process data
         modelResult.data = givenData;
 
-        //process validation errors
-        // if (givenResponse.locals.error) {
-        //add validation
-        // for (let key in givenResponse.locals.error) {
-        //     if (givenResponse.locals.error[key].properties) {
-        //         modelResult.validation[key] = givenResponse.locals.error[key].properties.message;
-        //     }
-        // }
-        // }
+        // process validation errors
+        if (givenResponse.locals.validation) {
+            modelResult.validation = givenResponse.locals.validation;
+        }
 
         return modelResult;
     }

@@ -6,14 +6,8 @@
             model.title = "Login";
         }
 
-        @for(let key in model.validation){
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Validation: </strong>@html.raw(model.validation[key])
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        }
+        @html.ValidationSummary()
+        
         <div class="container col-md-10" style="padding: 50px;">
             <div class="col-sm-8 bg-white" style="margin: auto; padding: 0; box-shadow: 4px 4px 10px">
                 <div class="bg-success text-light" style=" padding: 3vh;">
