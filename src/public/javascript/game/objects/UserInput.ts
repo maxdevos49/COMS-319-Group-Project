@@ -39,6 +39,10 @@ export class UserInput {
      * The RIGHT key
      */
     private keyRight: Phaser.Input.Keyboard.Key;
+    /**
+     * The mouse pointer
+     */
+    private mousePointer: Phaser.Input.Pointer;
 
     /**
      * Creates a UserInput object that handles input from the user.
@@ -48,7 +52,7 @@ export class UserInput {
      */
     constructor(scene: GameScene, player: Player) {
         this.player = player;
-
+        // Keyboard inputs
         this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyS = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -57,6 +61,8 @@ export class UserInput {
         this.keyLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.keyDown = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.keyRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        // Mouse inputs
+        this.mousePointer = scene.input.activePointer;
     }
 
     checkDirection(): PlayerMoveDirection {
@@ -81,8 +87,13 @@ export class UserInput {
         }
     }
 
-    changeDirection(direction: PlayerMoveDirection): PlayerMoveUpdate {
-        return new PlayerMoveUpdate(this.player.id, 0, 0, true, direction);
+    public getMoveUpdateFromInput(): PlayerMoveUpdate {
+        let mouseX = this.mousePointer.x;
+        let mouseY = this.mousePointer.y;
+        // Y coordinates are flipped
+        let angleFromPlayer = Math.atan2(this.player.y - mouseY, this.player.x - mouseX) - (Math.PI / 2);
+
+        return new PlayerMoveUpdate(this.player.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection());
     }
     
 }

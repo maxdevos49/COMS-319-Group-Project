@@ -71,7 +71,8 @@ export class GameScene extends Phaser.Scene {
            this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
         });
 
-        this.clientPlayer.moveUpdate = this.uInput.changeDirection(this.uInput.checkDirection());
+        let moveUpdate = this.uInput.getMoveUpdateFromInput();
+        this.connection.sendMove(moveUpdate);
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
@@ -80,16 +81,9 @@ export class GameScene extends Phaser.Scene {
             if (tempUpdate != null) {
                 object.applyUpdate(tempUpdate);
             }
-            // Send move updates to server
-            if (object instanceof Player) {
-                const player: Player = object as Player;
-                if (!player.moveUpdate) {
-                    this.connection.sendMove(player.moveUpdate);
-                }
-            }
         });
 
-        
+        this.cameras.main.startFollow(this.clientPlayer);
     }
 
 }
