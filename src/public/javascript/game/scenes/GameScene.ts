@@ -4,6 +4,7 @@ import {GameObject} from "../objects/GameObject.js";
 import {PositionUpdate} from "../../models/game/PositionUpdate.js";
 import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
 import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
+import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -62,6 +63,7 @@ export class GameScene extends Phaser.Scene {
         newPlayerUpdatesToRemove.forEach((toRemove: PlayerUpdate) => {
            this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
         });
+
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
             // Apply updates from server
@@ -72,7 +74,7 @@ export class GameScene extends Phaser.Scene {
             // Send move updates to server
             if (object instanceof Player) {
                 const player: Player = object as Player;
-                if (player.moveUpdate !== null && player.moveUpdate !== undefined) {
+                if (!player.moveUpdate) {
                     this.connection.sendMove(player.moveUpdate);
                 }
             }

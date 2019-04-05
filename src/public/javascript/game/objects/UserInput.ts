@@ -1,17 +1,12 @@
 import {Player} from "../objects/Player.js";
 import {GameScene} from "../scenes/GameScene";
 import { PlayerMoveDirection } from "../../models/game/PlayerMoveUpdate.js";
-import { RIGHT } from "phaser";
 
 export class UserInput {
     /**
      * A reference to the player that this user input is moving
      */
-    private clientPlayer: Player;
-    /** 
-     * A reference to the GameScene this player is a part of
-     */
-    private scene: GameScene;
+    private player: Player;
     /**
      * The W key
      */
@@ -46,9 +41,9 @@ export class UserInput {
     private keyRight: Phaser.Input.Keyboard.Key;
 
 
-    constructor(scene: GameScene) {
-        this.scene = scene;
-        
+    constructor(scene: GameScene, player: Player) {
+        this.player = player;
+
         this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.keyS = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -61,23 +56,23 @@ export class UserInput {
 
     checkDirection(): PlayerMoveDirection {
         if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {           // UP RIGHT
-            return Math.PI / 4;
+            return PlayerMoveDirection.UpRight;
         } else if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {     // UP LEFT
-            return (3 * Math.PI) / 4;
+            return PlayerMoveDirection.UpLeft;
         } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {   // DOWN LEFT
-            return (5 * Math.PI) / 4;
+            return PlayerMoveDirection.DownLeft;
         } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {  // DOWN RIGHT
-            return (7 * Math.PI) / 4;
+            return PlayerMoveDirection.DownRight;
         } else if (this.keyW.isDown || this.keyUp.isDown) {     // UP
-            return Math.PI / 2;
+            return PlayerMoveDirection.Up;
         } else if (this.keyA.isDown || this.keyLeft.isDown) {   // LEFT
-            return Math.PI;
+            return PlayerMoveDirection.Left;
         } else if (this.keyS.isDown || this.keyDown.isDown) {   // DOWN
-            return (3 * Math.PI) / 2;
+            return PlayerMoveDirection.Down;
         } else if (this.keyD.isDown || this.keyRight.isDown) {  // RIGHT
-            return 0;
+            return PlayerMoveDirection.Right;
         } else {
-            return NaN;
+            return PlayerMoveDirection.None;
         }
     }
     

@@ -79,7 +79,7 @@ describe('GameSimulation', () => {
       expect(player.getBody().GetPosition().y).to.equal(-1);
 
       // simulate a second move
-      move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.LeftUp);
+      move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft);
       simulation.updateMove(move);
 
       expect(player.getBody().GetAngle()).to.equal(1);

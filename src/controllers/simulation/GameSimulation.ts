@@ -143,7 +143,7 @@ export class GameSimulation {
       case PlayerMoveDirection.Up:
         c.dy = -1;
         break;
-      case PlayerMoveDirection.LeftUp:
+      case PlayerMoveDirection.UpLeft:
         c.dx = -1;
         c.dy = -1;
         break;
@@ -157,7 +157,7 @@ export class GameSimulation {
       case PlayerMoveDirection.Down:
         c.dy = 1;
         break;
-      case PlayerMoveDirection.RightDown:
+      case PlayerMoveDirection.DownRight:
         c.dx = 1;
         c.dy = 1;
         break;

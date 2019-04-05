@@ -52,10 +52,10 @@ export enum PlayerMoveDirection {
     Right = 0,
     UpRight = Math.PI / 4,
     Up = Math.PI / 2,
-    LeftUp = (3 * Math.PI) / 4,
+    UpLeft = (3 * Math.PI) / 4,
     Left = Math.PI,
     DownLeft = (5 * Math.PI) / 4,
     Down = (3 * Math.PI) / 2,
-    RightDown = (7 * Math.PI) / 4,
+    DownRight = (7 * Math.PI) / 4,
     None = NaN
 }
