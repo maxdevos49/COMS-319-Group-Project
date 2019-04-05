@@ -1,10 +1,10 @@
 <font>
   <info face="November" size="72" bold="0" italic="0" charset="" unicode="" stretchH="100" smooth="1" aa="1" padding="2,2,2,2" spacing="0,0" outline="0"/>
-  <common lineHeight="72" base="63" scaleW="399" scaleH="510" pages="1" packed="0"/>
+  <common lineHeight="72" base="63" scaleW="432" scaleH="510" pages="1" packed="0"/>
   <pages>
     <page id="0" file="November.png"/>
   </pages>
-  <chars count="80">
+  <chars count="89">
     <char id="97" x="2" y="2" width="36" height="48" xoffset="5" yoffset="18" xadvance="36" page="0" chnl="15"/>
     <char id="98" x="2" y="52" width="36" height="66" xoffset="0" yoffset="0" xadvance="36" page="0" chnl="15"/>
     <char id="99" x="2" y="120" width="31" height="48" xoffset="5" yoffset="18" xadvance="36" page="0" chnl="15"/>
@@ -85,6 +85,15 @@
     <char id="125" x="306" y="392" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
     <char id="91" x="337" y="324" width="22" height="66" xoffset="9" yoffset="0" xadvance="36" page="0" chnl="15"/>
     <char id="93" x="339" y="392" width="22" height="66" xoffset="9" yoffset="0" xadvance="36" page="0" chnl="15"/>
-    <char id="32" x="0" y="0" width="0" height="0" xoffset="9" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="49" x="342" y="202" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="50" x="361" y="270" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="51" x="366" y="70" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="52" x="375" y="138" width="36" height="66" xoffset="0" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="53" x="399" y="2" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="54" x="399" y="70" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="55" x="363" y="338" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="56" x="363" y="406" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="57" x="394" y="206" width="31" height="66" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
+    <char id="32" x="0" y="0" width="0" height="0" xoffset="5" yoffset="0" xadvance="36" page="0" chnl="15"/>
   </chars>
 </font>
