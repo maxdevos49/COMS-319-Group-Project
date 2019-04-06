@@ -1,25 +1,10 @@
-@html.extend('/Shared/_layout', function(model){
-
-    @html.block('content', function(model){
-
-        @{
-            model.title = "Changelog";
-        }
-       
-       <div class="container col-md-11">
-            <br/>
-            <h1>Changelog</h1>
-            <hr/>
-            <br/>
-            <pre>
-B.R.T.D. Changelog
-==================
+# B.R.T.D. Changelog
   
-v1.0.0 Alpha  
-------------
+## v1.0.0 Alpha  
 Date: April 5, 2019  
 
-Additions:
+---  
+### Additions:
  - Added keyboard input
  - Added Vash helpers
  - Added Vash Helpers
@@ -43,21 +28,18 @@ Additions:
  - Added CI/CD Pipeline
  - Added Heroku deployments
  - Made the canvas 1280 x 720
-
-Updates:
+ - 
+### Updates:
  - Made the PlayerMoveDirection enum a bit easier to read
  - GitLab CI/CD will now force the git push
  - Converted Vash helpers to typescript
 
-Bugfixes:
+### Bugfixes:
  - Fixed route to 404 page due to case sensitivity
  - Fixed inverted y-coordinates in tests
 
-Known Bugs
+### Known Bugs
  - Disconnected players are not removed from the screen
  - Sometimes the game rejects all player input and prevents all movement
 
-            </pre>
-        </div>
-    })
-})
+
