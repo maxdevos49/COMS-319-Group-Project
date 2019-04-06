@@ -1,10 +1,9 @@
 const config = {
     name: "B.R.T.D. (Battle Royal Top Down Shooter)",
-    versionRelease: "March 23, 2019",
+    versionRelease: "April 5, 2019",
     versionTitle: "Alpha",
     version: "1.0.0",
-    description:
-        "B.R.T.D is a Top Down Battle Royal Game inspired from the many currently popular battle royal games. Add more and also add it too layout file...",
+    description: "B.R.T.D is a Top Down Battle Royal Shooter Game. ",
     owner: ["Maxwell DeVos", "Mason Timmerman", "Joeseph Naberhaus", "John Jago"],
     Developers: [
         {
@@ -37,7 +36,7 @@ const config = {
         {
             name: "Joseph Naberhaus",
             major: "Software Engineering",
-            year: 2019,
+            year: 2021,
             github: "https://github.com/JosephNaberhaus",
             website: "",
             bio: "",
