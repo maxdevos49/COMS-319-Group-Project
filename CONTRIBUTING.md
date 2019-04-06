@@ -27,4 +27,3 @@
  ```
   - Individual headers are only required for what is being included into merge request.
   - Following this method should make it easy for creating a change log at each release.
-  - Merge request require 3 members approval and all 4 members for merge request to master
