@@ -3,13 +3,16 @@
 *.js.map
 *.js.min
 
+#Include lib js files
+!src/public/lib/**/*.js
+
 #General
 node_modules
 bin
 .DS_Store
 
 #Security
-.env
+*.env
 *.csr
 *.key
 *.pem

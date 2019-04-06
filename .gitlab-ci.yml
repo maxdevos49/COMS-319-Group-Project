@@ -1,0 +1,78 @@
+image: node:latest
+
+stages:
+    - build
+    - test
+    - deploy_prod
+    - deploy_dev
+    - deploy
+
+cache:
+    paths:
+        - node_modules/
+        - .env
+
+build:
+    stage: build
+    before_script:
+        - npm run setup
+    script:
+        - echo "Building Project..."
+        - npm run build
+    artifacts:
+        paths:
+            - src/
+            - test/
+        expire_in: 1 day
+
+test:
+    stage: test
+    script:
+        - echo "Running test..."
+        - npm run test
+
+deploy_production:
+    stage: deploy_prod
+    before_script:
+        - git config user.email "maxdevos@iastate.edu"
+        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+    script:
+        - git checkout $CI_COMMIT_REF_NAME
+        - git pull --rebase
+        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/prod-cs319.git $CI_COMMIT_REF_NAME:master -f
+    only:
+        - master
+    environment:
+        name: "Production"
+        url: "https://prod-cs319.herokuapp.com"
+
+deploy_development:
+    stage: deploy_dev
+    before_script:
+        - git config user.email "maxdevos@iastate.edu"
+        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+    script:
+        - git checkout $CI_COMMIT_REF_NAME
+        - git pull --rebase
+        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/dev-cs319.git $CI_COMMIT_REF_NAME:master -f
+    only:
+        - develop
+    environment:
+        name: "Develop"
+        url: "https://dev-cs319.herokuapp.com"
+
+deploy_stage:
+    stage: deploy
+    before_script:
+        - git config user.email "maxdevos@iastate.edu"
+        - git config user.name "GitLab CI on behalf of Maxwell DeVos"
+    script:
+        - git checkout $CI_COMMIT_REF_NAME
+        - git pull --rebase
+        - git commit --allow-empty -m "Publish to Heroku at $(date)"
+        - git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/staging-cs319.git $CI_COMMIT_REF_NAME:master -f
+    environment:
+        name: "staging"
+        url: "https://staging-cs319.herokuapp.com"

@@ -1,0 +1,34 @@
+@html.extend('Shared/_layout', function(model){
+
+    @html.block('content', function(model){
+
+        @{
+            model.title = "Dashboard";
+        }
+        <div class="container">
+            <br>
+            <h1>Dashboard coming soon</h1>
+            <br>
+            <br>
+            <br>
+            <p>Click here to play: <a href="/Game/">here</a></p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+
+    })
+})

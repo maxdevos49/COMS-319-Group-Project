@@ -1,16 +1,8 @@
 {
     "folders": [
         {
-            "name": "Root",
+            "name": "Source",
             "path": "."
-        },
-        {
-            "name": "Server",
-            "path": "src"
-        },
-        {
-            "name": "Client",
-            "path": "src/public"
         },
         {
             "name": "Test",
@@ -19,18 +11,36 @@
         {
             "name": "Documentation",
             "path": "documentation"
+        },
+        {
+            "name": "Scripts",
+            "path": "scripts"
         }
     ],
     "settings": {
         "files.exclude": {
+            "**/.env": true,
+            "**/.gitignore": true,
+            "**/COMS319-Project.code-workspace": true,
+            "**/package-lock.json": true,
+            "**/type-defs": true,
+            "**/node_modules": true,
+            "**/test": true,
+            "**/scripts": true,
+            "**/documentation": true,
             "**/.git": true,
             "**/.svn": true,
             "**/.hg": true,
             "**/CVS": true,
             "**/.DS_Store": true,
-            "**/*.js": { "when": "$(basename).ts" },
+            "**/*.js": {
+                "when": "$(basename).ts"
+            },
             "**/*.js.m*": true,
-        },
-    },
-    
+            "**/.classpath": true,
+            "**/.project": true,
+            "**/.settings": true,
+            "**/.factorypath": true
+        }
+    }
 }
