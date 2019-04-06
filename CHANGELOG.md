@@ -38,4 +38,8 @@ Date: April 5, 2019
  - Fixed route to 404 page due to case sensitivity
  - Fixed inverted y-coordinates in tests
 
+### Known Bugs
+ - Disconnected players are not removed from the screen
+ - Sometimes the game rejects all player input and prevents all movement
+
 

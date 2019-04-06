@@ -5,8 +5,30 @@
         @{
             model.title = "Dashboard";
         }
-
-        <h1>Dashboard coming soon</h1>
+        <div class="container">
+            <br>
+            <h1>Dashboard coming soon</h1>
+            <br>
+            <br>
+            <br>
+            <p>Click here to play: <a href="/Game/">here</a></p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
 
     })
 })
