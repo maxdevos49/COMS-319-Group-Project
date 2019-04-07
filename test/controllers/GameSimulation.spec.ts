@@ -13,12 +13,6 @@ describe('GameSimulation', () => {
     expect(simulation).to.exist;
   });
 
-  it('should process physics equations 30 times per second', () => {
-    const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
-    const simulation: GameSimulation = new GameSimulation(updateQueue);
-    expect(simulation).to.have.property("timeStep").that.equals(1/30);
-  });
-
   it('should extract a move from the queue for each player during a physics frame', () => {
     const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
     const simulation: GameSimulation = new GameSimulation(updateQueue);

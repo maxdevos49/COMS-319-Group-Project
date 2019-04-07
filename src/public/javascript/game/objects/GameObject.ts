@@ -1,4 +1,4 @@
-import {PositionUpdate} from "../../models/game/PositionUpdate.js";
+import {PositionUpdate} from "../../models/game/objects/PositionUpdate.js";
 
 export interface GameObject {
     /**

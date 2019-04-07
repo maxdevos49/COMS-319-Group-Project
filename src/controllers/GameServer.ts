@@ -1,96 +1,101 @@
-import { Namespace, Server, Socket } from "socket.io";
-import { PlayerUpdate } from "../public/javascript/models/games/PlayerUpdate";
+import {Namespace, Server, Socket} from "socket.io";
+import {PlayerInfo} from "../public/javascript/models/game/PlayerInfo";
 import v1Gen from "uuid/v1";
 import {GameSimulation} from "./simulation/GameSimulation";
 import {PlayerMoveUpdateQueue} from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveUpdate} from "../public/javascript/models/game/PlayerMoveUpdate";
-import {PositionUpdate} from "../public/javascript/models/game/PositionUpdate";
+import {PositionUpdate} from "../public/javascript/models/game/objects/PositionUpdate";
 
 export class GameServer {
-    /**
-     * The unique server id which identifies this server and is used in it's routes
-     */
-    public serverId: string;
-    /**
-     * The socket io room this game is listening to
-     */
-    public gameSocket: Namespace;
-    /**
-     * The clients that are connected to this server
-     */
-    private clients: Map<string, Socket>;
-    /**
-     * The map of every client id to their name
-     */
-    private playerNames: Map<string, string>;
-    /**
-     * The simulation of the physical game world.
-     */
-    private simulation: GameSimulation;
-    /**
-     * The queue like structure that move updates are buffered in
-     */
-    private moveUpdateQueue: PlayerMoveUpdateQueue;
+	/**
+	 * The unique server id which identifies this server and is used in it's routes
+	 */
+	public serverId: string;
+	/**
+	 * The socket io room this game is listening to
+	 */
+	public gameSocket: Namespace;
+	/**
+	 * The clients that are connected to this server
+	 */
+	private clients: Map<string, Socket>;
+	/**
+	 * The map of every client id to their name
+	 */
+	private playerNames: Map<string, string>;
+	/**
+	 * The simulation of the physical game world.
+	 */
+	public simulation: GameSimulation;
+	/**
+	 * The queue like structure that move updates are buffered in
+	 */
+	private moveUpdateQueue: PlayerMoveUpdateQueue;
 
-    constructor(serverSocket: Server) {
-        this.clients = new Map<string, Socket>();
-        this.playerNames = new Map<string, string>();
+	constructor(serverSocket: Server) {
+		this.clients = new Map<string, Socket>();
+		this.playerNames = new Map<string, string>();
 
-        this.serverId = v1Gen();
-        this.moveUpdateQueue = new PlayerMoveUpdateQueue(100000, 10);
-        this.simulation = new GameSimulation(this.moveUpdateQueue);
+		this.serverId = v1Gen();
+		this.moveUpdateQueue = new PlayerMoveUpdateQueue(100000, 10);
+		this.simulation = new GameSimulation(this.moveUpdateQueue);
 
-        // Initialize socket
-        this.gameSocket = serverSocket.of("/games/" + this.serverId);
+		// Initialize socket
+		this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
-        this.gameSocket.on("connection", (socket: Socket) => {
-            console.debug("A new client has connected to game: " + this.serverId);
-            let newClientId: string = v1Gen();
+		this.gameSocket.on("connection", (socket: Socket) => {
+			console.debug("A new client has connected to game: " + this.serverId);
 
-            // Send the new client their id
-            socket.emit("/update/assignid", newClientId);
+			// TODO: authenticate the client
 
-            // Set the clients name when that update is received
-            socket.on("/update/assignname", (name: string) => {
-                // Inform every other connected player that a new player has connected and inform new player of the existing players
-                let newPlayerUpdate = new PlayerUpdate(newClientId, name);
+			let newClientId: string = v1Gen();
+			// Send the new client their id
+			socket.emit("/update/assignid", newClientId);
 
-                this.clients.forEach((playerSocket: Socket, playerId: string) => {
-                    // Inform the old player of the new player
-                    playerSocket.emit("/update/playerupdate", newPlayerUpdate);
-                    // Inform the new player of the old player
-                    socket.emit(
-                        "/update/playerupdate",
-                        new PlayerUpdate(playerId, this.playerNames.get(playerId))
-                    );
-                });
+			// Inform every other connected player that a new player has connected and inform new player of the existing players
+			let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
+			this.clients.forEach((playerSocket: Socket, playerId: string) => {
+				// Inform the old player of the new player
+				playerSocket.emit("/update/player/new", newPlayerInfo);
+				// Inform the new player of the old player
+				socket.emit(
+					"/update/player/new",
+					new PlayerInfo(playerId, this.playerNames.get(playerId))
+				);
+			});
 
-                // Handshake is complete, add new client
-                this.clients.set(newClientId, socket);
-                this.playerNames.set(newClientId, name);
+			// Add a record of the player
+			this.clients.set(newClientId, socket);
+			this.playerNames.set(newClientId, newClientId);
 
-                // Add the player to the simulation
-                this.simulation.addPlayer(newClientId);
-                socket.emit("/update/begingame");
-            });
-            // Game player move update endpoint
-            socket.on("/update/playermove", (newUpdate: PlayerMoveUpdate) => {
-                this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
-            });
-        });
-        // 30 times a second
-        setInterval(() => this.nextFrame(), this.simulation.timeStep * 1000);
-    }
+			// Add the player to the simulation
+			this.simulation.addPlayer(newClientId);
+			socket.emit("/update/begingame");
 
-    /**
-     * Performs one frame process, this causes the simulation to take one step (one frame) forward and then sends
-     * updates to the clients.
-     */
-    private nextFrame(): void {
-        // Process a physics frames
-        this.simulation.nextFrame();
-        // Pack up all of the PositionUpdates and send them to all clients
-        let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
-        this.gameSocket.emit("/update/position", updates);
-    }
+			// Send the new player descriptions of all of the objects as they are now
+			socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
+
+			// Send the new player the terrain map
+			socket.emit("/update/init/terrain", this.simulation.map);
+
+			// Game player move update endpoint
+			socket.on("/update/playermove", (newUpdate: PlayerMoveUpdate) => {
+				this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
+			});
+		});
+		// 30 times a second
+		setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
+	}
+
+	/**
+	 * Performs one frame process, this causes the simulation to take one step (one frame) forward and then sends
+	 * updates to the clients.
+	 */
+	private nextFrame(): void {
+		// Process a physics frames
+		this.simulation.nextFrame();
+		// Pack up all of the PositionUpdates and send them to all clients
+		let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
+		this.gameSocket.emit("/update/position", updates);
+	}
 }

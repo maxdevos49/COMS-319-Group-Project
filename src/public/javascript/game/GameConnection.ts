@@ -1,7 +1,7 @@
 import { GamesList } from "../models/games/GamesList.js";
-import { PlayerUpdate } from "../models/games/PlayerUpdate.js";
+import { PlayerInfo } from "../models/game/PlayerInfo.js";
 import {PositionUpdateQueue} from "../data-structures/PositionUpdateQueue.js";
-import {PositionUpdate} from "../models/game/PositionUpdate.js";
+import {PositionUpdate} from "../models/game/objects/PositionUpdate.js";
 import { PlayerMoveUpdate } from "../models/game/PlayerMoveUpdate.js";
 
 /**
@@ -27,7 +27,7 @@ export class GameConnection {
     /**
      * Array of new players that the server has sent
      */
-    public newPlayersIds: PlayerUpdate[];
+    public newPlayersIds: PlayerInfo[];
     /**
      * Creates a new game socket connection
      */
@@ -71,7 +71,7 @@ export class GameConnection {
      * Registers the Player Update socket routes
      */
     private playerUpdate(): void {
-        this.socket.on("/update/playerupdate", (otherPlayer: PlayerUpdate) => {
+        this.socket.on("/update/playerupdate", (otherPlayer: PlayerInfo) => {
             console.log(
                 `Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
                     otherPlayer.name

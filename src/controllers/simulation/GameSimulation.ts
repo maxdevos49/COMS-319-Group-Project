@@ -1,10 +1,11 @@
 import {b2World, b2Vec2} from "../../../lib/box2d-physics-engine/Box2D";
 
-import {Player} from "./Player";
+import {Player} from "./objects/Player";
 import {PlayerMoveUpdate, PlayerMoveDirection} from "../../public/javascript/models/game/PlayerMoveUpdate";
 import {PlayerMoveUpdateQueue} from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
+import {PositionUpdate} from "../../public/javascript/models/game/objects/PositionUpdate";
 import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
+import {ObjectDescription} from "../../public/javascript/models/game/objects/ObjectDescription";
 
 interface Change {
 	dx: number;
@@ -140,6 +141,14 @@ export class GameSimulation {
 			updates.push(player.getPositionUpdate(this.frame))
 		});
 		return updates;
+	}
+
+	public getObjectDescriptions(): ObjectDescription[] {
+		let descriptions: ObjectDescription[] = [];
+		this.players.forEach((player: Player, id: string) => {
+			descriptions.push(player.getAsNewObject());
+		});
+		return descriptions;
 	}
 
 	private getPositionChange(dir: PlayerMoveDirection): Change {

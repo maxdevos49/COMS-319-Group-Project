@@ -1,9 +1,9 @@
 import {Player} from "../objects/Player.js";
 import {GameConnection} from "../GameConnection.js";
 import {GameObject} from "../objects/GameObject.js";
-import {PositionUpdate} from "../../models/game/PositionUpdate.js";
-import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
-import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
+import {PositionUpdate} from "../../models/game/objects/PositionUpdate.js";
+import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate.js";
+import {PlayerInfo} from "../../models/game/PlayerInfo.js";
 import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
 import { UserInput } from "../objects/UserInput.js";
 
@@ -53,8 +53,8 @@ export class GameScene extends Phaser.Scene {
 
     update(): void {
         // Check for new players
-        let newPlayerUpdatesToRemove: PlayerUpdate[] = [];
-        this.connection.newPlayersIds.forEach((newPlayerUpdate: PlayerUpdate) => {
+        let newPlayerUpdatesToRemove: PlayerInfo[] = [];
+        this.connection.newPlayersIds.forEach((newPlayerUpdate: PlayerInfo) => {
            // Only use the update if a position update has been sent for it already
            let positionUpdateForPlayer: PositionUpdate = this.connection.positionUpdates.popUpdate(newPlayerUpdate.id);
            if (positionUpdateForPlayer != null) {
@@ -67,7 +67,7 @@ export class GameScene extends Phaser.Scene {
                newPlayerUpdatesToRemove.push(newPlayerUpdate);
            }
         });
-        newPlayerUpdatesToRemove.forEach((toRemove: PlayerUpdate) => {
+        newPlayerUpdatesToRemove.forEach((toRemove: PlayerInfo) => {
            this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
         });
 

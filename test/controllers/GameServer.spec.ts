@@ -7,7 +7,8 @@ import {GameServer} from '../../src/controllers/GameServer';
 import {PlayerInfo} from "../../src/public/javascript/models/game/PlayerInfo";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 import {PositionUpdate} from "../../src/public/javascript/models/game/objects/PositionUpdate";
-import {NewObject} from "../../src/public/javascript/models/game/objects/NewObject";
+import {ObjectDescription} from "../../src/public/javascript/models/game/objects/ObjectDescription";
+import {TerrainMap} from "../../src/public/javascript/models/game/TerrainMap";
 
 
 describe('Game server', () => {
@@ -53,7 +54,7 @@ describe('Game server', () => {
               secondClientSocket.on("connect", () => {
                   // This will be sent as the last step of the handshake
                   secondClientSocket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
-                      // We should receive an update containing the first players name
+                      // We should receive an update containing the first players id
                       expect(otherPlayer).to.have.property('id').equals(id);
                       done();
                   });
@@ -67,15 +68,26 @@ describe('Game server', () => {
       let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
       // Wait until the first client has connected
       clientSocket.on("/update/assignid", (id: string) => {
-          clientSocket.on("/update/object/new", (updates: NewObject[]) => {
+          clientSocket.on("/update/objects/new", (updates: ObjectDescription[]) => {
+              console.log(updates);
               // Wait until the updates contains the player
-              let index = updates.findIndex((update: NewObject) => update.id === id);
+              let index = updates.findIndex((update: ObjectDescription) => update.id === id);
               if (index != -1) {
                   expect(updates[index]).to.have.property("id").that.equals(id);
                   clientSocket.close();
                   done();
               }
           });
+      });
+  });
+
+  it('Should send a terrain map', (done) => {
+	  const gameServer: GameServer = new GameServer(gameSocket);
+	  let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
+
+	  clientSocket.on("/update/init/terrain", (map: TerrainMap) => {
+	      expect(map).to.deep.equal(gameServer.simulation.map);
+	      done();
       });
   });
 });

@@ -1,5 +1,5 @@
 import {GameObject} from "./GameObject";
-import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate";
+import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate";
 import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate";
 import { UserInput } from "./UserInput";
 
