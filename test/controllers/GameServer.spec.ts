@@ -35,7 +35,7 @@ describe('Game server', () => {
       // Wait until client has connected to the server
       clientSocket.on("connect", () => {
           // When the handshake is complete server will emit this to this client
-          clientSocket.on("/update/begingame", () => {
+          clientSocket.on("/init/assignid", () => {
               expect(gameServer).to.have.property('clients').with.lengthOf(1);
               done();
           });
@@ -48,7 +48,7 @@ describe('Game server', () => {
       // Wait until the first client has connected
       firstClientSocket.on("connect", () => {
           // Once the first client has completed their handshake
-          firstClientSocket.on("/update/assignid", (id: string) => {
+          firstClientSocket.on("/init/assignid", (id: string) => {
               let secondClientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
               // Wait until the second client has connected
               secondClientSocket.on("connect", () => {
@@ -67,7 +67,7 @@ describe('Game server', () => {
       const gameServer: GameServer = new GameServer(gameSocket);
       let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
       // Wait until the first client has connected
-      clientSocket.on("/update/assignid", (id: string) => {
+      clientSocket.on("/init/assignid", (id: string) => {
           clientSocket.on("/update/objects/new", (updates: ObjectDescription[]) => {
               console.log(updates);
               // Wait until the updates contains the player
@@ -85,7 +85,7 @@ describe('Game server', () => {
 	  const gameServer: GameServer = new GameServer(gameSocket);
 	  let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
 
-	  clientSocket.on("/update/init/terrain", (map: TerrainMap) => {
+	  clientSocket.on("/init/terrain", (map: TerrainMap) => {
 	      expect(map).to.deep.equal(gameServer.simulation.map);
 	      done();
       });
