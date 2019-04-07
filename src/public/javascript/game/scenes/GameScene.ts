@@ -86,7 +86,10 @@ export class GameScene extends Phaser.Scene {
         if (newObjectDescription.type === NewObjectType.Player) {
 			object = new Player(this, newObjectDescription as PlayerObjectDescription);
 			// Check if the id of this object is the clients, if it is save the reference to it
-            if (this.connection.clientId === newObjectDescription.id) this.clientPlayer = object as Player;
+            if (this.connection.clientId === newObjectDescription.id) {
+            	this.clientPlayer = object as Player;
+            	this.cameras.main.startFollow(this.clientPlayer);
+			}
         } else {
             throw "Unknown game object type";
         }
