@@ -79,7 +79,7 @@ export class GameServer {
 			socket.emit("/update/init/terrain", this.simulation.map);
 
 			// Game player move update endpoint
-			socket.on("/update/playermove", (newUpdate: PlayerMoveUpdate) => {
+			socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
 				this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
 			});
 		});

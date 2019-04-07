@@ -54,7 +54,7 @@ export class GameScene extends Phaser.Scene {
     update(): void {
         // Check for new players
         let newPlayerUpdatesToRemove: PlayerInfo[] = [];
-        this.connection.newPlayersIds.forEach((newPlayerUpdate: PlayerInfo) => {
+        this.connection.players.forEach((newPlayerUpdate: PlayerInfo) => {
            // Only use the update if a position update has been sent for it already
            let positionUpdateForPlayer: PositionUpdate = this.connection.positionUpdates.popUpdate(newPlayerUpdate.id);
            if (positionUpdateForPlayer != null) {
@@ -68,7 +68,7 @@ export class GameScene extends Phaser.Scene {
            }
         });
         newPlayerUpdatesToRemove.forEach((toRemove: PlayerInfo) => {
-           this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
+           this.connection.players.splice(this.connection.players.indexOf(toRemove), 1);
         });
 
         let moveUpdate = this.uInput.getMoveUpdateFromInput();
