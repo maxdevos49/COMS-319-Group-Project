@@ -88,7 +88,7 @@ export class UserInput {
         }
     }
 
-    public getMoveUpdateFromInput(anchor: GameObject): PlayerMoveUpdate {
+    public getMoveUpdateFromInput(id: string, anchor: GameObject): PlayerMoveUpdate {
         // Can't use world x/y because they don't update often enough
         let mouseX = this.mousePointer.x + this.camera.worldView.x;
         let mouseY = this.mousePointer.y + this.camera.worldView.y;

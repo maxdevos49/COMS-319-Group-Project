@@ -68,11 +68,11 @@ export class GameServer {
 			this.clients.set(newClientId, socket);
 			this.playerNames.set(newClientId, newClientId);
 
-			// Add the player to the simulation
-			this.simulation.addPlayer(newClientId);
-
 			// Send the new player descriptions of all of the objects as they are now
 			socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
+
+			// Add the player to the simulation
+			this.simulation.addPlayer(newClientId);
 
 			// Send the new player the terrain map
 			socket.emit("/init/terrain", this.simulation.map);
@@ -93,6 +93,10 @@ export class GameServer {
 	private nextFrame(): void {
 		// Process a physics frames
 		this.simulation.nextFrame();
+		// Pack up all of the new objects and send them (if there are any this frame)
+		if (this.simulation.hasNewObjectDescriptions()) {
+			this.gameSocket.emit("/update/objects/new", this.simulation.popNewObjectDescriptions());
+		}
 		// Pack up all of the PositionUpdates and send them to all clients
 		let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
 		this.gameSocket.emit("/update/position", updates);

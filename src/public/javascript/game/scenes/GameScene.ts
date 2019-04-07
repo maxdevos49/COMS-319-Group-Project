@@ -55,7 +55,7 @@ export class GameScene extends Phaser.Scene {
 		// Send the players move to the server
         // Wait until the clients own player has been loaded to start sending updates
         if (this.clientPlayer) {
-			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.clientPlayer);
+			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
 			this.connection.sendMove(moveUpdate);
 		}
     }
@@ -65,7 +65,7 @@ export class GameScene extends Phaser.Scene {
         if (newObjectDescription.type === NewObjectType.Player) {
 			object = new Player(this, newObjectDescription as PlayerObjectDescription);
 			// Check if the id of this object is the clients, if it is save the reference to it
-            this.clientPlayer = object as Player;
+            if (this.connection.clientId === newObjectDescription.id) this.clientPlayer = object as Player;
         } else {
             throw "Unknown game object type";
         }
