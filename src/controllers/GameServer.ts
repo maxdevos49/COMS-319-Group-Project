@@ -70,7 +70,6 @@ export class GameServer {
 
 			// Add the player to the simulation
 			this.simulation.addPlayer(newClientId);
-			socket.emit("/update/begingame");
 
 			// Send the new player descriptions of all of the objects as they are now
 			socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());

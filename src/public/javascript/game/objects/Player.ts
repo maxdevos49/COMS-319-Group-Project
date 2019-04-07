@@ -1,11 +1,9 @@
-import {GameObject} from "./GameObject";
-import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate";
-import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate";
-import { UserInput } from "./UserInput";
-import {ObjectDescription} from "../../models/game/objects/ObjectDescription";
-import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription";
+import {GameObject} from "./GameObject.js";
+import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate.js";
+import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
+import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
 
-export class Player extends Phaser.GameObjects.Sprite implements GameObject {
+export class Player extends GameObject {
     /**
      * Registers the animations used by player objects
      * @param animationManager The animation manager to register the animations into

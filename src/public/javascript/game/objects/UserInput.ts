@@ -1,12 +1,9 @@
 import {Player} from "../objects/Player.js";
 import {GameScene} from "../scenes/GameScene";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
+import {GameObject} from "./GameObject";
 
 export class UserInput {
-    /**
-     * A reference to the player that this user input is moving
-     */
-    public player: Player;
     /**
      * The W key
      */
@@ -54,8 +51,7 @@ export class UserInput {
      * @param scene the scene the player is in
      * @param player the player to be moved
      */
-    constructor(scene: GameScene, player: Player) {
-        this.player = player;
+    constructor(scene: GameScene) {
         this.camera = scene.cameras.main;
         // Keyboard inputs
         this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -92,14 +88,14 @@ export class UserInput {
         }
     }
 
-    public getMoveUpdateFromInput(): PlayerMoveUpdate {
+    public getMoveUpdateFromInput(anchor: GameObject): PlayerMoveUpdate {
         // Can't use world x/y because they don't update often enough
         let mouseX = this.mousePointer.x + this.camera.worldView.x;
         let mouseY = this.mousePointer.y + this.camera.worldView.y;
         // Y coordinates are flipped
-        let angleFromPlayer = Math.atan2(this.player.y - mouseY, this.player.x - mouseX) - (Math.PI / 2);
+        let angleFromPlayer = Math.atan2(anchor.y - mouseY, anchor.x - mouseX) - (Math.PI / 2);
 
-        return new PlayerMoveUpdate(this.player.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection());
+        return new PlayerMoveUpdate(anchor.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection());
     }
     
 }

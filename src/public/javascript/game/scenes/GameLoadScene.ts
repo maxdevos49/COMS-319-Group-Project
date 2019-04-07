@@ -10,11 +10,12 @@ export class GameLoadScene extends Phaser.Scene {
 
     constructor() {
         super({ key: "GameLoadScene" });
-        this.gameSocket = new GameConnection();
     }
 
     preload(): void {
+        console.log("WHAT?");
         this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
+		this.gameSocket = new GameConnection();
     }
 
     create(): void {

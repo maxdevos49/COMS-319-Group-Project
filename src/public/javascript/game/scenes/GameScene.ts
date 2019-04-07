@@ -35,20 +35,13 @@ export class GameScene extends Phaser.Scene {
 
     init(connection: GameConnection): void {
         this.connection = connection;
-    }
-
-    create(): void {
-        this.add.existing(this.clientPlayer);
-        this.objects.set(this.clientPlayer.id, this.clientPlayer);
-
-        this.clientPlayer.setRotation(Math.PI);
-
-        this.uInput = new UserInput(this, this.clientPlayer);
+		this.uInput = new UserInput(this);
     }
 
     update(): void {
         // Check for new game objects
         this.connection.newObjects.forEach((object: ObjectDescription) => this.addNewObject(object));
+        this.connection.newObjects = [];
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
@@ -60,8 +53,11 @@ export class GameScene extends Phaser.Scene {
         });
 
 		// Send the players move to the server
-		let moveUpdate = this.uInput.getMoveUpdateFromInput();
-		this.connection.sendMove(moveUpdate);
+        // Wait until the clients own player has been loaded to start sending updates
+        if (this.clientPlayer) {
+			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.clientPlayer);
+			this.connection.sendMove(moveUpdate);
+		}
     }
 
     private addNewObject(newObjectDescription: ObjectDescription) {
@@ -74,6 +70,7 @@ export class GameScene extends Phaser.Scene {
             throw "Unknown game object type";
         }
         this.objects.set(object.id, object);
+        this.add.existing(object);
     }
 
 }

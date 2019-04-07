@@ -51,14 +51,6 @@ export class GameConnection {
 		this.clientId = "";
 		this.socket = io("/games");
 
-		//register any socket routes here
-		this.receiveClientId();
-		this.receiveTerrainMap();
-		this.newPlayerInfo();
-		this.positionUpdate();
-		this.newObjectDescription();
-
-
 		this.positionUpdates = new PositionUpdateQueue();
 		this.players = [];
 		this.newObjects = [];
@@ -88,6 +80,13 @@ export class GameConnection {
 	 */
 	private connection(): void {
 		this.socket.on("connect", () => {
+			//register any socket routes here
+			this.receiveClientId();
+			this.receiveTerrainMap();
+			this.newPlayerInfo();
+			this.positionUpdate();
+			this.newObjectDescription();
+
 			console.log("Connected to server!");
 		});
 	}
@@ -124,8 +123,9 @@ export class GameConnection {
 
 	private newObjectDescription(): void {
 		this.socket.on("/update/objects/new", (newObjects: ObjectDescription[]) => {
+			console.log(`Received ${newObjects.length} new objects updates`);
 			// Push all elements of the new array into the old one without allocating a new array
-			this.newObjects.push.apply(newObjects);
+			newObjects.forEach((object: ObjectDescription) => this.newObjects.push(object));
 		});
 	}
 
