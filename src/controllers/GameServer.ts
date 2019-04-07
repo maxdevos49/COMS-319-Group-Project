@@ -50,7 +50,7 @@ export class GameServer {
 
 			let newClientId: string = v1Gen();
 			// Send the new client their id
-			socket.emit("/update/assignid", newClientId);
+			socket.emit("/init/assignid", newClientId);
 
 			// Inform every other connected player that a new player has connected and inform new player of the existing players
 			let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
@@ -76,7 +76,7 @@ export class GameServer {
 			socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
 
 			// Send the new player the terrain map
-			socket.emit("/update/init/terrain", this.simulation.map);
+			socket.emit("/init/terrain", this.simulation.map);
 
 			// Game player move update endpoint
 			socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {

@@ -19,6 +19,11 @@ export class GameLoadScene extends Phaser.Scene {
 
     create(): void {
         Player.createAnimations(this.anims);
-        this.scene.start("GameScene", this.gameSocket);
+    }
+
+    update(): void {
+        if (this.gameSocket.ready) {
+			this.scene.start("GameScene", this.gameSocket);
+        }
     }
 }

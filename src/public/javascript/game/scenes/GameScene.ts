@@ -2,10 +2,9 @@ import {Player} from "../objects/Player.js";
 import {GameConnection} from "../GameConnection.js";
 import {GameObject} from "../objects/GameObject.js";
 import {PositionUpdate} from "../../models/game/objects/PositionUpdate.js";
-import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate.js";
-import {PlayerInfo} from "../../models/game/PlayerInfo.js";
-import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
-import { UserInput } from "../objects/UserInput.js";
+import {UserInput} from "../objects/UserInput.js";
+import {NewObjectType, ObjectDescription} from "../../models/game/objects/ObjectDescription.js";
+import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -39,40 +38,17 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.clientPlayer = new Player(this, 0, 0, this.connection.clientId);
         this.add.existing(this.clientPlayer);
         this.objects.set(this.clientPlayer.id, this.clientPlayer);
 
         this.clientPlayer.setRotation(Math.PI);
 
         this.uInput = new UserInput(this, this.clientPlayer);
-
-       // this.cameras.main.startFollow(this.clientPlayer);
-       // this.cameras.main.setDeadzone(100,100);
     }
 
     update(): void {
-        // Check for new players
-        let newPlayerUpdatesToRemove: PlayerInfo[] = [];
-        this.connection.players.forEach((newPlayerUpdate: PlayerInfo) => {
-           // Only use the update if a position update has been sent for it already
-           let positionUpdateForPlayer: PositionUpdate = this.connection.positionUpdates.popUpdate(newPlayerUpdate.id);
-           if (positionUpdateForPlayer != null) {
-               // Add player to game
-               let newPlayer: Player = new Player(this, 0, 0, newPlayerUpdate.id);
-               this.add.existing(newPlayer);
-               this.objects.set(newPlayer.id, newPlayer);
-               // Apply the position update so the player is placed correctly
-               newPlayer.applyUpdate(positionUpdateForPlayer as PlayerPositionUpdate);
-               newPlayerUpdatesToRemove.push(newPlayerUpdate);
-           }
-        });
-        newPlayerUpdatesToRemove.forEach((toRemove: PlayerInfo) => {
-           this.connection.players.splice(this.connection.players.indexOf(toRemove), 1);
-        });
-
-        let moveUpdate = this.uInput.getMoveUpdateFromInput();
-        this.connection.sendMove(moveUpdate);
+        // Check for new game objects
+        this.connection.newObjects.forEach((object: ObjectDescription) => this.addNewObject(object));
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
@@ -83,7 +59,21 @@ export class GameScene extends Phaser.Scene {
             }
         });
 
-        this.cameras.main.startFollow(this.clientPlayer);
+		// Send the players move to the server
+		let moveUpdate = this.uInput.getMoveUpdateFromInput();
+		this.connection.sendMove(moveUpdate);
+    }
+
+    private addNewObject(newObjectDescription: ObjectDescription) {
+        let object: GameObject;
+        if (newObjectDescription.type === NewObjectType.Player) {
+			object = new Player(this, newObjectDescription as PlayerObjectDescription);
+			// Check if the id of this object is the clients, if it is save the reference to it
+            this.clientPlayer = object as Player;
+        } else {
+            throw "Unknown game object type";
+        }
+        this.objects.set(object.id, object);
     }
 
 }

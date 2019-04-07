@@ -38,6 +38,10 @@ export class GameConnection {
 	 * The terrain map from the server
 	 */
 	public map: TerrainMap;
+	/**
+	 * True if the connection has been made and all data that needs to be received before switching to the game scene has been loaded
+	 */
+	public ready: boolean;
 
 	/**
 	 * Creates a new game socket connection
@@ -49,12 +53,16 @@ export class GameConnection {
 
 		//register any socket routes here
 		this.receiveClientId();
-		this.beginGame();
-		this.playerUpdate();
+		this.receiveTerrainMap();
+		this.newPlayerInfo();
 		this.positionUpdate();
+		this.newObjectDescription();
+
 
 		this.positionUpdates = new PositionUpdateQueue();
 		this.players = [];
+		this.newObjects = [];
+		this.ready = false;
 
 		this.connectToGame();
 	}
@@ -76,15 +84,6 @@ export class GameConnection {
 	}
 
 	/**
-	 * Registers the begin game socket routes
-	 */
-	private beginGame(): void {
-		this.socket.on("/update/begingame", () => {
-			console.log("Game has begun!");
-		});
-	}
-
-	/**
 	 * Registers the socket routes to connect the client to the server
 	 */
 	private connection(): void {
@@ -97,21 +96,22 @@ export class GameConnection {
 	 * Registers the client Id Socket Routes
 	 */
 	private receiveClientId(): void {
-		this.socket.on("/update/init/assignid", (givenClientId: string) => {
+		this.socket.on("/init/assignid", (givenClientId: string) => {
 			this.clientId = givenClientId;
 		});
 	}
 
 	private receiveTerrainMap(): void {
-		this.socket.on("/update/init/terrain", (map: TerrainMap) => {
+		this.socket.on("/init/terrain", (map: TerrainMap) => {
 			this.map = map;
+			this.ready = true;
 		});
 	}
 
 	/**
-	 * Registers the Player Update socket routes
+	 * Registers the new player info socket routes
 	 */
-	private playerUpdate(): void {
+	private newPlayerInfo(): void {
 		this.socket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
 			console.log(
 				`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
@@ -119,6 +119,13 @@ export class GameConnection {
 					}`
 			);
 			this.players.push(otherPlayer);
+		});
+	}
+
+	private newObjectDescription(): void {
+		this.socket.on("/update/objects/new", (newObjects: ObjectDescription[]) => {
+			// Push all elements of the new array into the old one without allocating a new array
+			this.newObjects.push.apply(newObjects);
 		});
 	}
 
