@@ -1,4 +1,4 @@
-import {b2Body, b2BodyDef, b2BodyType, b2World,} from "../../../lib/box2d-physics-engine/Box2D";
+import {b2Body, b2BodyDef, b2BodyType, b2World} from "../../../lib/box2d-physics-engine/Box2D";
 import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
 import {PlayerActionState, PlayerPositionUpdate} from "../../public/javascript/models/game/PlayerPositionUpdate";
 
@@ -27,19 +27,36 @@ export class Player {
     this.body = world.CreateBody(bodyDef);
   }
 
+  /**
+   * Gets the PlayerPositionUpdate that describes the current state of the player
+   * @param {number} frame - The frame for the position update to be made
+   */
+  public getPositionUpdate(frame: number): PositionUpdate {
+    return new PlayerPositionUpdate(
+      frame,
+      this.id,
+      this.body.GetPosition().x,
+      this.body.GetPosition().y,
+      this.body.GetAngle(),
+      PlayerActionState.Still
+    );
+  }
+
+  /**
+   * Get the ID of the player.
+   *
+   * @return {string} The ID of the player.
+   */
   getId(): string {
     return this.id;
   }
 
+  /**
+   * Get the player's physics body.
+   *
+   * @return {b2Body} The Box2D body used in the physics engine.
+   */
   getBody(): b2Body {
     return this.body;
-  }
-
-  /**
-   * Gets the PlayerPositionUpdate that describes the current state of the player
-   * @param frame The frame for the position update to be made
-   */
-  public getPositionUpdate(frame: number): PositionUpdate {
-    return new PlayerPositionUpdate(frame, this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle(), PlayerActionState.Still);
   }
 }
