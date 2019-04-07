@@ -1,6 +1,6 @@
 import {b2Body, b2BodyDef, b2BodyType, b2World,} from "../../../lib/box2d-physics-engine/Box2D";
-import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
-import {PlayerActionState, PlayerPositionUpdate} from "../../public/javascript/models/game/PlayerPositionUpdate";
+import {PositionUpdate} from "../../public/javascript/models/game/objects/PositionUpdate";
+import {PlayerActionState, PlayerPositionUpdate} from "../../public/javascript/models/game/objects/PlayerPositionUpdate";
 
 /**
  * A player in the game. Contains the physics body.
