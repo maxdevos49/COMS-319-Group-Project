@@ -35,10 +35,10 @@ export class Player {
     return this.body;
   }
 
-    /**
-     * Gets the PlayerPositionUpdate that describes the current state of the player
-     * @param frame The frame for the position update to be made
-     */
+  /**
+   * Gets the PlayerPositionUpdate that describes the current state of the player
+   * @param frame The frame for the position update to be made
+   */
   public getPositionUpdate(frame: number): PositionUpdate {
     return new PlayerPositionUpdate(frame, this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle(), PlayerActionState.Still);
   }

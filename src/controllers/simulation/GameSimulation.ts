@@ -3,9 +3,9 @@ import { b2World, b2Vec2 } from "../../../lib/box2d-physics-engine/Box2D";
 import { Player } from "./Player";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../public/javascript/models/game/PlayerMoveUpdate";
 import { PlayerMoveUpdateQueue } from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
+import { PositionUpdate } from "../../public/javascript/models/game/PositionUpdate";
 
-interface Change {
+interface ChangeXY {
   dx: number;
   dy: number;
 }
@@ -28,8 +28,14 @@ export class GameSimulation {
    * Constraint solvers: larger values means better accuracy but worse
    * performance.
    */
-  private velocityIterations: number = 6;
-  private positionIterations: number = 2;
+  private velocityIterations: number;
+  private positionIterations: number;
+
+  /**
+   * How many meters (in our case, one pixel == one meter) the player should
+   * move for one move update.
+   */
+  public metersPerMove: number;
 
   /**
    * The current frame number of the simulation.
@@ -54,15 +60,19 @@ export class GameSimulation {
    * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
    */
   constructor(moves: PlayerMoveUpdateQueue) {
-    // contains init for Box2D
+    this.initBox2d();
+    this.metersPerMove = 3;
+    this.frame = 0;
+    this.players = new Map<string, Player>();
+    this.moves = moves;
+  }
+
+  private initBox2d() {
     const gravity = new b2Vec2(0, 0);
     this.world = new b2World(gravity);
     this.timeStep = 1 / 30;
     this.velocityIterations = 6;
     this.positionIterations = 2;
-    this.frame = 0;
-    this.players = new Map<string, Player>();
-    this.moves = moves;
   }
 
   /**
@@ -111,17 +121,29 @@ export class GameSimulation {
     }
   }
 
+  /**
+   * Get the current frame number.
+   *
+   * @return {number} The current frame number.
+   */
   public getFrame(): number {
     return this.frame;
   }
 
+  /**
+   * Get a list of all players in the simulation.
+   *
+   * @return {Player[]} An array of players currently in the simulation.
+   */
   public getPlayers(): Player[] {
     return Array.from(this.players.values());
   }
 
-    /**
-     * Gets an array of position updates for every object that is in the simulation
-     */
+  /**
+   * Gets an array of position updates for every object that is in the simulation.
+   *
+   * @return {PositionUpdate[]} An array of position updates.
+   */
   public getPositionUpdates(): PositionUpdate[] {
     let updates: PositionUpdate[] = [];
     this.players.forEach((player: Player, id: string) => {
@@ -130,38 +152,47 @@ export class GameSimulation {
     return updates;
   }
 
-  private getPositionChange(dir: PlayerMoveDirection): Change {
-    const c: Change = { dx: 0, dy: 0 };
-    switch (dir) {
+  /**
+   * Get the change in X and Y coordinates for a desired change in position
+   * represented by Up, UpLeft, etc.
+   *
+   * @param {PlayerMoveDirection} direction - The direction the player wants to move.
+   * @return {ChangeXY} An object containing the change in X and Y.
+   */
+  private getPositionChange(direction: PlayerMoveDirection): ChangeXY {
+    const posChange: ChangeXY = { dx: 0, dy: 0 };
+
+    switch (direction) {
       case PlayerMoveDirection.Right:
-        c.dx = 3;
+        posChange.dx = this.metersPerMove;
         break;
       case PlayerMoveDirection.UpRight:
-        c.dx = 3;
-        c.dy = -3;
+        posChange.dx = this.metersPerMove;
+        posChange.dy = -this.metersPerMove;
         break;
       case PlayerMoveDirection.Up:
-        c.dy = -3;
+        posChange.dy = -this.metersPerMove;
         break;
       case PlayerMoveDirection.UpLeft:
-        c.dx = -3;
-        c.dy = -3;
+        posChange.dx = -this.metersPerMove;
+        posChange.dy = -this.metersPerMove;
         break;
       case PlayerMoveDirection.Left:
-        c.dx = -3;
+        posChange.dx = -this.metersPerMove;
         break;
       case PlayerMoveDirection.DownLeft:
-        c.dx = -3;
-        c.dy = 3;
+        posChange.dx = -this.metersPerMove;
+        posChange.dy = this.metersPerMove;
         break;
       case PlayerMoveDirection.Down:
-        c.dy = 3;
+        posChange.dy = this.metersPerMove;
         break;
       case PlayerMoveDirection.DownRight:
-        c.dx = 3;
-        c.dy = 3;
+        posChange.dx = this.metersPerMove;
+        posChange.dy = this.metersPerMove;
         break;
     }
-    return c;
+
+    return posChange;
   }
 }
