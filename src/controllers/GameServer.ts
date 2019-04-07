@@ -79,7 +79,7 @@ export class GameServer {
             });
         });
         // 30 times a second
-        setInterval(() => this.nextFrame(), this.simulation.timeStep * 1000);
+        setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
     }
 
     /**
