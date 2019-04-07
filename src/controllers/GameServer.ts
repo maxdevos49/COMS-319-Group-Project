@@ -74,7 +74,7 @@ export class GameServer {
 			// Add the player to the simulation
 			this.simulation.addPlayer(newClientId);
 
-			// Send the new player the terrain map
+			// Send the new player the terrain data
 			socket.emit("/init/terrain", this.simulation.map);
 
 			// Game player move update endpoint

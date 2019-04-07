@@ -18,13 +18,13 @@ export class TerrainMap {
 	/**
 	 * The 2d array containing the tile map indices
 	 */
-	public map: number[][];
+	public data: number[][];
 
 	/**
 	 * Constructs a new terrain map with the given width and height
 	 * @param width The width of the terrain map
 	 * @param height The height of the terrain map
-	 * @param defaultBlock The default index the terrain map will be initialized with
+	 * @param defaultBlock The default index the terrain data will be initialized with
 	 * @param tileWidth The width of a tile in pixels. Default = 50
 	 * @param tileHeight The height of a tile in pixels. Default = 50
 	 */
@@ -33,10 +33,10 @@ export class TerrainMap {
 		this.height = height;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
-		// Initialize a map with the given default block
-		this.map = [];
+		// Initialize a data with the given default block
+		this.data = [];
 		for (let y = 0; y < height; y++) {
-			this.map[y] = new Array(this.width).fill(defaultBlock);
+			this.data[y] = new Array(this.width).fill(defaultBlock);
 		}
 	}
 }
