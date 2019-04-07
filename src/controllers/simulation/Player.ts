@@ -1,6 +1,8 @@
-import {b2Body, b2BodyDef, b2BodyType, b2World} from "../../../lib/box2d-physics-engine/Box2D";
+import {b2Body, b2BodyDef, b2BodyType, b2World, b2FixtureDef, b2PolygonShape} from "../../../lib/box2d-physics-engine/Box2D";
 import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
 import {PlayerActionState, PlayerPositionUpdate} from "../../public/javascript/models/game/PlayerPositionUpdate";
+
+const PLAYER: number = 0x0001;
 
 /**
  * A player in the game. Contains the physics body.
@@ -20,11 +22,19 @@ export class Player {
   constructor(id: string, world: b2World) {
     this.id = id;
 
-    // define the dynamic body
+    // define the dynamic body which contains location, position, etc.
     const bodyDef: b2BodyDef = new b2BodyDef();
     bodyDef.type = b2BodyType.b2_dynamicBody;
     bodyDef.position.Set(0, 0);
     this.body = world.CreateBody(bodyDef);
+
+    // create a fixture which will allow us to attach a shape to the body
+    const fixture: b2FixtureDef = new b2FixtureDef();
+    fixture.shape = new b2PolygonShape().SetAsBox(50, 50);
+    fixture.density = 1;
+    fixture.filter.categoryBits = PLAYER;
+    fixture.filter.maskBits = -1; // collide with everything
+    this.body.CreateFixture(fixture, 1);
   }
 
   /**
