@@ -4,9 +4,10 @@ import socketIOClient from "socket.io-client";
 import {expect} from "chai";
 
 import {GameServer} from '../../src/controllers/GameServer';
-import {PlayerUpdate} from "../../src/public/javascript/models/games/PlayerUpdate";
+import {PlayerInfo} from "../../src/public/javascript/models/game/PlayerInfo";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
-import {PositionUpdate} from "../../src/public/javascript/models/game/PositionUpdate";
+import {PositionUpdate} from "../../src/public/javascript/models/game/objects/PositionUpdate";
+import {NewObject} from "../../src/public/javascript/models/game/objects/NewObject";
 
 
 describe('Game server', () => {
@@ -37,50 +38,38 @@ describe('Game server', () => {
               expect(gameServer).to.have.property('clients').with.lengthOf(1);
               done();
           });
-
-          // Send the server your name to complete the handshake
-          clientSocket.emit("/update/assignname", "test");
       });
   });
 
-  it('should receive information about other players from the server', (done) => {
+  it('should receive information about new  players from the server', (done) => {
       const gameServer: GameServer = new GameServer(gameSocket);
       let firstClientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
       // Wait until the first client has connected
       firstClientSocket.on("connect", () => {
           // Once the first client has completed their handshake
-          firstClientSocket.on("/update/begingame", () => {
+          firstClientSocket.on("/update/assignid", (id: string) => {
               let secondClientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
               // Wait until the second client has connected
               secondClientSocket.on("connect", () => {
                   // This will be sent as the last step of the handshake
-                  secondClientSocket.on("/update/playerupdate", (otherPlayer: PlayerUpdate) => {
+                  secondClientSocket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
                       // We should receive an update containing the first players name
-                      expect(otherPlayer).to.have.property('name').equals('client1');
+                      expect(otherPlayer).to.have.property('id').equals(id);
                       done();
                   });
-                  // Complete the second clients handshake
-                  secondClientSocket.emit("/update/assignname", "client2");
               });
           });
-          // Complete the first clients handshake
-          firstClientSocket.emit("/update/assignname", "client1");
       });
   });
 
-  it('should send send position updates to client', (done) => {
+  it('should send new object for the player', (done) => {
       const gameServer: GameServer = new GameServer(gameSocket);
       let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
       // Wait until the first client has connected
-      clientSocket.on("connect", () => {
-          // Complete the first clients handshake
-          clientSocket.emit("/update/assignname", "client1");
-      });
-
       clientSocket.on("/update/assignid", (id: string) => {
-          clientSocket.on("/update/position", (updates: PositionUpdate[]) => {
+          clientSocket.on("/update/object/new", (updates: NewObject[]) => {
               // Wait until the updates contains the player
-              let index = updates.findIndex((update: PositionUpdate) => update.id == id);
+              let index = updates.findIndex((update: NewObject) => update.id === id);
               if (index != -1) {
                   expect(updates[index]).to.have.property("id").that.equals(id);
                   clientSocket.close();
