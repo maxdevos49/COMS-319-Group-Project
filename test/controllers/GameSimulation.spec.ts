@@ -70,7 +70,7 @@ describe('GameSimulation', () => {
       // the player should now be at (0, 1) and be turned 1 rad
       expect(player.getBody().GetAngle()).to.equal(1);
       expect(player.getBody().GetPosition().x).to.equal(0);
-      expect(player.getBody().GetPosition().y).to.equal(-3);
+      expect(player.getBody().GetPosition().y).to.equal(-12);
 
       // simulate a second move
       move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft);

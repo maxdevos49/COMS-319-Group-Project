@@ -6,6 +6,7 @@ import {PlayerMoveUpdateQueue} from "../../public/javascript/data-structures/Pla
 import {PositionUpdate} from "../../public/javascript/models/game/objects/PositionUpdate";
 import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
 import {ObjectDescription} from "../../public/javascript/models/game/objects/ObjectDescription";
+import {TerrainGenerator} from "./TerrainGenerator";
 
 interface Change {
 	dx: number;
@@ -78,8 +79,8 @@ export class GameSimulation {
 		this.frame = 0;
 		this.players = new Map<string, Player>();
 		this.newObjectsIds = [];
-		// TODO: noise generator on map
 		this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
+		TerrainGenerator.fillTerrain(this.map);
 	}
 
 	/**
@@ -124,7 +125,7 @@ export class GameSimulation {
 			}
 			const oldPos = player.getBody().GetPosition();
 			const change = this.getPositionChange(move.moveDirection);
-			const newPos = new b2Vec2(oldPos.x + change.dx, oldPos.y + change.dy);
+			const newPos = new b2Vec2(oldPos.x + (4 * change.dx), oldPos.y + (4 * change.dy));
 			player.getBody().SetPosition(newPos);
 		}
 	}
