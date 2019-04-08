@@ -1,0 +1,5 @@
+# See https://editorconfig.org for more info.
+
+[*.ts]
+    indent_style = tab
+    trim_trailing_whitespace = true
