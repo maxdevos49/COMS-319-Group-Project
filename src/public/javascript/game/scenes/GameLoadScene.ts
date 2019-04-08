@@ -13,7 +13,6 @@ export class GameLoadScene extends Phaser.Scene {
     }
 
     preload(): void {
-        console.log("WHAT?");
         this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
         this.load.image("tiles", "/res/tiles.png");
 		this.gameSocket = new GameConnection();
