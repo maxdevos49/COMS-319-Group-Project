@@ -1,9 +1,9 @@
 import {Player} from "../objects/Player.js";
 import {GameConnection} from "../GameConnection.js";
 import {GameObject} from "../objects/GameObject.js";
-import {PositionUpdate} from "../../models/game/objects/PositionUpdate.js";
+import {IPositionUpdate} from "../../models/game/objects/IPositionUpdate.js";
 import {UserInput} from "../objects/UserInput.js";
-import {NewObjectType, ObjectDescription} from "../../models/game/objects/ObjectDescription.js";
+import {NewObjectType, IObjectDescription} from "../../models/game/objects/IObjectDescription.js";
 import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
 
 
@@ -61,13 +61,13 @@ export class GameScene extends Phaser.Scene {
 
     update(): void {
         // Check for new game objects
-        this.connection.newObjects.forEach((object: ObjectDescription) => this.addNewObject(object));
+        this.connection.newObjects.forEach((object: IObjectDescription) => this.addNewObject(object));
         this.connection.newObjects = [];
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
             // Apply updates from server
-            let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
+            let tempUpdate: IPositionUpdate = this.connection.positionUpdates.popUpdate(id);
             if (tempUpdate != null) {
                 object.applyUpdate(tempUpdate);
             }
@@ -81,7 +81,7 @@ export class GameScene extends Phaser.Scene {
 		}
     }
 
-    private addNewObject(newObjectDescription: ObjectDescription) {
+    private addNewObject(newObjectDescription: IObjectDescription) {
         let object: GameObject;
         if (newObjectDescription.type === NewObjectType.Player) {
 			object = new Player(this, newObjectDescription as PlayerObjectDescription);

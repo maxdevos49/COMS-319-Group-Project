@@ -3,9 +3,9 @@ import {b2World, b2Vec2} from "../../../lib/box2d-physics-engine/Box2D";
 import {Player} from "./objects/Player";
 import {PlayerMoveUpdate, PlayerMoveDirection} from "../../public/javascript/models/game/PlayerMoveUpdate";
 import {PlayerMoveUpdateQueue} from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {PositionUpdate} from "../../public/javascript/models/game/objects/PositionUpdate";
+import {IPositionUpdate} from "../../public/javascript/models/game/objects/IPositionUpdate";
 import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
-import {ObjectDescription} from "../../public/javascript/models/game/objects/ObjectDescription";
+import {IObjectDescription} from "../../public/javascript/models/game/objects/IObjectDescription";
 import {TerrainGenerator} from "./TerrainGenerator";
 
 interface Change {
@@ -141,8 +141,8 @@ export class GameSimulation {
 	/**
 	 * Gets an array of position updates for every object that is in the simulation
 	 */
-	public getPositionUpdates(): PositionUpdate[] {
-		let updates: PositionUpdate[] = [];
+	public getPositionUpdates(): IPositionUpdate[] {
+		let updates: IPositionUpdate[] = [];
 		this.players.forEach((player: Player, id: string) => {
 			updates.push(player.getPositionUpdate(this.frame))
 		});
@@ -152,8 +152,8 @@ export class GameSimulation {
 	/**
 	 * Maps all of the objects that are in the game now to an object description that describes it
 	 */
-	public getObjectDescriptions(): ObjectDescription[] {
-		let descriptions: ObjectDescription[] = [];
+	public getObjectDescriptions(): IObjectDescription[] {
+		let descriptions: IObjectDescription[] = [];
 		this.players.forEach((player: Player, id: string) => {
 			descriptions.push(player.getAsNewObject());
 		});
@@ -169,11 +169,11 @@ export class GameSimulation {
 	/**
 	 * Maps all of the new objects (since the last time this method was called) to an objects description that describes it
 	 */
-	public popNewObjectDescriptions(): ObjectDescription[] {
+	public popNewObjectDescriptions(): IObjectDescription[] {
 		// Get a new object description for every new object id. Filter out undefined objects just in case that objects
 		// has been removed, since the simulation should not be expected to check the new object id array every time a object
 		// is destroyed
-		let newObjectsDescriptions: ObjectDescription[] = this.newObjectsIds.map((id: string) => this.players.get(id))
+		let newObjectsDescriptions: IObjectDescription[] = this.newObjectsIds.map((id: string) => this.players.get(id))
 			.filter((player: Player) => player !== undefined)
 			.map((player: Player) => player.getAsNewObject());
 		this.newObjectsIds = [];

@@ -1,9 +1,9 @@
 import {GamesList} from "../models/games/GamesList.js";
 import {PlayerInfo} from "../models/game/PlayerInfo.js";
 import {PositionUpdateQueue} from "../data-structures/PositionUpdateQueue.js";
-import {PositionUpdate} from "../models/game/objects/PositionUpdate.js";
+import {IPositionUpdate} from "../models/game/objects/IPositionUpdate.js";
 import {PlayerMoveUpdate} from "../models/game/PlayerMoveUpdate.js";
-import {ObjectDescription} from "../models/game/objects/ObjectDescription";
+import {IObjectDescription} from "../models/game/objects/IObjectDescription";
 import {TerrainMap} from "../models/game/TerrainMap";
 
 /**
@@ -33,7 +33,7 @@ export class GameConnection {
 	/**
 	 * Array of new objects that the server has sent
 	 */
-	public newObjects: ObjectDescription[];
+	public newObjects: IObjectDescription[];
 	/**
 	 * The terrain map from the server
 	 */
@@ -122,10 +122,10 @@ export class GameConnection {
 	}
 
 	private newObjectDescription(): void {
-		this.socket.on("/update/objects/new", (newObjects: ObjectDescription[]) => {
+		this.socket.on("/update/objects/new", (newObjects: IObjectDescription[]) => {
 			console.log(`Received ${newObjects.length} new objects updates`);
 			// Push all elements of the new array into the old one without allocating a new array
-			newObjects.forEach((object: ObjectDescription) => this.newObjects.push(object));
+			newObjects.forEach((object: IObjectDescription) => this.newObjects.push(object));
 		});
 	}
 
@@ -133,8 +133,8 @@ export class GameConnection {
 	 * Registers the client position update endpoint
 	 */
 	private positionUpdate(): void {
-		this.socket.on("/update/position", (newUpdates: PositionUpdate[]) => {
-			newUpdates.forEach((update: PositionUpdate) => {
+		this.socket.on("/update/position", (newUpdates: IPositionUpdate[]) => {
+			newUpdates.forEach((update: IPositionUpdate) => {
 				this.positionUpdates.addUpdate(update);
 			});
 		});

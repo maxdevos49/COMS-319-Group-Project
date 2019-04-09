@@ -6,8 +6,8 @@ import {expect} from "chai";
 import {GameServer} from '../../src/controllers/GameServer';
 import {PlayerInfo} from "../../src/public/javascript/models/game/PlayerInfo";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
-import {PositionUpdate} from "../../src/public/javascript/models/game/objects/PositionUpdate";
-import {ObjectDescription} from "../../src/public/javascript/models/game/objects/ObjectDescription";
+import {IPositionUpdate} from "../../src/public/javascript/models/game/objects/IPositionUpdate";
+import {IObjectDescription} from "../../src/public/javascript/models/game/objects/IObjectDescription";
 import {TerrainMap} from "../../src/public/javascript/models/game/TerrainMap";
 
 
@@ -68,10 +68,10 @@ describe('Game server', () => {
       let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
       // Wait until the first client has connected
       clientSocket.on("/init/assignid", (id: string) => {
-          clientSocket.on("/update/objects/new", (updates: ObjectDescription[]) => {
+          clientSocket.on("/update/objects/new", (updates: IObjectDescription[]) => {
               console.log(updates);
               // Wait until the updates contains the player
-              let index = updates.findIndex((update: ObjectDescription) => update.id === id);
+              let index = updates.findIndex((update: IObjectDescription) => update.id === id);
               if (index != -1) {
                   expect(updates[index]).to.have.property("id").that.equals(id);
                   clientSocket.close();

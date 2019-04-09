@@ -1,4 +1,4 @@
-export interface PositionUpdate {
+export interface IPositionUpdate {
     /**
      * The id of the player this move update is for
      */
