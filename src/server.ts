@@ -20,7 +20,7 @@ app.use("/", setup(server));
 
 //start the server
 server.listen(config.server.port, function() {
-    console.log(`CS319 Project running at ${ip.address()}:${config.server.port}`);
+    console.log(`CS319 Project running at ${ip.address()}:${config.server.port} and ${ip.loopback()}:${config.server.port}`);
 });
 
 // Catch Errors

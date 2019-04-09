@@ -1,10 +1,11 @@
 import {b2World, b2Vec2} from "../../../lib/box2d-physics-engine/Box2D";
 
-import {Player} from "./Player";
+import {Player} from "./objects/Player";
 import {PlayerMoveUpdate, PlayerMoveDirection} from "../../public/javascript/models/game/PlayerMoveUpdate";
 import {PlayerMoveUpdateQueue} from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {PositionUpdate} from "../../public/javascript/models/game/PositionUpdate";
+import {PositionUpdate} from "../../public/javascript/models/game/objects/PositionUpdate";
 import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
+import {ObjectDescription} from "../../public/javascript/models/game/objects/ObjectDescription";
 
 interface Change {
 	dx: number;
@@ -52,11 +53,14 @@ export class GameSimulation {
 	 * The terrain map for this simulation, object represents all of parts of the game world that don't change
 	 */
 	public map: TerrainMap;
-
 	/**
 	 * A reference to the move queue in the game server.
 	 */
 	private moves: PlayerMoveUpdateQueue;
+	/**
+	 * An array containing the ids of new objects that now exist in the simulation
+	 */
+	private newObjectsIds: string[];
 
 	/**
 	 * Construct a new simulation. The simulation starts running as soon as it
@@ -73,6 +77,7 @@ export class GameSimulation {
 
 		this.frame = 0;
 		this.players = new Map<string, Player>();
+		this.newObjectsIds = [];
 		// TODO: noise generator on map
 		this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
 	}
@@ -100,6 +105,7 @@ export class GameSimulation {
 	public addPlayer(id: string): void {
 		const player: Player = new Player(id, this.world);
 		this.players.set(id, player);
+		this.newObjectsIds.push(id);
 	}
 
 	/**
@@ -140,6 +146,37 @@ export class GameSimulation {
 			updates.push(player.getPositionUpdate(this.frame))
 		});
 		return updates;
+	}
+
+	/**
+	 * Maps all of the objects that are in the game now to an object description that describes it
+	 */
+	public getObjectDescriptions(): ObjectDescription[] {
+		let descriptions: ObjectDescription[] = [];
+		this.players.forEach((player: Player, id: string) => {
+			descriptions.push(player.getAsNewObject());
+		});
+		return descriptions;
+	}
+
+	/**
+	 * Returns true if the simulation has created at least one new object since the last time popNewObjectDescriptions was called
+	 */
+	public hasNewObjectDescriptions(): boolean {
+		return this.newObjectsIds.length !== 0;
+	}
+	/**
+	 * Maps all of the new objects (since the last time this method was called) to an objects description that describes it
+	 */
+	public popNewObjectDescriptions(): ObjectDescription[] {
+		// Get a new object description for every new object id. Filter out undefined objects just in case that objects
+		// has been removed, since the simulation should not be expected to check the new object id array every time a object
+		// is destroyed
+		let newObjectsDescriptions: ObjectDescription[] = this.newObjectsIds.map((id: string) => this.players.get(id))
+			.filter((player: Player) => player !== undefined)
+			.map((player: Player) => player.getAsNewObject());
+		this.newObjectsIds = [];
+		return newObjectsDescriptions;
 	}
 
 	private getPositionChange(dir: PlayerMoveDirection): Change {

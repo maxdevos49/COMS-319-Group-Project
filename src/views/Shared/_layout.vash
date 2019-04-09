@@ -78,7 +78,9 @@
                 <div class="row">
                     <div class="col-md-6 mt-md-0 mt-3">
                         <h5 class="text-uppercase text">CS319 Project</h5>
-                        <p class="text">About Project</p>
+                        <p class="text">
+                            B.R.T.D. is a Top Down Battle Royal Shooter Game. 
+                        </p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none pb-3">

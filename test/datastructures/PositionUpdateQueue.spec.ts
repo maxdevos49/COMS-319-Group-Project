@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {PositionUpdateQueue} from "../../src/public/javascript/data-structures/PositionUpdateQueue";
-import {PositionUpdate} from "../../src/public/javascript/models/game/PositionUpdate";
+import {PositionUpdate} from "../../src/public/javascript/models/game/objects/PositionUpdate";
 
 describe("Position update queue", () => {
    it("should initialize with no updates", () => {
