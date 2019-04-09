@@ -3,6 +3,10 @@ import {ObjectDescription} from "../../../public/javascript/models/game/objects/
 
 export interface GameObject {
 	/**
+	 * The id of the game object
+	 */
+	id: string;
+	/**
 	 * Gets the PositionUpdate that describes the current state of the game object
 	 * @param frame The frame for the position update to be made
 	 */
