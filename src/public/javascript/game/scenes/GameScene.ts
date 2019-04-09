@@ -1,11 +1,10 @@
 import {Player} from "../objects/Player.js";
 import {GameConnection} from "../GameConnection.js";
 import {GameObject} from "../objects/GameObject.js";
-import {PositionUpdate} from "../../models/game/PositionUpdate.js";
-import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate.js";
-import {PlayerUpdate} from "../../models/games/PlayerUpdate.js";
-import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
-import { UserInput } from "../objects/UserInput.js";
+import {IPositionUpdate} from "../../models/game/objects/IPositionUpdate.js";
+import {UserInput} from "../objects/UserInput.js";
+import {NewObjectType, IObjectDescription} from "../../models/game/objects/IObjectDescription.js";
+import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -14,9 +13,17 @@ export class GameScene extends Phaser.Scene {
      */
     connection: GameConnection;
     /**
-     * The map from id to game object that contains all game objects in the game
+     * The data from id to game object that contains all game objects in the game
      */
     private objects: Map<string, GameObject>;
+	/**
+     * The tile map for this game server
+	 */
+	private tileMap: Phaser.Tilemaps.Tilemap;
+	/**
+     * The ground layer of the map
+	 */
+	private groundLayer: Phaser.Tilemaps.StaticTilemapLayer;
     /**
      * A reference to the player that this client is playing
      */
@@ -36,54 +43,58 @@ export class GameScene extends Phaser.Scene {
 
     init(connection: GameConnection): void {
         this.connection = connection;
+		this.uInput = new UserInput(this);
     }
 
-    create(): void {
-        this.clientPlayer = new Player(this, 0, 0, this.connection.clientId);
-        this.add.existing(this.clientPlayer);
-        this.objects.set(this.clientPlayer.id, this.clientPlayer);
-
-        this.clientPlayer.setRotation(Math.PI);
-
-        this.uInput = new UserInput(this, this.clientPlayer);
-
-       // this.cameras.main.startFollow(this.clientPlayer);
-       // this.cameras.main.setDeadzone(100,100);
+    preload(): void {
+        this.tileMap = this.add.tilemap(
+        	this.connection.roomId,
+			this.connection.map.tileWidth,
+			this.connection.map.tileHeight,
+			this.connection.map.width,
+			this.connection.map.height,
+			this.connection.map.data
+		);
+        let tiles = this.tileMap.addTilesetImage("tiles");
+        this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
     }
 
     update(): void {
-        // Check for new players
-        let newPlayerUpdatesToRemove: PlayerUpdate[] = [];
-        this.connection.newPlayersIds.forEach((newPlayerUpdate: PlayerUpdate) => {
-           // Only use the update if a position update has been sent for it already
-           let positionUpdateForPlayer: PositionUpdate = this.connection.positionUpdates.popUpdate(newPlayerUpdate.id);
-           if (positionUpdateForPlayer != null) {
-               // Add player to game
-               let newPlayer: Player = new Player(this, 0, 0, newPlayerUpdate.id);
-               this.add.existing(newPlayer);
-               this.objects.set(newPlayer.id, newPlayer);
-               // Apply the position update so the player is placed correctly
-               newPlayer.applyUpdate(positionUpdateForPlayer as PlayerPositionUpdate);
-               newPlayerUpdatesToRemove.push(newPlayerUpdate);
-           }
-        });
-        newPlayerUpdatesToRemove.forEach((toRemove: PlayerUpdate) => {
-           this.connection.newPlayersIds.splice(this.connection.newPlayersIds.indexOf(toRemove), 1);
-        });
-
-        let moveUpdate = this.uInput.getMoveUpdateFromInput();
-        this.connection.sendMove(moveUpdate);
+        // Check for new game objects
+        this.connection.newObjects.forEach((object: IObjectDescription) => this.addNewObject(object));
+        this.connection.newObjects = [];
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
             // Apply updates from server
-            let tempUpdate: PositionUpdate = this.connection.positionUpdates.popUpdate(id);
+            let tempUpdate: IPositionUpdate = this.connection.positionUpdates.popUpdate(id);
             if (tempUpdate != null) {
                 object.applyUpdate(tempUpdate);
             }
         });
 
-        this.cameras.main.startFollow(this.clientPlayer);
+		// Send the players move to the server
+        // Wait until the clients own player has been loaded to start sending updates
+        if (this.clientPlayer) {
+			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
+			this.connection.sendMove(moveUpdate);
+		}
+    }
+
+    private addNewObject(newObjectDescription: IObjectDescription) {
+        let object: GameObject;
+        if (newObjectDescription.type === NewObjectType.Player) {
+			object = new Player(this, newObjectDescription as PlayerObjectDescription);
+			// Check if the id of this object is the clients, if it is save the reference to it
+            if (this.connection.clientId === newObjectDescription.id) {
+            	this.clientPlayer = object as Player;
+            	this.cameras.main.startFollow(this.clientPlayer);
+			}
+        } else {
+            throw "Unknown game object type";
+        }
+        this.objects.set(object.id, object);
+        this.add.existing(object);
     }
 
 }

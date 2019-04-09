@@ -1,6 +1,6 @@
-import {PositionUpdate} from "../../models/game/PositionUpdate.js";
+import {IPositionUpdate} from "../../models/game/objects/IPositionUpdate.js";
 
-export interface GameObject {
+export abstract class GameObject extends Phaser.GameObjects.Sprite {
     /**
      * The id of this game object
      */
@@ -11,5 +11,5 @@ export interface GameObject {
      * to it is of the type needed by the game object implementing this
      * @param newUpdate The new update for this game object
      */
-    applyUpdate(newUpdate: PositionUpdate): void;
+    abstract applyUpdate(newUpdate: IPositionUpdate): void;
 }

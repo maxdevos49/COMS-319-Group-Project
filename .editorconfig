@@ -1,0 +1,7 @@
+# See https://editorconfig.org for more info.
+
+root = true
+
+[*.ts]
+    indent_style = tab
+    trim_trailing_whitespace = true

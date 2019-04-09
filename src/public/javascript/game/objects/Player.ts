@@ -1,9 +1,9 @@
-import {GameObject} from "./GameObject";
-import {PlayerPositionUpdate} from "../../models/game/PlayerPositionUpdate";
-import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate";
-import { UserInput } from "./UserInput";
+import {GameObject} from "./GameObject.js";
+import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate.js";
+import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
+import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
 
-export class Player extends Phaser.GameObjects.Sprite implements GameObject {
+export class Player extends GameObject {
     /**
      * Registers the animations used by player objects
      * @param animationManager The animation manager to register the animations into
@@ -29,18 +29,18 @@ export class Player extends Phaser.GameObjects.Sprite implements GameObject {
      */
     public moveUpdate: PlayerMoveUpdate;
 
-    /**
-     * Creates a new player in the given scene
-     * @param scene The scene that the player should be created in
-     * @param x The x coordinate the player should be created at
-     * @param y The y coordinate the player should be created at
-     * @param id The id of the player to be created
-     */
-    constructor(scene: Phaser.Scene, x: number, y: number, id: string) {
-        super(scene, x, y, "sprites");
+	/**
+	 * Creates a new player in the given scene
+	 * @param scene The scene that the player should be created in
+	 * @param description The description to build the object from
+	 */
+    constructor(scene: Phaser.Scene, description: PlayerObjectDescription) {
+        super(scene, description.x, description.y, "sprites");
         scene.physics.world.enable(this);
         this.play("objects/player/walking");
-        this.id =id;
+
+        this.id = description.id;
+        this.setRotation(description.facing);
     }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {

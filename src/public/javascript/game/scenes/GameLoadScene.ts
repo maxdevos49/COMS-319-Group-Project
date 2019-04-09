@@ -10,17 +10,21 @@ export class GameLoadScene extends Phaser.Scene {
 
     constructor() {
         super({ key: "GameLoadScene" });
-        this.gameSocket = new GameConnection();
     }
 
     preload(): void {
         this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
-        console.log(this.textures.list);
-        this.gameSocket.addNickName(this.registry.get("name"));
+        this.load.image("tiles", "/res/tiles.png");
+		this.gameSocket = new GameConnection();
     }
 
     create(): void {
         Player.createAnimations(this.anims);
-        this.scene.start("GameScene", this.gameSocket);
+    }
+
+    update(): void {
+        if (this.gameSocket.ready) {
+			this.scene.start("GameScene", this.gameSocket);
+        }
     }
 }

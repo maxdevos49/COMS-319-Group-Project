@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {b2Vec2} from "../../lib/box2d-physics-engine/Common/b2Math";
 import {b2World} from "../../lib/box2d-physics-engine/Dynamics/b2World";
-import {Player} from "../../src/controllers/simulation/Player";
+import {Player} from "../../src/controllers/simulation/objects/Player";
 
 describe("Simulation Player Object", () => {
     let gravity: b2Vec2;

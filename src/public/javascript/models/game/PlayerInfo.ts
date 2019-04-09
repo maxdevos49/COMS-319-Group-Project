@@ -1,6 +1,6 @@
 import {v1} from "uuid/interfaces";
 
-export class PlayerUpdate {
+export class PlayerInfo {
     /**
      * The id of this player
      */
