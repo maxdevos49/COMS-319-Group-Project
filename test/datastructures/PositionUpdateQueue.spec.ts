@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {PositionUpdateQueue} from "../../src/public/javascript/data-structures/PositionUpdateQueue";
-import {PositionUpdate} from "../../src/public/javascript/models/game/objects/PositionUpdate";
+import {IPositionUpdate} from "../../src/public/javascript/models/game/objects/IPositionUpdate";
 
 describe("Position update queue", () => {
    it("should initialize with no updates", () => {
@@ -10,8 +10,8 @@ describe("Position update queue", () => {
    });
    it("should store new position updates", () => {
        let queue: PositionUpdateQueue = new PositionUpdateQueue();
-       let testUpdate1: PositionUpdate = {frame: 0, id: "testid1"};
-       let testUpdate2: PositionUpdate = {frame: 0, id: "testid2"};
+       let testUpdate1: IPositionUpdate = {frame: 0, id: "testid1"};
+       let testUpdate2: IPositionUpdate = {frame: 0, id: "testid2"};
        queue.addUpdate(testUpdate1);
        queue.addUpdate(testUpdate2);
        expect(queue.popUpdate("testid1")).to.equal(testUpdate1);
@@ -19,15 +19,15 @@ describe("Position update queue", () => {
    });
    it("should pop the same update only once", () => {
        let queue: PositionUpdateQueue = new PositionUpdateQueue();
-       let testUpdate: PositionUpdate = {frame: 0, id: "testid1"};
+       let testUpdate: IPositionUpdate = {frame: 0, id: "testid1"};
        queue.addUpdate(testUpdate);
        expect(queue.popUpdate("testid1")).to.equal(testUpdate);
        expect(queue.popUpdate("testid1")).to.be.null;
    });
    it("should overwrite old updates with new updates", () => {
        let queue: PositionUpdateQueue = new PositionUpdateQueue();
-       let testUpdateOld: PositionUpdate = {frame: 0, id: "testid1"};
-       let testUpdateNew: PositionUpdate = {frame: 1, id: "testid1"};
+       let testUpdateOld: IPositionUpdate = {frame: 0, id: "testid1"};
+       let testUpdateNew: IPositionUpdate = {frame: 1, id: "testid1"};
        queue.addUpdate(testUpdateOld);
        queue.addUpdate(testUpdateNew);
        expect(queue.popUpdate("testid1")).to.equal(testUpdateNew);

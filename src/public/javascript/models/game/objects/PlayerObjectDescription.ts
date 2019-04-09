@@ -1,10 +1,10 @@
-import {ObjectDescription, NewObjectType} from "./ObjectDescription";
+import {IObjectDescription, NewObjectType} from "./IObjectDescription";
 
 /**
  * Describes the initial state of a game player. This is used to inform clients of new players that they don't
  * know about
  */
-export class PlayerObjectDescription implements ObjectDescription {
+export class PlayerObjectDescription implements IObjectDescription {
 	id: string;
 	type: NewObjectType;
 

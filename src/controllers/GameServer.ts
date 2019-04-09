@@ -4,7 +4,7 @@ import v1Gen from "uuid/v1";
 import {GameSimulation} from "./simulation/GameSimulation";
 import {PlayerMoveUpdateQueue} from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveUpdate} from "../public/javascript/models/game/PlayerMoveUpdate";
-import {PositionUpdate} from "../public/javascript/models/game/objects/PositionUpdate";
+import {IPositionUpdate} from "../public/javascript/models/game/objects/IPositionUpdate";
 
 export class GameServer {
 	/**
@@ -98,7 +98,7 @@ export class GameServer {
 			this.gameSocket.emit("/update/objects/new", this.simulation.popNewObjectDescriptions());
 		}
 		// Pack up all of the PositionUpdates and send them to all clients
-		let updates: PositionUpdate[] = this.simulation.getPositionUpdates();
+		let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
 		this.gameSocket.emit("/update/position", updates);
 	}
 }
