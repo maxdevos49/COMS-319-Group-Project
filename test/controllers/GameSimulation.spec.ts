@@ -4,19 +4,13 @@ import v1Gen from "uuid/v1";
 import { GameSimulation } from '../../src/controllers/simulation/GameSimulation';
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
-import { Player } from "../../src/controllers/simulation/Player";
+import { Player } from "../../src/controllers/simulation/objects/Player";
 
 describe('GameSimulation', () => {
   it('should initialize a world', () => {
     const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
     const simulation: GameSimulation = new GameSimulation(updateQueue);
     expect(simulation).to.exist;
-  });
-
-  it('should process physics equations 30 times per second', () => {
-    const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
-    const simulation: GameSimulation = new GameSimulation(updateQueue);
-    expect(simulation).to.have.property("timeStep").that.equals(1/30);
   });
 
   it('should extract a move from the queue for each player during a physics frame', () => {

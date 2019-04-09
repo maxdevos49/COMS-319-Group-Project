@@ -1,4 +1,4 @@
-import {PositionUpdate} from "../models/game/PositionUpdate";
+import {PositionUpdate} from "../models/game/objects/PositionUpdate";
 
 export class PositionUpdateQueue {
     /**
