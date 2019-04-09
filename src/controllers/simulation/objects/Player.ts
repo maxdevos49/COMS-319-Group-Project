@@ -16,7 +16,7 @@ export class Player implements IGameObject{
 	 * The UUID of the player. This should correspond with the UUID assigned to
 	 * a particular connection.
 	 */
-	private id: string;
+	public id: string;
 
 	/**
 	 * The Box2D physics body used for the physics simulation.
