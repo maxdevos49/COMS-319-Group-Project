@@ -58,26 +58,34 @@ describe('GameSimulation', () => {
 
       const player: Player = simulation.getPlayers()[0];
 
-      // the player should be in its default position at first
+      // The player should be in its default position at first.
       expect(player.getBody().GetAngle()).to.equal(0);
       expect(player.getBody().GetPosition().x).to.equal(0);
       expect(player.getBody().GetPosition().y).to.equal(0);
 
-      // apply the move update
+      // Apply a move update.
       let move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up);
       simulation.updateMove(move);
+      // Simulate 1 second in the simulation.
+      for (let i = 0; i < 30; i++) {
+        simulation.nextFrame();
+      }
 
       expect(player.getBody().GetAngle()).to.equal(1);
       expect(player.getBody().GetPosition().x).to.equal(0);
       expect(player.getBody().GetPosition().y).to.equal(-simulation.playerSpeed);
 
-      // simulate a second move
+      // Apply a second move.
       move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft);
       simulation.updateMove(move);
+      for (let i = 0; i < 30; i++) {
+        simulation.nextFrame();
+      }
 
       expect(player.getBody().GetAngle()).to.equal(1);
-      expect(player.getBody().GetPosition().x).to.equal(-simulation.playerSpeed);
-      expect(player.getBody().GetPosition().y).to.equal(-2*simulation.playerSpeed);
+      // -7.071067811865472 (actual) is close enough to -7.071067811865475 (expected)
+      expect(player.getBody().GetPosition().x).to.be.approximately(-1 * simulation.playerSpeed / Math.sqrt(2), 0.00001);
+      expect(player.getBody().GetPosition().y).to.be.approximately(-1 * (simulation.playerSpeed + simulation.playerSpeed / Math.sqrt(2)), 0.00001);
     });
 
     it('should apply a default move if it receives no move update', () => {

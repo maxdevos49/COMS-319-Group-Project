@@ -95,7 +95,7 @@ export class GameSimulation {
 		// DEBUG: Need this to actually use the ContactListener class
 		this.world.SetContactListener(new ContactListener());
 
-		this.playerSpeed = 10;
+		this.playerSpeed = 40;
 		this.frame = 0;
 		this.players = new Map<string, Player>();
 		this.newObjectsIds = [];
@@ -261,6 +261,20 @@ export class GameSimulation {
 				velocity.y = this.playerSpeed;
 				break;
 		}
+
+		// If the player is moving diagonally, and X and Y components of the
+		// velocity add together, which makes the player move faster diagonally
+		// compared to moving only up/down/left/right. We divide the X and Y
+		// components of the velocity by sqrt(2) to adjust for this.
+		if (direction === PlayerMoveDirection.UpRight
+				|| direction === PlayerMoveDirection.UpLeft
+				|| direction === PlayerMoveDirection.DownLeft
+				|| direction === PlayerMoveDirection.DownRight
+		) {
+			velocity.x = velocity.x / Math.sqrt(2);
+			velocity.y = velocity.y / Math.sqrt(2);
+		}
+
 		return velocity;
 	}
 }
