@@ -1,4 +1,9 @@
-import {b2World, b2Vec2} from "../../../lib/box2d-physics-engine/Box2D";
+import {
+	b2World,
+	b2Vec2,
+	b2ContactListener,
+	b2Contact,
+} from "../../../lib/box2d-physics-engine/Box2D";
 
 import {Player} from "./objects/Player";
 import {PlayerMoveUpdate, PlayerMoveDirection} from "../../public/javascript/models/game/PlayerMoveUpdate";
@@ -11,6 +16,16 @@ import {TerrainGenerator} from "./TerrainGenerator";
 interface ChangeXY {
 	dx: number;
 	dy: number;
+}
+
+// DEBUG: Write to the console when bodies contact each other
+class ContactListener extends b2ContactListener {
+	public BeginContact(contact: b2Contact): void {
+		console.log('Contact detected');
+	}
+	public EndContact(contact: b2Contact): void {
+		console.log('Contact removed');
+	}
 }
 
 /**
@@ -82,6 +97,9 @@ export class GameSimulation {
 		const gravity = new b2Vec2(0, 0);
 		this.world = new b2World(gravity);
 
+		// DEBUG: Need this to actually use the ContactListener class
+		this.world.SetContactListener(new ContactListener());
+
 		this.metersPerMove = 12;
 		this.frame = 0;
 		this.players = new Map<string, Player>();
@@ -99,6 +117,15 @@ export class GameSimulation {
 		this.getPlayers().forEach((player) => {
 			const move = this.moves.popPlayerMoveUpdate(player.getId());
 			this.updateMove(move);
+
+			// DEBUG: Information about the player and its body
+			// if (this.frame % 40 == 0) {
+			// 	const id = player.getId();
+			// 	const x = player.getBody().GetPosition().x;
+			// 	const y = player.getBody().GetPosition().y;
+			// 	const angle = player.getBody().GetAngle();
+			// 	console.log(`id: ${id}\tx: ${x}\ty: ${y}\tangle: ${angle}\n`);
+			// }
 		});
 		this.moves.incrementFrame();
 		this.world.Step(GameSimulation.timeStep, GameSimulation.velocityIterations, GameSimulation.positionIterations);
@@ -199,45 +226,45 @@ export class GameSimulation {
 		return newObjectsDescriptions;
 	}
 
-  /**
-   * Get the change in X and Y coordinates for a desired change in position
-   * represented by Up, UpLeft, etc.
-   *
-   * @param {PlayerMoveDirection} direction - The direction the player wants to move.
-   * @return {ChangeXY} An object containing the change in X and Y.
-   */
-  private getPositionChange(direction: PlayerMoveDirection): ChangeXY {
-    const posChange: ChangeXY = { dx: 0, dy: 0 };
-    switch (direction) {
-      case PlayerMoveDirection.Right:
-        posChange.dx = this.metersPerMove;
-        break;
-      case PlayerMoveDirection.UpRight:
-        posChange.dx = this.metersPerMove;
-        posChange.dy = -this.metersPerMove;
-        break;
-      case PlayerMoveDirection.Up:
-        posChange.dy = -this.metersPerMove;
-        break;
-      case PlayerMoveDirection.UpLeft:
-        posChange.dx = -this.metersPerMove;
-        posChange.dy = -this.metersPerMove;
-        break;
-      case PlayerMoveDirection.Left:
-        posChange.dx = -this.metersPerMove;
-        break;
-      case PlayerMoveDirection.DownLeft:
-        posChange.dx = -this.metersPerMove;
-        posChange.dy = this.metersPerMove;
-        break;
-      case PlayerMoveDirection.Down:
-        posChange.dy = this.metersPerMove;
-        break;
-      case PlayerMoveDirection.DownRight:
-        posChange.dx = this.metersPerMove;
-        posChange.dy = this.metersPerMove;
-        break;
-    }
-    return posChange;
-  }
+	/**
+	 * Get the change in X and Y coordinates for a desired change in position
+	 * represented by Up, UpLeft, etc.
+	 *
+	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
+	 * @return {ChangeXY} An object containing the change in X and Y.
+	 */
+	private getPositionChange(direction: PlayerMoveDirection): ChangeXY {
+		const posChange: ChangeXY = { dx: 0, dy: 0 };
+		switch (direction) {
+			case PlayerMoveDirection.Right:
+				posChange.dx = this.metersPerMove;
+				break;
+			case PlayerMoveDirection.UpRight:
+				posChange.dx = this.metersPerMove;
+				posChange.dy = -this.metersPerMove;
+				break;
+			case PlayerMoveDirection.Up:
+				posChange.dy = -this.metersPerMove;
+				break;
+			case PlayerMoveDirection.UpLeft:
+				posChange.dx = -this.metersPerMove;
+				posChange.dy = -this.metersPerMove;
+				break;
+			case PlayerMoveDirection.Left:
+				posChange.dx = -this.metersPerMove;
+				break;
+			case PlayerMoveDirection.DownLeft:
+				posChange.dx = -this.metersPerMove;
+				posChange.dy = this.metersPerMove;
+				break;
+			case PlayerMoveDirection.Down:
+				posChange.dy = this.metersPerMove;
+				break;
+			case PlayerMoveDirection.DownRight:
+				posChange.dx = this.metersPerMove;
+				posChange.dy = this.metersPerMove;
+				break;
+		}
+		return posChange;
+	}
 }
