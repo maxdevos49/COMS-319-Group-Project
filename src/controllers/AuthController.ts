@@ -1,13 +1,11 @@
-import express, { Request, Response, Router, response } from "express";
+import express, { Request, Response, Router } from "express";
 import passport from "passport";
-
-const router: Router = express.Router();
-
 import permit from "../middleware/permit";
-import Shared from "../helpers/shared";
-
 import RegisterViewModel from "../viewModels/RegisterViewModel";
 import LoginViewModel from "../viewModels/LoginViewModel";
+import { View } from "../helpers/vash/view";
+
+const router: Router = express.Router();
 
 /**
  * POST:/Auth/register
@@ -19,7 +17,7 @@ router.post("/register", permit(["public"]), (req: Request, res: Response) => {
 		//Display any validation messages
 		if (info) {
 			res.locals.validation = info;
-			return res.render("Auth/register", Shared.getModel(res, RegisterViewModel, req.body));
+			return res.render("Auth/register", View(res, RegisterViewModel, req.body));
 		}
 
 		return res.redirect("/auth/dashboard");
@@ -36,7 +34,7 @@ router.post("/login", permit(["public"]), (req: Request, res: Response) => {
 		//Display any validation messages
 		if (info) {
 			res.locals.validation = info;
-			return res.render("Auth/login", Shared.getModel(res, LoginViewModel, req.body));
+			return res.render("Auth/login", View(res, LoginViewModel, req.body));
 		}
 
 		req.login(user, (err) => {
@@ -50,14 +48,14 @@ router.post("/login", permit(["public"]), (req: Request, res: Response) => {
  * GET:/Auth/login
  */
 router.get("/login", permit(["public"], "/"), (req: Request, res: Response) => {
-	return res.render("Auth/login", Shared.getModel(res, LoginViewModel));
+	return res.render("Auth/login", View(res, LoginViewModel));
 });
 
 /**
  * GET:/Auth/register
  */
 router.get("/register", permit(["public"], "/"), (req: Request, res: Response) => {
-	return res.render("Auth/register", Shared.getModel(res, RegisterViewModel));
+	return res.render("Auth/register", View(res, RegisterViewModel));
 });
 
 /**

@@ -13,7 +13,8 @@ import { IModelResult } from "./lib/Interfaces/IModelResult";
 export function View(givenResponse: Response, givenModel?: IViewModel, givenData?: any): IModelResult {
 	//process auth
 	let modelResult: IModelResult = {
-		authentication: !givenResponse.locals.authentication ? { role: ["public"] } : givenResponse.locals.authentication
+		authentication: !givenResponse.locals.authentication ? { role: ["public"] } : givenResponse.locals.authentication,
+		configuration: config
 	};
 
 	//process viewmodel

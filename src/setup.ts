@@ -9,9 +9,9 @@ import session from "express-session";
 
 import { config } from "./config";
 import { GameMatchmaking } from "./game/GameMatchmaking";
-import homeController from "./controllers/Home";
-import gameController from "./controllers/Game";
-import authController from "./controllers/Auth";
+import homeController from "./controllers/HomeController";
+import gameController from "./controllers/GameController";
+import authController from "./controllers/AuthController";
 
 import localStrat from "./middleware/passport";
 import authentication from "./middleware/authentication";
