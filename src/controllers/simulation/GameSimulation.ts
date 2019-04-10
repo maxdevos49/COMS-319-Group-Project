@@ -3,6 +3,7 @@ import {
 	b2Vec2,
 	b2ContactListener,
 	b2Contact,
+	XY,
 } from "../../../lib/box2d-physics-engine/Box2D";
 
 import {Player} from "./objects/Player";
@@ -12,11 +13,6 @@ import {IPositionUpdate} from "../../public/javascript/models/game/objects/IPosi
 import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
 import {IObjectDescription} from "../../public/javascript/models/game/objects/IObjectDescription";
 import {TerrainGenerator} from "./TerrainGenerator";
-
-interface ChangeXY {
-	dx: number;
-	dy: number;
-}
 
 // DEBUG: Write to the console when bodies contact each other
 class ContactListener extends b2ContactListener {
@@ -56,10 +52,9 @@ export class GameSimulation {
 	private static readonly mapTileHeight = 200;
 
   /**
-   * How many meters (in our case, one pixel == one meter) the player should
-   * move for one move update.
+   * Velocity in meters per second that the players should move.
    */
-  public metersPerMove: number;
+  public playerSpeed: number;
 
 	/**
 	 * The current frame number of the simulation.
@@ -100,7 +95,7 @@ export class GameSimulation {
 		// DEBUG: Need this to actually use the ContactListener class
 		this.world.SetContactListener(new ContactListener());
 
-		this.metersPerMove = 12;
+		this.playerSpeed = 10;
 		this.frame = 0;
 		this.players = new Map<string, Player>();
 		this.newObjectsIds = [];
@@ -128,7 +123,11 @@ export class GameSimulation {
 			// }
 		});
 		this.moves.incrementFrame();
-		this.world.Step(GameSimulation.timeStep, GameSimulation.velocityIterations, GameSimulation.positionIterations);
+		this.world.Step(
+			GameSimulation.timeStep,
+			GameSimulation.velocityIterations,
+			GameSimulation.positionIterations
+		);
 		this.frame++;
 	}
 
@@ -157,10 +156,7 @@ export class GameSimulation {
 			if (move.updateFacing) {
 				player.getBody().SetAngle(move.facing);
 			}
-			const oldPos = player.getBody().GetPosition();
-			const change = this.getPositionChange(move.moveDirection);
-			const newPos = new b2Vec2(oldPos.x + (change.dx), oldPos.y + (change.dy));
-			player.getBody().SetPosition(newPos);
+			player.getBody().SetLinearVelocity(this.getVelocityVector(move.moveDirection));
 		}
 	}
 
@@ -226,45 +222,45 @@ export class GameSimulation {
 		return newObjectsDescriptions;
 	}
 
-	/**
-	 * Get the change in X and Y coordinates for a desired change in position
-	 * represented by Up, UpLeft, etc.
+		/**
+	 * Get the velocity for a desired change in position represented by
+	 * Up, UpLeft, etc.
 	 *
 	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
-	 * @return {ChangeXY} An object containing the change in X and Y.
+	 * @return {XY} A velocity vector.
 	 */
-	private getPositionChange(direction: PlayerMoveDirection): ChangeXY {
-		const posChange: ChangeXY = { dx: 0, dy: 0 };
+	private getVelocityVector(direction: PlayerMoveDirection): XY {
+		const velocity: XY = { x: 0, y: 0 };
 		switch (direction) {
 			case PlayerMoveDirection.Right:
-				posChange.dx = this.metersPerMove;
+				velocity.x = this.playerSpeed;
 				break;
 			case PlayerMoveDirection.UpRight:
-				posChange.dx = this.metersPerMove;
-				posChange.dy = -this.metersPerMove;
+				velocity.x = this.playerSpeed;
+				velocity.y = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.Up:
-				posChange.dy = -this.metersPerMove;
+				velocity.y = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.UpLeft:
-				posChange.dx = -this.metersPerMove;
-				posChange.dy = -this.metersPerMove;
+				velocity.x = -this.playerSpeed;
+				velocity.y = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.Left:
-				posChange.dx = -this.metersPerMove;
+				velocity.x = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.DownLeft:
-				posChange.dx = -this.metersPerMove;
-				posChange.dy = this.metersPerMove;
+				velocity.x = -this.playerSpeed;
+				velocity.y = this.playerSpeed;
 				break;
 			case PlayerMoveDirection.Down:
-				posChange.dy = this.metersPerMove;
+				velocity.y = this.playerSpeed;
 				break;
 			case PlayerMoveDirection.DownRight:
-				posChange.dx = this.metersPerMove;
-				posChange.dy = this.metersPerMove;
+				velocity.x = this.playerSpeed;
+				velocity.y = this.playerSpeed;
 				break;
 		}
-		return posChange;
+		return velocity;
 	}
 }
