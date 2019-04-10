@@ -4,7 +4,7 @@ import {
 	b2BodyType,
 	b2World,
 	b2FixtureDef,
-	b2PolygonShape
+	b2CircleShape,
 } from "../../../../lib/box2d-physics-engine/Box2D";
 import {IPositionUpdate} from "../../../public/javascript/models/game/objects/IPositionUpdate";
 import {
@@ -14,8 +14,6 @@ import {
 import {IGameObject} from "./IGameObject";
 import {IObjectDescription, NewObjectType} from "../../../public/javascript/models/game/objects/IObjectDescription";
 import {PlayerObjectDescription} from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
-
-const PLAYER: number = 0x0001;
 
 /**
  * A player in the game. Contains the physics body.
@@ -35,19 +33,19 @@ export class Player implements IGameObject{
 	constructor(id: string, world: b2World) {
 		this.id = id;
 
-		// define the dynamic body
+		// The player is a dynamic body, which means that it is fully simulated,
+		// moves in response to forces, and has a finite, non-zero mass.
 		const bodyDef: b2BodyDef = new b2BodyDef();
 		bodyDef.type = b2BodyType.b2_dynamicBody;
 		bodyDef.position.Set(0, 0);
 		this.body = world.CreateBody(bodyDef);
 
-		// create a fixture which will allow us to attach a shape to the body
+		// Fixtures are carried around on the bodies. They define a body's
+		// geometry and mass. These are important for collisions.
 		const fixture: b2FixtureDef = new b2FixtureDef();
-		fixture.shape = new b2PolygonShape().SetAsBox(50, 50);
-		fixture.density = 1;
-		fixture.filter.categoryBits = PLAYER;
-		fixture.filter.maskBits = -1; // collide with everything
-		this.body.CreateFixture(fixture, 1);
+		fixture.shape = new b2CircleShape(50); // 50 m radius
+		// fixture.density = 1.0; // 1.0 kg/m^3
+		this.body.CreateFixture(fixture, 50.0); // 1.0 kg/m^3 density
 	}
 
 	public getId(): string {
