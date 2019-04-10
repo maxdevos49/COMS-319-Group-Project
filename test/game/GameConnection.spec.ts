@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import socketIO, {Namespace, Server} from "socket.io";
 import socketIOClient from "socket.io-client";
 
-import {GameServer} from '../../src/controllers/GameServer';
+import {GameServer} from '../../src/game/GameServer';
 import {GameConnection} from '../../src/public/javascript/game/GameConnection.js';
 import {PlayerMoveUpdate, PlayerMoveDirection} from '../../src/public/javascript/models/game/PlayerMoveUpdate';
 

@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import v1Gen from "uuid/v1";
 
-import { GameSimulation } from '../../src/controllers/simulation/GameSimulation';
+import { GameSimulation } from '../../src/game/simulation/GameSimulation';
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
-import { Player } from "../../src/controllers/simulation/objects/Player";
+import { Player } from "../../src/game/simulation/objects/Player";
 
 describe('GameSimulation', () => {
   it('should initialize a world', () => {

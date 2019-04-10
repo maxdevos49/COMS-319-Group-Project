@@ -2,9 +2,9 @@ import {expect} from "chai";
 import socketIO, {Server} from "socket.io";
 import socketIOClient from "socket.io-client";
 
-import {GameMatchmaking} from "../../src/controllers/GameMatchmaking";
+import {GameMatchmaking} from "../../src/game/GameMatchmaking";
 import {GamesList} from "../../src/public/javascript/models/games/GamesList";
-import {GameServer} from "../../src/controllers/GameServer";
+import {GameServer} from "../../src/game/GameServer";
 
 describe('Game Matchmaking', () => {
     const gameSocket: Server = socketIO(4224);

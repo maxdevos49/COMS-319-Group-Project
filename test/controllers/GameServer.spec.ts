@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client";
 
 import {expect} from "chai";
 
-import {GameServer} from '../../src/controllers/GameServer';
+import {GameServer} from '../../src/game/GameServer';
 import {PlayerInfo} from "../../src/public/javascript/models/game/PlayerInfo";
 import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
 import {IPositionUpdate} from "../../src/public/javascript/models/game/objects/IPositionUpdate";

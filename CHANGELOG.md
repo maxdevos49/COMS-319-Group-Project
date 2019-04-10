@@ -1,5 +1,23 @@
 # B.R.T.D. Changelog
-  
+
+## v2.0.0 beta
+Date: 
+
+---
+### Additions:
+ - 
+
+### Updates:
+ -
+
+### Bugfixes:
+ -
+
+### Known Bugs:
+ -
+
+
+
 ## v1.0.0 Alpha  
 Date: April 5, 2019  
 
@@ -28,7 +46,7 @@ Date: April 5, 2019
  - Added CI/CD Pipeline
  - Added Heroku deployments
  - Made the canvas 1280 x 720
- - 
+  
 ### Updates:
  - Made the PlayerMoveDirection enum a bit easier to read
  - GitLab CI/CD will now force the git push

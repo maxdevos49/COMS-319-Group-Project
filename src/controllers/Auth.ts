@@ -14,65 +14,65 @@ import LoginViewModel from "../viewModels/LoginViewModel";
  */
 router.post("/register", permit(["public"]), (req: Request, res: Response) => {
 
-    passport.authenticate("local-signup", { session: true }, (err, user, info) => {
+	passport.authenticate("local-signup", { session: true }, (err, user, info) => {
 
-        //Display any validation messages
-        if (info) {
-            res.locals.validation = info;
-            return res.render("Auth/register", Shared.getModel(res, RegisterViewModel, req.body));
-        }
+		//Display any validation messages
+		if (info) {
+			res.locals.validation = info;
+			return res.render("Auth/register", Shared.getModel(res, RegisterViewModel, req.body));
+		}
 
-        return res.redirect("/auth/dashboard");
+		return res.redirect("/auth/dashboard");
 
-    })(req, res)
+	})(req, res)
 });
 
 /**
  * POST:/Auth/login
  */
 router.post("/login", permit(["public"]), (req: Request, res: Response) => {
-    passport.authenticate("local-login", { session: true }, (err, user, info) => {
+	passport.authenticate("local-login", { session: true }, (err, user, info) => {
 
-        //Display any validation messages
-        if (info) {
-            res.locals.validation = info;
-            return res.render("Auth/login", Shared.getModel(res, LoginViewModel, req.body));
-        }
+		//Display any validation messages
+		if (info) {
+			res.locals.validation = info;
+			return res.render("Auth/login", Shared.getModel(res, LoginViewModel, req.body));
+		}
 
-        req.login(user, (err) => {
-            return res.redirect("/auth/dashboard");
-        });
+		req.login(user, (err) => {
+			return res.redirect("/auth/dashboard");
+		});
 
-    })(req, res)
+	})(req, res)
 });
 
 /**
  * GET:/Auth/login
  */
 router.get("/login", permit(["public"], "/"), (req: Request, res: Response) => {
-    return res.render("Auth/login", Shared.getModel(res, LoginViewModel));
+	return res.render("Auth/login", Shared.getModel(res, LoginViewModel));
 });
 
 /**
  * GET:/Auth/register
  */
 router.get("/register", permit(["public"], "/"), (req: Request, res: Response) => {
-    return res.render("Auth/register", Shared.getModel(res, RegisterViewModel));
+	return res.render("Auth/register", Shared.getModel(res, RegisterViewModel));
 });
 
 /**
  * GET:/Auth/dashboard
  */
 router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
-    return res.render("Auth/dashboard");
+	return res.render("Auth/dashboard");
 });
 
 /**
  * GET:/Auth/logout
  */
 router.get("/logout", (req: Request, res: Response) => {
-    req.logout();
-    res.redirect("/");
+	req.logout();
+	res.redirect("/");
 });
 
 /**
