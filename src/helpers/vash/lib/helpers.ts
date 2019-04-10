@@ -205,7 +205,7 @@ vash.helpers.DisplayNameFor = function (model: Function) {
  * @param route string representing the route for the link
  * @param attributes object containing key value pairs of html attributes
  */
-vash.helpers.Navigator = function (type: ButtonTypes, text?: string, route?: string, attributes: any = {}) {
+vash.helpers.Navigator = function (type: ButtonTypes, text?: string, route?: string, attributes?: any) {
 	if (text) text = " " + text;
 	else text = "";
 

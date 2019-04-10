@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import socketIO from "socket.io";
 import http from "http";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
 import passport from "passport";
 import session from "express-session";
 
@@ -13,8 +12,8 @@ import homeController from "./controllers/HomeController";
 import gameController from "./controllers/GameController";
 import authController from "./controllers/AuthController";
 
-import localStrat from "./middleware/passport";
-import authentication from "./middleware/authentication";
+import { localStrat } from "./middleware/passport";
+import { authentication } from "./middleware/authentication";
 
 import "./helpers/vash/lib/helpers";
 
@@ -22,14 +21,10 @@ const router: express.Router = express.Router();
 
 export default function (server: http.Server) {
 	//database
-	if (!config.database.dbUrl) throw "Database string is not valid";
 	mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
 
 	//passport
-	if (!config.session.secret) throw "Session secret is invalid";
 	router.use(session({ secret: config.session.secret, resave: false, saveUninitialized: false }));
-	// Make sure this comes after the express session
-
 	localStrat(passport);
 
 	//middleware
@@ -41,7 +36,7 @@ export default function (server: http.Server) {
 
 	//game controllers and sockets
 	const io = socketIO(server);
-	const gamesController: GameMatchmaking = new GameMatchmaking(io);
+	new GameMatchmaking(io);
 
 	//web page controllers
 	router.use("/Home", homeController);

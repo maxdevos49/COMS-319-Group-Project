@@ -5,29 +5,71 @@
         @{
             model.title = "Dashboard";
         }
-        <div class="container">
-            <br>
-            <h1>Dashboard coming soon</h1>
-            <br>
-            <br>
-            <br>
-            <p>Click here to play: <a href="/Game/">here</a></p>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+        <div class="container col-md-10 p-4">
+
+            <!--Top Bar-->
+            <div class="col-md-12 p-4 m-2" style="box-shadow: 0px 0px 10px;">
+                <h1>Profile</h1> 
+                <hr class="m-0 p-0"/>
+                <div class="row">
+                    <!--Left Side-->
+                    <div class="col-4 p-3">
+
+                        <!--Nickname-->
+                        <div class="p-1 class-group">
+                            @html.LabelFor(model => model.nickname)
+                            <div class="row">
+                                @html.EditorFor(model => model.nickname, null, { readonly: "", class: "form-control col-md-10 m-1" })
+                                @html.Navigator(html.Edit, "", null, {class: "m-1"})
+                            </div>
+                           @html.ValidationMessageFor(model => model.nickname)
+                        </div>
+
+                        <!--Email-->
+                        <div class="p-1">
+                            @html.LabelFor(model => model.email)
+                            <div class="row">
+                                @html.EditorFor(model => model.email, null, { readonly: "", class: "form-control col-md-10 m-1" })
+                                @html.Navigator(html.Create, "", null, {class: "m-1"})
+                            </div>
+                        </div>
+                    </div>
+                    <!--Center Side-->
+                    <div class="col-4 p-3">
+                        <!--Password-->
+                        <div class="p-1 class-group">
+                            @html.LabelFor(model => model.password)
+                            <div class="row">
+                                @html.PasswordBoxFor(model => model.password, null, { class: "form-control m-1" })
+                            </div>
+                           @html.ValidationMessageFor(model => model.password)
+                        </div>
+
+                        <!--Password Confirmation-->
+                        <div class="p-1">
+                            @html.LabelFor(model => model.passwordConfirmation)
+                            <div class="row">
+                                @html.PasswordBoxFor(model => model.passwordConfirmation, null, { class: "form-control m-1" })
+                            </div>
+                            @html.ValidationMessageFor(model => model.passwordConfirmation)
+                        </div>
+
+                        @html.Input(html.Edit, "Reset Password", { class: "float-right"})
+                    </div>
+                    <div class="col-4" style="text-align: center; display: flex; align-items: center">
+                        <a class="btn btn-success col-md-10" href="/Game/" style="font-size: 4em; margin: auto;">Play</a>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class=" col-md-12 p-4 m-2" style="box-shadow: 0 0 10px;">
+                <h2>Stats</h2>
+                <p>
+                    Display some player stats here. May be some pi charts or something of the likes for kd ratio. (<a href="https://www.chartjs.org">Chart.js</a>)
+                </p>
+            </div>
         </div>
 
     })

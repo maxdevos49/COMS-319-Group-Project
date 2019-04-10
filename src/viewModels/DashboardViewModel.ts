@@ -1,7 +1,7 @@
 import { IViewModel } from "../helpers/vash/lib/Interfaces/IViewModel";
 import { IViewProperty } from "../helpers/vash/lib/Interfaces/IViewProperty";
 
-export class RegisterViewModel implements IViewModel {
+export class DashboardViewModel implements IViewModel {
 	public nickname: IViewProperty = {
 		type: String,
 		path: "nickname",

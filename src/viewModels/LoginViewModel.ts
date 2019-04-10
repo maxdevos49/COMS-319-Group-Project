@@ -1,7 +1,7 @@
 import { IViewModel } from "../helpers/vash/lib/Interfaces/IViewModel";
 import { IViewProperty } from "../helpers/vash/lib/Interfaces/IViewProperty";
 
-export default class LoginViewModel implements IViewModel {
+export class LoginViewModel implements IViewModel {
 	public email: IViewProperty = {
 		type: String,
 		path: "email",

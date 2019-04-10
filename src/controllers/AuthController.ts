@@ -1,9 +1,11 @@
 import express, { Request, Response, Router } from "express";
 import passport from "passport";
 import permit from "../middleware/permit";
-import RegisterViewModel from "../viewModels/RegisterViewModel";
-import LoginViewModel from "../viewModels/LoginViewModel";
+import { RegisterViewModel } from "../viewModels/RegisterViewModel";
+import { LoginViewModel } from "../viewModels/LoginViewModel";
 import { View } from "../helpers/vash/view";
+import Account from "../models/Account";
+import { DashboardViewModel } from "../viewModels/DashboardViewModel";
 
 const router: Router = express.Router();
 
@@ -58,12 +60,6 @@ router.get("/register", permit(["public"], "/"), (req: Request, res: Response) =
 	return res.render("Auth/register", View(res, RegisterViewModel));
 });
 
-/**
- * GET:/Auth/dashboard
- */
-router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
-	return res.render("Auth/dashboard");
-});
 
 /**
  * GET:/Auth/logout
@@ -71,6 +67,16 @@ router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Re
 router.get("/logout", (req: Request, res: Response) => {
 	req.logout();
 	res.redirect("/");
+});
+
+/**
+ * GET:/Auth/dashboard
+ */
+router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+	Account.findById(res.locals.authentication.id, { "password": 0 }, (err, data) => {
+		if (err) throw err;
+		return res.render("Auth/dashboard", View(res, DashboardViewModel, data));
+	})
 });
 
 /**

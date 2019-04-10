@@ -22,7 +22,7 @@
                         <a class="btn btn-warning col-md-12" style="margin: 1vh;" href="/Auth/register">Register</a>
                     </div>
                     <div class="col-sm-8" style=" padding: 0;">
-                        <form class="form" method="POST" action="/Auth/login" style="padding: 3vh;">
+                        <form class="form" method="POST" action="/Auth/login" style="padding: 3vh;" autocomplete="on">
                             <div class="form-group">
                                 @html.LabelFor(model => model.email)
                                 @html.EditorFor(model => model.email, null, { class: "form-control", autocomplete: "email"})
