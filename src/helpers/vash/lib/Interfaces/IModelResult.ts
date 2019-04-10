@@ -7,22 +7,22 @@ export interface IModelResult {
     /**
      * The authentication object
      */
-	authentication: IAuthentication;
+    authentication: IAuthentication;
 
     /**
      * The view model for the view
      */
-	viewModel?: IViewModel;
+    viewModel?: IViewModel;
 
     /**
      * The data refrenced from the view model
      */
-	data?: any[] | any;
+    data?: any[] | any;
 
     /**
      * Validatoin errors object
      */
-	validation?: IValidation[];
+    validation?: IValidation[];
 
-	configuration: IConfig;
+    configuration: IConfig;
 }

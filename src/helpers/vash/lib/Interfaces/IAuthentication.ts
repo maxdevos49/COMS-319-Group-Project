@@ -2,15 +2,15 @@ export interface IAuthentication {
     /**
      * The session token of the logged in user.
      */
-	id?: string;
+    id?: string;
 
     /**
      * The nickname of the currently logged in user
      */
-	nickname?: string;
+    nickname?: string;
 
     /**
      * The role of the currently logged in user
      */
-	role: string;
+    role: string;
 }

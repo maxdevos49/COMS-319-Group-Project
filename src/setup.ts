@@ -20,39 +20,39 @@ import "./helpers/vash/lib/helpers";
 const router: express.Router = express.Router();
 
 export default function (server: http.Server) {
-	//database
-	mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
+    //database
+    mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
 
-	//passport
-	router.use(session({ secret: config.session.secret, resave: false, saveUninitialized: false }));
-	localStrat(passport);
+    //passport
+    router.use(session({ secret: config.session.secret, resave: false, saveUninitialized: false }));
+    localStrat(passport);
 
-	//middleware
-	router.use(bodyParser.urlencoded({ extended: false }));
-	router.use(bodyParser.json());
-	router.use(passport.initialize());
-	router.use(passport.session());
-	router.use(authentication);
+    //middleware
+    router.use(bodyParser.urlencoded({ extended: false }));
+    router.use(bodyParser.json());
+    router.use(passport.initialize());
+    router.use(passport.session());
+    router.use(authentication);
 
-	//game controllers and sockets
-	const io = socketIO(server);
-	new GameMatchmaking(io);
+    //game controllers and sockets
+    const io = socketIO(server);
+    new GameMatchmaking(io);
 
-	//web page controllers
-	router.use("/Home", homeController);
-	router.use("/Game", gameController);
-	router.use("/Auth", authController);
+    //web page controllers
+    router.use("/Home", homeController);
+    router.use("/Game", gameController);
+    router.use("/Auth", authController);
 
-	//redirect to a known route for the home controller
-	router.get("/", (req: express.Request, res: express.Response) => {
-		res.redirect("/Home/");
-	});
+    //redirect to a known route for the home controller
+    router.get("/", (req: express.Request, res: express.Response) => {
+        res.redirect("/Home/");
+    });
 
-	//respond with a 404 request if the document was not found
-	router.use((req: express.Request, res: express.Response) => {
-		res.status(404);
-		res.render("Shared/404");
-	});
+    //respond with a 404 request if the document was not found
+    router.use((req: express.Request, res: express.Response) => {
+        res.status(404);
+        res.render("Shared/404");
+    });
 
-	return router;
+    return router;
 }

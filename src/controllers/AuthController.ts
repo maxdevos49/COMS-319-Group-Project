@@ -14,50 +14,50 @@ const router: Router = express.Router();
  */
 router.post("/register", permit(["public"]), (req: Request, res: Response) => {
 
-	passport.authenticate("local-signup", { session: true }, (err, user, info) => {
+    passport.authenticate("local-signup", { session: true }, (err, user, info) => {
 
-		//Display any validation messages
-		if (info) {
-			res.locals.validation = info;
-			return res.render("Auth/register", View(res, RegisterViewModel, req.body));
-		}
+        //Display any validation messages
+        if (info) {
+            res.locals.validation = info;
+            return res.render("Auth/register", View(res, RegisterViewModel, req.body));
+        }
 
-		return res.redirect("/auth/dashboard");
+        return res.redirect("/auth/dashboard");
 
-	})(req, res)
+    })(req, res)
 });
 
 /**
  * POST:/Auth/login
  */
 router.post("/login", permit(["public"]), (req: Request, res: Response) => {
-	passport.authenticate("local-login", { session: true }, (err, user, info) => {
+    passport.authenticate("local-login", { session: true }, (err, user, info) => {
 
-		//Display any validation messages
-		if (info) {
-			res.locals.validation = info;
-			return res.render("Auth/login", View(res, LoginViewModel, req.body));
-		}
+        //Display any validation messages
+        if (info) {
+            res.locals.validation = info;
+            return res.render("Auth/login", View(res, LoginViewModel, req.body));
+        }
 
-		req.login(user, (err) => {
-			return res.redirect("/auth/dashboard");
-		});
+        req.login(user, (err) => {
+            return res.redirect("/auth/dashboard");
+        });
 
-	})(req, res)
+    })(req, res)
 });
 
 /**
  * GET:/Auth/login
  */
 router.get("/login", permit(["public"], "/"), (req: Request, res: Response) => {
-	return res.render("Auth/login", View(res, LoginViewModel));
+    return res.render("Auth/login", View(res, LoginViewModel));
 });
 
 /**
  * GET:/Auth/register
  */
 router.get("/register", permit(["public"], "/"), (req: Request, res: Response) => {
-	return res.render("Auth/register", View(res, RegisterViewModel));
+    return res.render("Auth/register", View(res, RegisterViewModel));
 });
 
 
@@ -65,18 +65,18 @@ router.get("/register", permit(["public"], "/"), (req: Request, res: Response) =
  * GET:/Auth/logout
  */
 router.get("/logout", (req: Request, res: Response) => {
-	req.logout();
-	res.redirect("/");
+    req.logout();
+    res.redirect("/");
 });
 
 /**
  * GET:/Auth/dashboard
  */
 router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
-	Account.findById(res.locals.authentication.id, { "password": 0 }, (err, data) => {
-		if (err) throw err;
-		return res.render("Auth/dashboard", View(res, DashboardViewModel, data));
-	})
+    Account.findById(res.locals.authentication.id, { "password": 0 }, (err, data) => {
+        if (err) throw err;
+        return res.render("Auth/dashboard", View(res, DashboardViewModel, data));
+    })
 });
 
 /**

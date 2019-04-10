@@ -20,16 +20,16 @@ app.use("/", setup(server));
 
 //start the server
 server.listen(config.server.port, function () {
-	console.log(`CS319 Project running at ${ip.address()}:${config.server.port} and ${ip.loopback()}:${config.server.port}`);
+    console.log(`CS319 Project running at ${ip.address()}:${config.server.port} and ${ip.loopback()}:${config.server.port}`);
 });
 
 // Catch Errors
 server.on("error", function (error: any) {
-	if (error.code === "EADDRINUSE") {
-		console.error(
-			`Current port address is in use. Try closing any other servers that could be using the same port as : ${config.server.port}`
-		);
-	}
+    if (error.code === "EADDRINUSE") {
+        console.error(
+            `Current port address is in use. Try closing any other servers that could be using the same port as : ${config.server.port}`
+        );
+    }
 });
 
 export default app;
