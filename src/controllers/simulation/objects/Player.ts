@@ -1,4 +1,11 @@
-import {b2Body, b2BodyDef, b2BodyType, b2World,} from "../../../../lib/box2d-physics-engine/Box2D";
+import {
+	b2Body,
+	b2BodyDef,
+	b2BodyType,
+	b2World,
+	b2FixtureDef,
+	b2CircleShape,
+} from "../../../../lib/box2d-physics-engine/Box2D";
 import {IPositionUpdate} from "../../../public/javascript/models/game/objects/IPositionUpdate";
 import {
 	PlayerActionState,
@@ -26,18 +33,26 @@ export class Player implements IGameObject{
 	constructor(id: string, world: b2World) {
 		this.id = id;
 
-		// define the dynamic body
+		// The player is a dynamic body, which means that it is fully simulated,
+		// moves in response to forces, and has a finite, non-zero mass.
 		const bodyDef: b2BodyDef = new b2BodyDef();
 		bodyDef.type = b2BodyType.b2_dynamicBody;
 		bodyDef.position.Set(0, 0);
 		this.body = world.CreateBody(bodyDef);
+
+		// Fixtures are carried around on the bodies. They define a body's
+		// geometry and mass. These are important for collisions.
+		const fixture: b2FixtureDef = new b2FixtureDef();
+		fixture.shape = new b2CircleShape(50); // 50 m radius
+		// fixture.density = 1.0; // 1.0 kg/m^3
+		this.body.CreateFixture(fixture, 50.0); // 1.0 kg/m^3 density
 	}
 
-	getId(): string {
+	public getId(): string {
 		return this.id;
 	}
 
-	getBody(): b2Body {
+	public getBody(): b2Body {
 		return this.body;
 	}
 
@@ -46,7 +61,14 @@ export class Player implements IGameObject{
 	 * @param frame The frame for the position update to be made
 	 */
 	public getPositionUpdate(frame: number): IPositionUpdate {
-		return new PlayerPositionUpdate(frame, this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle(), PlayerActionState.Still);
+		return new PlayerPositionUpdate(
+			frame,
+			this.id,
+			this.body.GetPosition().x,
+			this.body.GetPosition().y,
+			this.body.GetAngle(),
+			PlayerActionState.Still
+		);
 	}
 
 	/**

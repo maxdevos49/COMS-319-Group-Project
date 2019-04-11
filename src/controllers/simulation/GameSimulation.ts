@@ -1,4 +1,10 @@
-import {b2World, b2Vec2} from "../../../lib/box2d-physics-engine/Box2D";
+import {
+	b2World,
+	b2Vec2,
+	b2ContactListener,
+	b2Contact,
+	XY,
+} from "../../../lib/box2d-physics-engine/Box2D";
 
 import {Player} from "./objects/Player";
 import {PlayerMoveUpdate, PlayerMoveDirection} from "../../public/javascript/models/game/PlayerMoveUpdate";
@@ -8,9 +14,14 @@ import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
 import {IObjectDescription} from "../../public/javascript/models/game/objects/IObjectDescription";
 import {TerrainGenerator} from "./TerrainGenerator";
 
-interface Change {
-	dx: number;
-	dy: number;
+// DEBUG: Write to the console when bodies contact each other
+class ContactListener extends b2ContactListener {
+	public BeginContact(contact: b2Contact): void {
+		console.log('Contact detected');
+	}
+	public EndContact(contact: b2Contact): void {
+		console.log('Contact removed');
+	}
 }
 
 /**
@@ -39,6 +50,11 @@ export class GameSimulation {
 	 */
 	private static readonly mapTileWidth = 200;
 	private static readonly mapTileHeight = 200;
+
+  /**
+   * Velocity in meters per second that the players should move.
+   */
+  public playerSpeed: number;
 
 	/**
 	 * The current frame number of the simulation.
@@ -76,6 +92,10 @@ export class GameSimulation {
 		const gravity = new b2Vec2(0, 0);
 		this.world = new b2World(gravity);
 
+		// DEBUG: Need this to actually use the ContactListener class
+		this.world.SetContactListener(new ContactListener());
+
+		this.playerSpeed = 40;
 		this.frame = 0;
 		this.players = new Map<string, Player>();
 		this.newObjectsIds = [];
@@ -92,9 +112,22 @@ export class GameSimulation {
 		this.getPlayers().forEach((player) => {
 			const move = this.moves.popPlayerMoveUpdate(player.getId());
 			this.updateMove(move);
+
+			// DEBUG: Information about the player and its body
+			// if (this.frame % 40 == 0) {
+			// 	const id = player.getId();
+			// 	const x = player.getBody().GetPosition().x;
+			// 	const y = player.getBody().GetPosition().y;
+			// 	const angle = player.getBody().GetAngle();
+			// 	console.log(`id: ${id}\tx: ${x}\ty: ${y}\tangle: ${angle}\n`);
+			// }
 		});
 		this.moves.incrementFrame();
-		this.world.Step(GameSimulation.timeStep, GameSimulation.velocityIterations, GameSimulation.positionIterations);
+		this.world.Step(
+			GameSimulation.timeStep,
+			GameSimulation.velocityIterations,
+			GameSimulation.positionIterations
+		);
 		this.frame++;
 	}
 
@@ -123,23 +156,32 @@ export class GameSimulation {
 			if (move.updateFacing) {
 				player.getBody().SetAngle(move.facing);
 			}
-			const oldPos = player.getBody().GetPosition();
-			const change = this.getPositionChange(move.moveDirection);
-			const newPos = new b2Vec2(oldPos.x + (4 * change.dx), oldPos.y + (4 * change.dy));
-			player.getBody().SetPosition(newPos);
+			player.getBody().SetLinearVelocity(this.getVelocityVector(move.moveDirection));
 		}
 	}
 
+	/**
+	 * Get the current frame number.
+	 *
+	 * @return {number} The current frame number.
+	 */
 	public getFrame(): number {
 		return this.frame;
 	}
 
+	/**
+	 * Get a list of all players in the simulation.
+	 *
+	 * @return {Player[]} An array of players currently in the simulation.
+	 */
 	public getPlayers(): Player[] {
 		return Array.from(this.players.values());
 	}
 
 	/**
 	 * Gets an array of position updates for every object that is in the simulation
+	 *
+	 * @return {PositionUpdate[]} An array of position updates.
 	 */
 	public getPositionUpdates(): IPositionUpdate[] {
 		let updates: IPositionUpdate[] = [];
@@ -180,38 +222,59 @@ export class GameSimulation {
 		return newObjectsDescriptions;
 	}
 
-	private getPositionChange(dir: PlayerMoveDirection): Change {
-		const c: Change = {dx: 0, dy: 0};
-		switch (dir) {
+		/**
+	 * Get the velocity for a desired change in position represented by
+	 * Up, UpLeft, etc.
+	 *
+	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
+	 * @return {XY} A velocity vector.
+	 */
+	private getVelocityVector(direction: PlayerMoveDirection): XY {
+		const velocity: XY = { x: 0, y: 0 };
+		switch (direction) {
 			case PlayerMoveDirection.Right:
-				c.dx = 3;
+				velocity.x = this.playerSpeed;
 				break;
 			case PlayerMoveDirection.UpRight:
-				c.dx = 3;
-				c.dy = -3;
+				velocity.x = this.playerSpeed;
+				velocity.y = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.Up:
-				c.dy = -3;
+				velocity.y = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.UpLeft:
-				c.dx = -3;
-				c.dy = -3;
+				velocity.x = -this.playerSpeed;
+				velocity.y = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.Left:
-				c.dx = -3;
+				velocity.x = -this.playerSpeed;
 				break;
 			case PlayerMoveDirection.DownLeft:
-				c.dx = -3;
-				c.dy = 3;
+				velocity.x = -this.playerSpeed;
+				velocity.y = this.playerSpeed;
 				break;
 			case PlayerMoveDirection.Down:
-				c.dy = 3;
+				velocity.y = this.playerSpeed;
 				break;
 			case PlayerMoveDirection.DownRight:
-				c.dx = 3;
-				c.dy = 3;
+				velocity.x = this.playerSpeed;
+				velocity.y = this.playerSpeed;
 				break;
 		}
-		return c;
+
+		// If the player is moving diagonally, and X and Y components of the
+		// velocity add together, which makes the player move faster diagonally
+		// compared to moving only up/down/left/right. We divide the X and Y
+		// components of the velocity by sqrt(2) to adjust for this.
+		if (direction === PlayerMoveDirection.UpRight
+				|| direction === PlayerMoveDirection.UpLeft
+				|| direction === PlayerMoveDirection.DownLeft
+				|| direction === PlayerMoveDirection.DownRight
+		) {
+			velocity.x = velocity.x / Math.sqrt(2);
+			velocity.y = velocity.y / Math.sqrt(2);
+		}
+
+		return velocity;
 	}
 }
