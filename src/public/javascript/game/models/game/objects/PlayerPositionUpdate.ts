@@ -1,7 +1,7 @@
 /**
  * Defines an update that the server sends to the client informing them where every player in the game is
  */
-import {IPositionUpdate} from "./IPositionUpdate.js";
+import { IPositionUpdate } from "./IPositionUpdate.js";
 
 export class PlayerPositionUpdate implements IPositionUpdate {
     frame: number;

@@ -1,4 +1,4 @@
-import {v1} from "uuid/interfaces";
+import { v1 } from "uuid/interfaces";
 
 export class PlayerInfo {
     /**

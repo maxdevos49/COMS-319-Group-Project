@@ -6,12 +6,12 @@ export interface IObjectDescription {
 	/**
 	 * The id of the new object
 	 */
-	id: string;
+    id: string;
 	/**
 	 * The type of the new object
 	 */
-	type: NewObjectType;
+    type: NewObjectType;
 }
 export enum NewObjectType {
-	Player
+    Player
 }

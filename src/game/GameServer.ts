@@ -1,10 +1,10 @@
 import { Namespace, Server, Socket } from "socket.io";
-import { PlayerInfo } from "../public/javascript/models/game/PlayerInfo";
+import { PlayerInfo } from "../public/javascript/game/models/game/PlayerInfo";
 import v1Gen from "uuid/v1";
 import { GameSimulation } from "./simulation/GameSimulation";
-import { PlayerMoveUpdateQueue } from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import { PlayerMoveUpdate } from "../public/javascript/models/game/PlayerMoveUpdate";
-import { IPositionUpdate } from "../public/javascript/models/game/objects/IPositionUpdate";
+import { PlayerMoveUpdateQueue } from "../public/javascript/game/data-structures/PlayerMoveUpdateQueue";
+import { PlayerMoveUpdate } from "../public/javascript/game/models/game/PlayerMoveUpdate";
+import { IPositionUpdate } from "../public/javascript/game/models/game/objects/IPositionUpdate";
 
 export class GameServer {
     /**

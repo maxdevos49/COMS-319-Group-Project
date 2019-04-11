@@ -79,6 +79,14 @@ router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Re
     })
 });
 
+router.post("/changeNickname", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+    Account.findById(res.locals.authentication.id, (err, doc: any) => {
+        doc.nickname = req.body.nickname;
+        doc.save()
+        return res.send(doc.nickname);
+    })
+});
+
 /**
  * GET:/Auth/forgotPassword
  */

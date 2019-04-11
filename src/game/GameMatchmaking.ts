@@ -1,7 +1,7 @@
 import * as http from "http";
-import {Namespace, Server, Socket} from "socket.io";
+import { Namespace, Server, Socket } from "socket.io";
 import { GameServer } from "./GameServer";
-import {GamesList} from "../public/javascript/models/games/GamesList";
+import { GamesList } from "../public/javascript/game/models/games/GamesList";
 
 export class GameMatchmaking {
     /**

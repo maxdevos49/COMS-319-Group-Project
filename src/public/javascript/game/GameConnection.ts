@@ -1,10 +1,10 @@
-import {GamesList} from "../models/games/GamesList.js";
-import {PlayerInfo} from "../models/game/PlayerInfo.js";
-import {PositionUpdateQueue} from "../data-structures/PositionUpdateQueue.js";
-import {IPositionUpdate} from "../models/game/objects/IPositionUpdate.js";
-import {PlayerMoveUpdate} from "../models/game/PlayerMoveUpdate.js";
-import {IObjectDescription} from "../models/game/objects/IObjectDescription";
-import {TerrainMap} from "../models/game/TerrainMap";
+import { GamesList } from "./models/games/GamesList.js";
+import { PlayerInfo } from "./models/game/PlayerInfo.js";
+import { PositionUpdateQueue } from "./data-structures/PositionUpdateQueue.js";
+import { IPositionUpdate } from "./models/game/objects/IPositionUpdate.js";
+import { PlayerMoveUpdate } from "./models/game/PlayerMoveUpdate.js";
+import { IObjectDescription } from "./models/game/objects/IObjectDescription";
+import { TerrainMap } from "./models/game/TerrainMap";
 
 /**
  * Socket endpoints for the client.
@@ -114,8 +114,8 @@ export class GameConnection {
 		this.socket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
 			console.log(
 				`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
-					otherPlayer.name
-					}`
+				otherPlayer.name
+				}`
 			);
 			this.players.push(otherPlayer);
 		});
