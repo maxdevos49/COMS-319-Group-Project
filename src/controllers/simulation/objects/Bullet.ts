@@ -1,5 +1,4 @@
 import { GameObject } from "./GameObject";
-import { b2World } from "../../../../lib/box2d-physics-engine/Dynamics/b2World";
 import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
 import { BulletObjectDescription } from "../../../public/javascript/models/game/objects/BulletObjectDescription";
 import { GameObjectType, IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
@@ -27,7 +26,7 @@ export class Bullet extends GameObject {
 	 */
 	public fixture: b2Fixture;
 
-	constructor(simulation: GameSimulation, id: string, ownerId: string) {
+	constructor(simulation: GameSimulation, id: string, ownerId: string, x: number = 0, y: number = 0, angle: number = 0) {
 		super(id, GameObjectType.Bullet, simulation);
 		this.ownerId = ownerId;
 
@@ -35,7 +34,8 @@ export class Bullet extends GameObject {
 		const bodyDef: b2BodyDef = new b2BodyDef();
 		bodyDef.userData = id;
 		bodyDef.type = b2BodyType.b2_dynamicBody;
-		bodyDef.position.Set(0,0);
+		bodyDef.position.Set(x,y);
+		bodyDef.angle = angle;
 		bodyDef.bullet = true;
 		this.body = this.simulation.world.CreateBody(bodyDef);
 

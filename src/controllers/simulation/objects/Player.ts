@@ -5,8 +5,8 @@ import {
 	b2CircleShape,
 	b2Fixture,
 	b2FixtureDef,
-	b2PolygonShape,
-	b2World,
+	b2PolygonShape, b2Shape,
+	b2World, XY,
 } from "../../../../lib/box2d-physics-engine/Box2D";
 import { IPositionUpdate } from "../../../public/javascript/models/game/objects/IPositionUpdate";
 import {
@@ -18,6 +18,9 @@ import { GameObjectType, IObjectDescription } from "../../../public/javascript/m
 import { PlayerObjectDescription } from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/models/game/PlayerMoveUpdate";
+import { Bullet } from "./Bullet";
+import v1Gen from "uuid/v1";
 
 /**
  * A player in the game. Contains the physics body.
@@ -26,7 +29,15 @@ export class Player extends GameObject{
 	/**
 	 * The cool-down between shooting in frames
 	 */
-	public static readonly SHOOT_COOLDOWN = 5;
+	public static SHOOT_COOLDOWN: number = 5;
+	/**
+	 * Velocity in meters per second that the players should move.
+	 */
+	public static playerSpeed: number = 3;
+	/**
+	 * The hit box for player weapon collisions
+	 */
+	public static playerHitboxShape: b2PolygonShape = new b2PolygonShape().SetAsBox(0.5, 0.5);
 
 	/**
 	 * The Box2D physics body used for the physics simulation.
@@ -73,7 +84,7 @@ export class Player extends GameObject{
 		// Create fixture for the player colliding with weapons
 		const playerHitboxFixtureDef: b2FixtureDef = new b2FixtureDef();
 		playerHitboxFixtureDef.userData = id;
-		playerHitboxFixtureDef.shape = new b2PolygonShape().SetAsBox(0.5, 0.5);
+		playerHitboxFixtureDef.shape = Player.playerHitboxShape;
 		playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
 		this.playerCollisionFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
 	}
@@ -125,5 +136,83 @@ export class Player extends GameObject{
 	 */
 	public getAsNewObject(): IObjectDescription {
 		return new PlayerObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle());
+	}
+
+	public applyPlayerMoveUpdate(move: PlayerMoveUpdate) {
+		if (move.updateFacing) {
+			this.getBody().SetAngle(move.facing);
+		}
+		this.getBody().SetLinearVelocity(Player.getVelocityVector(move.moveDirection));
+
+		// If the player wants to shoot
+		if (move.attemptShoot) {
+			// Attempt to shoot, might be stopped by the cool down
+			if (this.attemptShoot(this.simulation.frame)) {
+				let x: number = this.body.GetPosition().x + Math.cos(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.6);
+				let y: number = this.body.GetPosition().y + Math.sin(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.6);
+				let bullet: Bullet = new Bullet(this.simulation, v1Gen(), this.id, x, y, this.body.GetAngle());
+				bullet.body.SetLinearVelocity({
+					x: 15 * Math.cos(bullet.body.GetAngle()) + this.body.GetLinearVelocity().x,
+					y: 15 * Math.sin(bullet.body.GetAngle()) + this.body.GetLinearVelocity().y
+				});
+				this.simulation.addGameObject(bullet);
+			}
+		}
+	}
+
+	/**
+	 * Get the velocity for a desired change in position represented by
+	 * Up, UpLeft, etc.
+	 *
+	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
+	 * @return {XY} A velocity vector.
+	 */
+	private static getVelocityVector(direction: PlayerMoveDirection): XY {
+		const velocity: XY = { x: 0, y: 0 };
+		switch (direction) {
+			case PlayerMoveDirection.Right:
+				velocity.x = Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.UpRight:
+				velocity.x = Player.playerSpeed;
+				velocity.y = -Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.Up:
+				velocity.y = -Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.UpLeft:
+				velocity.x = -Player.playerSpeed;
+				velocity.y = -Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.Left:
+				velocity.x = -Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.DownLeft:
+				velocity.x = -Player.playerSpeed;
+				velocity.y = Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.Down:
+				velocity.y = Player.playerSpeed;
+				break;
+			case PlayerMoveDirection.DownRight:
+				velocity.x = Player.playerSpeed;
+				velocity.y = Player.playerSpeed;
+				break;
+		}
+
+		// If the player is moving diagonally, and X and Y components of the
+		// velocity add together, which makes the player move faster diagonally
+		// compared to moving only up/down/left/right. We divide the X and Y
+		// components of the velocity by sqrt(2) to adjust for this.
+		if (direction === PlayerMoveDirection.UpRight
+			|| direction === PlayerMoveDirection.UpLeft
+			|| direction === PlayerMoveDirection.DownLeft
+			|| direction === PlayerMoveDirection.DownRight
+		) {
+			velocity.x = velocity.x / Math.sqrt(2);
+			velocity.y = velocity.y / Math.sqrt(2);
+		}
+
+		return velocity;
 	}
 }

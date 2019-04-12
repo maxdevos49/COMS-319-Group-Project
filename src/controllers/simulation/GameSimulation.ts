@@ -48,11 +48,6 @@ export class GameSimulation {
 	private static readonly mapTileWidth = 200;
 	private static readonly mapTileHeight = 200;
 
-  /**
-   * Velocity in meters per second that the players should move.
-   */
-  public playerSpeed: number;
-
 	/**
 	 * The current frame number of the simulation.
 	 */
@@ -96,7 +91,6 @@ export class GameSimulation {
 		// DEBUG: Need this to actually use the ContactListener class
 		this.world.SetContactListener(new ContactListener());
 
-		this.playerSpeed = 3;
 		this.frame = 0;
 		this.objects = new Map<string, Player>();
 		this.newObjectsIds = [];
@@ -168,6 +162,15 @@ export class GameSimulation {
 	}
 
 	/**
+	 * Adds the game object to the simulation. This doesn't add it to the world (objects themselves are responsible for this
+	 * @param object The game object to add to this simulation
+	 */
+	public addGameObject(object: GameObject) {
+		this.newObjectsIds.push(object.id);
+		this.objects.set(object.id, object);
+	}
+
+	/**
 	 * Removes the game object that has the given simulation from this simulation. This will not remove this object
 	 * from the world. Do this with the destroy method of the object
 	 * @param id The id of the object to remove from the simulation
@@ -188,29 +191,7 @@ export class GameSimulation {
 		}
 		let player: Player | undefined = this.objects.get(move.id) as Player;
 		if (player !== undefined) {
-			if (move.updateFacing) {
-				player.getBody().SetAngle(move.facing);
-			}
-			player.getBody().SetLinearVelocity(this.getVelocityVector(move.moveDirection));
-
-			// If the player wants to shoot
-			if (move.attemptShoot) {
-				// Attempt to shoot, might be stopped by the cool down
-				if (player.attemptShoot(this.frame)) {
-					let bullet: Bullet = new Bullet(this, v1Gen(), player.id);
-					bullet.body.SetPosition({
-						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 0.6),
-						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 0.6),
-					});
-					bullet.body.SetAngle(player.getBody().GetAngle());
-					bullet.body.SetLinearVelocity({
-						x: 15 * Math.cos(bullet.body.GetAngle()) + player.getBody().GetLinearVelocity().x,
-						y: 15 * Math.sin(bullet.body.GetAngle()) + player.getBody().GetLinearVelocity().y
-					});
-					this.newObjectsIds.push(bullet.id);
-					this.objects.set(bullet.id, bullet);
-				}
-			}
+			player.applyPlayerMoveUpdate(move);
 		}
 	}
 
@@ -281,61 +262,5 @@ export class GameSimulation {
 		let temp: string[] = this.deletedObjectIds;
 		this.deletedObjectIds = [];
 		return temp;
-	}
-
-	/**
-	 * Get the velocity for a desired change in position represented by
-	 * Up, UpLeft, etc.
-	 *
-	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
-	 * @return {XY} A velocity vector.
-	 */
-	private getVelocityVector(direction: PlayerMoveDirection): XY {
-		const velocity: XY = { x: 0, y: 0 };
-		switch (direction) {
-			case PlayerMoveDirection.Right:
-				velocity.x = this.playerSpeed;
-				break;
-			case PlayerMoveDirection.UpRight:
-				velocity.x = this.playerSpeed;
-				velocity.y = -this.playerSpeed;
-				break;
-			case PlayerMoveDirection.Up:
-				velocity.y = -this.playerSpeed;
-				break;
-			case PlayerMoveDirection.UpLeft:
-				velocity.x = -this.playerSpeed;
-				velocity.y = -this.playerSpeed;
-				break;
-			case PlayerMoveDirection.Left:
-				velocity.x = -this.playerSpeed;
-				break;
-			case PlayerMoveDirection.DownLeft:
-				velocity.x = -this.playerSpeed;
-				velocity.y = this.playerSpeed;
-				break;
-			case PlayerMoveDirection.Down:
-				velocity.y = this.playerSpeed;
-				break;
-			case PlayerMoveDirection.DownRight:
-				velocity.x = this.playerSpeed;
-				velocity.y = this.playerSpeed;
-				break;
-		}
-
-		// If the player is moving diagonally, and X and Y components of the
-		// velocity add together, which makes the player move faster diagonally
-		// compared to moving only up/down/left/right. We divide the X and Y
-		// components of the velocity by sqrt(2) to adjust for this.
-		if (direction === PlayerMoveDirection.UpRight
-				|| direction === PlayerMoveDirection.UpLeft
-				|| direction === PlayerMoveDirection.DownLeft
-				|| direction === PlayerMoveDirection.DownRight
-		) {
-			velocity.x = velocity.x / Math.sqrt(2);
-			velocity.y = velocity.y / Math.sqrt(2);
-		}
-
-		return velocity;
 	}
 }
