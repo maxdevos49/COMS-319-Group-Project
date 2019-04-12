@@ -30,7 +30,7 @@ export abstract class GameObject {
 	}
 
 	/**
-	 * Removes this game object from the simulation
+	 * Destroys this game object from the box2d world
 	 */
 	destroy(): void { /* Do nothing */ };
 

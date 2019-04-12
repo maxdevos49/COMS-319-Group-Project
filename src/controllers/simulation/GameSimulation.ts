@@ -160,12 +160,16 @@ export class GameSimulation {
 	}
 
 	/**
-	 * Removes the game object that has the given simulation from this simulation. This will not remove this object
-	 * from the world. Do this with the destroy method of the object
+	 * Removes the game object that has the given simulation from this simulation. This will also remove it from the
+	 * box2d world if it exists inside of it
 	 * @param id The id of the object to remove from the simulation
 	 */
-	public removeGameObject(id: string) {
-		this.objects.delete(id);
+	public destroyGameObject(id: string) {
+		if (this.objects.has(id)) {
+			this.objects.get(id).destroy();
+			this.objects.delete(id);
+		}
+		// Add the id regardless
 		this.deletedObjectIds.push(id);
 	}
 

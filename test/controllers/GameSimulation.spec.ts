@@ -124,4 +124,11 @@ describe('GameSimulation', () => {
 		console.log(simulation.objects.get("testid2"));
 		expect(simulation.objects.get("testid2")).to.be.undefined;
 	});
+	it("Should destroy object when method called", () => {
+		const simulation: GameSimulation = new GameSimulation(new PlayerMoveUpdateQueue(1));
+		let bullet: Bullet = new Bullet(simulation, "testid2", "none", -1, 0, 0);
+		simulation.addGameObject(bullet);
+		simulation.destroyGameObject("testid2");
+		expect(simulation.objects.get("testid2")).to.be.undefined;
+	});
 });

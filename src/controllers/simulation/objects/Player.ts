@@ -93,7 +93,6 @@ export class Player extends GameObject{
 
 	public destroy(): void {
 		this.simulation.world.DestroyBody(this.body);
-		this.simulation.removeGameObject(this.id);
 	}
 
 	/**

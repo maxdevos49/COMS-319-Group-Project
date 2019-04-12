@@ -65,7 +65,6 @@ export class Bullet extends GameObject {
 
 	public destroy(): void {
 		this.simulation.world.DestroyBody(this.body);
-		this.simulation.removeGameObject(this.id);
 	}
 
 	public getAsNewObject(): IObjectDescription {
@@ -88,13 +87,13 @@ export class Bullet extends GameObject {
 	}
 
 	public collideWith(object: IObjectDescription): void {
-		this.destroy();
+		this.simulation.destroyGameObject(this.id);
 	}
 
 	public update(): void {
 		// Bullets will be destroyed when they are moving to slow
 		if (this.body.GetLinearVelocity().Length() < this.killSpeed) {
-			this.destroy();
+			this.simulation.destroyGameObject(this.id);
 		}
 	}
 }
