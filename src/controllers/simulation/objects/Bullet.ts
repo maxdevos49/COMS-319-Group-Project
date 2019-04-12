@@ -18,6 +18,10 @@ export class Bullet extends GameObject {
 	 */
 	public ownerId: string;
 	/**
+	 * The velocity at which this bullet will destroy itself
+	 */
+	public killSpeed: number;
+	/**
 	 * The body that represents the collision space of the bullet
 	 */
 	public body: b2Body;
@@ -34,10 +38,12 @@ export class Bullet extends GameObject {
 	 * @param x The x coordinate of the bullet, default 0
 	 * @param y The y coordinate of the bullet, default 0
 	 * @param angle The angle of the bullet, default 0
+	 * @param killSpeed The speed at which this bullet will be destroyed if it drops below
 	 */
-	constructor(simulation: GameSimulation, id: string, ownerId: string, x: number = 0, y: number = 0, angle: number = 0) {
+	constructor(simulation: GameSimulation, id: string, ownerId: string, x: number = 0, y: number = 0, angle: number = 0, killSpeed: number = 0) {
 		super(id, GameObjectType.Bullet, simulation);
 		this.ownerId = ownerId;
+		this.killSpeed = killSpeed;
 
 		// Create a dynamic body (fully simulated) the represents the bullet
 		const bodyDef: b2BodyDef = new b2BodyDef();
@@ -83,5 +89,12 @@ export class Bullet extends GameObject {
 
 	public collideWith(object: IObjectDescription): void {
 		this.destroy();
+	}
+
+	public update(): void {
+		// Bullets will be destroyed when they are moving to slow
+		if (this.body.GetLinearVelocity().Length() < this.killSpeed) {
+			this.destroy();
+		}
 	}
 }

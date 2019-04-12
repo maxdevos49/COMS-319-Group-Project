@@ -12,10 +12,15 @@ describe("Simulation Bullet Object", () => {
 	let bullet: Bullet;
 	let otherBullet: Bullet;
 
-	before(() => {
+	beforeEach(() => {
 		simulation = new GameSimulation(new PlayerMoveUpdateQueue(1));
 		bullet = new Bullet(simulation, "testid1", "testownerid1");
-		otherBullet = new Bullet(simulation, "testid2", "testownerid2", 4, 5, 1);
+		otherBullet = new Bullet(simulation, "testid2", "testownerid2", 4, 5, 1, 10);
+		simulation.addGameObject(bullet);
+		simulation.addGameObject(otherBullet);
+		bullet.killSpeed = 99;
+		bullet.body.SetLinearVelocity({x: 100, y: 0});
+		otherBullet.body.SetLinearVelocity({x: 1, y: 0});
 	});
 
 	it("Should create bullet at 0,0", () => {
@@ -47,5 +52,12 @@ describe("Simulation Bullet Object", () => {
 		expect(description).to.have.property("x").that.equals(4);
 		expect(description).to.have.property("y").that.equals(5);
 		expect(description).to.have.property("angle").that.equals(1);
+	});
+	it("Should destroy itself when its velocity is below the kill speed", () => {
+		expect(simulation.objects.get("testid2")).to.not.be.undefined;
+		expect(simulation.objects.get("testid1")).to.not.be.undefined;
+		simulation.nextFrame();
+		expect(simulation.objects.get("testid2")).to.be.undefined;
+		expect(simulation.objects.get("testid1")).to.not.be.undefined;
 	});
 });

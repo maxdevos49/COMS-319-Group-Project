@@ -67,13 +67,13 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(timestep: number, elapsed: number): void {
+    	// Limit updates to be processed once every 30 seconds
     	let curFrame = Math.floor(timestep / 30);
     	if (this.lastFrame == curFrame) {
     		return;
 		} else {
     		this.lastFrame = curFrame;
 		}
-		console.log(this.lastFrame);
         // Check for new game objects
         this.connection.newObjects.forEach((object: IObjectDescription) => this.addNewObject(object));
         this.connection.newObjects = [];

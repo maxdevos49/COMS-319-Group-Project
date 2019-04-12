@@ -50,4 +50,9 @@ export abstract class GameObject {
 	 * @param object The object one of the fixtures of this object has collided with
 	 */
 	collideWith(object: IObjectDescription): void { /* do nothing */ };
+
+	/**
+	 * Called once per physics frame before a step in the engine is processed
+	 */
+	update(): void { /* do nothing */ };
 }

@@ -144,12 +144,12 @@ export class Player extends GameObject{
 			if (this.attemptShoot(this.simulation.frame)) {
 				let x: number = this.body.GetPosition().x + Math.cos(this.body.GetAngle()) * (Player.playerHitboxHalfLength + 0.1);
 				let y: number = this.body.GetPosition().y + Math.sin(this.body.GetAngle()) * (Player.playerHitboxHalfLength + 0.1);
-				let bullet: Bullet = new Bullet(this.simulation, v1Gen(), this.id, x, y, this.body.GetAngle());
+				let bullet: Bullet = new Bullet(this.simulation, v1Gen(), this.id, x, y, this.body.GetAngle(), 17);
 				bullet.body.SetLinearVelocity({
 					x: 20 * Math.cos(bullet.body.GetAngle()) + this.body.GetLinearVelocity().x,
 					y: 20 * Math.sin(bullet.body.GetAngle()) + this.body.GetLinearVelocity().y
 				});
-				bullet.body.SetLinearDamping(0.1);
+				bullet.body.SetLinearDamping(0.3);
 				this.simulation.addGameObject(bullet);
 			}
 		}

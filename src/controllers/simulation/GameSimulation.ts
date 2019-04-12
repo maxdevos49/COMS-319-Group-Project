@@ -94,6 +94,9 @@ export class GameSimulation {
 			const move = this.moves.popPlayerMoveUpdate(object.id);
 			if (move != null) this.updateMove(move);
 
+			// Update the game object
+			object.update();
+
 			// DEBUG: Information about the player and its body
 			// if (this.frame % 40 == 0) {
 			// 	const id = player.getId();
@@ -103,6 +106,7 @@ export class GameSimulation {
 			// 	console.log(`id: ${id}\tx: ${x}\ty: ${y}\tangle: ${angle}\n`);
 			// }
 		});
+
 		this.moves.incrementFrame();
 		this.world.Step(
 			GameSimulation.timeStep,
