@@ -18,8 +18,8 @@ describe('GameSimulation', () => {
     const simulation: GameSimulation = new GameSimulation(updateQueue);
     simulation.addPlayer("1");
     simulation.addPlayer("2");
-    const player1Update: PlayerMoveUpdate = new PlayerMoveUpdate("1", 0, 1, true, PlayerMoveDirection.Down);
-    const player2Update: PlayerMoveUpdate = new PlayerMoveUpdate("2", 0, 1, true, PlayerMoveDirection.Down);
+    const player1Update: PlayerMoveUpdate = new PlayerMoveUpdate("1", 0, 1, true, PlayerMoveDirection.Down, false);
+    const player2Update: PlayerMoveUpdate = new PlayerMoveUpdate("2", 0, 1, true, PlayerMoveDirection.Down, false);
     updateQueue.addPlayerMoveUpdate(player1Update);
     updateQueue.addPlayerMoveUpdate(player2Update);
     simulation.nextFrame();
@@ -42,9 +42,9 @@ describe('GameSimulation', () => {
       const simulation: GameSimulation = new GameSimulation(updateQueue);
 
       // the size of the players list should increase by 1
-      const originalSize: number = simulation.getPlayers().length;
+      const originalSize: number = simulation.objects.size;
       simulation.addPlayer(v1Gen());
-      const newSize: number = simulation.getPlayers().length;
+      const newSize: number = simulation.objects.size;
       expect(newSize).to.equal(originalSize + 1);
     });
   });
@@ -56,7 +56,7 @@ describe('GameSimulation', () => {
       const id: string = v1Gen();
       simulation.addPlayer(id);
 
-      const player: Player = simulation.getPlayers()[0];
+      const player: Player = simulation.objects.get(id) as Player;
 
       // The player should be in its default position at first.
       expect(player.getBody().GetAngle()).to.equal(0);
@@ -64,7 +64,7 @@ describe('GameSimulation', () => {
       expect(player.getBody().GetPosition().y).to.equal(0);
 
       // Apply a move update.
-      let move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up);
+      let move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up, false);
       simulation.updateMove(move);
       // Simulate 1 second in the simulation.
       for (let i = 0; i < 30; i++) {
@@ -76,7 +76,7 @@ describe('GameSimulation', () => {
       expect(player.getBody().GetPosition().y).to.equal(-simulation.playerSpeed);
 
       // Apply a second move.
-      move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft);
+      move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft, false);
       simulation.updateMove(move);
       for (let i = 0; i < 30; i++) {
         simulation.nextFrame();
@@ -94,7 +94,7 @@ describe('GameSimulation', () => {
       const id: string = v1Gen();
       simulation.addPlayer(id);
 
-      const player: Player = simulation.getPlayers()[0];
+      const player: Player = simulation.objects.get(id) as Player;
 
       // the player should be in its default position at first
       expect(player.getBody().GetAngle()).to.equal(0);
