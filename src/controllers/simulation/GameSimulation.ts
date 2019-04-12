@@ -56,7 +56,7 @@ export class GameSimulation {
 	/**
 	 * The current frame number of the simulation.
 	 */
-	private frame: number;
+	public frame: number;
 
 	/**
 	 * List of objects (dynamic bodies) in the simulation.
@@ -199,8 +199,8 @@ export class GameSimulation {
 				if (player.attemptShoot(this.frame)) {
 					let bullet: Bullet = new Bullet(v1Gen(), player.id, this.world);
 					bullet.body.SetPosition({
-						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 1),
-						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 1),
+						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 0.6),
+						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 0.6),
 					});
 					bullet.body.SetAngle(player.getBody().GetAngle());
 					bullet.body.SetLinearVelocity({

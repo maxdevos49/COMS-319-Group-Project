@@ -7,4 +7,12 @@ export interface IPositionUpdate {
      * The frame this update is for
      */
     frame: number;
+	/**
+	 * The x coordinate of the position update
+	 */
+	x: number;
+	/**
+	 * The y coordinate of the position update
+	 */
+    y: number;
 }

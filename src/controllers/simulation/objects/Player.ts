@@ -17,6 +17,7 @@ import { IGameObject } from "./IGameObject";
 import { GameObjectType, IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
 import { PlayerObjectDescription } from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
+import { PlayerMoveUpdate } from "../../../public/javascript/models/game/PlayerMoveUpdate";
 
 /**
  * A player in the game. Contains the physics body.
