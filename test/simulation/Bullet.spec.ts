@@ -4,18 +4,18 @@ import { b2World } from "../../lib/box2d-physics-engine/Dynamics/b2World";
 import { Bullet } from "../../src/controllers/simulation/objects/Bullet";
 import { BulletPositionUpdate } from "../../src/public/javascript/models/game/objects/BulletPositionUpdate";
 import { BulletObjectDescription } from "../../src/public/javascript/models/game/objects/BulletObjectDescription";
+import { GameSimulation } from "../../src/controllers/simulation/GameSimulation";
+import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
 
 describe("Simulation Bullet Object", () => {
-	let gravity: b2Vec2;
-	let world: b2World;
+	let simulation: GameSimulation;
 	let bullet: Bullet;
 	let otherBullet: Bullet;
 
 	before(() => {
-		gravity = new b2Vec2(0, 0);
-		world = new b2World(gravity);
-		bullet = new Bullet("testid1", "testownerid1", world);
-		otherBullet = new Bullet("testid2", "testownerid2", world);
+		simulation = new GameSimulation(new PlayerMoveUpdateQueue(1));
+		bullet = new Bullet(simulation, "testid1", "testownerid1");
+		otherBullet = new Bullet(simulation, "testid2", "testownerid2");
 		otherBullet.body.SetPositionXY(4, 5);
 		otherBullet.body.SetAngle(1);
 	});

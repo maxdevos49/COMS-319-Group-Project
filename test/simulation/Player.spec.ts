@@ -1,20 +1,18 @@
 import {expect} from "chai";
-import {b2Vec2} from "../../lib/box2d-physics-engine/Common/b2Math";
-import {b2World} from "../../lib/box2d-physics-engine/Dynamics/b2World";
 import {Player} from "../../src/controllers/simulation/objects/Player";
+import { GameSimulation } from "../../src/controllers/simulation/GameSimulation";
+import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
 
 describe("Simulation Player Object", () => {
-    let gravity: b2Vec2;
-    let world: b2World;
+    let simulation: GameSimulation;
     let player: Player;
     let otherPlayer: Player;
 
     beforeEach(() => {
-        gravity = new b2Vec2(0, 0);
-        world = new b2World(gravity);
-        player = new Player("testid1", world);
-        otherPlayer = new Player("testid2", world);
-        world.Step(1,1,1);
+    	simulation = new GameSimulation(new PlayerMoveUpdateQueue(1))
+        player = new Player(simulation, "testid1");
+        otherPlayer = new Player(simulation,"testid2");
+        simulation.nextFrame();
     });
 
     it("Should create player located at 0,0", () => {

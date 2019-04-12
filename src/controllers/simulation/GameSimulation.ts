@@ -7,7 +7,7 @@ import { IPositionUpdate } from "../../public/javascript/models/game/objects/IPo
 import { TerrainMap } from "../../public/javascript/models/game/TerrainMap";
 import { GameObjectType, IObjectDescription } from "../../public/javascript/models/game/objects/IObjectDescription";
 import { TerrainGenerator } from "./TerrainGenerator";
-import { IGameObject } from "./objects/IGameObject";
+import { GameObject } from "./objects/GameObject";
 import { Bullet } from "./objects/Bullet";
 import v1Gen from "uuid/v1";
 
@@ -62,7 +62,7 @@ export class GameSimulation {
 	 * List of objects (dynamic bodies) in the simulation.
 	 * The Map makes it easier to update players by their ID.
 	 */
-	public objects: Map<string, IGameObject>;
+	public objects: Map<string, GameObject>;
 	/**
 	 * The terrain map for this simulation, object represents all of parts of the game world that don't change
 	 */
@@ -143,16 +143,11 @@ export class GameSimulation {
 			let ida: string = curContact.GetFixtureA().m_userData;
 			let idb: string = curContact.GetFixtureB().m_userData;
 			// Check that both objects exist in the map and retrieve them
-			let objecta: IGameObject = this.objects.get(ida);
-			let objectb: IGameObject = this.objects.get(idb);
+			let objecta: GameObject = this.objects.get(ida);
+			let objectb: GameObject = this.objects.get(idb);
 			if (objecta && objectb) {
-				if (objecta.type === GameObjectType.Bullet) {
-					this.removeGameObject(objecta);
-				}
-
-				if (objectb.type === GameObjectType.Bullet) {
-					this.removeGameObject(objectb);
-				}
+				objecta.collideWith(objectb);
+				objectb.collideWith(objecta);
 			}
 
 			curContact = curContact.m_next;
@@ -167,14 +162,19 @@ export class GameSimulation {
 	 * @param {string} id - The UUID of the player.
 	 */
 	public addPlayer(id: string): void {
-		const player: Player = new Player(id, this.world);
+		const player: Player = new Player(this, id);
 		this.objects.set(id, player);
 		this.newObjectsIds.push(id);
 	}
 
-	public removeGameObject(object: IGameObject) {
-		object.deconstruct(this.world);
-		this.deletedObjectIds.push(object.id);
+	/**
+	 * Removes the game object that has the given simulation from this simulation. This will not remove this object
+	 * from the world. Do this with the destroy method of the object
+	 * @param id The id of the object to remove from the simulation
+	 */
+	public removeGameObject(id: string) {
+		this.objects.delete(id);
+		this.deletedObjectIds.push(id);
 	}
 
 	/**
@@ -197,7 +197,7 @@ export class GameSimulation {
 			if (move.attemptShoot) {
 				// Attempt to shoot, might be stopped by the cool down
 				if (player.attemptShoot(this.frame)) {
-					let bullet: Bullet = new Bullet(v1Gen(), player.id, this.world);
+					let bullet: Bullet = new Bullet(this, v1Gen(), player.id);
 					bullet.body.SetPosition({
 						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 0.6),
 						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 0.6),
@@ -230,7 +230,7 @@ export class GameSimulation {
 	 */
 	public getPositionUpdates(): IPositionUpdate[] {
 		let updates: IPositionUpdate[] = [];
-		this.objects.forEach((object: IGameObject, id: string) => {
+		this.objects.forEach((object: GameObject, id: string) => {
 			updates.push(object.getPositionUpdate(this.frame))
 		});
 		return updates;
@@ -241,7 +241,7 @@ export class GameSimulation {
 	 */
 	public getObjectDescriptions(): IObjectDescription[] {
 		let descriptions: IObjectDescription[] = [];
-		this.objects.forEach((object: IGameObject, id: string) => {
+		this.objects.forEach((object: GameObject, id: string) => {
 			descriptions.push(object.getAsNewObject());
 		});
 		return descriptions;
@@ -261,8 +261,8 @@ export class GameSimulation {
 		// has been removed, since the simulation should not be expected to check the new object id array every time a object
 		// is destroyed
 		let newObjectsDescriptions: IObjectDescription[] = this.newObjectsIds.map((id: string) => this.objects.get(id))
-			.filter((object: IGameObject) => object !== undefined)
-			.map((object: IGameObject) => object.getAsNewObject());
+			.filter((object: GameObject) => object !== undefined)
+			.map((object: GameObject) => object.getAsNewObject());
 		this.newObjectsIds = [];
 		return newObjectsDescriptions;
 	}

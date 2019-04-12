@@ -1,4 +1,4 @@
-import { IGameObject } from "./IGameObject";
+import { GameObject } from "./GameObject";
 import { b2World } from "../../../../lib/box2d-physics-engine/Dynamics/b2World";
 import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
 import { BulletObjectDescription } from "../../../public/javascript/models/game/objects/BulletObjectDescription";
@@ -8,8 +8,9 @@ import { IPositionUpdate } from "../../../public/javascript/models/game/objects/
 import { b2Fixture, b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
 import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
 import { weaponCollisionFilter } from "../CollisionFilters";
+import { GameSimulation } from "../GameSimulation";
 
-export class Bullet implements IGameObject {
+export class Bullet extends GameObject {
 	public id: string;
 	public type: GameObjectType;
 
@@ -26,9 +27,8 @@ export class Bullet implements IGameObject {
 	 */
 	public fixture: b2Fixture;
 
-	constructor(id: string, ownerId: string, world: b2World) {
-		this.id = id;
-		this.type = GameObjectType.Bullet;
+	constructor(simulation: GameSimulation, id: string, ownerId: string) {
+		super(id, GameObjectType.Bullet, simulation);
 		this.ownerId = ownerId;
 
 		// Create a dynamic body (fully simulated) the represents the bullet
@@ -37,7 +37,7 @@ export class Bullet implements IGameObject {
 		bodyDef.type = b2BodyType.b2_dynamicBody;
 		bodyDef.position.Set(0,0);
 		bodyDef.bullet = true;
-		this.body = world.CreateBody(bodyDef);
+		this.body = this.simulation.world.CreateBody(bodyDef);
 
 		// Create the collision fixture for the bullet
 		const fixtureDef: b2FixtureDef = new b2FixtureDef();
@@ -48,11 +48,12 @@ export class Bullet implements IGameObject {
 		this.fixture = this.body.CreateFixture(fixtureDef);
 	}
 
-	deconstruct(world: b2World): void {
-		world.DestroyBody(this.body);
+	public destroy(): void {
+		this.simulation.world.DestroyBody(this.body);
+		this.simulation.removeGameObject(this.id);
 	}
 
-	getAsNewObject(): IObjectDescription {
+	public getAsNewObject(): IObjectDescription {
 		return new BulletObjectDescription(
 			this.id,
 			this.ownerId,
@@ -62,12 +63,19 @@ export class Bullet implements IGameObject {
 		);
 	}
 
-	getPositionUpdate(frame: number): IPositionUpdate {
+	public getPositionUpdate(frame: number): IPositionUpdate {
 		return new BulletPositionUpdate(
 			this.id,
 			frame,
 			this.body.GetPosition().x,
 			this.body.GetPosition().y
 		);
+	}
+
+	public collideWith(object: IObjectDescription): void {
+		// Don't collide with the object that owns the bullet
+		if (this.ownerId !== object.id) {
+			this.destroy();
+		}
 	}
 }

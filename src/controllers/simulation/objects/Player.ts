@@ -13,30 +13,21 @@ import {
 	PlayerActionState,
 	PlayerPositionUpdate
 } from "../../../public/javascript/models/game/objects/PlayerPositionUpdate";
-import { IGameObject } from "./IGameObject";
+import { GameObject } from "./GameObject";
 import { GameObjectType, IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
 import { PlayerObjectDescription } from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
-import { PlayerMoveUpdate } from "../../../public/javascript/models/game/PlayerMoveUpdate";
+import { GameSimulation } from "../GameSimulation";
 
 /**
  * A player in the game. Contains the physics body.
  */
-export class Player implements IGameObject{
+export class Player extends GameObject{
 	/**
 	 * The cool-down between shooting in frames
 	 */
 	public static readonly SHOOT_COOLDOWN = 5;
 
-	/**
-	 * The UUID of the player. This should correspond with the UUID assigned to
-	 * a particular connection.
-	 */
-	public id: string;
-	/**
-	 * The type of this game object
-	 */
-	public type: GameObjectType;
 	/**
 	 * The Box2D physics body used for the physics simulation.
 	 */
@@ -54,7 +45,8 @@ export class Player implements IGameObject{
 	 */
 	public lastShotFrame: number;
 
-	constructor(id: string, world: b2World) {
+	constructor(simulation: GameSimulation, id: string) {
+		super(id, GameObjectType.Player, simulation)
 		this.id = id;
 		this.type = GameObjectType.Player;
 
@@ -66,7 +58,7 @@ export class Player implements IGameObject{
 		const bodyDef: b2BodyDef = new b2BodyDef();
 		bodyDef.type = b2BodyType.b2_dynamicBody;
 		bodyDef.position.Set(0, 0);
-		this.body = world.CreateBody(bodyDef);
+		this.body = this.simulation.world.CreateBody(bodyDef);
 
 		// Fixtures are carried around on the bodies. They define a body's
 		// geometry and mass. These are important for collisions.
@@ -86,8 +78,9 @@ export class Player implements IGameObject{
 		this.playerCollisionFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
 	}
 
-	deconstruct(world: b2World): void {
-		world.DestroyBody(this.body);
+	public destroy(): void {
+		this.simulation.world.DestroyBody(this.body);
+		this.simulation.removeGameObject(this.id);
 	}
 
 	public getId(): string {
