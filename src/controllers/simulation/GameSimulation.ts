@@ -15,7 +15,6 @@ import {IObjectDescription} from "../../public/javascript/models/game/objects/IO
 import {TerrainGenerator} from "./TerrainGenerator";
 import { IGameObject } from "./objects/IGameObject";
 import { Bullet } from "./objects/Bullet";
-import uuid = require("uuid");
 import v1Gen from "uuid/v1";
 
 // DEBUG: Write to the console when bodies contact each other

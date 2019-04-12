@@ -32,10 +32,21 @@ export class Bullet implements IGameObject {
 	}
 
 	getAsNewObject(): IObjectDescription {
-		return new BulletObjectDescription(this.id, this.ownerId, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle());
+		return new BulletObjectDescription(
+			this.id,
+			this.ownerId,
+			this.body.GetPosition().x,
+			this.body.GetPosition().y,
+			this.body.GetAngle()
+		);
 	}
 
 	getPositionUpdate(frame: number): IPositionUpdate {
-		return new BulletPositionUpdate(this.id, frame, this.body.GetPosition().x, this.body.GetPosition().y);
+		return new BulletPositionUpdate(
+			this.id,
+			frame,
+			this.body.GetPosition().x,
+			this.body.GetPosition().y
+		);
 	}
 }

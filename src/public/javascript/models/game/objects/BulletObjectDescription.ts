@@ -30,5 +30,6 @@ export class BulletObjectDescription implements IObjectDescription {
 		this.type = NewObjectType.Bullet;
 		this.x = x;
 		this.y = y;
+		this.angle = angle;
 	}
 }
