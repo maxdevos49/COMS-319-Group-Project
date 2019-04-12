@@ -76,6 +76,6 @@ export class Player implements IGameObject{
 	 * knowledge of this player
 	 */
 	public getAsNewObject(): IObjectDescription {
-		return new PlayerObjectDescription(this.id, NewObjectType.Player, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle());
+		return new PlayerObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle());
 	}
 }
