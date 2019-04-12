@@ -32,6 +32,13 @@ const AccountSchema = new Schema({
         type: String,
         required: true
     },
+    token: {
+        type: String
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
+    },
     isActive: {
         type: Boolean,
         default: true

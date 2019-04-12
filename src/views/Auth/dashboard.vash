@@ -35,9 +35,8 @@
                             @html.LabelFor(model => model.email)
                             <div class="row">
                                 @html.EditorFor(model => model.email, null, { readonly: "", class: "form-control col-md-10 m-1" })
-                                @html.Navigator(html.Edit, null, null, {class: "m-1"})
+                                <a class="btn btn-primary m-1" href="/auth/confirmEmail"><i class="fa fa-info-circle fa-large" aria-hidden="true"></i></a>
                             </div>
-                            @html.ValidationMessageFor(model => model.email)
                         </div>
                     </div>
 

@@ -51,6 +51,10 @@ export const config: IConfig = {
         domain: process.env.DOMAIN,
         transport: process.env.TRANSPORT
     },
+    email: {
+        username: process.env.USERNAME,
+        password: process.env.PASSWORD
+    },
     hash: {
         salt: process.env.HASH_SALT
     },

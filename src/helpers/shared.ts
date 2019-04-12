@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import nodemailer from "nodemailer";
 import { config } from "../config";
 
 /**
@@ -26,6 +27,43 @@ class Shared {
         return bcrypt.compareSync(str, hash);
     }
 
+    static async sendEmail(email: IEmail) {
+
+        let account = { user: "", pass: "" }
+        if (config.server.enviroment === "development") {
+            account = await nodemailer.createTestAccount();
+        } else {
+            account = {
+                user: config.email.username,
+                pass: config.email.password
+            }
+        }
+
+        let transporter = nodemailer.createTransport({
+            host: "smtp.ethereal.email",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: account.user,
+                pass: account.pass
+            }
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: '"BRTD@gmail.com" <BRTD@egmail.com>',
+            to: email.email,
+            subject: email.subject,
+            html: email.body
+        });
+
+        if (config.server.enviroment === "development") {
+            console.log("Message sent: %s", info.messageId);
+            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        }
+
+    }
+
     /**
      * Method designed to escape html in a string
      * @param text
@@ -47,3 +85,9 @@ class Shared {
 }
 
 export default Shared;
+
+export interface IEmail {
+    email: string;
+    subject: string;
+    body: string;
+}

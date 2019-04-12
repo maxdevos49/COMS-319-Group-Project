@@ -59,6 +59,11 @@ export interface IConfig {
         salt: string;
     };
 
+    email: {
+        username: string;
+        password: string;
+    }
+
     /**
      * Configuration for the database
      */

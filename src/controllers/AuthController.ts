@@ -7,6 +7,9 @@ import { LoginViewModel } from "../viewModels/LoginViewModel";
 import { View } from "../helpers/vash/view";
 import Account from "../models/Account";
 import { DashboardViewModel } from "../viewModels/DashboardViewModel";
+import Shared from "../helpers/shared";
+import { config } from "../config";
+import v1 from "uuid/v1";
 
 const router: Router = express.Router();
 
@@ -109,10 +112,68 @@ router.post("/changePassword", permit(["user"], "/Auth/login"), (req: Request, r
 
 
 /**
- * GET:/Auth/forgotPassword
+ * GET:/Auth/confirmEmail
  */
-// router.get("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {
-// });
+router.get("/confirmEmail", permit(["user"]), (req: Request, res: Response) => {
+    res.render("Auth/confirmEmail", View(res, DashboardViewModel));
+});
+
+/**
+ * POST:/Auth/confirmEmail
+ */
+router.post("/confirmEmail", permit(["user"]), (req: Request, res: Response) => {
+    Account.findOne({ email: req.body.email }, (err, data) => {
+        if (err) throw err;
+
+        if (data) {
+            res.locals.validation = [{ message: "Email was sent", }];
+            let token = v1();
+            //send email
+            Shared.sendEmail({
+                email: req.body.email,
+                subject: "B.R.T.D. Email Verification",
+                body: `
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>B.R.T.D. Email Verification</title>
+                    </head>
+                    <body>
+                        <h2>B.R.T.D. Email Verification</h2>
+                        <a href="${config.server.transport}://${config.server.domain}/Auth/verification?token=${token}">Verification Link</a>
+                    </body>
+                </html>
+                `
+            });
+            //add token to db.
+            Account.findById(res.locals.authentication.id, (err, doc: any) => {
+                doc.token = token;
+                doc.save();
+                res.render("Auth/confirmEmail", View(res, DashboardViewModel));
+            });
+        } else {
+            res.locals.validation = [{ message: "Email was not found." }];
+            res.render("Auth/confirmEmail", View(res, DashboardViewModel));
+        }
+    });
+});
+
+/**
+ * GET:/Auth/verification?:token
+ */
+router.get("/verification?:token", (req: Request, res: Response) => {
+    Account.findOne({ token: req.query.token }, (err, doc: any) => {
+        if (err) throw err;
+
+        if (doc) {
+            doc.confirmed = true;
+            doc.save();
+        } else {
+            res.locals.validation = [{ message: "Invalid Token" }];
+        }
+        return res.render("Auth/verification");
+    })
+})
 
 /**
  * POST:/Auth/forgotPassword
