@@ -14,7 +14,7 @@ import {
 import {IGameObject} from "./IGameObject";
 import {IObjectDescription} from "../../../public/javascript/models/game/objects/IObjectDescription";
 import {PlayerObjectDescription} from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
-import { worldCollisionFilter } from "../CollisionFilters";
+import { hitboxCollisionFilter, weaponCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 
 /**
  * A player in the game. Contains the physics body.
@@ -64,13 +64,17 @@ export class Player implements IGameObject{
 
 		// Create fixture for the player colliding with the world
 		const playerCollisionFixtureDef: b2FixtureDef = new b2FixtureDef();
+		playerCollisionFixtureDef.userData = id;
 		playerCollisionFixtureDef.shape = new b2CircleShape(.5); // 50 m radius
 		playerCollisionFixtureDef.filter.Copy(worldCollisionFilter);
 		// fixture.density = 1.0; // 1.0 kg/m^3
-		this.playerCollisionFixture = this.body.CreateFixture(playerCollisionFixtureDef, 5.0); // 1.0 kg/m^3 density
+		this.playerCollisionFixture = this.body.CreateFixture(playerCollisionFixtureDef, 4.0); // 1.0 kg/m^3 density
 		// Create fixture for the player colliding with weapons
 		const playerHitboxFixtureDef: b2FixtureDef = new b2FixtureDef();
-		playerHitboxFixtureDef.shape = new b2PolygonShape().SetAsBox(0.5, 0.5)
+		playerHitboxFixtureDef.userData = id;
+		playerHitboxFixtureDef.shape = new b2PolygonShape().SetAsBox(0.5, 0.5);
+		playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
+		this.playerCollisionFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
 	}
 
 	public getId(): string {

@@ -20,7 +20,10 @@ import v1Gen from "uuid/v1";
 // DEBUG: Write to the console when bodies contact each other
 class ContactListener extends b2ContactListener {
 	public BeginContact(contact: b2Contact): void {
-		console.log('Contact detected');
+		// Check if one of the fixtures is a bullet
+
+
+		console.log('Contact detected on: ' + contact.GetFixtureA().m_userData);
 	}
 	public EndContact(contact: b2Contact): void {
 		console.log('Contact removed');
@@ -81,6 +84,7 @@ export class GameSimulation {
 	 * An array containing the ids of new objects that now exist in the simulation
 	 */
 	private newObjectsIds: string[];
+	private destroyedObjectsIds: string[];
 
 	/**
 	 * Construct a new simulation. The simulation starts running as soon as it
@@ -166,7 +170,10 @@ export class GameSimulation {
 				// Attempt to shoot, might be stopped by the cool down
 				if (player.attemptShoot(this.frame)) {
 					let bullet: Bullet = new Bullet(v1Gen(), player.id, this.world);
-					bullet.body.SetPosition(player.getBody().GetPosition());
+					bullet.body.SetPosition({
+						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius),
+						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius),
+					});
 					bullet.body.SetAngle(player.getBody().GetAngle());
 					bullet.body.SetLinearVelocity({
 						x: 15 * Math.cos(bullet.body.GetAngle()) + player.getBody().GetLinearVelocity().x,

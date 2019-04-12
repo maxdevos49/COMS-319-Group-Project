@@ -31,6 +31,7 @@ export class Bullet implements IGameObject {
 
 		// Create a dynamic body (fully simulated) the represents the bullet
 		const bodyDef: b2BodyDef = new b2BodyDef();
+		bodyDef.userData = id;
 		bodyDef.type = b2BodyType.b2_dynamicBody;
 		bodyDef.position.Set(0,0);
 		bodyDef.bullet = true;
@@ -38,10 +39,11 @@ export class Bullet implements IGameObject {
 
 		// Create the collision fixture for the bullet
 		const fixtureDef: b2FixtureDef = new b2FixtureDef();
-		fixtureDef.shape = new b2CircleShape(.1); // 50 m radius
+		fixtureDef.userData = id;
+		fixtureDef.shape = new b2CircleShape(.05);
 		fixtureDef.filter.Copy(weaponCollisionFilter);
-		// fixture.density = 1.0; // 1.0 kg/m^3
-		this.fixture = this.body.CreateFixture(fixtureDef, .2); // 1.0 kg/m^3 density
+		fixtureDef.density = 0;
+		this.fixture = this.body.CreateFixture(fixtureDef);
 	}
 
 	getAsNewObject(): IObjectDescription {
