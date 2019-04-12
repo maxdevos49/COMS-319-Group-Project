@@ -13,5 +13,6 @@ export interface IObjectDescription {
 	type: NewObjectType;
 }
 export enum NewObjectType {
-	Player
+	Player,
+	Bullet
 }
