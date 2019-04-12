@@ -5,9 +5,11 @@ import { BulletObjectDescription } from "../../../public/javascript/models/game/
 import { IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
 import { BulletPositionUpdate } from "../../../public/javascript/models/game/objects/BulletPositionUpdate";
 import { IPositionUpdate } from "../../../public/javascript/models/game/objects/IPositionUpdate";
+import { b2Fixture, b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
+import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
+import { weaponCollisionFilter } from "../CollisionFilters";
 
 export class Bullet implements IGameObject {
-	public static readonly BULLET_SPEED: number = 30;
 
 	public id: string;
 	/**
@@ -18,6 +20,10 @@ export class Bullet implements IGameObject {
 	 * The body that represents the collision space of the bullet
 	 */
 	public body: b2Body;
+	/**
+	 * The fixture for the collision box of the bullet
+	 */
+	public fixture: b2Fixture;
 
 	constructor(id: string, ownerId: string, world: b2World) {
 		this.id = id;
@@ -29,6 +35,13 @@ export class Bullet implements IGameObject {
 		bodyDef.position.Set(0,0);
 		bodyDef.bullet = true;
 		this.body = world.CreateBody(bodyDef);
+
+		// Create the collision fixture for the bullet
+		const fixtureDef: b2FixtureDef = new b2FixtureDef();
+		fixtureDef.shape = new b2CircleShape(.1); // 50 m radius
+		fixtureDef.filter.Copy(weaponCollisionFilter);
+		// fixture.density = 1.0; // 1.0 kg/m^3
+		this.fixture = this.body.CreateFixture(fixtureDef, .2); // 1.0 kg/m^3 density
 	}
 
 	getAsNewObject(): IObjectDescription {

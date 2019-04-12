@@ -4,7 +4,7 @@ import {
 	b2BodyType,
 	b2World,
 	b2FixtureDef,
-	b2CircleShape,
+	b2CircleShape, b2Fixture, b2PolygonShape,
 } from "../../../../lib/box2d-physics-engine/Box2D";
 import {IPositionUpdate} from "../../../public/javascript/models/game/objects/IPositionUpdate";
 import {
@@ -14,6 +14,7 @@ import {
 import {IGameObject} from "./IGameObject";
 import {IObjectDescription} from "../../../public/javascript/models/game/objects/IObjectDescription";
 import {PlayerObjectDescription} from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
+import { worldCollisionFilter } from "../CollisionFilters";
 
 /**
  * A player in the game. Contains the physics body.
@@ -32,7 +33,15 @@ export class Player implements IGameObject{
 	/**
 	 * The Box2D physics body used for the physics simulation.
 	 */
-	private body: b2Body;
+	public body: b2Body;
+	/**
+	 * The collision fixture used to compute player-world collisions
+	 */
+	public playerCollisionFixture: b2Fixture;
+	/**
+	 * The collision fixture used to compute hits on the player (more accurate)
+	 */
+	public playerHitboxFixture: b2Fixture;
 	/**
 	 * The frame which this player last shot
 	 */
@@ -52,10 +61,16 @@ export class Player implements IGameObject{
 
 		// Fixtures are carried around on the bodies. They define a body's
 		// geometry and mass. These are important for collisions.
-		const fixture: b2FixtureDef = new b2FixtureDef();
-		fixture.shape = new b2CircleShape(.5); // 50 m radius
+
+		// Create fixture for the player colliding with the world
+		const playerCollisionFixtureDef: b2FixtureDef = new b2FixtureDef();
+		playerCollisionFixtureDef.shape = new b2CircleShape(.5); // 50 m radius
+		playerCollisionFixtureDef.filter.Copy(worldCollisionFilter);
 		// fixture.density = 1.0; // 1.0 kg/m^3
-		this.body.CreateFixture(fixture, 50.0); // 1.0 kg/m^3 density
+		this.playerCollisionFixture = this.body.CreateFixture(playerCollisionFixtureDef, 5.0); // 1.0 kg/m^3 density
+		// Create fixture for the player colliding with weapons
+		const playerHitboxFixtureDef: b2FixtureDef = new b2FixtureDef();
+		playerHitboxFixtureDef.shape = new b2PolygonShape().SetAsBox(0.5, 0.5)
 	}
 
 	public getId(): string {

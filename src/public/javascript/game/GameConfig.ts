@@ -2,6 +2,7 @@ import {BootScene} from "./scenes/BootScene.js";
 import {MainMenuScene} from "./scenes/MainMenuScene.js";
 import {GameScene} from "./scenes/GameScene.js";
 import {GameLoadScene} from "./scenes/GameLoadScene.js";
+import { b2Filter, b2Fixture } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
 
 let gameConfig: GameConfig = {
     title: "Example Game",
