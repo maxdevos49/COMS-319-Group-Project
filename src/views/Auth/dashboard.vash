@@ -23,23 +23,22 @@
                                 @html.LabelFor(model => model.nickname)
                                 <div class="row">
                                     @html.EditorFor(model => model.nickname, null, { readonly: "", class: "form-control col-md-10 m-1", autocomplete: "off" })
-                                    @html.Navigator(html.Edit, null, null, {class: "m-1", id:"nicknameLink", onclick: "toggleNickname()"})
-                                    @html.Input(html.Save, null, {class: "m-1", style:"display: none", id:"nicknameSubmit", onclick: "toggleNickname()"})
+                                    @html.Navigator(html.Edit, null, null, {class: "m-1", id:"nicknameLink"})
+                                    @html.Input(html.Save, null, {class: "m-1", style:"display: none", id:"nicknameSubmit"})
                                 </div>
                                 @html.ValidationMessageFor(model => model.nickname)
                             </div>
                         </form>
 
                         <!--Email-->
-                        <form method="POST" action="/auth/confirmEmail" id="emailForm">
-                            <div class="p-1">
-                                @html.LabelFor(model => model.email)
-                                <div class="row">
-                                    @html.EditorFor(model => model.email, null, { readonly: "", class: "form-control col-md-10 m-1" })
-                                    @html.Input(html.Create, "", {class: "m-1"})
-                                </div>
+                        <div class="p-1">
+                            @html.LabelFor(model => model.email)
+                            <div class="row">
+                                @html.EditorFor(model => model.email, null, { readonly: "", class: "form-control col-md-10 m-1" })
+                                @html.Navigator(html.Edit, null, null, {class: "m-1"})
                             </div>
-                        </form>
+                            @html.ValidationMessageFor(model => model.email)
+                        </div>
                     </div>
 
                     <!--Center-->
@@ -51,7 +50,7 @@
                                 <div class="row">
                                     @html.PasswordBoxFor(model => model.password, null, { class: "form-control m-1" })
                                 </div>
-                            @html.ValidationMessageFor(model => model.password)
+                                @html.ValidationMessageFor(model => model.password)
                             </div>
 
                             <!--Password Confirmation-->
@@ -66,10 +65,10 @@
                             @html.Input(html.Edit, "Reset Password", { class: "float-right"})
                         </form>
                     </div>
+
                     <div class="col-md-4" style="text-align: center; display: flex; align-items: center">
                         <a class="btn btn-success col-md-10" href="/Game/" style="font-size: 4em; margin: auto;">Play</a>
                     </div>
-
 
                 </div>
             </div>

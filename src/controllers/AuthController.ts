@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import passport from "passport";
 import permit from "../middleware/permit";
+import bcrypt from "bcryptjs"
 import { RegisterViewModel } from "../viewModels/RegisterViewModel";
 import { LoginViewModel } from "../viewModels/LoginViewModel";
 import { View } from "../helpers/vash/view";
@@ -78,20 +79,39 @@ router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Re
         return res.render("Auth/dashboard", View(res, DashboardViewModel, data));
     })
 });
-
+/**
+ * POST:/Auth/changeNickname
+ */
 router.post("/changeNickname", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
     Account.findById(res.locals.authentication.id, (err, doc: any) => {
         doc.nickname = req.body.nickname;
+        req.session.passport.user.nickname = req.body.nickname;
         doc.save()
         return res.send(doc.nickname);
     })
 });
 
 /**
+ * POST:/Auth/changePassword
+ */
+router.post("/changePassword", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+    if (req.body.password === req.body.passwordConfirmation) {
+        Account.findById(res.locals.authentication.id, (err, doc: any) => {
+            doc.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
+            doc.save();
+            res.send(true);
+        });
+
+    } else {
+        res.send(false);
+    }
+});
+
+
+/**
  * GET:/Auth/forgotPassword
  */
 // router.get("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {
-//     return res.render("Auth/register", Shared.getModel(res, RegisterViewModel));
 // });
 
 /**
@@ -103,7 +123,6 @@ router.post("/changeNickname", permit(["user"], "/Auth/login"), (req: Request, r
  * GET:/Auth/forgotConfirmation
  */
 // router.get("/forgotConfirmation", (req: Request, res: Response) => {
-//     return res.render("Auth/forgotConfirmation", Shared.getModel(res, RegisterViewModel));
 // });
 
 /**
