@@ -12,7 +12,7 @@ import {
 	PlayerPositionUpdate
 } from "../../../public/javascript/models/game/objects/PlayerPositionUpdate";
 import {IGameObject} from "./IGameObject";
-import {IObjectDescription, NewObjectType} from "../../../public/javascript/models/game/objects/IObjectDescription";
+import {IObjectDescription} from "../../../public/javascript/models/game/objects/IObjectDescription";
 import {PlayerObjectDescription} from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
 
 /**
@@ -22,7 +22,7 @@ export class Player implements IGameObject{
 	/**
 	 * The cool-down between shooting in frames
 	 */
-	public static readonly SHOOT_COOLDOWN = 30;
+	public static readonly SHOOT_COOLDOWN = 5;
 
 	/**
 	 * The UUID of the player. This should correspond with the UUID assigned to

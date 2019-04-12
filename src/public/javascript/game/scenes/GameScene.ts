@@ -1,10 +1,12 @@
-import {Player} from "../objects/Player.js";
-import {GameConnection} from "../GameConnection.js";
-import {GameObject} from "../objects/GameObject.js";
-import {IPositionUpdate} from "../../models/game/objects/IPositionUpdate.js";
-import {UserInput} from "../objects/UserInput.js";
-import {NewObjectType, IObjectDescription} from "../../models/game/objects/IObjectDescription.js";
-import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
+import { Player } from "../objects/Player.js";
+import { GameConnection } from "../GameConnection.js";
+import { GameObject } from "../objects/GameObject.js";
+import { IPositionUpdate } from "../../models/game/objects/IPositionUpdate.js";
+import { UserInput } from "../objects/UserInput.js";
+import { IObjectDescription, NewObjectType } from "../../models/game/objects/IObjectDescription.js";
+import { PlayerObjectDescription } from "../../models/game/objects/PlayerObjectDescription.js";
+import { Bullet } from "../objects/Bullet.js";
+import { BulletObjectDescription } from "../../models/game/objects/BulletObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -90,7 +92,9 @@ export class GameScene extends Phaser.Scene {
             	this.clientPlayer = object as Player;
             	this.cameras.main.startFollow(this.clientPlayer);
 			}
-        } else {
+        } else if (newObjectDescription.type === NewObjectType.Bullet) {
+			object = new Bullet(this, newObjectDescription as BulletObjectDescription);
+		} else {
             throw "Unknown game object type";
         }
         this.objects.set(object.id, object);

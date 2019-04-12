@@ -1,6 +1,7 @@
-import { GameObject } from "./GameObject";
-import { BulletObjectDescription } from "../../models/game/objects/BulletObjectDescription";
-import { BulletPositionUpdate } from "../../models/game/objects/BulletPositionUpdate";
+import { GameObject } from "./GameObject.js";
+import { BulletObjectDescription } from "../../models/game/objects/BulletObjectDescription.js";
+import { BulletPositionUpdate } from "../../models/game/objects/BulletPositionUpdate.js";
+import { SCALE_FACTOR } from "../Game.js";
 
 export class Bullet extends GameObject {
 	/**
@@ -47,6 +48,6 @@ export class Bullet extends GameObject {
 	}
 
 	applyUpdate(newUpdate: BulletPositionUpdate): void {
-		this.setPosition(newUpdate.x, newUpdate.y);
+		this.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
 	}
 }

@@ -98,7 +98,7 @@ export class GameSimulation {
 		// DEBUG: Need this to actually use the ContactListener class
 		this.world.SetContactListener(new ContactListener());
 
-		this.playerSpeed = 40;
+		this.playerSpeed = 5;
 		this.frame = 0;
 		this.objects = new Map<string, Player>();
 		this.newObjectsIds = [];
@@ -168,6 +168,7 @@ export class GameSimulation {
 					let bullet: Bullet = new Bullet(v1Gen(), player.id, this.world);
 					bullet.body.SetPosition(player.getBody().GetPosition());
 					bullet.body.SetAngle(player.getBody().GetAngle());
+					bullet.body.SetLinearVelocity({x: 10 * Math.cos(bullet.body.GetAngle()), y: 10 * Math.sin(bullet.body.GetAngle())});
 					this.newObjectsIds.push(bullet.id);
 					this.objects.set(bullet.id, bullet);
 				}
