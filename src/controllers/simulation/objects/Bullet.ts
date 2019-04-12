@@ -82,9 +82,6 @@ export class Bullet extends GameObject {
 	}
 
 	public collideWith(object: IObjectDescription): void {
-		// Don't collide with the object that owns the bullet
-		if (this.ownerId !== object.id) {
-			this.destroy();
-		}
+		this.destroy();
 	}
 }

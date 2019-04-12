@@ -15,9 +15,7 @@ describe("Simulation Bullet Object", () => {
 	before(() => {
 		simulation = new GameSimulation(new PlayerMoveUpdateQueue(1));
 		bullet = new Bullet(simulation, "testid1", "testownerid1");
-		otherBullet = new Bullet(simulation, "testid2", "testownerid2");
-		otherBullet.body.SetPositionXY(4, 5);
-		otherBullet.body.SetAngle(1);
+		otherBullet = new Bullet(simulation, "testid2", "testownerid2", 4, 5, 1);
 	});
 
 	it("Should create bullet at 0,0", () => {

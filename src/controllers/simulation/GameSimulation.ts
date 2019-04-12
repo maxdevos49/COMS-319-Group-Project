@@ -1,25 +1,13 @@
 import { b2Contact, b2ContactListener, b2Vec2, b2World, XY, } from "../../../lib/box2d-physics-engine/Box2D";
 
 import { Player } from "./objects/Player";
-import { PlayerMoveDirection, PlayerMoveUpdate } from "../../public/javascript/models/game/PlayerMoveUpdate";
+import { PlayerMoveUpdate } from "../../public/javascript/models/game/PlayerMoveUpdate";
 import { PlayerMoveUpdateQueue } from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
 import { IPositionUpdate } from "../../public/javascript/models/game/objects/IPositionUpdate";
 import { TerrainMap } from "../../public/javascript/models/game/TerrainMap";
-import { GameObjectType, IObjectDescription } from "../../public/javascript/models/game/objects/IObjectDescription";
+import { IObjectDescription } from "../../public/javascript/models/game/objects/IObjectDescription";
 import { TerrainGenerator } from "./TerrainGenerator";
 import { GameObject } from "./objects/GameObject";
-import { Bullet } from "./objects/Bullet";
-import v1Gen from "uuid/v1";
-
-// DEBUG: Write to the console when bodies contact each other
-class ContactListener extends b2ContactListener {
-	public BeginContact(contact: b2Contact): void {
-		console.log('Contact detected on: ');
-	}
-	public EndContact(contact: b2Contact): void {
-		console.log('Contact removed');
-	}
-}
 
 /**
  * Simulation of the physical world of the game.
@@ -87,9 +75,6 @@ export class GameSimulation {
 		// Initialize the box2d world
 		const gravity = new b2Vec2(0, 0);
 		this.world = new b2World(gravity);
-
-		// DEBUG: Need this to actually use the ContactListener class
-		this.world.SetContactListener(new ContactListener());
 
 		this.frame = 0;
 		this.objects = new Map<string, Player>();

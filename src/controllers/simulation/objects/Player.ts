@@ -37,7 +37,9 @@ export class Player extends GameObject{
 	/**
 	 * The hit box for player weapon collisions
 	 */
-	public static playerHitboxShape: b2PolygonShape = new b2PolygonShape().SetAsBox(0.5, 0.5);
+	public static playerHitboxHalfWidth: number = 0.5;
+	public static playerHitboxHalfLength: number = 0.5;
+	public static playerHitboxShape: b2PolygonShape = new b2PolygonShape().SetAsBox(Player.playerHitboxHalfWidth, Player.playerHitboxHalfLength);
 
 	/**
 	 * The Box2D physics body used for the physics simulation.
@@ -140,13 +142,14 @@ export class Player extends GameObject{
 		if (move.attemptShoot) {
 			// Attempt to shoot, might be stopped by the cool down
 			if (this.attemptShoot(this.simulation.frame)) {
-				let x: number = this.body.GetPosition().x + Math.cos(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.1);
-				let y: number = this.body.GetPosition().y + Math.sin(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.1);
+				let x: number = this.body.GetPosition().x + Math.cos(this.body.GetAngle()) * (Player.playerHitboxHalfLength + 0.1);
+				let y: number = this.body.GetPosition().y + Math.sin(this.body.GetAngle()) * (Player.playerHitboxHalfLength + 0.1);
 				let bullet: Bullet = new Bullet(this.simulation, v1Gen(), this.id, x, y, this.body.GetAngle());
 				bullet.body.SetLinearVelocity({
-					x: 15 * Math.cos(bullet.body.GetAngle()) + this.body.GetLinearVelocity().x,
-					y: 15 * Math.sin(bullet.body.GetAngle()) + this.body.GetLinearVelocity().y
+					x: 20 * Math.cos(bullet.body.GetAngle()) + this.body.GetLinearVelocity().x,
+					y: 20 * Math.sin(bullet.body.GetAngle()) + this.body.GetLinearVelocity().y
 				});
+				bullet.body.SetLinearDamping(0.1);
 				this.simulation.addGameObject(bullet);
 			}
 		}
