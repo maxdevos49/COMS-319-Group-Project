@@ -97,6 +97,11 @@ export class GameServer {
 		if (this.simulation.hasNewObjectDescriptions()) {
 			this.gameSocket.emit("/update/objects/new", this.simulation.popNewObjectDescriptions());
 		}
+		// Pack up all of the deleted objects and send them (if there are any)
+		if (this.simulation.hasDeletedObjects()) {
+			this.gameSocket.emit("/update/objects/delete", this.simulation.popDeletedObjectIds());
+		}
+
 		// Pack up all of the PositionUpdates and send them to all clients
 		let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
 		this.gameSocket.emit("/update/position", updates);

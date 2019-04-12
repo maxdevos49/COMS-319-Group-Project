@@ -3,7 +3,7 @@ import { GameConnection } from "../GameConnection.js";
 import { GameObject } from "../objects/GameObject.js";
 import { IPositionUpdate } from "../../models/game/objects/IPositionUpdate.js";
 import { UserInput } from "../objects/UserInput.js";
-import { IObjectDescription, NewObjectType } from "../../models/game/objects/IObjectDescription.js";
+import { IObjectDescription, GameObjectType } from "../../models/game/objects/IObjectDescription.js";
 import { PlayerObjectDescription } from "../../models/game/objects/PlayerObjectDescription.js";
 import { Bullet } from "../objects/Bullet.js";
 import { BulletObjectDescription } from "../../models/game/objects/BulletObjectDescription.js";
@@ -77,6 +77,9 @@ export class GameScene extends Phaser.Scene {
         // Check for new game objects
         this.connection.newObjects.forEach((object: IObjectDescription) => this.addNewObject(object));
         this.connection.newObjects = [];
+        // Check for deleted objects
+		this.connection.deletedObjects.forEach((id: string) => this.removeObject(id));
+		this.connection.deletedObjects = [];
 
         // Apply updates
         this.objects.forEach((object: GameObject, id: string) => {
@@ -97,14 +100,14 @@ export class GameScene extends Phaser.Scene {
 
     private addNewObject(newObjectDescription: IObjectDescription) {
         let object: GameObject;
-        if (newObjectDescription.type === NewObjectType.Player) {
+        if (newObjectDescription.type === GameObjectType.Player) {
 			object = new Player(this, newObjectDescription as PlayerObjectDescription);
 			// Check if the id of this object is the clients, if it is save the reference to it
             if (this.connection.clientId === newObjectDescription.id) {
             	this.clientPlayer = object as Player;
             	this.cameras.main.startFollow(this.clientPlayer);
 			}
-        } else if (newObjectDescription.type === NewObjectType.Bullet) {
+        } else if (newObjectDescription.type === GameObjectType.Bullet) {
 			object = new Bullet(this, newObjectDescription as BulletObjectDescription);
 		} else {
             throw "Unknown game object type";
@@ -112,5 +115,17 @@ export class GameScene extends Phaser.Scene {
         this.objects.set(object.id, object);
         this.add.existing(object);
     }
+
+	/**
+	 * Removes the object with the given id from the game scene
+	 * @param id The id of the object to remove
+	 */
+	private removeObject(id: string) {
+    	if (this.objects.has(id)) {
+    		let object: GameObject = this.objects.get(id);
+    		object.destroy();
+    		this.objects.delete(id);
+		}
+	}
 
 }

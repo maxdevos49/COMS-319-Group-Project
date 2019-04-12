@@ -1,18 +1,12 @@
-import {
-	b2World,
-	b2Vec2,
-	b2ContactListener,
-	b2Contact,
-	XY,
-} from "../../../lib/box2d-physics-engine/Box2D";
+import { b2Contact, b2ContactListener, b2Vec2, b2World, XY, } from "../../../lib/box2d-physics-engine/Box2D";
 
-import {Player} from "./objects/Player";
-import {PlayerMoveUpdate, PlayerMoveDirection} from "../../public/javascript/models/game/PlayerMoveUpdate";
-import {PlayerMoveUpdateQueue} from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {IPositionUpdate} from "../../public/javascript/models/game/objects/IPositionUpdate";
-import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
-import {IObjectDescription} from "../../public/javascript/models/game/objects/IObjectDescription";
-import {TerrainGenerator} from "./TerrainGenerator";
+import { Player } from "./objects/Player";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../../public/javascript/models/game/PlayerMoveUpdate";
+import { PlayerMoveUpdateQueue } from "../../public/javascript/data-structures/PlayerMoveUpdateQueue";
+import { IPositionUpdate } from "../../public/javascript/models/game/objects/IPositionUpdate";
+import { TerrainMap } from "../../public/javascript/models/game/TerrainMap";
+import { GameObjectType, IObjectDescription } from "../../public/javascript/models/game/objects/IObjectDescription";
+import { TerrainGenerator } from "./TerrainGenerator";
 import { IGameObject } from "./objects/IGameObject";
 import { Bullet } from "./objects/Bullet";
 import v1Gen from "uuid/v1";
@@ -20,10 +14,7 @@ import v1Gen from "uuid/v1";
 // DEBUG: Write to the console when bodies contact each other
 class ContactListener extends b2ContactListener {
 	public BeginContact(contact: b2Contact): void {
-		// Check if one of the fixtures is a bullet
-
-
-		console.log('Contact detected on: ' + contact.GetFixtureA().m_userData);
+		console.log('Contact detected on: ');
 	}
 	public EndContact(contact: b2Contact): void {
 		console.log('Contact removed');
@@ -37,7 +28,7 @@ export class GameSimulation {
 	/**
 	 * Starting point for a Box2D simulation.
 	 */
-	private world: b2World;
+	public world: b2World;
 
 	/**
 	 * The number of times per second tht Box2D will process physics equations.
@@ -84,7 +75,10 @@ export class GameSimulation {
 	 * An array containing the ids of new objects that now exist in the simulation
 	 */
 	private newObjectsIds: string[];
-	private destroyedObjectsIds: string[];
+	/**
+	 * An array containing the ids of the objects that have been deleted from the simulation
+	 */
+	private deletedObjectIds: string[];
 
 	/**
 	 * Construct a new simulation. The simulation starts running as soon as it
@@ -106,6 +100,7 @@ export class GameSimulation {
 		this.frame = 0;
 		this.objects = new Map<string, Player>();
 		this.newObjectsIds = [];
+		this.deletedObjectIds = [];
 		this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
 		TerrainGenerator.fillTerrain(this.map);
 	}
@@ -135,6 +130,34 @@ export class GameSimulation {
 			GameSimulation.velocityIterations,
 			GameSimulation.positionIterations
 		);
+
+		// Check collisions
+		let curContact: b2Contact = this.world.GetContactList();
+		while (curContact != null) {
+			if (!curContact.IsTouching()) {
+				curContact = curContact.m_next;
+				continue;
+			}
+
+			// IDs of objects stored as user data
+			let ida: string = curContact.GetFixtureA().m_userData;
+			let idb: string = curContact.GetFixtureB().m_userData;
+			// Check that both objects exist in the map and retrieve them
+			let objecta: IGameObject = this.objects.get(ida);
+			let objectb: IGameObject = this.objects.get(idb);
+			if (objecta && objectb) {
+				if (objecta.type === GameObjectType.Bullet) {
+					this.removeGameObject(objecta);
+				}
+
+				if (objectb.type === GameObjectType.Bullet) {
+					this.removeGameObject(objectb);
+				}
+			}
+
+			curContact = curContact.m_next;
+		}
+
 		this.frame++;
 	}
 
@@ -147,6 +170,11 @@ export class GameSimulation {
 		const player: Player = new Player(id, this.world);
 		this.objects.set(id, player);
 		this.newObjectsIds.push(id);
+	}
+
+	public removeGameObject(object: IGameObject) {
+		object.deconstruct(this.world);
+		this.deletedObjectIds.push(object.id);
 	}
 
 	/**
@@ -171,8 +199,8 @@ export class GameSimulation {
 				if (player.attemptShoot(this.frame)) {
 					let bullet: Bullet = new Bullet(v1Gen(), player.id, this.world);
 					bullet.body.SetPosition({
-						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius),
-						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius),
+						x: player.body.GetPosition().x + Math.cos(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 1),
+						y: player.body.GetPosition().y + Math.sin(player.body.GetAngle()) * (player.playerCollisionFixture.GetShape().m_radius + bullet.fixture.GetShape().m_radius + 1),
 					});
 					bullet.body.SetAngle(player.getBody().GetAngle());
 					bullet.body.SetLinearVelocity({
@@ -239,7 +267,23 @@ export class GameSimulation {
 		return newObjectsDescriptions;
 	}
 
-		/**
+	/**
+	 * Returns true if this simulation has any new deleted object ids since the last time they were popped
+	 */
+	public hasDeletedObjects(): boolean {
+		return this.deletedObjectIds.length !== 0;
+	}
+
+	/**
+	 * Pops all deleted ids from the internal array of deleted ids
+	 */
+	public popDeletedObjectIds(): string[] {
+		let temp: string[] = this.deletedObjectIds;
+		this.deletedObjectIds = [];
+		return temp;
+	}
+
+	/**
 	 * Get the velocity for a desired change in position represented by
 	 * Up, UpLeft, etc.
 	 *

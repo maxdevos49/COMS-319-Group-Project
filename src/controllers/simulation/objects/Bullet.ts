@@ -2,7 +2,7 @@ import { IGameObject } from "./IGameObject";
 import { b2World } from "../../../../lib/box2d-physics-engine/Dynamics/b2World";
 import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
 import { BulletObjectDescription } from "../../../public/javascript/models/game/objects/BulletObjectDescription";
-import { IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
 import { BulletPositionUpdate } from "../../../public/javascript/models/game/objects/BulletPositionUpdate";
 import { IPositionUpdate } from "../../../public/javascript/models/game/objects/IPositionUpdate";
 import { b2Fixture, b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
@@ -10,8 +10,9 @@ import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Sh
 import { weaponCollisionFilter } from "../CollisionFilters";
 
 export class Bullet implements IGameObject {
-
 	public id: string;
+	public type: GameObjectType;
+
 	/**
 	 * The id of the game object that owns this bullet (normally the player that shot it)
 	 */
@@ -27,6 +28,7 @@ export class Bullet implements IGameObject {
 
 	constructor(id: string, ownerId: string, world: b2World) {
 		this.id = id;
+		this.type = GameObjectType.Bullet;
 		this.ownerId = ownerId;
 
 		// Create a dynamic body (fully simulated) the represents the bullet
@@ -44,6 +46,10 @@ export class Bullet implements IGameObject {
 		fixtureDef.filter.Copy(weaponCollisionFilter);
 		fixtureDef.density = 0;
 		this.fixture = this.body.CreateFixture(fixtureDef);
+	}
+
+	deconstruct(world: b2World): void {
+		world.DestroyBody(this.body);
 	}
 
 	getAsNewObject(): IObjectDescription {

@@ -2,19 +2,21 @@ import {
 	b2Body,
 	b2BodyDef,
 	b2BodyType,
-	b2World,
+	b2CircleShape,
+	b2Fixture,
 	b2FixtureDef,
-	b2CircleShape, b2Fixture, b2PolygonShape,
+	b2PolygonShape,
+	b2World,
 } from "../../../../lib/box2d-physics-engine/Box2D";
-import {IPositionUpdate} from "../../../public/javascript/models/game/objects/IPositionUpdate";
+import { IPositionUpdate } from "../../../public/javascript/models/game/objects/IPositionUpdate";
 import {
 	PlayerActionState,
 	PlayerPositionUpdate
 } from "../../../public/javascript/models/game/objects/PlayerPositionUpdate";
-import {IGameObject} from "./IGameObject";
-import {IObjectDescription} from "../../../public/javascript/models/game/objects/IObjectDescription";
-import {PlayerObjectDescription} from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
-import { hitboxCollisionFilter, weaponCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
+import { IGameObject } from "./IGameObject";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/models/game/objects/IObjectDescription";
+import { PlayerObjectDescription } from "../../../public/javascript/models/game/objects/PlayerObjectDescription";
+import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 
 /**
  * A player in the game. Contains the physics body.
@@ -30,6 +32,10 @@ export class Player implements IGameObject{
 	 * a particular connection.
 	 */
 	public id: string;
+	/**
+	 * The type of this game object
+	 */
+	public type: GameObjectType;
 	/**
 	 * The Box2D physics body used for the physics simulation.
 	 */
@@ -49,6 +55,8 @@ export class Player implements IGameObject{
 
 	constructor(id: string, world: b2World) {
 		this.id = id;
+		this.type = GameObjectType.Player;
+
 		// Assume frame 0 because this variable is only used to restrict shooting speed
 		this.lastShotFrame = 0;
 
@@ -75,6 +83,10 @@ export class Player implements IGameObject{
 		playerHitboxFixtureDef.shape = new b2PolygonShape().SetAsBox(0.5, 0.5);
 		playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
 		this.playerCollisionFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
+	}
+
+	deconstruct(world: b2World): void {
+		world.DestroyBody(this.body);
 	}
 
 	public getId(): string {

@@ -1,11 +1,11 @@
-import { IObjectDescription, NewObjectType } from "./IObjectDescription";
+import { IObjectDescription, GameObjectType } from "./IObjectDescription";
 
 /**
  * Describes the initial state of a bullet object in the game
  */
 export class BulletObjectDescription implements IObjectDescription {
 	id: string;
-	type: NewObjectType;
+	type: GameObjectType;
 
 	/**
 	 * The id of the object that owns this bullet (usually the object that shot it)
@@ -27,7 +27,7 @@ export class BulletObjectDescription implements IObjectDescription {
 	constructor(id: string, ownerId: string, x: number, y: number, angle: number) {
 		this.id = id;
 		this.ownerId = ownerId;
-		this.type = NewObjectType.Bullet;
+		this.type = GameObjectType.Bullet;
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
