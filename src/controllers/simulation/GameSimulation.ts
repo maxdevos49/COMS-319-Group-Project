@@ -13,6 +13,7 @@ import {IPositionUpdate} from "../../public/javascript/models/game/objects/IPosi
 import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
 import {IObjectDescription} from "../../public/javascript/models/game/objects/IObjectDescription";
 import {TerrainGenerator} from "./TerrainGenerator";
+import { IGameObject } from "./objects/IGameObject";
 
 // DEBUG: Write to the console when bodies contact each other
 class ContactListener extends b2ContactListener {
@@ -62,10 +63,10 @@ export class GameSimulation {
 	private frame: number;
 
 	/**
-	 * List of players (dynamic bodies) in the simulation.
+	 * List of objects (dynamic bodies) in the simulation.
 	 * The Map makes it easier to update players by their ID.
 	 */
-	private players: Map<string, Player>;
+	public objects: Map<string, IGameObject>;
 	/**
 	 * The terrain map for this simulation, object represents all of parts of the game world that don't change
 	 */
@@ -97,7 +98,7 @@ export class GameSimulation {
 
 		this.playerSpeed = 40;
 		this.frame = 0;
-		this.players = new Map<string, Player>();
+		this.objects = new Map<string, Player>();
 		this.newObjectsIds = [];
 		this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
 		TerrainGenerator.fillTerrain(this.map);
@@ -109,9 +110,9 @@ export class GameSimulation {
 	 * @return {void}
 	 */
 	public nextFrame(): void {
-		this.getPlayers().forEach((player) => {
-			const move = this.moves.popPlayerMoveUpdate(player.getId());
-			this.updateMove(move);
+		this.objects.forEach((object) => {
+			const move = this.moves.popPlayerMoveUpdate(object.id);
+			if (move != null) this.updateMove(move);
 
 			// DEBUG: Information about the player and its body
 			// if (this.frame % 40 == 0) {
@@ -138,7 +139,7 @@ export class GameSimulation {
 	 */
 	public addPlayer(id: string): void {
 		const player: Player = new Player(id, this.world);
-		this.players.set(id, player);
+		this.objects.set(id, player);
 		this.newObjectsIds.push(id);
 	}
 
@@ -151,12 +152,20 @@ export class GameSimulation {
 		if (move === null) {
 			return;
 		}
-		let player: Player | undefined = this.players.get(move.id);
+		let player: Player | undefined = this.objects.get(move.id) as Player;
 		if (player !== undefined) {
 			if (move.updateFacing) {
 				player.getBody().SetAngle(move.facing);
 			}
 			player.getBody().SetLinearVelocity(this.getVelocityVector(move.moveDirection));
+
+			// If the player wants to shoot
+			if (move.attemptShoot) {
+				// Attempt to shoot, might be stopped by the cool down
+				if (player.attemptShoot(this.frame)) {
+
+				}
+			}
 		}
 	}
 
@@ -170,23 +179,14 @@ export class GameSimulation {
 	}
 
 	/**
-	 * Get a list of all players in the simulation.
-	 *
-	 * @return {Player[]} An array of players currently in the simulation.
-	 */
-	public getPlayers(): Player[] {
-		return Array.from(this.players.values());
-	}
-
-	/**
 	 * Gets an array of position updates for every object that is in the simulation
 	 *
 	 * @return {PositionUpdate[]} An array of position updates.
 	 */
 	public getPositionUpdates(): IPositionUpdate[] {
 		let updates: IPositionUpdate[] = [];
-		this.players.forEach((player: Player, id: string) => {
-			updates.push(player.getPositionUpdate(this.frame))
+		this.objects.forEach((object: IGameObject, id: string) => {
+			updates.push(object.getPositionUpdate(this.frame))
 		});
 		return updates;
 	}
@@ -196,8 +196,8 @@ export class GameSimulation {
 	 */
 	public getObjectDescriptions(): IObjectDescription[] {
 		let descriptions: IObjectDescription[] = [];
-		this.players.forEach((player: Player, id: string) => {
-			descriptions.push(player.getAsNewObject());
+		this.objects.forEach((object: IGameObject, id: string) => {
+			descriptions.push(object.getAsNewObject());
 		});
 		return descriptions;
 	}
@@ -215,9 +215,9 @@ export class GameSimulation {
 		// Get a new object description for every new object id. Filter out undefined objects just in case that objects
 		// has been removed, since the simulation should not be expected to check the new object id array every time a object
 		// is destroyed
-		let newObjectsDescriptions: IObjectDescription[] = this.newObjectsIds.map((id: string) => this.players.get(id))
-			.filter((player: Player) => player !== undefined)
-			.map((player: Player) => player.getAsNewObject());
+		let newObjectsDescriptions: IObjectDescription[] = this.newObjectsIds.map((id: string) => this.objects.get(id))
+			.filter((object: IGameObject) => object !== undefined)
+			.map((object: IGameObject) => object.getAsNewObject());
 		this.newObjectsIds = [];
 		return newObjectsDescriptions;
 	}
