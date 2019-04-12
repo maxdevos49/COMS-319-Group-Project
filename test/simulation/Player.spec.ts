@@ -9,7 +9,7 @@ describe("Simulation Player Object", () => {
     let player: Player;
     let otherPlayer: Player;
 
-    before(() => {
+    beforeEach(() => {
         gravity = new b2Vec2(0, 0);
         world = new b2World(gravity);
         player = new Player("testid1", world);
