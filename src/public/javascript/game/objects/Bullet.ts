@@ -38,7 +38,7 @@ export class Bullet extends GameObject {
 	 * @param description The description to create the bullet from
 	 */
 	constructor(scene: Phaser.Scene, description: BulletObjectDescription) {
-		super(scene, description.x, description.y, "sprites");
+		super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites");
 		scene.physics.world.enable(this);
 		this.play("objects/bullet/orb");
 

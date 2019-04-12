@@ -36,7 +36,7 @@ export class Player extends GameObject {
 	 * @param description The description to build the object from
 	 */
     constructor(scene: Phaser.Scene, description: PlayerObjectDescription) {
-        super(scene, description.x, description.y, "sprites");
+        super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites");
         scene.physics.world.enable(this);
         this.play("objects/player/walking");
 

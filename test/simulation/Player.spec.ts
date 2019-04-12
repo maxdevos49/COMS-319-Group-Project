@@ -16,8 +16,8 @@ describe("Simulation Player Object", () => {
     });
 
     it("Should create player located at 0,0", () => {
-        expect(player.getBody().GetPosition()).to.have.property("x").that.equals(0);
-        expect(player.getBody().GetPosition()).to.have.property("y").that.equals(0);
+        expect(player.body.GetPosition()).to.have.property("x").that.equals(0);
+        expect(player.body.GetPosition()).to.have.property("y").that.equals(0);
     });
     it("Should return PostionUpdates with the given frame number", () => {
         expect(player.getPositionUpdate(0)).to.have.property("frame").that.equals(0);
@@ -26,13 +26,13 @@ describe("Simulation Player Object", () => {
     it("Should return PositionUpdates that match the position of the player", () => {
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(0);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(0);
-       player.getBody().SetPosition({x: 20, y: 20});
+       player.body.SetPosition({x: 20, y: 20});
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(20);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(20);
     });
     it('Should detect when its shape collides with another shape', () => {
         // The second player should spawn in the same location as the first
         // player. Therefore, there should be a collision.
-        expect(player.getBody().GetContactList()).to.exist;
+        expect(player.body.GetContactList()).to.exist;
     });
 });

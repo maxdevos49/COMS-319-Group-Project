@@ -86,20 +86,12 @@ export class Player extends GameObject{
 		playerHitboxFixtureDef.userData = id;
 		playerHitboxFixtureDef.shape = Player.playerHitboxShape;
 		playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
-		this.playerCollisionFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
+		this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
 	}
 
 	public destroy(): void {
 		this.simulation.world.DestroyBody(this.body);
 		this.simulation.removeGameObject(this.id);
-	}
-
-	public getId(): string {
-		return this.id;
-	}
-
-	public getBody(): b2Body {
-		return this.body;
 	}
 
 	/**
@@ -140,16 +132,16 @@ export class Player extends GameObject{
 
 	public applyPlayerMoveUpdate(move: PlayerMoveUpdate) {
 		if (move.updateFacing) {
-			this.getBody().SetAngle(move.facing);
+			this.body.SetAngle(move.facing);
 		}
-		this.getBody().SetLinearVelocity(Player.getVelocityVector(move.moveDirection));
+		this.body.SetLinearVelocity(Player.getVelocityVector(move.moveDirection));
 
 		// If the player wants to shoot
 		if (move.attemptShoot) {
 			// Attempt to shoot, might be stopped by the cool down
 			if (this.attemptShoot(this.simulation.frame)) {
-				let x: number = this.body.GetPosition().x + Math.cos(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.6);
-				let y: number = this.body.GetPosition().y + Math.sin(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.6);
+				let x: number = this.body.GetPosition().x + Math.cos(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.1);
+				let y: number = this.body.GetPosition().y + Math.sin(this.body.GetAngle()) * (Player.playerHitboxShape.m_radius + 0.1);
 				let bullet: Bullet = new Bullet(this.simulation, v1Gen(), this.id, x, y, this.body.GetAngle());
 				bullet.body.SetLinearVelocity({
 					x: 15 * Math.cos(bullet.body.GetAngle()) + this.body.GetLinearVelocity().x,

@@ -26,6 +26,15 @@ export class Bullet extends GameObject {
 	 */
 	public fixture: b2Fixture;
 
+	/**
+	 * Constructs a new bullet object for the given simulation
+	 * @param simulation The simulation this bullet belongs to
+	 * @param id The id of the the bullet
+	 * @param ownerId The id of the gameobject that owns the bullet
+	 * @param x The x coordinate of the bullet, default 0
+	 * @param y The y coordinate of the bullet, default 0
+	 * @param angle The angle of the bullet, default 0
+	 */
 	constructor(simulation: GameSimulation, id: string, ownerId: string, x: number = 0, y: number = 0, angle: number = 0) {
 		super(id, GameObjectType.Bullet, simulation);
 		this.ownerId = ownerId;
