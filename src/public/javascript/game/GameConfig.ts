@@ -18,7 +18,6 @@ let gameConfig: GameConfig = {
         },
         debug: false
     },
-
     backgroundColor: "#FFFFFF"
 };
 

@@ -53,7 +53,7 @@ export class Player implements IGameObject{
 		// Fixtures are carried around on the bodies. They define a body's
 		// geometry and mass. These are important for collisions.
 		const fixture: b2FixtureDef = new b2FixtureDef();
-		fixture.shape = new b2CircleShape(50); // 50 m radius
+		fixture.shape = new b2CircleShape(.5); // 50 m radius
 		// fixture.density = 1.0; // 1.0 kg/m^3
 		this.body.CreateFixture(fixture, 50.0); // 1.0 kg/m^3 density
 	}

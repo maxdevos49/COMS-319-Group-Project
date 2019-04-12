@@ -34,6 +34,10 @@ export class GameScene extends Phaser.Scene {
      * The user input object that will move the player.
      */
     private uInput: UserInput;
+	/**
+	 * The last frame processed and rendered by this game scene
+	 */
+	private lastFrame: number;
 
     constructor() {
         super({
@@ -59,9 +63,17 @@ export class GameScene extends Phaser.Scene {
 		);
         let tiles = this.tileMap.addTilesetImage("tiles");
         this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
+        this.lastFrame = 0;
     }
 
-    update(): void {
+    update(timestep: number, elapsed: number): void {
+    	let curFrame = Math.floor(timestep / 30);
+    	if (this.lastFrame == curFrame) {
+    		return;
+		} else {
+    		this.lastFrame = curFrame;
+		}
+		console.log(this.lastFrame);
         // Check for new game objects
         this.connection.newObjects.forEach((object: IObjectDescription) => this.addNewObject(object));
         this.connection.newObjects = [];
