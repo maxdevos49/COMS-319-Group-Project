@@ -161,12 +161,13 @@ router.post("/confirmEmail", permit(["user"]), (req: Request, res: Response) => 
 /**
  * GET:/Auth/verification?:token
  */
-router.get("/verification?:token", (req: Request, res: Response) => {
+router.get("/verification:token?", (req: Request, res: Response) => {
     Account.findOne({ token: req.query.token }, (err, doc: any) => {
         if (err) throw err;
 
         if (doc) {
             doc.confirmed = true;
+            doc.token = "";
             doc.save();
         } else {
             res.locals.validation = [{ message: "Invalid Token" }];
@@ -176,21 +177,65 @@ router.get("/verification?:token", (req: Request, res: Response) => {
 })
 
 /**
- * POST:/Auth/forgotPassword
+ * GET:/Auth/forgotPassword
  */
-// router.post("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {});
+router.get("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {
+    res.render("Auth/forgotPassword", View(res, DashboardViewModel));
+});
 
 /**
- * GET:/Auth/forgotConfirmation
+ * POST:/Auth/forgotPassword
  */
-// router.get("/forgotConfirmation", (req: Request, res: Response) => {
-// });
+router.post("/forgotPassword", permit(["public"]), (req: Request, res: Response) => {
+    Account.findOne({ email: req.body.email }, (err, data: any) => {
+        if (err) throw err;
+
+        if (data) {
+            if (data.confirmed) {
+                res.locals.validation = [{ message: "Email was sent" }];
+                let token = v1();
+                //send email
+                Shared.sendEmail({
+                    email: req.body.email,
+                    subject: "B.R.T.D. Password Reset",
+                    body: `
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>B.R.T.D. Password Reset</title>
+                    </head>
+                    <body>
+                        <h2>B.R.T.D. Password Reset</h2>
+                        <a href="${config.server.transport}://${config.server.domain}/Auth/resetPassword?token=${token}">Reset Link</a>
+                    </body>
+                </html>
+                `
+                });
+                //add token to db.
+                Account.findById(data.id, (err, doc: any) => {
+
+                    doc.token = token;
+                    doc.save();
+                    res.render("Auth/forgotPassword", View(res, DashboardViewModel));
+                });
+            } else {
+                res.locals.validation = [{ message: "Email is not verified. Only verified email accounts can reset passwords." }];
+                res.render("Auth/forgotPassword", View(res, DashboardViewModel));
+            }
+        } else {
+            res.locals.validation = [{ message: "Email was not found." }];
+            res.render("Auth/forgotPassword", View(res, DashboardViewModel));
+        }
+    });
+});
+
 
 /**
  * GET:/Auth/resetPassword:token?
  */
-// router.get("/resetPassword:token?", (req: Request, res: Response) => {});
+router.get("/resetPassword:token?", (req: Request, res: Response) => {
 
-// router.post("/resetPassword", (req: Request, res: Response) => {});
+});
+
 
 export default router;

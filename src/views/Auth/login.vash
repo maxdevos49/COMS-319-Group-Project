@@ -7,19 +7,19 @@
         }
 
         @html.ValidationSummary()
-        
-        <div class="container col-md-10" style="padding: 50px;">
-            <div class="col-sm-8 bg-white" style="margin: auto; padding: 0; box-shadow: 4px 4px 10px">
+
+        <div class="p-5">
+            <div class="col-md-8 bg-white mx-auto" style="padding: 0; box-shadow: 0 0 10px">
                 <div class="bg-success text-light" style=" padding: 3vh;">
                     <h2>B.R.T.D.</h2>
                     <h5>Login</h5>
                 </div>
                 <div class="row text-muted">
                     <div class="col-sm-4 container" style="padding: 3vh;">
-                        <strong>Disclaimer:</strong> B.R.T.D is still in early development. 
-                        Accounts may be deleted or reset while in development. Also please make a 
+                        <strong>Disclaimer:</strong> B.R.T.D is still in early development.
+                        Accounts may be deleted or reset while in development. Also please make a
                         <strong>NEW password</strong> because reusing passwords just isn't smart!
-                        <a class="btn btn-warning col-md-12" style="margin: 1vh;" href="/Auth/register">Register</a>
+                        <a class="btn btn-warning col-md-12 mt-3" href="/Auth/register">Register</a>
                     </div>
                     <div class="col-sm-8" style=" padding: 0;">
                         <form class="form" method="POST" action="/Auth/login" style="padding: 3vh;" autocomplete="on">
@@ -32,7 +32,7 @@
                                 @html.LabelFor(model => model.password)
                                 @html.PasswordBoxFor(model => model.password, null, {class: "form-control", autocomplete: "current-password"})
                                 @html.ValidationMessageFor(model => model.password)
-                                <!--<a href="/auth/forgotPassword">Forgot Password?</a>-->
+                                <a href="/auth/forgotPassword">Forgot Password?</a>
                             </div>
                             <div>
                                 <button class="btn btn-success" type="submit">Login</button>
