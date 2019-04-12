@@ -14,6 +14,7 @@ describe("Simulation Player Object", () => {
         world = new b2World(gravity);
         player = new Player("testid1", world);
         otherPlayer = new Player("testid2", world);
+        world.Step(1,1,1);
     });
 
     it("Should create player located at 0,0", () => {
