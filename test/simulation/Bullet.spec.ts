@@ -35,14 +35,12 @@ describe("Simulation Bullet Object", () => {
 		let positionUpdate: BulletPositionUpdate = bullet.getPositionUpdate(2) as BulletPositionUpdate;
 		expect(positionUpdate).to.have.property("x").that.equals(0);
 		expect(positionUpdate).to.have.property("y").that.equals(0);
-		expect(positionUpdate).to.have.property("angle").that.equals(0);
 	});
 	it("Changes to the body should be reflected in the position update", () => {
 		// Changes to other bullet performed in the before statement
 		let positionUpdate: BulletPositionUpdate = otherBullet.getPositionUpdate(4) as BulletPositionUpdate;
 		expect(positionUpdate).to.have.property("x").that.equals(4);
 		expect(positionUpdate).to.have.property("y").that.equals(5);
-		expect(positionUpdate).to.have.property("angle").that.equals(1);
 	});
 	it("Should return a new object description that matches the bullet", () => {
 		let description: BulletObjectDescription = otherBullet.getAsNewObject() as BulletObjectDescription;
