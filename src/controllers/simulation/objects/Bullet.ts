@@ -38,5 +38,4 @@ export class Bullet implements IGameObject {
 	getPositionUpdate(frame: number): IPositionUpdate {
 		return new BulletPositionUpdate(this.id, frame, this.body.GetPosition().x, this.body.GetPosition().y);
 	}
-
 }

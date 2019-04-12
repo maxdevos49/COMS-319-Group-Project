@@ -14,6 +14,9 @@ import {TerrainMap} from "../../public/javascript/models/game/TerrainMap";
 import {IObjectDescription} from "../../public/javascript/models/game/objects/IObjectDescription";
 import {TerrainGenerator} from "./TerrainGenerator";
 import { IGameObject } from "./objects/IGameObject";
+import { Bullet } from "./objects/Bullet";
+import uuid = require("uuid");
+import v1Gen from "uuid/v1";
 
 // DEBUG: Write to the console when bodies contact each other
 class ContactListener extends b2ContactListener {
@@ -163,7 +166,11 @@ export class GameSimulation {
 			if (move.attemptShoot) {
 				// Attempt to shoot, might be stopped by the cool down
 				if (player.attemptShoot(this.frame)) {
-
+					let bullet: Bullet = new Bullet(v1Gen(), player.id, this.world);
+					bullet.body.SetPosition(player.getBody().GetPosition());
+					bullet.body.SetAngle(player.getBody().GetAngle());
+					this.newObjectsIds.push(bullet.id);
+					this.objects.set(bullet.id, bullet);
 				}
 			}
 		}
