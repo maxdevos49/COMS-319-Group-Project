@@ -20,18 +20,28 @@ import {PlayerObjectDescription} from "../../../public/javascript/models/game/ob
  */
 export class Player implements IGameObject{
 	/**
+	 * The cool-down between shooting in frames
+	 */
+	public static readonly SHOOT_COOLDOWN = 30;
+
+	/**
 	 * The UUID of the player. This should correspond with the UUID assigned to
 	 * a particular connection.
 	 */
 	public id: string;
-
 	/**
 	 * The Box2D physics body used for the physics simulation.
 	 */
 	private body: b2Body;
+	/**
+	 * The frame which this player last shot
+	 */
+	public lastShotFrame: number;
 
 	constructor(id: string, world: b2World) {
 		this.id = id;
+		// Assume frame 0 because this variable is only used to restrict shooting speed
+		this.lastShotFrame = 0;
 
 		// The player is a dynamic body, which means that it is fully simulated,
 		// moves in response to forces, and has a finite, non-zero mass.
@@ -54,6 +64,19 @@ export class Player implements IGameObject{
 
 	public getBody(): b2Body {
 		return this.body;
+	}
+
+	/**
+	 * Checks if this player can shoot at the given frame and if it can updates the player cool-down for shooting and
+	 * returns true.
+	 * @param frame The frame number to check if the player can shoot on
+	 */
+	public attemptShoot(frame: number): boolean {
+		if ((frame - this.lastShotFrame) > Player.SHOOT_COOLDOWN) {
+			this.lastShotFrame = frame;
+			return true;
+		}
+		return false;
 	}
 
 	/**

@@ -8,6 +8,10 @@ export class BulletObjectDescription implements IObjectDescription {
 	type: NewObjectType;
 
 	/**
+	 * The id of the object that owns this bullet (usually the object that shot it)
+	 */
+	ownerId: string;
+	/**
 	 * The x coordinate of the bullet
 	 */
 	x: number;
@@ -20,8 +24,9 @@ export class BulletObjectDescription implements IObjectDescription {
 	 */
 	angle: number;
 
-	constructor(id: string, x: number, y: number, angle: number) {
+	constructor(id: string, ownerId: string, x: number, y: number, angle: number) {
 		this.id = id;
+		this.ownerId = ownerId;
 		this.type = NewObjectType.Bullet;
 		this.x = x;
 		this.y = y;
