@@ -20,7 +20,6 @@ router.post("/register", permit(["public"]), (req: Request, res: Response) => {
 
     passport.authenticate("local-signup", { session: true }, (err, user, info) => {
 
-        //Display any validation messages
         if (info) {
             res.locals.validation = info;
             return res.render("Auth/register", View(res, RegisterViewModel, req.body));
@@ -37,7 +36,6 @@ router.post("/register", permit(["public"]), (req: Request, res: Response) => {
 router.post("/login", permit(["public"]), (req: Request, res: Response) => {
     passport.authenticate("local-login", { session: true }, (err, user, info) => {
 
-        //Display any validation messages
         if (info) {
             res.locals.validation = info;
             return res.render("Auth/login", View(res, LoginViewModel, req.body));
@@ -234,8 +232,30 @@ router.post("/forgotPassword", permit(["public"]), (req: Request, res: Response)
  * GET:/Auth/resetPassword:token?
  */
 router.get("/resetPassword:token?", (req: Request, res: Response) => {
-
+    res.render("Auth/resetPassword", View(res, DashboardViewModel, req.query));
 });
+
+/**
+ * POST:/Auth/resetPassword
+ */
+router.post("/resetPassword", (req: Request, res: Response) => {
+    if (req.body.password === req.body.passwordConfirmation) {
+        Account.findOne({ token: req.body.token }, (err, doc: any) => {
+            if (err) throw err;
+
+            if (doc) {
+                doc.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
+                doc.token = "";
+                doc.save();
+                return res.redirect("/Auth/login");
+            } else {
+                res.send(false);
+            }
+        });
+    } else {
+        res.redirect("/Auth/login");
+    }
+})
 
 
 export default router;

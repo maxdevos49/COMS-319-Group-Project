@@ -39,4 +39,10 @@ export class DashboardViewModel implements IViewModel {
         required: true
     };
 
+    public token: IViewProperty = {
+        type: String,
+        path: "token",
+        required: true
+    };
+
 }
