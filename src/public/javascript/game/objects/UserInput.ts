@@ -93,9 +93,9 @@ export class UserInput {
         let mouseX = this.mousePointer.x + this.camera.worldView.x;
         let mouseY = this.mousePointer.y + this.camera.worldView.y;
         // Y coordinates are flipped
-        let angleFromPlayer = Math.atan2(anchor.y - mouseY, anchor.x - mouseX) - (Math.PI / 2);
+        let angleFromPlayer = Math.atan2(mouseY - anchor.y, mouseX - anchor.x);
 
-        return new PlayerMoveUpdate(anchor.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection());
+        return new PlayerMoveUpdate(anchor.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection(), this.mousePointer.isDown);
     }
     
 }

@@ -31,9 +31,13 @@ export class GameConnection {
 	 */
 	public players: PlayerInfo[];
 	/**
-	 * Array of new objects that the server has sent
+	 * Array of new objects that the server has sent waiting to be processed
 	 */
 	public newObjects: IObjectDescription[];
+	/**
+	 * Array of the deleted ids that the server has sent waiting to be processed
+	 */
+	public deletedObjects: string[];
 	/**
 	 * The terrain map from the server
 	 */
@@ -54,6 +58,7 @@ export class GameConnection {
 		this.positionUpdates = new PositionUpdateQueue();
 		this.players = [];
 		this.newObjects = [];
+		this.deletedObjects = [];
 		this.ready = false;
 
 		this.connectToGame();
@@ -86,6 +91,7 @@ export class GameConnection {
 			this.newPlayerInfo();
 			this.positionUpdate();
 			this.newObjectDescription();
+			this.updateDeletedObjects();
 
 			console.log("Connected to server!");
 		});
@@ -121,11 +127,25 @@ export class GameConnection {
 		});
 	}
 
+	/**
+	 * Registers the new object description endpoint
+	 */
 	private newObjectDescription(): void {
 		this.socket.on("/update/objects/new", (newObjects: IObjectDescription[]) => {
 			console.log(`Received ${newObjects.length} new objects updates`);
 			// Push all elements of the new array into the old one without allocating a new array
 			newObjects.forEach((object: IObjectDescription) => this.newObjects.push(object));
+		});
+	}
+
+	/**
+	 * Registers the deleted objects endpoint
+	 */
+	private updateDeletedObjects(): void {
+		this.socket.on("/update/objects/delete", (deletedIds: string[]) => {
+			console.log(`Received ${deletedIds.length} deleted objects updates`);
+			// Push all elements of the new array into the old one without allocating a new array
+			deletedIds.forEach((id: string) => this.deletedObjects.push(id));
 		});
 	}
 

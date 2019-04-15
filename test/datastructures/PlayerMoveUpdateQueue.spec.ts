@@ -10,7 +10,7 @@ describe("Player Move Update Queue", () => {
 
    it("Should remove frames that retroactively become past the max frame lag because of calls to increment frame", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(1);
-       let testMoveUpdate: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None);
+       let testMoveUpdate: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None, false);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdate);
        moveUpdateQueue.incrementFrame();
        moveUpdateQueue.incrementFrame();
@@ -19,8 +19,8 @@ describe("Player Move Update Queue", () => {
 
    it("Should store a move updates that are not past max frame lag for a player with a given id", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
-       let testMoveUpdate1: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None);
-       let testMoveUpdate2: PlayerMoveUpdate = new PlayerMoveUpdate("testid2", 0, 180, true, PlayerMoveDirection.None);
+       let testMoveUpdate1: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None, false);
+       let testMoveUpdate2: PlayerMoveUpdate = new PlayerMoveUpdate("testid2", 0, 180, true, PlayerMoveDirection.None, false);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdate1);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdate2);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdate1);
@@ -33,8 +33,8 @@ describe("Player Move Update Queue", () => {
 
    it("Should alias the most recent frame update as the next and remove older ones", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
-       let testMoveUpdateOld: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None);
-       let testMoveUpdateNew: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 1, 180, false, PlayerMoveDirection.None);
+       let testMoveUpdateOld: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None, false);
+       let testMoveUpdateNew: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 1, 180, false, PlayerMoveDirection.None, false);
        moveUpdateQueue.incrementFrame();
        moveUpdateQueue.incrementFrame();
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateOld);
@@ -44,8 +44,8 @@ describe("Player Move Update Queue", () => {
 
    it("Should alias future updates as the next frame if not to far in the future", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10, 10);
-       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 5, 0, false, PlayerMoveDirection.None);
-       let testMoveUpdateFarFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 180, true, PlayerMoveDirection.None);
+       let testMoveUpdateFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 5, 0, false, PlayerMoveDirection.None, false);
+       let testMoveUpdateFarFuture: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 15, 180, true, PlayerMoveDirection.None, false);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFuture);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdateFarFuture);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdateFuture);
@@ -53,7 +53,7 @@ describe("Player Move Update Queue", () => {
 
    it("Should not pop the same move update more than once", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
-       let testMoveUpdate: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None);
+       let testMoveUpdate: PlayerMoveUpdate = new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None, false);
        moveUpdateQueue.addPlayerMoveUpdate(testMoveUpdate);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).equals(testMoveUpdate);
        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).is.null;
@@ -62,7 +62,7 @@ describe("Player Move Update Queue", () => {
    it("Should refuse updates that are past the max frame lag", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(0);
        moveUpdateQueue.incrementFrame();
-       moveUpdateQueue.addPlayerMoveUpdate(new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None));
+       moveUpdateQueue.addPlayerMoveUpdate(new PlayerMoveUpdate("testid1", 0, 0, false, PlayerMoveDirection.None, false));
        expect(moveUpdateQueue.popPlayerMoveUpdate(("testid1"))).is.null;
    });
 });

@@ -10,8 +10,9 @@ export interface IObjectDescription {
 	/**
 	 * The type of the new object
 	 */
-	type: NewObjectType;
+	type: GameObjectType;
 }
-export enum NewObjectType {
-	Player
+export enum GameObjectType {
+	Player,
+	Bullet
 }

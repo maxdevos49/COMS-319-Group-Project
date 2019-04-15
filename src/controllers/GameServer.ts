@@ -5,8 +5,23 @@ import {GameSimulation} from "./simulation/GameSimulation";
 import {PlayerMoveUpdateQueue} from "../public/javascript/data-structures/PlayerMoveUpdateQueue";
 import {PlayerMoveUpdate} from "../public/javascript/models/game/PlayerMoveUpdate";
 import {IPositionUpdate} from "../public/javascript/models/game/objects/IPositionUpdate";
+import { Player } from "./simulation/objects/Player";
 
 export class GameServer {
+	/**
+	 * How many frames between sending out a full position update to all players
+	 */
+	public static FORCE_FULL_UPDATE_FRAME_RATE = 30;
+	/**
+	 * The width of the players view in meters (100 meters in a pixel)
+	 * This will be centered on the player and determines which position updates to send to the player
+	 */
+	public static PLAYER_VIEW_WIDTH = 18;
+	/**
+	 * The height of the player view in meters (100 meters in a pixel)
+	 * This will be centered on the player and determines which position updates to send to the player
+	 */
+	public static PLAYER_VIEW_HEIGHT = 13;
 	/**
 	 * The unique server id which identifies this server and is used in it's routes
 	 */
@@ -97,8 +112,26 @@ export class GameServer {
 		if (this.simulation.hasNewObjectDescriptions()) {
 			this.gameSocket.emit("/update/objects/new", this.simulation.popNewObjectDescriptions());
 		}
+		// Pack up all of the deleted objects and send them (if there are any)
+		if (this.simulation.hasDeletedObjects()) {
+			this.gameSocket.emit("/update/objects/delete", this.simulation.popDeletedObjectIds());
+		}
+
 		// Pack up all of the PositionUpdates and send them to all clients
 		let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
-		this.gameSocket.emit("/update/position", updates);
+		this.clients.forEach((socket: Socket, id: string) => {
+			// Get the player object of the given client, if one doesn't exist send all of the information to the server
+			// Every certain number of frames send an update about everything in the game
+			let player: Player = (this.simulation.objects.get(id) as Player);
+			if (player && (this.simulation.frame % GameServer.FORCE_FULL_UPDATE_FRAME_RATE) != 0) {
+				socket.volatile.emit("/update/position", updates.filter((update: IPositionUpdate) => {
+					return ((player.body.GetPosition().x - update.x) < (GameServer.PLAYER_VIEW_WIDTH / 2)) &&
+						((player.body.GetPosition().y - update.y) < (GameServer.PLAYER_VIEW_HEIGHT / 2))
+				}));
+			} else {
+				// If we cannot intelligently eliminate position updates as not needed then send all of them
+				this.gameSocket.emit("/update/position", updates);
+			}
+		});
 	}
 }

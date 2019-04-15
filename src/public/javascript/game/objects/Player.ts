@@ -2,6 +2,7 @@ import {GameObject} from "./GameObject.js";
 import {PlayerPositionUpdate} from "../../models/game/objects/PlayerPositionUpdate.js";
 import { PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
 import {PlayerObjectDescription} from "../../models/game/objects/PlayerObjectDescription.js";
+import { SCALE_FACTOR } from "../Game.js";
 
 export class Player extends GameObject {
     /**
@@ -35,7 +36,7 @@ export class Player extends GameObject {
 	 * @param description The description to build the object from
 	 */
     constructor(scene: Phaser.Scene, description: PlayerObjectDescription) {
-        super(scene, description.x, description.y, "sprites");
+        super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites");
         scene.physics.world.enable(this);
         this.play("objects/player/walking");
 
@@ -44,7 +45,7 @@ export class Player extends GameObject {
     }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {
-        this.setPosition(newUpdate.x, newUpdate.y);
+        this.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
         this.setRotation(newUpdate.facing);
     }
 }

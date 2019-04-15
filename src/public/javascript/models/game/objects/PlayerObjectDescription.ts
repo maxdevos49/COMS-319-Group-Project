@@ -1,4 +1,4 @@
-import {IObjectDescription, NewObjectType} from "./IObjectDescription";
+import { IObjectDescription, GameObjectType } from "./IObjectDescription";
 
 /**
  * Describes the initial state of a game player. This is used to inform clients of new players that they don't
@@ -6,7 +6,7 @@ import {IObjectDescription, NewObjectType} from "./IObjectDescription";
  */
 export class PlayerObjectDescription implements IObjectDescription {
 	id: string;
-	type: NewObjectType;
+	type: GameObjectType;
 
 	/**
 	 * The position of the player
@@ -21,14 +21,13 @@ export class PlayerObjectDescription implements IObjectDescription {
 	/**
 	 * Constructs a new NewPlayerObject
 	 * @param id The id of the player this update represents
-	 * @param type The type of objects it new player is
 	 * @param x The x coordinate of this player
 	 * @param y The y coordinate of this player
 	 * @param facing The direction the player is facing in radians
 	 */
-	constructor(id: string, type: NewObjectType, x: number, y: number, facing: number){
+	constructor(id: string, x: number, y: number, facing: number){
 		this.id = id;
-		this.type = type;
+		this.type = GameObjectType.Player;
 		this.x = x;
 		this.y = y;
 		this.facing = facing;

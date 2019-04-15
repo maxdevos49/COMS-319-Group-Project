@@ -1,14 +1,77 @@
 {
 	"textures": [
 		{
-			"image": "spritesAtlas.png",
+			"image": "spritesAtlastest.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 204,
-				"h": 102
+				"w": 100,
+				"h": 210
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "objects/bullet/orb/1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 10,
+						"h": 10
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "objects/bullet/orb/2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 10,
+						"h": 10
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 10,
+						"y": 0,
+						"w": 10,
+						"h": 10
+					}
+				},
+				{
+					"filename": "objects/bullet/orb/3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 10,
+						"h": 10
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 10,
+						"h": 10
+					},
+					"frame": {
+						"x": 20,
+						"y": 0,
+						"w": 10,
+						"h": 10
+					}
+				},
 				{
 					"filename": "objects/player/walking/1",
 					"rotated": false,
@@ -24,8 +87,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 1,
-						"y": 1,
+						"x": 0,
+						"y": 10,
 						"w": 100,
 						"h": 100
 					}
@@ -45,8 +108,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 103,
-						"y": 1,
+						"x": 0,
+						"y": 110,
 						"w": 100,
 						"h": 100
 					}
@@ -57,6 +120,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:f9f62c6c593e005dd80419c1afa0375a:b3fd7d2fc812d9465a02c8fbe8d3680f:941fdc8fcb393b91cb8b27a54e5a9c98$"
+		"smartupdate": "$TexturePacker:SmartUpdate:fa2cb551f95ac930c27fdf05f0cb2cc1:ce78c39f1b44e621fdd6bde2bcbc6981:7b7b0ab542d8f4476927c1214236c45c$"
 	}
 }
