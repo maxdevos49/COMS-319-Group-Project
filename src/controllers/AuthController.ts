@@ -124,7 +124,7 @@ router.post("/confirmEmail", permit(["user"]), (req: Request, res: Response) => 
         if (err) throw err;
 
         if (data) {
-            res.locals.validation = [{ message: "Email was sent", }];
+            res.locals.validation = [{ message: "Email was sent", type: true }];
             let token = v1();
             //send email
             Shared.sendEmail({
@@ -190,7 +190,7 @@ router.post("/forgotPassword", permit(["public"]), (req: Request, res: Response)
 
         if (data) {
             if (data.confirmed) {
-                res.locals.validation = [{ message: "Email was sent" }];
+                res.locals.validation = [{ message: "Email was sent", type: true }];
                 let token = v1();
                 //send email
                 Shared.sendEmail({

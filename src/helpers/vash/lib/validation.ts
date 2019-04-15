@@ -5,7 +5,7 @@ import { IViewProperty } from "./Interfaces/IViewProperty";
  * @param property
  * @returns an object with key value pairs representing what properties to add.
  */
-export function validation(property: IViewProperty) {
+export function Validation(property: IViewProperty) {
     let result = { "data-val": "true" };
     /**
      * Required

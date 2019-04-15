@@ -1,6 +1,6 @@
 import { IViewModel } from "./Interfaces/IViewModel";
 import { IViewProperty } from "./Interfaces/IViewProperty";
-import { validation as Validation } from "./validation";
+import { Validation } from "./validation";
 import { InputType } from "./Enums/InputType";
 
 const vash = require("vash");
@@ -16,10 +16,10 @@ const vash = require("vash");
  * @returns html markup representing a label
  */
 vash.helpers.LabelFor = function (model: Function, attributes?: any) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	this.buffer.push(`
+    this.buffer.push(`
             <label
               for="${property.path}"
               ${processAttributes(attributes)}>
@@ -36,15 +36,15 @@ vash.helpers.LabelFor = function (model: Function, attributes?: any) {
  * @returns html markup representing a text box
  */
 vash.helpers.TextBoxFor = function (model: Function, value?: string | number, attributes?: any) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	//dont throw undefined for lack of data
-	if (this.model.data) value = model(this.model.data);
+    //dont throw undefined for lack of data
+    if (this.model.data) value = model(this.model.data);
 
-	Object.assign(attributes, Validation(property));
+    Object.assign(attributes, Validation(property));
 
-	this.buffer.push(`
+    this.buffer.push(`
             <input
               type="text"
               id="${property.path}"
@@ -60,16 +60,16 @@ vash.helpers.TextBoxFor = function (model: Function, value?: string | number, at
  * @returns html markup representing a hidden input
  */
 vash.helpers.HiddenFor = function (model: Function, value?: string | number) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	//dont throw undefined for lack of data
-	if (this.model.data) value = model(this.model.data);
+    //dont throw undefined for lack of data
+    if (this.model.data) value = model(this.model.data);
 
-	//dont throw undefined for lack of data
-	if (this.model.data) value = model(this.model.data);
+    //dont throw undefined for lack of data
+    if (this.model.data) value = model(this.model.data);
 
-	this.buffer.push(`
+    this.buffer.push(`
             <input
               type="hidden"
               name="${property.path}"
@@ -85,17 +85,17 @@ vash.helpers.HiddenFor = function (model: Function, value?: string | number) {
  * @returns html markup representing a text box
  */
 vash.helpers.EditorFor = function (model: Function, value?: string, attributes?: any) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	//dont throw undefined for lack of data
-	if (this.model.data) value = model(this.model.data);
+    //dont throw undefined for lack of data
+    if (this.model.data) value = model(this.model.data);
 
-	let type: string = getType(property.type.name as InputType); //property.subtype ? property.subtype :
+    let type: string = getType(property.type.name as InputType); //property.subtype ? property.subtype :
 
-	Object.assign(attributes, Validation(property));
+    Object.assign(attributes, Validation(property));
 
-	this.buffer.push(`
+    this.buffer.push(`
             <input
               type="${type || "text"}"
               id="${property.path}"
@@ -113,12 +113,12 @@ vash.helpers.EditorFor = function (model: Function, value?: string, attributes?:
  * @returns html markup representing a text box
  */
 vash.helpers.PasswordBoxFor = function (model: Function, value?: string, attributes: any = {}) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	Object.assign(attributes, Validation(property));
+    Object.assign(attributes, Validation(property));
 
-	this.buffer.push(`
+    this.buffer.push(`
             <input
               type="password"
               id="${property.path}"
@@ -136,10 +136,10 @@ vash.helpers.PasswordBoxFor = function (model: Function, value?: string, attribu
  * @returns html markup representing validation needed for a specific model property
  */
 vash.helpers.ValidationMessageFor = function (model: Function, error?: string, attributes?: any) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	this.buffer.push(`
+    this.buffer.push(`
             <div
               class="text-danger field-validation-valid"
               data-valmsg-for="${property.path}"
@@ -156,12 +156,12 @@ vash.helpers.ValidationMessageFor = function (model: Function, error?: string, a
  * @returns the value of a model property
  */
 vash.helpers.DisplayFor = function (model: Function) {
-	let value: any = model(this.model.data);
+    let value: any = model(this.model.data);
 
-	//0 is falsy but we still want to display it so lets make it a string
-	if (typeof value === "number") if (value === 0) value.toString();
+    //0 is falsy but we still want to display it so lets make it a string
+    if (typeof value === "number") if (value === 0) value.toString();
 
-	this.buffer.push(value || "");
+    this.buffer.push(value || "");
 };
 
 /**
@@ -169,21 +169,23 @@ vash.helpers.DisplayFor = function (model: Function) {
  * Displays any validation errors to the page
  */
 vash.helpers.ValidationSummary = function () {
-	if (this.model.validation) {
+    if (this.model.validation) {
 
-		this.model.validation.forEach((info: any) => {
+        this.model.validation.forEach((info: any) => {
 
-			this.buffer.push(`
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Validation: </strong>${info.message}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            this.buffer.push(`
+            <div>
+                <div class="alert ${(info.type) ? "alert-success" : "alert-danger"} alert-dismissible fade show" role="alert">
+                    <strong>Validation: </strong>${info.message}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
             `);
 
-		});
-	}
+        });
+    }
 }
 
 /**
@@ -192,10 +194,10 @@ vash.helpers.ValidationSummary = function () {
  * @returns the name of a model property
  */
 vash.helpers.DisplayNameFor = function (model: Function) {
-	let m: IViewModel = new this.model.viewModel();
-	let property: IViewProperty = model(m);
+    let m: IViewModel = new this.model.viewModel();
+    let property: IViewProperty = model(m);
 
-	this.buffer.push(property.name || property.path);
+    this.buffer.push(property.name || property.path);
 };
 
 /**
@@ -206,12 +208,12 @@ vash.helpers.DisplayNameFor = function (model: Function) {
  * @param attributes object containing key value pairs of html attributes
  */
 vash.helpers.Navigator = function (type: ButtonTypes, text?: string, route?: string, attributes?: any) {
-	if (text) text = " " + text;
-	else text = "";
+    if (text) text = " " + text;
+    else text = "";
 
-	attributes.class += ` btn ${typeClass(type)}"`;
+    attributes.class += ` btn ${typeClass(type)}"`;
 
-	this.buffer.push(`
+    this.buffer.push(`
         <a href="${route || "#"}" ${processAttributes(attributes)}>
         ${typeIcon(type)}${text || ""}
         </a>
@@ -225,15 +227,15 @@ vash.helpers.Navigator = function (type: ButtonTypes, text?: string, route?: str
  * @param attributes object containing key value pairs of html attributes
  */
 vash.helpers.Input = function (type: ButtonTypes, text?: string, attributes: any = {}) {
-	if (text) {
-		text = " " + text;
-	} else {
-		text = "";
-	}
+    if (text) {
+        text = " " + text;
+    } else {
+        text = "";
+    }
 
-	attributes.class += ` btn ${typeClass(type)}"`;
+    attributes.class += ` btn ${typeClass(type)}"`;
 
-	this.buffer.push(`
+    this.buffer.push(`
         <button ${processAttributes(attributes)}>
         ${typeIcon(type)}${text || ""}
         </button>
@@ -241,13 +243,13 @@ vash.helpers.Input = function (type: ButtonTypes, text?: string, attributes: any
 };
 
 enum ButtonTypes {
-	Create = 0,
-	Edit,
-	Details,
-	Delete,
-	Download,
-	Save,
-	Back
+    Create = 0,
+    Edit,
+    Details,
+    Delete,
+    Download,
+    Save,
+    Back
 }
 
 // /**
@@ -266,22 +268,22 @@ vash.helpers.Back = 6;
  * @returns  bootstrap 4 classes for backgrounds
  */
 function typeClass(type: ButtonTypes): string {
-	if (type === ButtonTypes.Create) {
-		return "btn-primary";
-	} else if (type === ButtonTypes.Edit) {
-		return "btn-warning";
-	} else if (type === ButtonTypes.Details) {
-		return "btn-info";
-	} else if (type === ButtonTypes.Download) {
-		return "btn-warning";
-	} else if (type === ButtonTypes.Delete) {
-		return "btn-danger";
-	} else if (type === ButtonTypes.Back) {
-		return "btn-secondary";
-	} else if (type == ButtonTypes.Save) {
-		return "btn-success";
-	}
-	return "btn-success";
+    if (type === ButtonTypes.Create) {
+        return "btn-primary";
+    } else if (type === ButtonTypes.Edit) {
+        return "btn-warning";
+    } else if (type === ButtonTypes.Details) {
+        return "btn-info";
+    } else if (type === ButtonTypes.Download) {
+        return "btn-warning";
+    } else if (type === ButtonTypes.Delete) {
+        return "btn-danger";
+    } else if (type === ButtonTypes.Back) {
+        return "btn-secondary";
+    } else if (type == ButtonTypes.Save) {
+        return "btn-success";
+    }
+    return "btn-success";
 }
 
 /**
@@ -289,23 +291,23 @@ function typeClass(type: ButtonTypes): string {
  * @returns representing the icon html
  */
 function typeIcon(type: ButtonTypes): string {
-	if (type === ButtonTypes.Create) {
-		return `<i class="fa fa-plus fa-lg"></i>`;
-	} else if (type === ButtonTypes.Edit) {
-		return `<i class="fa fa-edit fa-lg"></i>`;
-	} else if (type === ButtonTypes.Details) {
-		return `<i class="fa fa-info-circle fa-lg"></i>`;
-	} else if (type === ButtonTypes.Delete) {
-		return `<i class="fa fa-trash fa-lg"></i>`;
-	} else if (type === ButtonTypes.Download) {
-		return '<i class="fa fa-save fa-lg"></i>';
-	} else if (type === ButtonTypes.Back) {
-		return `<i class="fa fa-caret-left fa-lg"></i>`;
-	} else if (type === ButtonTypes.Save) {
-		return `<i class="fa fa-save fa-lg"></i>`;
-	} else {
-		return "";
-	}
+    if (type === ButtonTypes.Create) {
+        return `<i class="fa fa-plus fa-lg"></i>`;
+    } else if (type === ButtonTypes.Edit) {
+        return `<i class="fa fa-edit fa-lg"></i>`;
+    } else if (type === ButtonTypes.Details) {
+        return `<i class="fa fa-info-circle fa-lg"></i>`;
+    } else if (type === ButtonTypes.Delete) {
+        return `<i class="fa fa-trash fa-lg"></i>`;
+    } else if (type === ButtonTypes.Download) {
+        return '<i class="fa fa-save fa-lg"></i>';
+    } else if (type === ButtonTypes.Back) {
+        return `<i class="fa fa-caret-left fa-lg"></i>`;
+    } else if (type === ButtonTypes.Save) {
+        return `<i class="fa fa-save fa-lg"></i>`;
+    } else {
+        return "";
+    }
 }
 
 /**
@@ -314,17 +316,17 @@ function typeIcon(type: ButtonTypes): string {
  * @returns representing the type of the property
  */
 function getType(giventype: InputType): string {
-	if (giventype === InputType.String) {
-		return "text";
-	} else if (giventype === InputType.Date) {
-		return "date";
-	} else if (giventype === InputType.Boolean) {
-		return "check";
-	} else if (giventype === InputType.Number) {
-		return "number";
-	} else {
-		return "";
-	}
+    if (giventype === InputType.String) {
+        return "text";
+    } else if (giventype === InputType.Date) {
+        return "date";
+    } else if (giventype === InputType.Boolean) {
+        return "check";
+    } else if (giventype === InputType.Number) {
+        return "number";
+    } else {
+        return "";
+    }
 }
 
 /**
@@ -333,11 +335,11 @@ function getType(giventype: InputType): string {
  * @returns a string of html attributes
  */
 function processAttributes(attributes?: any): string {
-	if (!attributes) return "";
+    if (!attributes) return "";
 
-	return Object.keys(attributes)
-		.map(function (attribute) {
-			return `${attribute}="${attributes[attribute]}"`;
-		})
-		.join(" ");
+    return Object.keys(attributes)
+        .map(function (attribute) {
+            return `${attribute}="${attributes[attribute]}"`;
+        })
+        .join(" ");
 }
