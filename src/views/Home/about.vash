@@ -8,7 +8,7 @@
 
         <div class="col-md-11 container">
             <br/>
-            <h1>About</h1> 
+            <h1>About</h1>
             <hr/>
             <p>
                 Project Title: @model.config.name<br/>
@@ -22,7 +22,7 @@
             <hr/>
             <div class="row">
 
-                @model.config.Developers.forEach(function(item){
+                @model.config.developers.forEach(function(item){
 
                     <div class="bg-primary p-1"  style="margin: auto; width: 20%">
                         <div class="container">

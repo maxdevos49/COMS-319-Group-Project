@@ -1,7 +1,7 @@
-import {Player} from "../objects/Player.js";
-import {GameScene} from "../scenes/GameScene";
-import { PlayerMoveDirection, PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
-import {GameObject} from "./GameObject";
+import { Player } from "../objects/Player.js";
+import { GameScene } from "../scenes/GameScene";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../models/PlayerMoveUpdate.js";
+import { GameObject } from "./GameObject";
 
 export class UserInput {
     /**
@@ -47,7 +47,7 @@ export class UserInput {
 
     /**
      * Creates a UserInput object that handles input from the user.
-     * 
+     *
      * @param scene the scene the player is in
      * @param player the player to be moved
      */
@@ -97,5 +97,5 @@ export class UserInput {
 
         return new PlayerMoveUpdate(anchor.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection(), this.mousePointer.isDown);
     }
-    
+
 }

@@ -1,6 +1,6 @@
 import { GameObject } from "./GameObject.js";
-import { BulletObjectDescription } from "../../models/game/objects/BulletObjectDescription.js";
-import { BulletPositionUpdate } from "../../models/game/objects/BulletPositionUpdate.js";
+import { BulletObjectDescription } from "../models/objects/BulletObjectDescription.js";
+import { BulletPositionUpdate } from "../models/objects/BulletPositionUpdate.js";
 import { SCALE_FACTOR } from "../Game.js";
 
 export class Bullet extends GameObject {

@@ -1,12 +1,12 @@
-import {expect} from "chai";
-import {PlayerMoveUpdateQueue} from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
-import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
+import { expect } from "chai";
+import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../../src/public/javascript/game/models/PlayerMoveUpdate";
 
 describe("Player Move Update Queue", () => {
-   it("Should initialize without a player move update for a given player", () => {
-      let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
-      expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).is.null;
-   });
+    it("Should initialize without a player move update for a given player", () => {
+        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(10);
+        expect(moveUpdateQueue.popPlayerMoveUpdate("testid1")).is.null;
+    });
 
    it("Should remove frames that retroactively become past the max frame lag because of calls to increment frame", () => {
        let moveUpdateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(1);

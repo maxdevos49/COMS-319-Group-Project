@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {Player} from "../../src/controllers/simulation/objects/Player";
-import { GameSimulation } from "../../src/controllers/simulation/GameSimulation";
-import { PlayerMoveUpdateQueue } from "../../src/public/javascript/data-structures/PlayerMoveUpdateQueue";
+import {Player} from "../../src/game/simulation/objects/Player";
+import { GameSimulation } from "../../src/game/simulation/GameSimulation";
+import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 
 describe("Simulation Player Object", () => {
     let simulation: GameSimulation;

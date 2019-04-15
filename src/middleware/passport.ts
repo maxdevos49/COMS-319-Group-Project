@@ -2,8 +2,10 @@ import LocalStrategy from "passport-local";
 import Account, { IAccount } from "../models/Account";
 import { Request } from "express";
 import bcrypt from "bcryptjs";
+import Login from "../models/Logins";
+import v1 from "uuid/v1";
 
-export default function (passport: any) {
+export function localStrat(passport: any) {
     /**
      * Serialize a user(save into session)
      */
@@ -83,8 +85,16 @@ export default function (passport: any) {
                     // if the user is found but the password is wrong
                     if (!bcrypt.compareSync(password, user.password)) return done(null, false, [{ message: "Oops! Wrong password." }]);
 
-                    // all is well, return successful user
-                    return done(null, user);
+                    let session: any = new Login();
+                    session.userId = user.id;
+                    session.token = v1();
+
+                    // all is well, return successful user and record the login
+                    session.save((err: any) => {
+                        if (err) throw err;
+                        return done(null, user);
+                    })
+
                 });
             }
         )

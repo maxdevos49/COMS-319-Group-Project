@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { IViewModel, IViewProperty } from "../../src/helpers/vash/vashInterface";
+import { IViewModel } from "../../src/helpers/vash/lib/Interfaces/IViewModel";
+import { IViewProperty } from "../../src/helpers/vash/lib/Interfaces/IViewProperty";
 
 class TestViewModel implements IViewModel {
     firstname: IViewProperty = {

@@ -1,11 +1,13 @@
-const config = {
-    name: "B.R.T.D. (Battle Royal Top Down Shooter)",
+import { IConfig } from "./helpers/vash/lib/Interfaces/IConfig";
+
+export const config: IConfig = {
+    title: "B.R.T.D. (Battle Royal Top Down Shooter)",
     versionRelease: "April 5, 2019",
     versionTitle: "Alpha",
     version: "1.0.0",
     description: "B.R.T.D is a Top Down Battle Royal Shooter Game. ",
     owner: ["Maxwell DeVos", "Mason Timmerman", "Joeseph Naberhaus", "John Jago"],
-    Developers: [
+    developers: [
         {
             name: "Maxwell DeVos",
             major: "Software Engineering",
@@ -49,6 +51,10 @@ const config = {
         domain: process.env.DOMAIN,
         transport: process.env.TRANSPORT
     },
+    email: {
+        username: process.env.USERNAME,
+        password: process.env.PASSWORD
+    },
     hash: {
         salt: process.env.HASH_SALT
     },
@@ -60,5 +66,3 @@ const config = {
     },
     controllers: [{ controller: "Home" }, { controller: "Game" }]
 };
-
-export default config;
