@@ -18,18 +18,10 @@ export class GameScene extends Phaser.Scene {
      * The data from id to game object that contains all game objects in the game
      */
 	private objects: Map<string, GameObject>;
-	/**
-     * The top layer tile map
-	 */
-	private topLayerTileMap: Phaser.Tilemaps.Tilemap;
     /**
-     * The bottom layer tile map
+     * The the tile map for the game
      */
-	private bottomLayerTileMap: Phaser.Tilemaps.Tilemap;
-	/**
-     * The ground layer of the map
-	 */
-	private groundLayer: Phaser.Tilemaps.StaticTilemapLayer;
+	private tileMap: Phaser.Tilemaps.Tilemap;
     /**
      * A reference to the player that this client is playing
      */
@@ -63,10 +55,10 @@ export class GameScene extends Phaser.Scene {
 			this.connection.map.tileHeight,
 			this.connection.map.width,
 			this.connection.map.height,
-			this.connection.map.top
+			this.connection.map.data
 		);
         let tiles = this.tileMap.addTilesetImage("tiles");
-        this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
+        this.tileMap.createStaticLayer(0, tiles, 0, 0);
         this.lastFrame = 0;
     }
 
