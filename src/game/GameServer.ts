@@ -62,7 +62,7 @@ export class GameServer {
             // console.log("A new client has connected to game: " + this.serverId);
 
             //Authentication
-            if (socket.request.session) {
+            if (!socket.request.session) {
                 socket.disconnect();
             }
 
