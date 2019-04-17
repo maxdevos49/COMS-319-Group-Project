@@ -3,9 +3,15 @@
     "name": "grass",
     "tiles": [
       "grass_1",
-      "grass_2"
+      "grass_2",
+      "grass_3",
+      "grass_4",
+      "grass_5",
+      "grass_6",
+      "grass_7",
+      "grass_8"
     ],
-    "humidity": 80,
+    "humidity": 50,
     "temperature": 40
   },
   {
@@ -20,20 +26,20 @@
       "crag_7",
       "crag_8"
     ],
-    "humidity": 20,
-    "temperature": 60
+    "humidity": 30,
+    "temperature": 55
   },
   {
-    "name": "dessert",
+    "name": "desert",
     "tiles": [
-      "dessert_1",
-      "dessert_2",
-      "dessert_3",
-      "dessert_4",
-      "dessert_5",
-      "dessert_6"
+      "desert_1",
+      "desert_2",
+      "desert_3",
+      "desert_4",
+      "desert_5",
+      "desert_6"
     ],
-    "humidity": 10,
-    "temperature": 90
+    "humidity": 30,
+    "temperature": 60
   }
 ]

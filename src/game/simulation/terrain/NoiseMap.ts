@@ -37,7 +37,8 @@ export class NoiseMap {
         for (let y = 0; y < this.height; y++) {
             let row = new Array(this.width);
             for (let x = 0; x < this.width; x++) {
-                row[x] = NoiseMap.perlin(gradient, x, y, this.chunkSize);
+                // Perlin generates between -1 and 1, change this to 0 to 100
+                row[x] = (50 * NoiseMap.perlin(gradient, x, y, this.chunkSize)) + 50;
             }
             this.map[y] = row;
         }

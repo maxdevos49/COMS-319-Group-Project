@@ -50,7 +50,7 @@ export class GameScene extends Phaser.Scene {
 
 	preload(): void {
 		this.tileMap = this.add.tilemap(
-			this.connection.roomId,
+			null,
 			this.connection.map.tileWidth,
 			this.connection.map.tileHeight,
 			this.connection.map.width,
