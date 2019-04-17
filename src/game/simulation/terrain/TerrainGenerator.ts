@@ -1,4 +1,4 @@
-import { TerrainMap } from "../../public/javascript/game/models/TerrainMap";
+import { TerrainMap } from "../../../public/javascript/game/models/TerrainMap";
 
 export class TerrainGenerator {
     private static chunkSize: number = 20;

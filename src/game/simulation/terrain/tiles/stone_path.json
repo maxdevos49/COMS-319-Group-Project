@@ -1,0 +1,34 @@
+[
+  {
+    "name": "stone_path_corner_nw",
+    "index": 0
+  },
+  {
+    "name": "stone_path_corner_ne",
+    "index": 1
+  },
+  {
+    "name": "stone_path_corner_se",
+    "index": 2
+  },
+  {
+    "name": "stone_path_corner_sw",
+    "index": 3
+  },
+  {
+    "name": "stone_path_edge_n",
+    "index": 4
+  },
+  {
+    "name": "stone_path_edge_e",
+    "index": 5
+  },
+  {
+    "name": "stone_path_edge_s",
+    "index": 6
+  },
+  {
+    "name": "stone_path_edge_w",
+    "index": 7
+  }
+]

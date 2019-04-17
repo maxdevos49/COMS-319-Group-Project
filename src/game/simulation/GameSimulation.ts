@@ -7,7 +7,7 @@ import { PlayerMoveUpdateQueue } from "../../public/javascript/game/data-structu
 import { PlayerMoveUpdate } from "../../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPositionUpdate";
 import { IObjectDescription } from "../../public/javascript/game/models/objects/IObjectDescription";
-import { TerrainGenerator } from "./TerrainSimulator";
+import { TerrainGenerator } from "./terrain/TerrainGenerator";
 
 /**
  * Simulation of the physical world of the game.
