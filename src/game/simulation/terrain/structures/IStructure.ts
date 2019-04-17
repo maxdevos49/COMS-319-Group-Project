@@ -14,6 +14,13 @@ export interface IStructurePart {
     connections: IStructureConnection[];
 }
 
+export interface IPlacedStructurePart {
+    x: number,
+    y: number,
+    template: IStructurePart;
+    absConnections: IStructureConnection[];
+}
+
 export interface IStructureConnection {
     x: number;
     y: number;
