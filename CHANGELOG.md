@@ -1,7 +1,7 @@
 # B.R.T.D. Changelog
 
 ## v2.0.0 beta
-Date: 
+Date: April 19, 2019
 
 ---
 ### Additions:

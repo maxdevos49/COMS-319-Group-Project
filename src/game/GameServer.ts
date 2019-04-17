@@ -59,13 +59,19 @@ export class GameServer {
         this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
         this.gameSocket.on("connection", (socket: Socket) => {
-            console.debug("A new client has connected to game: " + this.serverId);
+            // console.log("A new client has connected to game: " + this.serverId);
 
-            // TODO: authenticate the client
+            //Authentication
+            if (socket.request.session.passport.user.nickname) {
+                socket.disconnect();
+            }
 
             let newClientId: string = v1Gen();
             // Send the new client their id
             socket.emit("/init/assignid", newClientId);
+
+            //add nickname to names of players
+            this.playerNames.set(newClientId, socket.request.session.passport.user.nickname);
 
             // Inform every other connected player that a new player has connected and inform new player of the existing players
             let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
