@@ -34,6 +34,10 @@ export class GameScene extends Phaser.Scene {
 	 * The last frame processed and rendered by this game scene
 	 */
 	private lastFrame: number;
+    /**
+     * The point that the camera will follow. The camera cannot directly follow the player because of subpixel movement
+     */
+    private cameraFollowPoint: Phaser.Geom.Point;
 
 	constructor() {
 		super({
@@ -60,6 +64,9 @@ export class GameScene extends Phaser.Scene {
         let tiles = this.tileMap.addTilesetImage("tiles");
         this.tileMap.createStaticLayer(0, tiles, 0, 0);
         this.lastFrame = 0;
+
+        this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
+        this.cameras.main.startFollow(this.cameraFollowPoint);
     }
 
     update(timestep: number, elapsed: number): void {
@@ -91,6 +98,10 @@ export class GameScene extends Phaser.Scene {
 		if (this.clientPlayer) {
 			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
 			this.connection.sendMove(moveUpdate);
+
+			// Move the camera
+            this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
+            this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
 		}
 	}
 
@@ -101,7 +112,6 @@ export class GameScene extends Phaser.Scene {
 			// Check if the id of this object is the clients, if it is save the reference to it
 			if (this.connection.clientId === newObjectDescription.id) {
 				this.clientPlayer = object as Player;
-				this.cameras.main.startFollow(this.clientPlayer);
 			}
         } else if (newObjectDescription.type === GameObjectType.Bullet) {
 			object = new Bullet(this, newObjectDescription as BulletObjectDescription);

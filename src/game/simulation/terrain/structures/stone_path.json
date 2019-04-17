@@ -1,0 +1,189 @@
+[
+  {
+    "name": "4-Way junction",
+    "rarity": 10,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_center", "stone_path_center", "stone_path_center"],
+      ["stone_path_center", "stone_path_center", "stone_path_center"],
+      ["stone_path_center", "stone_path_center", "stone_path_center"]
+    ],
+    "connections": [
+      {
+        "x": 1,
+        "y": -1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": -1,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 4,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "Straight Path N/S",
+    "rarity": 50,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_edge_w", "stone_path_center", "stone_path_edge_e"],
+      ["stone_path_edge_w", "stone_path_center", "stone_path_edge_e"],
+      ["stone_path_edge_w", "stone_path_center", "stone_path_edge_e"]
+    ],
+    "connections": [
+      {
+        "x": 1,
+        "y": -1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "Straight Path E/W",
+    "rarity": 50,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_edge_n", "stone_path_edge_n", "stone_path_edge_n"],
+      ["stone_path_center", "stone_path_center", "stone_path_center"],
+      ["stone_path_edge_s", "stone_path_edge_s", "stone_path_edge_s"]
+    ],
+    "connections": [
+      {
+        "x": -1,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 4,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "Corner se",
+    "rarity": 20,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_edge_nw", "stone_path_edge_n", "stone_path_edge_n"],
+      ["stone_path_edge_w", "stone_path_center", "stone_path_center"],
+      ["stone_path_edge_w", "stone_path_center", "stone_path_center"]
+    ],
+    "connections": [
+      {
+        "x": 1,
+        "y": 4,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 4,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "Corner ne",
+    "rarity": 20,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_edge_w", "stone_path_center", "stone_path_center"],
+      ["stone_path_edge_w", "stone_path_center", "stone_path_center"],
+      ["stone_path_edge_ne", "stone_path_edge_s", "stone_path_edge_s"]
+    ],
+    "connections": [
+      {
+        "x": 1,
+        "y": -1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 4,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "Corner nw",
+    "rarity": 20,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_center", "stone_path_center", "stone_path_edge_e"],
+      ["stone_path_center", "stone_path_center", "stone_path_edge_e"],
+      ["stone_path_edge_s", "stone_path_edge_s", "stone_path_edge_nw"]
+    ],
+    "connections": [
+      {
+        "x": -1,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 1,
+        "y": -1,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "Corner sw",
+    "rarity": 20,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["stone_path_edge_n", "stone_path_edge_n", "stone_path_edge_sw"],
+      ["stone_path_center", "stone_path_center", "stone_path_edge_e"],
+      ["stone_path_center", "stone_path_center", "stone_path_edge_e"]
+    ],
+    "connections": [
+      {
+        "x": -1,
+        "y": 1,
+        "expects": ["stone_path"],
+        "required": true
+      },
+      {
+        "x": 1,
+        "y": 4,
+        "expects": ["stone_path"],
+        "required": true
+      }
+    ]
+  }
+]

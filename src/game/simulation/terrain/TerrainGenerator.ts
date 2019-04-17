@@ -1,10 +1,11 @@
 import { TerrainMap } from "../../../public/javascript/game/models/TerrainMap";
 import { GameSimulation } from "../GameSimulation";
 import * as fs from "fs";
-import { ITile } from "./ITile";
+import { ITile, ITileOption } from "./tiles/ITile";
 import * as path from "path";
 import { IRegion } from "./IRegion";
 import { NoiseMap } from "./NoiseMap";
+import { IStructure, IStructurePart } from "./structures/IStructure";
 
 export class TerrainGenerator {
     private static chunkSize: number = 64;
@@ -20,8 +21,17 @@ export class TerrainGenerator {
         for (let y = 0; y < map.height; y++) {
             for (let x = 0; x < map.width; x++) {
                 let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
-                map.data[y][x] = tiles.get(region.tiles[Math.floor(Math.random() * region.tiles.length)]).index;
+                map.data[y][x] = tiles.get(this.randomTile(region.tiles).name).index;
             }
+        }
+    }
+
+    public static attemptPlaceStructure()
+
+    public static randomTile(options: ITileOption[]) {
+        while (true) {
+            let selected: ITileOption = options[Math.floor(Math.random() * options.length)];
+            if ((Math.random() * 100) < selected.rarity) return selected;
         }
     }
 
@@ -57,5 +67,16 @@ export class TerrainGenerator {
 
     public static loadAllRegions(): IRegion[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "regions.json"), "utf8")) as IRegion[];
+    }
+
+    public static loadAllStructures(): Map<IStructure, IStructurePart[]> {
+        // Load the array of all of the structures
+        let structures: IStructure[] = JSON.parse(fs.readFileSync(path.join(__dirname, "structures", "structures.json"), "utf8")) as IStructure[];
+        // Load all of the parts for each structure
+        let structMap: Map<IStructure, IStructurePart[]> = new Map<IStructure, IStructurePart[]>();
+        structures.forEach((struct: IStructure) => {
+            structMap.set(struct, JSON.parse(fs.readFileSync(path.join(__dirname, "structures", struct.path), "utf8")) as IStructurePart[]);
+        });
+        return structMap;
     }
 }

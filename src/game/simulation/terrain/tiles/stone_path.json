@@ -1,18 +1,18 @@
 [
   {
-    "name": "stone_path_corner_nw",
+    "name": "stone_path_corner_se",
     "index": 13
   },
   {
-    "name": "stone_path_corner_ne",
+    "name": "stone_path_corner_sw",
     "index": 1
   },
   {
-    "name": "stone_path_corner_se",
+    "name": "stone_path_corner_nw",
     "index": 2
   },
   {
-    "name": "stone_path_corner_sw",
+    "name": "stone_path_corner_ne",
     "index": 3
   },
   {
@@ -30,5 +30,9 @@
   {
     "name": "stone_path_edge_w",
     "index": 7
+  },
+  {
+    "name": "stone_path_center",
+    "index": 19
   }
 ]
