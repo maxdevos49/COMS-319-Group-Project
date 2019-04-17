@@ -80,8 +80,8 @@ export class GameSimulation {
         this.objects = new Map<string, Player>();
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
-        this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
-        TerrainGenerator.fillTerrain(this.map);
+        this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0, 1,32,32);
+        TerrainGenerator.generateTerrain(this, this.map);
     }
 
 	/**

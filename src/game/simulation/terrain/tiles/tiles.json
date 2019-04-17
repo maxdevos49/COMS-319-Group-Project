@@ -1,0 +1,9 @@
+{
+  "tile_files": [
+    "crag.json",
+    "desert.json",
+    "grass.json",
+    "sand.json",
+    "stone_path.json"
+  ]
+}

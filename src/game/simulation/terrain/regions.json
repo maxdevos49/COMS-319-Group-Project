@@ -1,0 +1,39 @@
+[
+  {
+    "name": "grass",
+    "tiles": [
+      "grass_1",
+      "grass_2"
+    ],
+    "humidity": 80,
+    "temperature": 40
+  },
+  {
+    "name": "crag",
+    "tiles": [
+      "crag_1",
+      "crag_2",
+      "crag_3",
+      "crag_4",
+      "crag_5",
+      "crag_6",
+      "crag_7",
+      "crag_8"
+    ],
+    "humidity": 20,
+    "temperature": 60
+  },
+  {
+    "name": "dessert",
+    "tiles": [
+      "dessert_1",
+      "dessert_2",
+      "dessert_3",
+      "dessert_4",
+      "dessert_5",
+      "dessert_6"
+    ],
+    "humidity": 10,
+    "temperature": 90
+  }
+]

@@ -16,27 +16,35 @@ export class TerrainMap {
 	 */
     public tileHeight: number;
 	/**
-	 * The 2d array containing the tile map indices
+	 * The 2d array containing the tile map indices for the top layer
 	 */
-    public data: number[][];
+    public top: number[][];
+    /**
+     * The 2d array containing the tile map indices for the bottom layer
+     */
+    public bottom: number[][];
+
 
 	/**
 	 * Constructs a new terrain map with the given width and height
 	 * @param width The width of the terrain map
 	 * @param height The height of the terrain map
-	 * @param defaultBlock The default index the terrain data will be initialized with
+	 * @param topDefaultBlock The default block for the top layer of the map
+	 * @param bottomDefaultBlock The default block for the bottom layer of the map
 	 * @param tileWidth The width of a tile in pixels. Default = 50
 	 * @param tileHeight The height of a tile in pixels. Default = 50
 	 */
-    constructor(width: number, height: number, defaultBlock: number, tileWidth: number = 50, tileHeight: number = 50) {
+    constructor(width: number, height: number, topDefaultBlock: number, bottomDefaultBlock: number, tileWidth: number = 50, tileHeight: number = 50) {
         this.width = width;
         this.height = height;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        // Initialize a data with the given default block
-        this.data = [];
+        // Initialize a data with the given default blocks
+        this.top = new Array(height);
+        this.bottom = new Array(height);
         for (let y = 0; y < height; y++) {
-            this.data[y] = new Array(this.width).fill(defaultBlock);
+            this.top[y] = new Array(this.width).fill(topDefaultBlock);
+            this.bottom[y] = new Array(this.height).fill(bottomDefaultBlock);
         }
     }
 }

@@ -19,9 +19,13 @@ export class GameScene extends Phaser.Scene {
      */
 	private objects: Map<string, GameObject>;
 	/**
-     * The tile map for this game server
+     * The top layer tile map
 	 */
-	private tileMap: Phaser.Tilemaps.Tilemap;
+	private topLayerTileMap: Phaser.Tilemaps.Tilemap;
+    /**
+     * The bottom layer tile map
+     */
+	private bottomLayerTileMap: Phaser.Tilemaps.Tilemap;
 	/**
      * The ground layer of the map
 	 */
@@ -59,7 +63,7 @@ export class GameScene extends Phaser.Scene {
 			this.connection.map.tileHeight,
 			this.connection.map.width,
 			this.connection.map.height,
-			this.connection.map.data
+			this.connection.map.top
 		);
         let tiles = this.tileMap.addTilesetImage("tiles");
         this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
