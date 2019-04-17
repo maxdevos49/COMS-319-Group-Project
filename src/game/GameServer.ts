@@ -62,7 +62,7 @@ export class GameServer {
             // console.log("A new client has connected to game: " + this.serverId);
 
             //Authentication
-            if (socket.request.session.passport.user.nickname) {
+            if (socket.request.session) {
                 socket.disconnect();
             }
 
@@ -71,7 +71,7 @@ export class GameServer {
             socket.emit("/init/assignid", newClientId);
 
             //add nickname to names of players
-            this.playerNames.set(newClientId, socket.request.session.passport.user.nickname);
+            this.playerNames.set(newClientId, (socket.request.session) ? socket.request.session.passport.user.nickname : "");
 
             // Inform every other connected player that a new player has connected and inform new player of the existing players
             let newPlayerInfo = new PlayerInfo(newClientId, newClientId);

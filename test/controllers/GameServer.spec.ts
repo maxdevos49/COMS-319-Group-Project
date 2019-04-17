@@ -5,8 +5,6 @@ import { expect } from "chai";
 
 import { GameServer } from '../../src/game/GameServer';
 import { PlayerInfo } from "../../src/public/javascript/game/models/PlayerInfo";
-// import {PlayerMoveDirection, PlayerMoveUpdate} from "../../src/public/javascript/models/game/PlayerMoveUpdate";
-import { IPositionUpdate } from "../../src/public/javascript/game/models/objects/IPositionUpdate";
 import { IObjectDescription } from "../../src/public/javascript/game/models/objects/IObjectDescription";
 import { TerrainMap } from "../../src/public/javascript/game/models/TerrainMap";
 
