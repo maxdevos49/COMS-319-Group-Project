@@ -1,5 +1,6 @@
 import socketIO, { Server } from "socket.io";
 import socketIOClient from "socket.io-client";
+import session from "express-session";
 
 import { expect } from "chai";
 
@@ -11,6 +12,27 @@ import { TerrainMap } from "../../src/public/javascript/game/models/TerrainMap";
 
 describe('Game server', () => {
     const gameSocket: Server = socketIO(4223);
+
+    let sessionMiddleware = session({ secret: "secret", resave: false, saveUninitialized: false });
+
+    gameSocket.use(function (socket, next) {
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
+
+    gameSocket.use(function (socket, next) {
+        socket.request.session = {
+            passport: {
+                user: {
+                    id: "givenidfromdb",
+                    nickname: "BobTheBuilder",
+                    email: "bob@buildthat.com"
+                }
+            }
+        }
+
+        next();
+    });
+
 
     it('should initialize with an empty list of clients', () => {
         const gameServer: GameServer = new GameServer(gameSocket);
