@@ -1,8 +1,8 @@
-import { Chat } from "../objects/Chat";
+import { Chat } from "../objects/Chat.js";
 
 export class ChatScene extends Phaser.Scene {
 
-    private chat: Chat;
+    private chats: Chat[];
 
     constructor() {
         super({ key: "ChatScene" });
@@ -13,9 +13,11 @@ export class ChatScene extends Phaser.Scene {
     }
 
     create(): void {
-        // this.chat = new Chat(this, 10, 10, "HEllo", "");
+        new Chat(this, 0, 0, "Madmax: Test Text 1");
+
     }
 
     update(): void {
+
     }
 }

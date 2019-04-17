@@ -1,4 +1,4 @@
-import {GameObject} from "./GameObject.js";
+import { GameObject } from "./GameObject.js";
 import { SCALE_FACTOR } from "../Game.js";
 import { PlayerObjectDescription } from "../models/objects/PlayerObjectDescription.js";
 import { PlayerPositionUpdate } from "../models/objects/PlayerPositionUpdate.js";
@@ -9,26 +9,26 @@ export class Player extends GameObject {
      * Registers the animations used by player objects
      * @param animationManager The animation manager to register the animations into
      */
-	public static createAnimations(animationManager: Phaser.Animations.AnimationManager) {
-		console.log(
-			animationManager.create({
-				key: "objects/player/walking",
-				frames: [
-					{ key: "sprites", frame: 'objects/player/walking/1' },
-					{ key: "sprites", frame: 'objects/player/walking/2' }
-				],
-				frameRate: 2,
-				repeat: -1
-			}));
-	}
+    public static createAnimations(animationManager: Phaser.Animations.AnimationManager) {
+        console.log(
+            animationManager.create({
+                key: "objects/player/walking",
+                frames: [
+                    { key: "sprites", frame: 'objects/player/walking/1' },
+                    { key: "sprites", frame: 'objects/player/walking/2' }
+                ],
+                frameRate: 2,
+                repeat: -1
+            }));
+    }
     /**
      * The id of this player
      */
-	public id: string;
+    public id: string;
     /**
      * Player move update to be sent to the server.
      */
-	public moveUpdate: PlayerMoveUpdate;
+    public moveUpdate: PlayerMoveUpdate;
 
 	/**
 	 * Creates a new player in the given scene
@@ -40,9 +40,9 @@ export class Player extends GameObject {
         scene.physics.world.enable(this);
         this.play("objects/player/walking");
 
-		this.id = description.id;
-		this.setRotation(description.facing);
-	}
+        this.id = description.id;
+        this.setRotation(description.facing);
+    }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {
         this.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
