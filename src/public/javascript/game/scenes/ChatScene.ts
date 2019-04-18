@@ -5,8 +5,6 @@ export class ChatScene extends Phaser.Scene {
 
     private chatWindow: ChatWindow;
 
-    private test: number;
-
     constructor() {
         super({ key: "ChatScene" });
     }
@@ -28,15 +26,9 @@ export class ChatScene extends Phaser.Scene {
         }
 
         this.chatWindow = new ChatWindow(this, config);
-        this.test = 0;
 
     }
     update(): void {
 
-        this.test += 1;
-
-        if (this.test % 30 === 0) {
-            this.chatWindow.addChat("[Madmax] This is a test. #" + this.test);
-        }
     }
 }

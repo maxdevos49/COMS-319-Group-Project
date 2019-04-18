@@ -19,6 +19,11 @@ export class ChatInput extends Phaser.GameObjects.Container {
     public fontType: string;
 
     /**
+     * Determines if the input is active
+     */
+    public isActive: boolean;
+
+    /**
      * The background for the text area.
      */
     public background: Phaser.GameObjects.Rectangle;
@@ -44,6 +49,7 @@ export class ChatInput extends Phaser.GameObjects.Container {
         this.height = config.height;
         this.fontSize = config.fontSize;
         this.fontType = config.fontType;
+        this.isActive = false;
 
         //GameObjects
         this.background = new Phaser.GameObjects.Rectangle(this.scene, 0, 0, this.width, this.height, 0x000000, 0.4);
@@ -55,6 +61,7 @@ export class ChatInput extends Phaser.GameObjects.Container {
         this.scene.add.existing(this);
 
         this.addKeyboardListener();
+        this.toInactive();
 
     }
 
@@ -66,49 +73,39 @@ export class ChatInput extends Phaser.GameObjects.Container {
         this.scene.input.keyboard.on('keydown', (event: KeyboardEvent) => {
             event.preventDefault();
 
-            if ("Backspace" === event.key) {
-                this.text.setText(this.text.text.slice(0, -1));
+            if (this.isActive) {
+                if (ALLOWED_CHARACTERS.includes(event.key)) {
+                    this.text.setText(this.text.text + event.key);
 
-                //If the chat is longer then line
-                if (this.text.getTextBounds(true).global.width > this.width) {
-                    this.text.x = this.width - this.text.getTextBounds(true).global.width
-                } else {
-                    this.text.x = 0;
+                    //If the chat is longer then line
+                    if (this.text.getTextBounds(true).global.width > this.width) {
+                        this.text.x = this.width - this.text.getTextBounds(true).global.width
+                    } else {
+                        this.text.x = 0;
+                    }
+                } else if ("Backspace" === event.key) {
+                    this.text.setText(this.text.text.slice(0, -1));
+
+                    //If the chat is longer then line
+                    if (this.text.getTextBounds(true).global.width > this.width) {
+                        this.text.x = this.width - this.text.getTextBounds(true).global.width
+                    } else {
+                        this.text.x = 0;
+                    }
                 }
-            } else if ("Enter" === event.key) {
-                this.sendChat();
-            } else if ("Escape" === event.key) {
-                this.setInactive();
             }
 
-        });
-
-        this.scene.input.keyboard.on('keyup', (event: KeyboardEvent) => {
-            event.preventDefault();
-
-            if (ALLOWED_CHARACTERS.includes(event.key)) {
-                this.text.setText(this.text.text + event.key);
-
-                //If the chat is longer then line
-                if (this.text.getTextBounds(true).global.width > this.width) {
-                    this.text.x = this.width - this.text.getTextBounds(true).global.width
-                } else {
-                    this.text.x = 0;
-                }
-
-            }
         });
     }
 
-    public setInactive(): void {
+    public toInactive(): void {
+        this.isActive = false;
         this.setVisible(false);
     }
 
-    public sendChat(): void {
-        //send socket here
-
-        this.text.setText("");
-        this.setInactive();
+    public toActive(): void {
+        this.isActive = true;
+        this.setVisible(true);
     }
 
 }

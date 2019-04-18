@@ -39,6 +39,16 @@ export class Chat extends Phaser.GameObjects.Container {
     private charWidth: number;
 
     /**
+     * Determins of the chat has decayed
+     */
+    private isDecayed: boolean;
+
+    /**
+     * Determines if it is currently being viewed
+     */
+    private viewing: boolean;
+
+    /**
      * Contructs a Chat message.
      * @param givenScene
      * @param config
@@ -54,6 +64,8 @@ export class Chat extends Phaser.GameObjects.Container {
         this.fontSize = config.fontSize;
         this.decay = config.decay;
         this.charWidth = config.charWidth;
+        this.isDecayed = false;
+        this.viewing = false;
 
         //Background GameObject
         this.backgroundObject = new Phaser.GameObjects.Rectangle(givenScene, 0, 0, this.width, this.height, 0x000000, 0.3);
@@ -64,6 +76,9 @@ export class Chat extends Phaser.GameObjects.Container {
         this.textObject = new Phaser.GameObjects.BitmapText(givenScene, 2, 2, this.fontType, this.text, this.fontSize);
         this.backgroundObject.height = this.textObject.getTextBounds(true).global.height + 4;
         this.textObject.setAlpha(0.8);
+
+        //color text
+        // this.textObject.setTint(0x235612);
 
         //add to scene
         this.add([this.backgroundObject, this.textObject]);
@@ -82,13 +97,17 @@ export class Chat extends Phaser.GameObjects.Container {
      */
     public show(): void {
         this.setVisible(true);
+        this.viewing = true;
     }
 
     /**
      * Hides chat
      */
     public hide(): void {
-        this.setVisible(false);
+        this.viewing = false;
+        if (this.isDecayed) {
+            this.setVisible(false);
+        }
     }
 
     /**
@@ -113,20 +132,25 @@ export class Chat extends Phaser.GameObjects.Container {
      * Fades the chat from the screen
      */
     public fadeOut(): void {
-        this.scene.add.tween({
-            targets: [this],
-            ease: 'Sine.easeInOut',
-            duration: 500,
-            delay: 0,
-            alpha: {
-                getStart: () => this.alpha,
-                getEnd: () => 0
-            },
-            onComplete: () => {
-                this.setVisible(false);
-                this.alpha = 1;
-            }
-        });
+        this.isDecayed = true;
+        if (!this.viewing) {
+            this.scene.add.tween({
+                targets: [this],
+                ease: 'Sine.easeInOut',
+                duration: 500,
+                delay: 0,
+                alpha: {
+                    getStart: () => this.alpha,
+                    getEnd: () => 0
+                },
+                onComplete: () => {
+                    if (!this.viewing) {
+                        this.setVisible(false);
+                    }
+                    this.alpha = 1;
+                }
+            });
+        }
     }
 }
 

@@ -11,7 +11,7 @@ export class ChatWindow extends Phaser.GameObjects.Container {
     /**
      * Chat input
      */
-    private ChatInput: ChatInput;
+    private chatInput: ChatInput;
 
     /**
      * The font size to use for the chat
@@ -33,8 +33,15 @@ export class ChatWindow extends Phaser.GameObjects.Container {
      */
     public charWidth: number;
 
+    /**
+     * Determins if the chat window is focused or not
+     */
+    private isActive: boolean;
+
     constructor(givenScene: Phaser.Scene, config: IChatWindowConfig) {
         super(givenScene, config.x, config.y);
+
+        //add a isActive field and method to display all chats on screen and to enter more chats. Also add event listeners for chatInput
 
         //Properties
         this.chats = [];
@@ -44,9 +51,10 @@ export class ChatWindow extends Phaser.GameObjects.Container {
         this.height = config.height;
         this.decay = config.decay;
         this.charWidth = config.charWidth;
+        this.isActive = false;
 
         //GameObjects
-        this.ChatInput = new ChatInput(this.scene, {
+        this.chatInput = new ChatInput(this.scene, {
             x: this.x,
             y: this.height - this.fontSize - 2,
             width: this.width,
@@ -56,43 +64,102 @@ export class ChatWindow extends Phaser.GameObjects.Container {
         });
 
         //Add to scene
-        this.add([this.ChatInput]);
+        this.add([this.chatInput]);
         givenScene.add.existing(this);
 
+        //add event listeners
+        this.addEventListeners();
+    }
+
+    private addEventListeners(): void {
+
+        this.scene.input.keyboard.on('keydown', (event: KeyboardEvent) => {
+            event.preventDefault();
+
+            if (this.isActive) {
+                if ("Enter" === event.key) {
+                    this.sendChat();
+                } else if ("Escape" === event.key) {
+                    this.toInactive();
+                }
+            } else {
+                if (event.keyCode === 84) {
+                    this.toActive();
+                }
+            }
+
+        });
+
+        this.scene.input.keyboard.on('keyup', (event: KeyboardEvent) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            // event.stopPropagation()
+
+            if (!this.isActive) {
+                if (event.keyCode === 84) {
+                    this.toActive();
+                }
+            }
+        });
+    }
+
+    public sendChat(): void {
+        this.addChat(this.chatInput.text.text);
+        this.chatInput.text.setText("");
+        this.toInactive();
+    }
+
+    public toInactive(): void {
+        this.isActive = false;
+        this.chatInput.toInactive();
+
+        this.chats.forEach((givenChat: Chat) => {
+            givenChat.hide();
+        })
+    }
+
+    public toActive(): void {
+        this.isActive = true;
+        this.chatInput.toActive();
+
+        this.chats.forEach((givenChat: Chat) => {
+            givenChat.show();
+        })
     }
 
     /**
      *
      * @param givenText
      */
-    addChat(givenText: any): void {
+    addChat(givenText: string): void {
+        if (givenText.length > 0) {
+            //new Chat
+            let newChat = new Chat(this.scene, {
+                x: this.x,
+                y: this.height - this.fontSize * 2,
+                width: this.width,
+                height: this.fontSize + 4,
+                fontType: this.fontType,
+                fontSize: this.fontSize,
+                decay: this.decay,
+                charWidth: this.charWidth,
+                text: givenText
+            });
 
-        //new Chat
-        let newChat = new Chat(this.scene, {
-            x: this.x,
-            y: this.height - this.fontSize * 2,
-            width: this.width,
-            height: this.fontSize + 4,
-            fontType: this.fontType,
-            fontSize: this.fontSize,
-            decay: this.decay,
-            charWidth: this.charWidth,
-            text: givenText
-        });
+            newChat.y = this.height - newChat.getHeight() - this.fontSize - 2;
 
-        newChat.y = this.height - newChat.getHeight() - this.fontSize - 2;
+            //move any current chats
+            this.chats.forEach((givenChat: Chat) => {
+                givenChat.y -= givenChat.getHeight();
+            });
 
-        //move any current chats
-        this.chats.forEach((givenChat: Chat) => {
-            givenChat.y -= givenChat.getHeight();
-        });
+            //record it
+            this.chats.push(newChat);
+            this.add(newChat);
 
-        //record it
-        this.chats.push(newChat);
-        this.add(newChat);
-
-        //check if we can delete some now
-        this.removeChat();
+            //check if we can delete some now
+            this.removeChat();
+        }
     }
 
     /**
