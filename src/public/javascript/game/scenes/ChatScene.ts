@@ -1,5 +1,6 @@
 import { Chat } from "../gui/Chat.js";
 import { ChatWindow, IChatWindowConfig } from "../gui/ChatWindow.js";
+import { GameConnection } from "../GameConnection.js";
 
 export class ChatScene extends Phaser.Scene {
 
@@ -9,8 +10,9 @@ export class ChatScene extends Phaser.Scene {
         super({ key: "ChatScene" });
     }
 
-    preload(): void {
+    init(): void {
     }
+
 
     create(): void {
 
@@ -29,8 +31,8 @@ export class ChatScene extends Phaser.Scene {
         this.chatWindow = new ChatWindow(this, config);
 
     }
-    update(): void {
+    // update(): void {
 
-        this.chatWindow.addChat("Testing");
-    }
+    //     this.chatWindow.addChat("Testing");
+    // }
 }

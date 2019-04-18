@@ -50,20 +50,20 @@ export class GameScene extends Phaser.Scene {
     init(connection: GameConnection): void {
         this.connection = connection;
         this.uInput = new UserInput(this);
-        this.scene.launch("ChatScene");
+        this.scene.launch("ChatScene", connection);
     }
 
     preload(): void {
 
-        // this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
-        //     if (event.keyCode === 70) {
-        //         if (this.scale.isFullscreen) {
-        //             this.scale.stopFullscreen();
-        //         } else {
-        //             this.scale.startFullscreen();
-        //         }
-        //     }
-        // });
+        this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
+            if (event.keyCode === 121) {
+                if (this.scale.isFullscreen) {
+                    this.scale.stopFullscreen();
+                } else {
+                    this.scale.startFullscreen();
+                }
+            }
+        });
 
         this.tileMap = this.add.tilemap(
             this.connection.roomId,
@@ -82,6 +82,7 @@ export class GameScene extends Phaser.Scene {
     update(timestep: number, elapsed: number): void {
         // Limit updates to be processed once every 30 seconds
         let curFrame = Math.floor(timestep / 30);
+
         if (this.lastFrame == curFrame) {
             return;
         } else {

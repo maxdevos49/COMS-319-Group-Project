@@ -83,12 +83,15 @@ export class ChatWindow extends Phaser.GameObjects.Container {
             if (this.isActive) {
                 if ("Enter" === event.key) {
                     this.sendChat();
+                    this.scene.scene.get("GameScene").input.enabled = true;
                 } else if ("Escape" === event.key) {
                     this.toInactive();
+                    this.scene.scene.get("GameScene").input.enabled = true;
                 }
             } else {
                 if (event.keyCode === 84) {
                     this.toActive();
+                    this.scene.scene.get("GameScene").input.enabled = false;
                 }
             }
 
@@ -110,7 +113,7 @@ export class ChatWindow extends Phaser.GameObjects.Container {
     public sendChat(): void {
 
         //TODO socket stuff
-        
+
         this.addChat(this.chatInput.text.text);
         this.chatInput.text.setText("");
         this.toInactive();
