@@ -13,62 +13,62 @@ import { TerrainGenerator } from "./TerrainSimulator";
  * Simulation of the physical world of the game.
  */
 export class GameSimulation {
-	/**
-	 * Starting point for a Box2D simulation.
-	 */
+    /**
+     * Starting point for a Box2D simulation.
+     */
     public world: b2World;
 
-	/**
-	 * The number of times per second tht Box2D will process physics equations.
-	 */
+    /**
+     * The number of times per second tht Box2D will process physics equations.
+     */
     public static readonly timeStep: number = 1 / 30;
 
-	/**
-	 * Constraint solvers: larger values means better accuracy but worse
-	 * performance.
-	 */
+    /**
+     * Constraint solvers: larger values means better accuracy but worse
+     * performance.
+     */
     private static readonly velocityIterations: number = 6;
     private static readonly positionIterations: number = 2;
 
-	/**
-	 * The dimensions of the map in tiles
-	 */
+    /**
+     * The dimensions of the map in tiles
+     */
     private static readonly mapTileWidth = 200;
     private static readonly mapTileHeight = 200;
 
-	/**
-	 * The current frame number of the simulation.
-	 */
+    /**
+     * The current frame number of the simulation.
+     */
     public frame: number;
 
-	/**
-	 * List of objects (dynamic bodies) in the simulation.
-	 * The Map makes it easier to update players by their ID.
-	 */
+    /**
+     * List of objects (dynamic bodies) in the simulation.
+     * The Map makes it easier to update players by their ID.
+     */
     public objects: Map<string, GameObject>;
-	/**
-	 * The terrain map for this simulation, object represents all of parts of the game world that don't change
-	 */
+    /**
+     * The terrain map for this simulation, object represents all of parts of the game world that don't change
+     */
     public map: TerrainMap;
-	/**
-	 * A reference to the move queue in the game server.
-	 */
+    /**
+     * A reference to the move queue in the game server.
+     */
     private moves: PlayerMoveUpdateQueue;
-	/**
-	 * An array containing the ids of new objects that now exist in the simulation
-	 */
+    /**
+     * An array containing the ids of new objects that now exist in the simulation
+     */
     private newObjectsIds: string[];
-	/**
-	 * An array containing the ids of the objects that have been deleted from the simulation
-	 */
+    /**
+     * An array containing the ids of the objects that have been deleted from the simulation
+     */
     private deletedObjectIds: string[];
 
-	/**
-	 * Construct a new simulation. The simulation starts running as soon as it
-	 * is created unless the start parameter is false (it's true by default).
-	 *
-	 * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
-	 */
+    /**
+     * Construct a new simulation. The simulation starts running as soon as it
+     * is created unless the start parameter is false (it's true by default).
+     *
+     * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
+     */
     constructor(moves: PlayerMoveUpdateQueue) {
         this.moves = moves;
 
@@ -84,11 +84,11 @@ export class GameSimulation {
         TerrainGenerator.fillTerrain(this.map);
     }
 
-	/**
-	 * Advance to the next physics frame.
-	 *
-	 * @return {void}
-	 */
+    /**
+     * Advance to the next physics frame.
+     *
+     * @return {void}
+     */
     public nextFrame(): void {
         this.objects.forEach((object) => {
             const move = this.moves.popPlayerMoveUpdate(object.id);
@@ -139,31 +139,31 @@ export class GameSimulation {
         this.frame++;
     }
 
-	/**
-	 * Generate a new player and add it to the world.
-	 *
-	 * @param {string} id - The UUID of the player.
-	 */
+    /**
+     * Generate a new player and add it to the world.
+     *
+     * @param {string} id - The UUID of the player.
+     */
     public addPlayer(id: string): void {
         const player: Player = new Player(this, id);
         this.objects.set(id, player);
         this.newObjectsIds.push(id);
     }
 
-	/**
-	 * Adds the game object to the simulation. This doesn't add it to the world (objects themselves are responsible for this
-	 * @param object The game object to add to this simulation
-	 */
+    /**
+     * Adds the game object to the simulation. This doesn't add it to the world (objects themselves are responsible for this
+     * @param object The game object to add to this simulation
+     */
     public addGameObject(object: GameObject) {
         this.newObjectsIds.push(object.id);
         this.objects.set(object.id, object);
     }
 
-	/**
-	 * Removes the game object that has the given simulation from this simulation. This will also remove it from the
-	 * box2d world if it exists inside of it
-	 * @param id The id of the object to remove from the simulation
-	 */
+    /**
+     * Removes the game object that has the given simulation from this simulation. This will also remove it from the
+     * box2d world if it exists inside of it
+     * @param id The id of the object to remove from the simulation
+     */
     public destroyGameObject(id: string) {
         if (this.objects.has(id)) {
             this.objects.get(id).destroy();
@@ -173,11 +173,11 @@ export class GameSimulation {
         this.deletedObjectIds.push(id);
     }
 
-	/**
-	 * Process a move update from a client.
-	 *
-	 * @param {PlayerMoveUpdate} move - An object containing move information.
-	 */
+    /**
+     * Process a move update from a client.
+     *
+     * @param {PlayerMoveUpdate} move - An object containing move information.
+     */
     public updateMove(move: PlayerMoveUpdate | null): void {
         if (move === null) {
             return;
@@ -188,20 +188,20 @@ export class GameSimulation {
         }
     }
 
-	/**
-	 * Get the current frame number.
-	 *
-	 * @return {number} The current frame number.
-	 */
+    /**
+     * Get the current frame number.
+     *
+     * @return {number} The current frame number.
+     */
     public getFrame(): number {
         return this.frame;
     }
 
-	/**
-	 * Gets an array of position updates for every object that is in the simulation
-	 *
-	 * @return {PositionUpdate[]} An array of position updates.
-	 */
+    /**
+     * Gets an array of position updates for every object that is in the simulation
+     *
+     * @return {PositionUpdate[]} An array of position updates.
+     */
     public getPositionUpdates(): IPositionUpdate[] {
         let updates: IPositionUpdate[] = [];
         this.objects.forEach((object: GameObject, id: string) => {
@@ -210,9 +210,9 @@ export class GameSimulation {
         return updates;
     }
 
-	/**
-	 * Maps all of the objects that are in the game now to an object description that describes it
-	 */
+    /**
+     * Maps all of the objects that are in the game now to an object description that describes it
+     */
     public getObjectDescriptions(): IObjectDescription[] {
         let descriptions: IObjectDescription[] = [];
         this.objects.forEach((object: GameObject, id: string) => {
@@ -221,15 +221,15 @@ export class GameSimulation {
         return descriptions;
     }
 
-	/**
-	 * Returns true if the simulation has created at least one new object since the last time popNewObjectDescriptions was called
-	 */
+    /**
+     * Returns true if the simulation has created at least one new object since the last time popNewObjectDescriptions was called
+     */
     public hasNewObjectDescriptions(): boolean {
         return this.newObjectsIds.length !== 0;
     }
-	/**
-	 * Maps all of the new objects (since the last time this method was called) to an objects description that describes it
-	 */
+    /**
+     * Maps all of the new objects (since the last time this method was called) to an objects description that describes it
+     */
     public popNewObjectDescriptions(): IObjectDescription[] {
         // Get a new object description for every new object id. Filter out undefined objects just in case that objects
         // has been removed, since the simulation should not be expected to check the new object id array every time a object
@@ -241,16 +241,16 @@ export class GameSimulation {
         return newObjectsDescriptions;
     }
 
-	/**
-	 * Returns true if this simulation has any new deleted object ids since the last time they were popped
-	 */
+    /**
+     * Returns true if this simulation has any new deleted object ids since the last time they were popped
+     */
     public hasDeletedObjects(): boolean {
         return this.deletedObjectIds.length !== 0;
     }
 
-	/**
-	 * Pops all deleted ids from the internal array of deleted ids
-	 */
+    /**
+     * Pops all deleted ids from the internal array of deleted ids
+     */
     public popDeletedObjectIds(): string[] {
         let temp: string[] = this.deletedObjectIds;
         this.deletedObjectIds = [];
