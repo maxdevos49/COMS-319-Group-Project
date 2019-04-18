@@ -22,6 +22,7 @@ export class ChatScene extends Phaser.Scene {
             fontSize: 20,
             fontType: "november",
             charWidth: 90,
+            chatHeight: 10,
             decay: 5000
         }
 
@@ -30,5 +31,6 @@ export class ChatScene extends Phaser.Scene {
     }
     update(): void {
 
+        this.chatWindow.addChat("Testing");
     }
 }

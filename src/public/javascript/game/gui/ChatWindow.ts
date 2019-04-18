@@ -34,14 +34,17 @@ export class ChatWindow extends Phaser.GameObjects.Container {
     public charWidth: number;
 
     /**
+     * The height in chats that they can pile up too
+     */
+    private chatHeight: number;
+
+    /**
      * Determins if the chat window is focused or not
      */
     private isActive: boolean;
 
     constructor(givenScene: Phaser.Scene, config: IChatWindowConfig) {
         super(givenScene, config.x, config.y);
-
-        //add a isActive field and method to display all chats on screen and to enter more chats. Also add event listeners for chatInput
 
         //Properties
         this.chats = [];
@@ -51,6 +54,7 @@ export class ChatWindow extends Phaser.GameObjects.Container {
         this.height = config.height;
         this.decay = config.decay;
         this.charWidth = config.charWidth;
+        this.chatHeight = config.chatHeight;
         this.isActive = false;
 
         //GameObjects
@@ -104,6 +108,9 @@ export class ChatWindow extends Phaser.GameObjects.Container {
     }
 
     public sendChat(): void {
+
+        //TODO socket stuff
+        
         this.addChat(this.chatInput.text.text);
         this.chatInput.text.setText("");
         this.toInactive();
@@ -113,9 +120,14 @@ export class ChatWindow extends Phaser.GameObjects.Container {
         this.isActive = false;
         this.chatInput.toInactive();
 
-        this.chats.forEach((givenChat: Chat) => {
-            givenChat.hide();
-        })
+        for (let i = 0; i < this.chats.length; i++) {
+            if (i <= this.chats.length - this.chatHeight) {
+                this.chats[i].setVisible(false)
+            } else {
+                this.chats[i].hide();
+            }
+
+        }
     }
 
     public toActive(): void {
@@ -159,15 +171,27 @@ export class ChatWindow extends Phaser.GameObjects.Container {
 
             //check if we can delete some now
             this.removeChat();
+            this.enforceHeight();
+        }
+    }
+
+    /**
+     * Enforces the chat height
+     */
+    private enforceHeight(): void {
+        if (!this.isActive) {
+            if (this.chats.length >= this.chatHeight) {
+                this.chats[this.chats.length - this.chatHeight].setVisible(false);
+            }
         }
     }
 
     /**
      * Removes a chat GameObject
      */
-    removeChat(): void {
+    private removeChat(): void {
         //remove the last if we have enough
-        if (this.chats.length > this.height / this.fontSize - 1) {
+        if (this.chats.length > this.height / this.fontSize - 2) {
             let givenChat = this.chats.splice(0, 1);
             givenChat[0].destroy();
         }
@@ -217,5 +241,10 @@ export interface IChatWindowConfig {
      * Maximum character width for the chat before it wraps
      */
     charWidth: number;
+
+    /**
+     * The height in chats that can pile up on the screen
+     */
+    chatHeight: number;
 
 }
