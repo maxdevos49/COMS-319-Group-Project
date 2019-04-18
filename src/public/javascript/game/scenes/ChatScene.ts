@@ -1,5 +1,5 @@
 import { Chat } from "../gui/Chat.js";
-import { ChatWindow } from "../gui/ChatWindow.js";
+import { ChatWindow, IChatWindowConfig } from "../gui/ChatWindow.js";
 
 export class ChatScene extends Phaser.Scene {
 
@@ -16,7 +16,18 @@ export class ChatScene extends Phaser.Scene {
 
     create(): void {
 
-        this.chatWindow = new ChatWindow(this, { x: 0, y: 0 });
+        let config: IChatWindowConfig = {
+            x: 0,
+            y: 0,
+            width: this.scale.width * (3 / 4),
+            height: this.scale.height,
+            fontSize: 20,
+            fontType: "november",
+            charWidth: 90,
+            decay: 5000
+        }
+
+        this.chatWindow = new ChatWindow(this, config);
         this.test = 0;
 
     }
@@ -25,7 +36,7 @@ export class ChatScene extends Phaser.Scene {
         this.test += 1;
 
         if (this.test % 30 === 0) {
-            this.chatWindow.addChat(this.test);
+            this.chatWindow.addChat("[Madmax] This is a test. #" + this.test);
         }
     }
 }

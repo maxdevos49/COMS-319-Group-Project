@@ -55,15 +55,15 @@ export class GameScene extends Phaser.Scene {
 
     preload(): void {
 
-        this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
-            if (event.keyCode === 70) {
-                if (this.scale.isFullscreen) {
-                    this.scale.stopFullscreen();
-                } else {
-                    this.scale.startFullscreen();
-                }
-            }
-        });
+        // this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
+        //     if (event.keyCode === 70) {
+        //         if (this.scale.isFullscreen) {
+        //             this.scale.stopFullscreen();
+        //         } else {
+        //             this.scale.startFullscreen();
+        //         }
+        //     }
+        // });
 
         this.tileMap = this.add.tilemap(
             this.connection.roomId,
@@ -76,7 +76,7 @@ export class GameScene extends Phaser.Scene {
         let tiles = this.tileMap.addTilesetImage("tiles");
         this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
         this.lastFrame = 0;
-
+        this.input.setDefaultCursor("crosshair");
     }
 
     update(timestep: number, elapsed: number): void {

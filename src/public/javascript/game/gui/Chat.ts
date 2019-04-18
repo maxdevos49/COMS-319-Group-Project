@@ -14,6 +14,16 @@ export class Chat extends Phaser.GameObjects.Container {
     private textObject: Phaser.GameObjects.BitmapText;
 
     /**
+     * The font type
+     */
+    public fontType: string;
+
+    /**
+     * The font size
+     */
+    public fontSize: number;
+
+    /**
      *The text the chat contains
      */
     public text: string;
@@ -22,6 +32,11 @@ export class Chat extends Phaser.GameObjects.Container {
      *The decay rate in milliseconds
      */
     public decay: number;
+
+    /**
+     * The maximum character width allowed in a single line
+     */
+    private charWidth: number;
 
     /**
      * Contructs a Chat message.
@@ -33,24 +48,33 @@ export class Chat extends Phaser.GameObjects.Container {
 
         //set properties
         this.text = config.text;
-        this.decay = config.decay || 5000;
+        this.width = config.width;
+        this.height = config.height;
+        this.fontType = config.fontType;
+        this.fontSize = config.fontSize;
+        this.decay = config.decay;
+        this.charWidth = config.charWidth;
 
         //Background GameObject
-        this.backgroundObject = new Phaser.GameObjects.Rectangle(givenScene, 0, 0, 600, 22, 100, 0.2);
+        this.backgroundObject = new Phaser.GameObjects.Rectangle(givenScene, 0, 0, this.width, this.height, 0x000000, 0.3);
         this.backgroundObject.setOrigin(0, 0);
 
         //Text GameObject
-        this.textObject = new Phaser.GameObjects.BitmapText(givenScene, 0, 0, config.font || "november", config.text, 22);
-        this.textObject.setAlpha(0.5);
-
-        //add children
-        this.add([this.backgroundObject, this.textObject]);
+        this.text = this.breakupText(this.text)
+        this.textObject = new Phaser.GameObjects.BitmapText(givenScene, 2, 2, this.fontType, this.text, this.fontSize);
+        this.backgroundObject.height = this.textObject.getTextBounds(true).global.height + 4;
+        this.textObject.setAlpha(0.8);
 
         //add to scene
+        this.add([this.backgroundObject, this.textObject]);
         givenScene.add.existing(this);
 
         //set decay
         setTimeout(() => { this.fadeOut(); }, this.decay);
+    }
+
+    public getHeight(): number {
+        return this.backgroundObject.height;
     }
 
     /**
@@ -68,6 +92,24 @@ export class Chat extends Phaser.GameObjects.Container {
     }
 
     /**
+     * Breaks chat into multiple lines based on its width
+     */
+    public breakupText(givenText: string): string {
+        if (givenText.length > this.charWidth) {
+            let p: number = this.charWidth
+
+            for (; p > 0 && givenText[p] != ' '; p--);
+
+            if (p > 0) {
+                let left: string = givenText.substring(0, p);
+                let right: string = givenText.substring(p + 1);
+                return left + "\n" + this.breakupText(right);
+            }
+        }
+        return givenText;
+    }
+
+    /**
      * Fades the chat from the screen
      */
     public fadeOut(): void {
@@ -82,6 +124,7 @@ export class Chat extends Phaser.GameObjects.Container {
             },
             onComplete: () => {
                 this.setVisible(false);
+                this.alpha = 1;
             }
         });
     }
@@ -104,22 +147,37 @@ export interface IChatConfig {
     y: number;
 
     /**
+     * The Chat Width
+     */
+    width: number;
+
+    /**
+     * The Height of the chat
+     */
+    height: number;
+
+    /**
      * The text to display in the chat
      */
-    text?: string;
+    text: string;
 
     /**
      * The font to use for the text
      */
-    font?: string;
+    fontType: string;
 
     /**
      * Font size of the text
      */
-    fontSize?: number;
+    fontSize: number;
 
     /**
      * The time it will take for the chat to fade out and decay in milliseconds
      */
-    decay?: number;
+    decay: number;
+
+    /**
+     * The maximum character width before the chat wraps
+     */
+    charWidth: number;
 }
