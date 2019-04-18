@@ -76,6 +76,7 @@ export class GameScene extends Phaser.Scene {
         let tiles = this.tileMap.addTilesetImage("tiles");
         this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
         this.lastFrame = 0;
+
     }
 
     update(timestep: number, elapsed: number): void {

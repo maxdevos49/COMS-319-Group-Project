@@ -57,7 +57,7 @@ export class Button extends Phaser.GameObjects.Container {
         this.hitbox.on("pointerout", (pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Input.EventData) => {
             this.background.setFillStyle(0x5e5e5e);
         });
-        this.hitbox.on("pointerdown", (pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Input.EventData) => {
+        this.hitbox.on("pointerup", (pointer: Phaser.Input.Pointer, localX: number, localY: number, event: Phaser.Input.EventData) => {
             this.onClickListeners.forEach((listener: () => any) => listener());
         });
     }
