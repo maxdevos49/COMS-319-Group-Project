@@ -6,6 +6,7 @@ import { Player } from "../../src/game/simulation/objects/Player";
 import { Bullet } from "../../src/game/simulation/objects/Bullet";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../src/public/javascript/game/models/PlayerMoveUpdate";
+import { b2Vec2 } from "../../lib/box2d-physics-engine/Box2D";
 
 describe('GameSimulation', () => {
     it('should initialize a world', () => {
@@ -94,22 +95,19 @@ describe('GameSimulation', () => {
             const simulation: GameSimulation = new GameSimulation(updateQueue);
             const id: string = v1Gen();
             simulation.addPlayer(id);
-
             const player: Player = simulation.objects.get(id) as Player;
 
-            // the player should be in its default position at first
-            expect(player.body.GetAngle()).to.equal(0);
-            expect(player.body.GetPosition().x).to.equal(0);
-            expect(player.body.GetPosition().y).to.equal(0);
+            // The player is currently moving.
+            player.body.SetLinearVelocity({x: 5, y: 5});
 
-            // apply the move update
+            // The server does not receive a move update.
             let move: null = null;
             simulation.updateMove(move);
 
-            // the player should not move
-            expect(player.body.GetAngle()).to.equal(0);
-            expect(player.body.GetPosition().x).to.equal(0);
-            expect(player.body.GetPosition().y).to.equal(0);
+            // A default move update should be applied, causing the player to
+            // stop moving.
+            const notMovingVector = new b2Vec2(0, 0);
+            expect(player.body.GetLinearVelocity()).to.equal(notMovingVector);
         });
     });
     it("Should destroy bullet when it collides with a player", () => {
