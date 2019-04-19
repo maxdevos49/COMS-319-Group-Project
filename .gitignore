@@ -21,3 +21,6 @@ bin
 
 # Webstorm
 .idea
+
+#VSCode
+.vscode

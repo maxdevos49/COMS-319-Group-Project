@@ -1,10 +1,8 @@
 import { sendData } from "../ajax.js";
 
-
 /**
  * Nickname update code
  */
-
 document.getElementById("nicknameLink").addEventListener("click", (e) => {
     document.getElementById("nicknameLink").setAttribute("style", "display: none;")
     document.getElementById("nicknameSubmit").setAttribute("style", "display: Block;")

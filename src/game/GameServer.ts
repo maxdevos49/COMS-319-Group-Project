@@ -6,47 +6,65 @@ import { PlayerMoveUpdateQueue } from "../public/javascript/game/data-structures
 import { PlayerMoveUpdate } from "../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../public/javascript/game/models/objects/IPositionUpdate";
 import { Player } from "./simulation/objects/Player";
+import { ChatServer } from "./ChatServer";
 
 export class GameServer {
 	/**
 	 * How many frames between sending out a full position update to all players
 	 */
     public static FORCE_FULL_UPDATE_FRAME_RATE = 30;
+
 	/**
 	 * The width of the players view in meters (100 meters in a pixel)
 	 * This will be centered on the player and determines which position updates to send to the player
 	 */
     public static PLAYER_VIEW_WIDTH = 18;
+
 	/**
 	 * The height of the player view in meters (100 meters in a pixel)
 	 * This will be centered on the player and determines which position updates to send to the player
 	 */
     public static PLAYER_VIEW_HEIGHT = 13;
+
 	/**
 	 * The unique server id which identifies this server and is used in it's routes
 	 */
     public serverId: string;
+
 	/**
 	 * The socket io room this game is listening to
 	 */
     public gameSocket: Namespace;
+
 	/**
 	 * The clients that are connected to this server
 	 */
     private clients: Map<string, Socket>;
+
 	/**
 	 * The map of every client id to their name
 	 */
     private playerNames: Map<string, string>;
+
 	/**
 	 * The simulation of the physical game world.
 	 */
     public simulation: GameSimulation;
+
 	/**
 	 * The queue like structure that move updates are buffered in
 	 */
     private moveUpdateQueue: PlayerMoveUpdateQueue;
 
+    /**
+     * The Chat server for the current Game
+     */
+    private chatServer: ChatServer;
+
+    /**
+     * Constructs a GameServer object
+     * @param serverSocket
+     */
     constructor(serverSocket: Server) {
         this.clients = new Map<string, Socket>();
         this.playerNames = new Map<string, string>();
@@ -58,12 +76,17 @@ export class GameServer {
         // Initialize socket
         this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
+        //init chat
+        this.chatServer = new ChatServer(this.serverId, serverSocket);
+
+
         this.gameSocket.on("connection", (socket: Socket) => {
             // console.log("A new client has connected to game: " + this.serverId);
 
             //Authentication
             if (!socket.request.session) {
-                console.log("Socket is not Authorized");
+                socket.emit("/authorization", { message: "Authentication failed. You will now be disconnected." });
+                socket.disconnect();
             } else {
 
                 let newClientId: string = v1Gen();
