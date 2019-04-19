@@ -65,11 +65,10 @@ describe('GameSimulation', () => {
             expect(player.body.GetPosition().x).to.equal(0);
             expect(player.body.GetPosition().y).to.equal(0);
 
-            // Apply a move update.
-            let move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up, false);
-            simulation.updateMove(move);
             // Simulate 1 second in the simulation.
             for (let i = 0; i < 30; i++) {
+                const move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up, false);
+                updateQueue.addPlayerMoveUpdate(move);
                 simulation.nextFrame();
             }
 
@@ -77,10 +76,10 @@ describe('GameSimulation', () => {
             expect(player.body.GetPosition().x).to.equal(0);
             expect(player.body.GetPosition().y).to.be.closeTo(-Player.playerSpeed, 0.0001);
 
-            // Apply a second move.
-            move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft, false);
-            simulation.updateMove(move);
+            // Simulate another second in the simulation.
             for (let i = 0; i < 30; i++) {
+                const move = new PlayerMoveUpdate(id, i + 30, 0, false, PlayerMoveDirection.UpLeft, false);
+                updateQueue.addPlayerMoveUpdate(move);
                 simulation.nextFrame();
             }
 
@@ -100,14 +99,14 @@ describe('GameSimulation', () => {
             // The player is currently moving.
             player.body.SetLinearVelocity({x: 5, y: 5});
 
-            // The server does not receive a move update.
-            let move: null = null;
-            simulation.updateMove(move);
+            // There is nothing in updateQueue.
+            simulation.nextFrame();
 
             // A default move update should be applied, causing the player to
             // stop moving.
             const notMovingVector = new b2Vec2(0, 0);
-            expect(player.body.GetLinearVelocity()).to.equal(notMovingVector);
+            expect(player.body.GetLinearVelocity().x).to.equal(notMovingVector.x);
+            expect(player.body.GetLinearVelocity().y).to.equal(notMovingVector.y);
         });
     });
     it("Should destroy bullet when it collides with a player", () => {

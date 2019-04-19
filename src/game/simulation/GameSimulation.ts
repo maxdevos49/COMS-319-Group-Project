@@ -1,12 +1,12 @@
-import { b2Contact, b2ContactListener, b2Vec2, b2World, XY, } from "../../../lib/box2d-physics-engine/Box2D";
+import { b2Contact, b2Vec2, b2World } from "../../../lib/box2d-physics-engine/Box2D";
 
 import { Player } from "./objects/Player";
 import { GameObject } from "./objects/GameObject";
 import { TerrainMap } from "../../public/javascript/game/models/TerrainMap";
 import { PlayerMoveUpdateQueue } from "../../public/javascript/game/data-structures/PlayerMoveUpdateQueue";
-import { PlayerMoveUpdate } from "../../public/javascript/game/models/PlayerMoveUpdate";
+import { PlayerMoveUpdate, PlayerMoveDirection } from "../../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPositionUpdate";
-import { IObjectDescription } from "../../public/javascript/game/models/objects/IObjectDescription";
+import { IObjectDescription, GameObjectType } from "../../public/javascript/game/models/objects/IObjectDescription";
 import { TerrainGenerator } from "./TerrainSimulator";
 
 /**
@@ -91,20 +91,28 @@ export class GameSimulation {
      */
     public nextFrame(): void {
         this.objects.forEach((object) => {
-            const move = this.moves.popPlayerMoveUpdate(object.id);
-            if (move != null) this.updateMove(move);
+            let move = this.moves.popPlayerMoveUpdate(object.id);
+            if (move != null) {
+                // This must be a move for a player since it came from the
+                // PlayerMoveUpdateQueue.
+                this.updateMove(move);
+            } else if (object.type === GameObjectType.Player) {
+                // The the current object is a Player, and there was no move
+                // for the player, use a default move update.
+                // TODO: Get correct frame number when we start using it.
+                move = new PlayerMoveUpdate(
+                    object.id,
+                    0,
+                    0,
+                    false,
+                    PlayerMoveDirection.None,
+                    false
+                );
+                this.updateMove(move);
+            }
 
             // Update the game object
             object.update();
-
-            // DEBUG: Information about the player and its body
-            // if (this.frame % 40 == 0) {
-            // 	const id = player.getId();
-            // 	const x = player.getBody().GetPosition().x;
-            // 	const y = player.getBody().GetPosition().y;
-            // 	const angle = player.getBody().GetAngle();
-            // 	console.log(`id: ${id}\tx: ${x}\ty: ${y}\tangle: ${angle}\n`);
-            // }
         });
 
         this.moves.incrementFrame();
@@ -178,11 +186,8 @@ export class GameSimulation {
      *
      * @param {PlayerMoveUpdate} move - An object containing move information.
      */
-    public updateMove(move: PlayerMoveUpdate | null): void {
-        if (move === null) {
-            return;
-        }
-        let player: Player | undefined = this.objects.get(move.id) as Player;
+    public updateMove(move: PlayerMoveUpdate): void {
+        const player: Player | undefined = this.objects.get(move.id) as Player;
         if (player !== undefined) {
             player.applyPlayerMoveUpdate(move);
         }
