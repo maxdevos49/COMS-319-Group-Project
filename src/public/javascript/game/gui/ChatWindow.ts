@@ -1,5 +1,5 @@
-import { Chat, IChatConfig } from "./Chat.js";
-import { ChatInput, IChatInputConfig } from "./ChatInput.js";
+import { Chat } from "./Chat.js";
+import { ChatInput } from "./ChatInput.js";
 
 export class ChatWindow extends Phaser.GameObjects.Container {
 
@@ -99,8 +99,6 @@ export class ChatWindow extends Phaser.GameObjects.Container {
 
         this.scene.input.keyboard.on('keyup', (event: KeyboardEvent) => {
             event.preventDefault();
-            event.stopImmediatePropagation();
-            // event.stopPropagation()
 
             if (!this.isActive) {
                 if (event.keyCode === 84) {
