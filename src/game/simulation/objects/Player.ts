@@ -5,14 +5,11 @@ import {
     b2CircleShape,
     b2Fixture,
     b2FixtureDef,
-    b2PolygonShape, b2Shape,
-    b2World, XY,
+    b2PolygonShape,
+    XY,
 } from "../../../../lib/box2d-physics-engine/Box2D";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
-import {
-    PlayerActionState,
-    PlayerPositionUpdate
-} from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
+import { PlayerActionState, PlayerPositionUpdate } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
 import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
 import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/PlayerObjectDescription";
@@ -25,38 +22,42 @@ import v1Gen from "uuid/v1";
 /**
  * A player in the game. Contains the physics body.
  */
-export class Player extends GameObject {
-	/**
-	 * The cool-down between shooting in frames
-	 */
+export class Player extends GameObject implements Health {
+    /**
+     * The cool-down between shooting in frames
+     */
     public static SHOOT_COOLDOWN: number = 5;
-	/**
-	 * Velocity in meters per second that the players should move.
-	 */
+    /**
+     * Velocity in meters per second that the players should move.
+     */
     public static playerSpeed: number = 3;
-	/**
-	 * The hit box for player weapon collisions
-	 */
+    /**
+     * The hit box for player weapon collisions
+     */
     public static playerHitboxHalfWidth: number = 0.5;
     public static playerHitboxHalfLength: number = 0.5;
     public static playerHitboxShape: b2PolygonShape = new b2PolygonShape().SetAsBox(Player.playerHitboxHalfWidth, Player.playerHitboxHalfLength);
 
-	/**
-	 * The Box2D physics body used for the physics simulation.
-	 */
+    /**
+     * The Box2D physics body used for the physics simulation.
+     */
     public body: b2Body;
-	/**
-	 * The collision fixture used to compute player-world collisions
-	 */
+    /**
+     * The collision fixture used to compute player-world collisions
+     */
     public playerCollisionFixture: b2Fixture;
-	/**
-	 * The collision fixture used to compute hits on the player (more accurate)
-	 */
+    /**
+     * The collision fixture used to compute hits on the player (more accurate)
+     */
     public playerHitboxFixture: b2Fixture;
-	/**
-	 * The frame which this player last shot
-	 */
+    /**
+     * The frame which this player last shot
+     */
     public lastShotFrame: number;
+    /**
+     * The player's health that ranges from 0 to 100.
+     */
+    public health: number;
 
     constructor(simulation: GameSimulation, id: string) {
         super(id, GameObjectType.Player, simulation)
@@ -65,6 +66,8 @@ export class Player extends GameObject {
 
         // Assume frame 0 because this variable is only used to restrict shooting speed
         this.lastShotFrame = 0;
+
+        this.health = 100;
 
         // The player is a dynamic body, which means that it is fully simulated,
         // moves in response to forces, and has a finite, non-zero mass.
@@ -95,11 +98,11 @@ export class Player extends GameObject {
         this.simulation.world.DestroyBody(this.body);
     }
 
-	/**
-	 * Checks if this player can shoot at the given frame and if it can updates the player cool-down for shooting and
-	 * returns true.
-	 * @param frame The frame number to check if the player can shoot on
-	 */
+    /**
+     * Checks if this player can shoot at the given frame and if it can updates the player cool-down for shooting and
+     * returns true.
+     * @param frame The frame number to check if the player can shoot on
+     */
     public attemptShoot(frame: number): boolean {
         if ((frame - this.lastShotFrame) > Player.SHOOT_COOLDOWN) {
             this.lastShotFrame = frame;
@@ -108,10 +111,10 @@ export class Player extends GameObject {
         return false;
     }
 
-	/**
-	 * Gets the PlayerPositionUpdate that describes the current state of the player
-	 * @param frame The frame for the position update to be made
-	 */
+    /**
+     * Gets the PlayerPositionUpdate that describes the current state of the player
+     * @param frame The frame for the position update to be made
+     */
     public getPositionUpdate(frame: number): IPositionUpdate {
         return new PlayerPositionUpdate(
             frame,
@@ -123,10 +126,10 @@ export class Player extends GameObject {
         );
     }
 
-	/**
-	 * Gets the NewPlayerObject that describes the state of the player. This can be sent to initialize the clients
-	 * knowledge of this player
-	 */
+    /**
+     * Gets the NewPlayerObject that describes the state of the player. This can be sent to initialize the clients
+     * knowledge of this player
+     */
     public getAsNewObject(): IObjectDescription {
         return new PlayerObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle());
     }
@@ -154,13 +157,13 @@ export class Player extends GameObject {
         }
     }
 
-	/**
-	 * Get the velocity for a desired change in position represented by
-	 * Up, UpLeft, etc.
-	 *
-	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
-	 * @return {XY} A velocity vector.
-	 */
+    /**
+     * Get the velocity for a desired change in position represented by
+     * Up, UpLeft, etc.
+     *
+     * @param {PlayerMoveDirection} direction - The direction the player wants to move.
+     * @return {XY} A velocity vector.
+     */
     private static getVelocityVector(direction: PlayerMoveDirection): XY {
         const velocity: XY = { x: 0, y: 0 };
         switch (direction) {
@@ -208,5 +211,9 @@ export class Player extends GameObject {
         }
 
         return velocity;
+    }
+
+    public takeDamage(d: number) {
+        this.health -= d;
     }
 }

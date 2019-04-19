@@ -1,5 +1,5 @@
-import {expect} from "chai";
-import {Player} from "../../src/game/simulation/objects/Player";
+import { expect } from "chai";
+import { Player } from "../../src/game/simulation/objects/Player";
 import { GameSimulation } from "../../src/game/simulation/GameSimulation";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 
@@ -18,6 +18,13 @@ describe("Simulation Player Object", () => {
     it("Should create player located at 0,0", () => {
         expect(player.body.GetPosition()).to.have.property("x").that.equals(0);
         expect(player.body.GetPosition()).to.have.property("y").that.equals(0);
+    });
+    it("Should create a player with 100 health points", () => {
+        expect(player.health).to.equal(100);
+    });
+    it("Should lose health upon taking damage", () => {
+        player.takeDamage(75);
+        expect(player.health).to.equal(25);
     });
     it("Should return PostionUpdates with the given frame number", () => {
         expect(player.getPositionUpdate(0)).to.have.property("frame").that.equals(0);
