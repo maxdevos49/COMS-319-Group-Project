@@ -24,7 +24,8 @@ export default function (server: http.Server) {
     mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
 
     //passport
-    router.use(session({ secret: config.session.secret, resave: false, saveUninitialized: false }));
+    let sessionMiddleware = session({ secret: config.session.secret, resave: false, saveUninitialized: false });
+    router.use(sessionMiddleware);
     localStrat(passport);
 
     //middleware
@@ -36,6 +37,9 @@ export default function (server: http.Server) {
 
     //game controllers and sockets
     const io = socketIO(server);
+    io.use(function (socket, next) {
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
     new GameMatchmaking(io);
 
     //web page controllers

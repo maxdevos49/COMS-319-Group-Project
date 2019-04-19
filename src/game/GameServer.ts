@@ -59,43 +59,50 @@ export class GameServer {
         this.gameSocket = serverSocket.of("/games/" + this.serverId);
 
         this.gameSocket.on("connection", (socket: Socket) => {
-            console.debug("A new client has connected to game: " + this.serverId);
+            // console.log("A new client has connected to game: " + this.serverId);
 
-            // TODO: authenticate the client
+            //Authentication
+            if (!socket.request.session) {
+                console.log("Socket is not Authorized");
+            } else {
 
-            let newClientId: string = v1Gen();
-            // Send the new client their id
-            socket.emit("/init/assignid", newClientId);
+                let newClientId: string = v1Gen();
+                // Send the new client their id
+                socket.emit("/init/assignid", newClientId);
 
-            // Inform every other connected player that a new player has connected and inform new player of the existing players
-            let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
-            this.clients.forEach((playerSocket: Socket, playerId: string) => {
-                // Inform the old player of the new player
-                playerSocket.emit("/update/player/new", newPlayerInfo);
-                // Inform the new player of the old player
-                socket.emit(
-                    "/update/player/new",
-                    new PlayerInfo(playerId, this.playerNames.get(playerId))
-                );
-            });
+                //add nickname to names of players
+                this.playerNames.set(newClientId, socket.request.session.passport.user.nickname);
 
-            // Add a record of the player
-            this.clients.set(newClientId, socket);
-            this.playerNames.set(newClientId, newClientId);
+                // Inform every other connected player that a new player has connected and inform new player of the existing players
+                let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
+                this.clients.forEach((playerSocket: Socket, playerId: string) => {
+                    // Inform the old player of the new player
+                    playerSocket.emit("/update/player/new", newPlayerInfo);
+                    // Inform the new player of the old player
+                    socket.emit(
+                        "/update/player/new",
+                        new PlayerInfo(playerId, this.playerNames.get(playerId))
+                    );
+                });
 
-            // Send the new player descriptions of all of the objects as they are now
-            socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
+                // Add a record of the player
+                this.clients.set(newClientId, socket);
+                this.playerNames.set(newClientId, newClientId);
 
-            // Add the player to the simulation
-            this.simulation.addPlayer(newClientId);
+                // Send the new player descriptions of all of the objects as they are now
+                socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
 
-            // Send the new player the terrain data
-            socket.emit("/init/terrain", this.simulation.map);
+                // Add the player to the simulation
+                this.simulation.addPlayer(newClientId);
 
-            // Game player move update endpoint
-            socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
-                this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
-            });
+                // Send the new player the terrain data
+                socket.emit("/init/terrain", this.simulation.map);
+
+                // Game player move update endpoint
+                socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
+                    this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
+                });
+            }
         });
         // 30 times a second
         setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
