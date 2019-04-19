@@ -178,7 +178,7 @@ export class ChatWindow extends Phaser.GameObjects.Container {
 
             //move any current chats
             this.chats.forEach((givenChat: Chat) => {
-                givenChat.y -= givenChat.getHeight();
+                givenChat.y -= newChat.getHeight();
             });
 
             //record it
