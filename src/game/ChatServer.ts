@@ -53,11 +53,20 @@ export class ChatServer {
     }
 
     /**
-     * Sends a message to all connected chat sockets
+     * Sends a message to all connected chat sockets or excluding an option single socket
      */
-    public sendToMany(givenMessage: IMessage): void {
-        //send to all sockets
-        this.ioServer.emit("/newMessage", givenMessage);
+    public sendToMany(givenMessage: IMessage, givenExclusionId?: string): void {
+        if (!givenExclusionId) {
+            //send to all sockets
+            this.ioServer.emit("/newMessage", givenMessage);
+        } else {
+            //sends to all but a single socket
+            this.connectedSockets.forEach((givenSocket: Socket, givenId: string) => {
+                if (givenId != givenExclusionId) {
+                    givenSocket.emit("/newMessage", givenMessage);
+                }
+            })
+        }
     }
 
     /**
@@ -92,7 +101,7 @@ export class ChatServer {
                 socket.emit("/authorization", { id: chatId, name: this.playerNames.get(chatId) });
 
                 //announce player disconnected
-                this.sendToMany({ id: chatId, name: "server", message: `${this.playerNames.get(chatId)} joined the game.` });
+                this.sendToMany({ id: chatId, name: "server", message: `${this.playerNames.get(chatId)} joined the game.` }, chatId);
 
                 //init disconnect socket
                 this.disconnectSocket(socket);
