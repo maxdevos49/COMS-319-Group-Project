@@ -30,7 +30,7 @@ export class Player extends GameObject implements IHealth {
     /**
      * Velocity in meters per second that the players should move.
      */
-    public static playerSpeed: number = 3;
+    public static SPEED: number = 3;
     /**
      * The hit box for player weapon collisions
      */
@@ -168,32 +168,32 @@ export class Player extends GameObject implements IHealth {
         const velocity: XY = { x: 0, y: 0 };
         switch (direction) {
             case PlayerMoveDirection.Right:
-                velocity.x = Player.playerSpeed;
+                velocity.x = Player.SPEED;
                 break;
             case PlayerMoveDirection.UpRight:
-                velocity.x = Player.playerSpeed;
-                velocity.y = -Player.playerSpeed;
+                velocity.x = Player.SPEED;
+                velocity.y = -Player.SPEED;
                 break;
             case PlayerMoveDirection.Up:
-                velocity.y = -Player.playerSpeed;
+                velocity.y = -Player.SPEED;
                 break;
             case PlayerMoveDirection.UpLeft:
-                velocity.x = -Player.playerSpeed;
-                velocity.y = -Player.playerSpeed;
+                velocity.x = -Player.SPEED;
+                velocity.y = -Player.SPEED;
                 break;
             case PlayerMoveDirection.Left:
-                velocity.x = -Player.playerSpeed;
+                velocity.x = -Player.SPEED;
                 break;
             case PlayerMoveDirection.DownLeft:
-                velocity.x = -Player.playerSpeed;
-                velocity.y = Player.playerSpeed;
+                velocity.x = -Player.SPEED;
+                velocity.y = Player.SPEED;
                 break;
             case PlayerMoveDirection.Down:
-                velocity.y = Player.playerSpeed;
+                velocity.y = Player.SPEED;
                 break;
             case PlayerMoveDirection.DownRight:
-                velocity.x = Player.playerSpeed;
-                velocity.y = Player.playerSpeed;
+                velocity.x = Player.SPEED;
+                velocity.y = Player.SPEED;
                 break;
         }
 
@@ -215,7 +215,7 @@ export class Player extends GameObject implements IHealth {
 
     public collideWith(object: IObjectDescription) {
         if (object.type === GameObjectType.Bullet) {
-            this.takeDamage(10);
+            this.takeDamage(Bullet.DAMAGE);
         }
     }
 
