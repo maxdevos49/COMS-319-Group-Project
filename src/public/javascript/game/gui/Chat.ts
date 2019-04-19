@@ -125,7 +125,7 @@ export class Chat extends Phaser.GameObjects.Container {
         if (givenText.length > this.charWidth) {
             let p: number = this.charWidth
 
-            for (; p > 0 && givenText[p] != ' '; p--);
+            for (let i = 0; p > 0 && givenText[p] != ' ' && i < 2; p-- , i++);
 
             if (p > 0) {
                 let left: string = givenText.substring(0, p);

@@ -18,7 +18,7 @@ export class ChatScene extends Phaser.Scene {
             height: this.scale.height,
             fontSize: 20,
             fontType: "november",
-            charWidth: 90,
+            charWidth: 95,
             chatHeight: 10,
             decay: 5000
         }
