@@ -171,6 +171,9 @@ export class ChatWindow extends Phaser.GameObjects.Container {
                 text: message
             });
 
+            if (this.isActive) {
+                newChat.viewing = true;
+            }
             newChat.y = this.height - newChat.getHeight() - this.fontSize - 2;
 
             //move any current chats

@@ -46,7 +46,7 @@ export class Chat extends Phaser.GameObjects.Container {
     /**
      * Determines if it is currently being viewed
      */
-    private viewing: boolean;
+    public viewing: boolean;
 
     /**
      * The color of the text
