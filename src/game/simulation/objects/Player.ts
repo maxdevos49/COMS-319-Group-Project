@@ -16,13 +16,13 @@ import { PlayerObjectDescription } from "../../../public/javascript/game/models/
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
-import { Bullet } from "./Bullet";
+import { Bullet } from "../../../game/simulation/objects/Bullet";
 import v1Gen from "uuid/v1";
 
 /**
  * A player in the game. Contains the physics body.
  */
-export class Player extends GameObject implements Health {
+export class Player extends GameObject implements IHealth {
     /**
      * The cool-down between shooting in frames
      */
@@ -211,6 +211,12 @@ export class Player extends GameObject implements Health {
         }
 
         return velocity;
+    }
+
+    public collideWith(object: IObjectDescription) {
+        if (object.type === GameObjectType.Bullet) {
+            this.takeDamage(10);
+        }
     }
 
     public takeDamage(d: number) {

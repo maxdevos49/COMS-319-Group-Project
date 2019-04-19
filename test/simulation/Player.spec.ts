@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { Player } from "../../src/game/simulation/objects/Player";
 import { GameSimulation } from "../../src/game/simulation/GameSimulation";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
+import { Bullet } from "../../src/game/simulation/objects/Bullet";
 
 describe("Simulation Player Object", () => {
     let simulation: GameSimulation;
@@ -9,7 +10,7 @@ describe("Simulation Player Object", () => {
     let otherPlayer: Player;
 
     beforeEach(() => {
-    	simulation = new GameSimulation(new PlayerMoveUpdateQueue(1))
+        simulation = new GameSimulation(new PlayerMoveUpdateQueue(1))
         player = new Player(simulation, "testid1");
         otherPlayer = new Player(simulation,"testid2");
         simulation.nextFrame();
@@ -37,9 +38,18 @@ describe("Simulation Player Object", () => {
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(20);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(20);
     });
-    it('Should detect when its shape collides with another shape', () => {
+    it("Should detect when its shape collides with another shape", () => {
         // The second player should spawn in the same location as the first
         // player. Therefore, there should be a collision.
         expect(player.body.GetContactList()).to.exist;
+    });
+    it("Should lose health upon colliding with a bullet", () => {
+        const bullet = new Bullet(simulation, "id1", "ownerId", 0, 0, 0, 1);
+        player.collideWith(bullet);
+        expect(player.health).to.equal(90);
+    });
+    it("Should not lose health upon colliding with another player", () => {
+        player.collideWith(otherPlayer);
+        expect(player.health).to.equal(100);
     });
 });
