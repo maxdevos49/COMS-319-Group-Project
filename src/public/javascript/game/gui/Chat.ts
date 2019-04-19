@@ -49,6 +49,11 @@ export class Chat extends Phaser.GameObjects.Container {
     private viewing: boolean;
 
     /**
+     * The color of the text
+     */
+    private color: number;
+
+    /**
      * Contructs a Chat message.
      * @param givenScene
      * @param config
@@ -64,6 +69,7 @@ export class Chat extends Phaser.GameObjects.Container {
         this.fontSize = config.fontSize;
         this.decay = config.decay;
         this.charWidth = config.charWidth;
+        this.color = config.color;
         this.isDecayed = false;
         this.viewing = false;
 
@@ -78,7 +84,9 @@ export class Chat extends Phaser.GameObjects.Container {
         this.textObject.setAlpha(0.8);
 
         //color text
-        // this.textObject.setTint(0x235612);
+        if (this.color) {
+            this.textObject.setTint(this.color);
+        }
 
         //add to scene
         this.add([this.backgroundObject, this.textObject]);
@@ -199,6 +207,11 @@ export interface IChatConfig {
      * The time it will take for the chat to fade out and decay in milliseconds
      */
     decay: number;
+
+    /**
+     * The tint/color of the text
+     */
+    color?: number;
 
     /**
      * The maximum character width before the chat wraps

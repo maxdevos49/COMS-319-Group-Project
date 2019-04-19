@@ -1,19 +1,15 @@
-import { ChatWindow, IChatWindowConfig } from "../gui/ChatWindow.js";
+import { ChatConnection } from "../ChatConnection.js";
+import { IChatWindowConfig } from "../gui/ChatWindow.js";
 
 export class ChatScene extends Phaser.Scene {
 
-    private chatWindow: ChatWindow;
+    private chatConnection: ChatConnection;
 
     constructor() {
         super({ key: "ChatScene" });
     }
 
-    init(): void {
-
-    }
-
-
-    create(): void {
+    init(givenId: any): void {
 
         let config: IChatWindowConfig = {
             x: 0,
@@ -27,6 +23,7 @@ export class ChatScene extends Phaser.Scene {
             decay: 5000
         }
 
-        this.chatWindow = new ChatWindow(this, config);
+        this.chatConnection = new ChatConnection(givenId.roomId, this, config);
     }
+
 }

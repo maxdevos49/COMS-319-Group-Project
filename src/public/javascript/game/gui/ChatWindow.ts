@@ -1,5 +1,7 @@
 import { Chat } from "./Chat.js";
 import { ChatInput } from "./ChatInput.js";
+import { ChatConnection } from "../ChatConnection.js";
+import { IMessage } from "../models/objects/IMessage.js";
 
 export class ChatWindow extends Phaser.GameObjects.Container {
 
@@ -43,7 +45,12 @@ export class ChatWindow extends Phaser.GameObjects.Container {
      */
     private isActive: boolean;
 
-    constructor(givenScene: Phaser.Scene, config: IChatWindowConfig) {
+    /**
+     * The chat connection
+     */
+    private connection: ChatConnection;
+
+    constructor(givenScene: Phaser.Scene, config: IChatWindowConfig, connection: ChatConnection) {
         super(givenScene, config.x, config.y);
 
         //Properties
@@ -56,6 +63,7 @@ export class ChatWindow extends Phaser.GameObjects.Container {
         this.charWidth = config.charWidth;
         this.chatHeight = config.chatHeight;
         this.isActive = false;
+        this.connection = connection;
 
         //GameObjects
         this.chatInput = new ChatInput(this.scene, {
@@ -110,9 +118,8 @@ export class ChatWindow extends Phaser.GameObjects.Container {
 
     public sendChat(): void {
 
-        //TODO socket stuff
+        this.connection.sendMessage(this.chatInput.text.text)
 
-        this.addChat(this.chatInput.text.text);
         this.chatInput.text.setText("");
         this.toInactive();
     }
@@ -142,10 +149,14 @@ export class ChatWindow extends Phaser.GameObjects.Container {
 
     /**
      *
-     * @param givenText
+     * @param givenMessage
      */
-    addChat(givenText: string): void {
-        if (givenText.length > 0) {
+    addChat(givenMessage: IMessage): void {
+        if (givenMessage.message.length > 0) {
+
+            //format message
+            let message = `[${givenMessage.name}] ${givenMessage.message}`;
+
             //new Chat
             let newChat = new Chat(this.scene, {
                 x: this.x,
@@ -154,9 +165,10 @@ export class ChatWindow extends Phaser.GameObjects.Container {
                 height: this.fontSize + 4,
                 fontType: this.fontType,
                 fontSize: this.fontSize,
+                color: givenMessage.color,
                 decay: this.decay,
                 charWidth: this.charWidth,
-                text: givenText
+                text: message
             });
 
             newChat.y = this.height - newChat.getHeight() - this.fontSize - 2;
