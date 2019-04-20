@@ -29,7 +29,6 @@ describe('Game server', () => {
                 }
             }
         }
-
         next();
     });
 
