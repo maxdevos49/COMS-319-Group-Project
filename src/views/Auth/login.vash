@@ -32,7 +32,7 @@
                                 @html.LabelFor(model => model.password)
                                 @html.PasswordBoxFor(model => model.password, null, {class: "form-control", autocomplete: "current-password"})
                                 @html.ValidationMessageFor(model => model.password)
-                                <a href="/auth/forgotPassword">Forgot Password?</a>
+                                <!--<a href="/auth/forgotPassword">Forgot Password?</a>-->
                             </div>
                             <div>
                                 <button class="btn btn-success" type="submit">Login</button>
