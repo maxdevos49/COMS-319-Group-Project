@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { TerrainMap } from "../../src/public/javascript/game/models/TerrainMap";
+import { TerrainMap } from "../../../src/public/javascript/game/models/TerrainMap";
 
 describe("Terrain Map", () => {
     it("Should initialize a map with the given width and height", () => {

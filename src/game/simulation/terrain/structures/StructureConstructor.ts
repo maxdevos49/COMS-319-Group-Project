@@ -261,20 +261,6 @@ export class StructureConstructor {
         return true;
     }
 
-    public accumulateConnectionPoints(connections: IStructureConnection[], partX: number, partY: number): IStructureConnection[] {
-        let connectionPoints: IStructureConnection[] = [];
-        connections.forEach((template: IStructureConnection) => {
-            connectionPoints.push({
-                expects: template.expects,
-                x: template.x + partX,
-                y: template.y + partY,
-                connection_direction: template.connection_direction,
-                required: template.required
-            });
-        });
-        return connectionPoints;
-    }
-
     public accumulateOccupiedPoints(part: IStructurePart, partX: number, partY: number): Point[] {
         let points: Point[] = [];
         for (let y = 0; y < part.height; y++) {

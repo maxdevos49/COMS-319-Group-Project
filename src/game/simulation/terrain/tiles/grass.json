@@ -305,42 +305,45 @@
   },
   {
     "name": "grass_cliff_2",
-    "index": 152
-  },
-  {
-    "name": "grass_cliff_3",
-    "index": 153
-  },
-  {
-    "name": "grass_cliff_icorner_nw",
-    "index": 154,
+    "index": 152,
     "groups": [
-      "@grass_cliff_stone_n",
-      "@grass_cliff_stone_w"
+      "@grass_cliff_stone_full"
     ]
   },
   {
-    "name": "grass_cliff_icorner_ne",
-    "index": 155,
-    "groups": [
-      "@grass_cliff_stone_n",
-      "@grass_cliff_stone_e"
-    ]
-  },
-  {
-    "name": "grass_cliff_icorner_se",
-    "index": 156,
-    "groups": [
-      "@grass_cliff_stone_e",
-      "@grass_cliff_stone_s"
-    ]
-  },
-  {
-    "name": "grass_cliff_icorner_sw",
-    "index": 157,
+    "name": "grass_cliff_end_w",
+    "index": 153,
     "groups": [
       "@grass_cliff_stone_s",
-      "@grass_cliff_stone_w"
+      "@grass_cliff_stone_w",
+      "@grass_cliff_stone_n"
+    ]
+  },
+  {
+    "name": "grass_cliff_end_s",
+    "index": 154,
+    "groups": [
+      "@grass_cliff_stone_e",
+      "@grass_cliff_stone_w",
+      "@grass_cliff_stone_n"
+    ]
+  },
+  {
+    "name": "grass_cliff_end_n",
+    "index": 155,
+    "groups": [
+      "@grass_cliff_stone_s",
+      "@grass_cliff_stone_w",
+      "@grass_cliff_stone_2"
+    ]
+  },
+  {
+    "name": "grass_cliff_end_e",
+    "index": 156,
+    "groups": [
+      "@grass_cliff_stone_s",
+      "@grass_cliff_stone_w",
+      "@grass_cliff_stone_n"
     ]
   },
   {

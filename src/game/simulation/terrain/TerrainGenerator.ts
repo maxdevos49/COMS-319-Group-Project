@@ -52,11 +52,11 @@ export class TerrainGenerator {
                     let structureCompleted = false;
                     while (true) {
                         let requiredFilled: boolean = constructionManager.isAllRequiredConnectionsFilled();
-                        let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length), true);
+                        let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length), false);
                         if (!cp || requiredFilled) {
                             if (constructionManager.placedParts.length < toAttempt.minParts) {
                                 if (constructionManager.placedParts.length <= 1) break;
-                                constructionManager.revertMoves(2);
+                                constructionManager.revertMoves(4);
                                 attemptLimit--;
                                 if (attemptLimit < 0) {
                                     break;
