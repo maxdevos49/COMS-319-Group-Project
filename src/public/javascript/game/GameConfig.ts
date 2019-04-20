@@ -6,7 +6,7 @@ import { ChatScene } from "./scenes/ChatScene.js";
 
 let gameConfig: GameConfig = {
     title: "B.R.T.D.",
-    version: "1.0.0",
+    version: "2.0.0",
     width: 1280,
     height: 720,
     type: Phaser.AUTO,

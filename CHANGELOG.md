@@ -4,17 +4,37 @@
 Date: April 19, 2019
 
 ---
-### Additions:
- - 
+## Additions
+- Added a chat GameObject
+- Added a ChatWindow GameObject that manages chat GameObjects
+- Added a chat connection class to manage the connection and request for chat
+- Added a server side chat class with a method for the simulation to hook into and send messages.
+- Added the ability to have colors for the chat
+- Added the ability to send chats to other people
+- Added IMessage interface for message formats
+- Added ICommand interface for command formats
+- Nicknames are received from the session
+- Sockets are disconnected if they do not have a valid session
+- Added a GameObject for bullets
+- Added functioning bullets
+- Added collisions with the collidedWith method on each implementing IGameObject class
+- The bodies in the physics simulation now have fixtures that are circles, so players can collide with each other.
+- Helpful console.log statements for debugging the objects as represented in the physics simulation.
+- Added new dashboard page with planned fields and layout
+- Added ability to update your nickname using Ajax
+- Added ability to confirm your email
+- Added ability to change your password
+- Added some Ajax helper functions
+- Code editing was enforced with the addition of the .editorconfig file
+- World now renders a tile map
+- Added a perlin noise generator to make smooth terrain
+- Added localhost option when starting the server
 
-### Updates:
- -
 
-### Bugfixes:
- -
-
-### Known Bugs:
- -
+## Updates
+- Updated the mouse to be a crosshair
+- .VSCode folder is now in .gitignore
+- Server game simulation resolution
 
 
 

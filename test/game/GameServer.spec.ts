@@ -29,7 +29,6 @@ describe('Game server', () => {
                 }
             }
         }
-
         next();
     });
 
@@ -89,7 +88,7 @@ describe('Game server', () => {
         // Wait until the first client has connected
         clientSocket.on("/init/assignid", (id: string) => {
             clientSocket.on("/update/objects/new", (updates: IObjectDescription[]) => {
-                console.log(updates);
+                // console.log(updates);
                 // Wait until the updates contains the player
                 let index = updates.findIndex((update: IObjectDescription) => update.id === id);
                 if (index != -1) {

@@ -118,7 +118,7 @@ describe('GameSimulation', () => {
         for (let i = 0; i < 100; i++) {
             simulation.nextFrame();
         }
-        console.log(simulation.objects.get("testid2"));
+        // console.log(simulation.objects.get("testid2"));
         expect(simulation.objects.get("testid2")).to.be.undefined;
     });
     it("Should destroy object when method called", () => {
