@@ -1,7 +1,10 @@
 [
   {
-    "name": "Stone Path",
-    "path": "stone_path.json",
-    "rarity": 30
+    "name": "grass_cliff",
+    "path": "grass_cliff.json",
+    "generatesOn": "@grass_empty",
+    "rarity": 30,
+    "maxParts": 150,
+    "minParts": 2
   }
 ]

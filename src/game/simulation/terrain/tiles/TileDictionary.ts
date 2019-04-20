@@ -21,7 +21,7 @@ export class TileDictionary {
      */
     public isTileInGroup(tileName: string, group: string) {
         let tile: ITile = this.tiles_name.get(tileName);
-        if (tile.groups) {
+        if (tile && tile.groups) {
             return tile.groups.includes(group);
         }
         return false;
@@ -34,7 +34,7 @@ export class TileDictionary {
      */
     public isTileIndexInGroup(tileIndex: number, group: string) {
         let tile: ITile = this.tiles_index.get(tileIndex);
-        if (tile.groups) {
+        if (tile && tile.groups) {
             return tile.groups.includes(group);
         }
         return false;
@@ -47,11 +47,17 @@ export class TileDictionary {
      * @param nameOrGroup The name or group name (prefixed by the '@' sign) to check if the tile identifies as
      */
     public checkTileIdentifiesAs(tileName: string, nameOrGroup: string) {
-        if (nameOrGroup.length > 0 && nameOrGroup.charAt(0) == '@') {
-            return this.isTileInGroup(tileName, nameOrGroup);
-        } else {
-            return name == nameOrGroup;
+        let nameOrGroupParts: string[] = nameOrGroup.split("|");
+
+        for (let i = 0; i < nameOrGroupParts.length; i++) {
+            if (nameOrGroupParts[i].length > 0 && nameOrGroupParts[i].charAt(0) == '@') {
+                if (this.isTileInGroup(tileName, nameOrGroupParts[i])) return true;
+            } else {
+                if (tileName == nameOrGroupParts[i]) return true;
+            }
         }
+
+        return false;
     }
     /**
      * Checks if the tile with the given index identifies with the given name (which can be it's name or the name
@@ -60,10 +66,16 @@ export class TileDictionary {
      * @param nameOrGroup The name or group name (prefixed by the '@' sign) to check if the tile identifies as
      */
     public checkTileIndexIdentifiesAs(tileIndex: number, nameOrGroup: string) {
-        if (nameOrGroup.length > 0 && nameOrGroup.charAt(0) == '@') {
-            return this.isTileIndexInGroup(tileIndex, nameOrGroup);
-        } else {
-            return this.tiles_index.get(tileIndex).name == nameOrGroup;
+        let nameOrGroupParts: string[] = nameOrGroup.split("|");
+
+        for (let i = 0; i < nameOrGroupParts.length; i++) {
+            if (nameOrGroupParts[i].length > 0 && nameOrGroupParts[i].charAt(0) == '@') {
+                if (this.isTileIndexInGroup(tileIndex, nameOrGroupParts[i])) return true;
+            } else {
+                if (this.tiles_index.get(tileIndex).name == nameOrGroupParts[i]) return true;
+            }
         }
+
+        return false;
     }
 }

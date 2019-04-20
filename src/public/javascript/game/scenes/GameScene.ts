@@ -102,6 +102,8 @@ export class GameScene extends Phaser.Scene {
 			// Move the camera
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
+
+            console.log(this.clientPlayer.x / 32 + " " + this.clientPlayer.y / 32);
 		}
 	}
 

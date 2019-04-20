@@ -33,7 +33,7 @@ export class Player extends GameObject {
 	/**
 	 * Velocity in meters per second that the players should move.
 	 */
-    public static playerSpeed: number = 3;
+    public static playerSpeed: number = 8;
 	/**
 	 * The hit box for player weapon collisions
 	 */
