@@ -4,7 +4,7 @@ export const config: IConfig = {
     title: "B.R.T.D. (Battle Royal Top Down Shooter)",
     versionRelease: "April 5, 2019",
     versionTitle: "Alpha",
-    version: "1.0.0",
+    version: "2.0.0",
     description: "B.R.T.D is a Top Down Battle Royal Shooter Game. ",
     owner: ["Maxwell DeVos", "Mason Timmerman", "Joeseph Naberhaus", "John Jago"],
     developers: [
