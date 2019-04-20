@@ -35,7 +35,7 @@ export class TerrainGenerator {
         }
 
         while (true) {
-            let attemptLimit: number = 100;
+            let attemptLimit: number = 1200;
             // Select a random structure
             let toAttempt: IStructure = structures[Math.floor(Math.random() * structures.length)];
             let parts: IStructurePart[] = this.loadAllStructureParts(toAttempt);
@@ -52,11 +52,15 @@ export class TerrainGenerator {
                     let structureCompleted = false;
                     while (true) {
                         let requiredFilled: boolean = constructionManager.isAllRequiredConnectionsFilled();
-                        let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length));
+                        let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length), true);
                         if (!cp || requiredFilled) {
                             if (constructionManager.placedParts.length < toAttempt.minParts) {
                                 if (constructionManager.placedParts.length <= 1) break;
                                 constructionManager.revertMoves(2);
+                                attemptLimit--;
+                                if (attemptLimit < 0) {
+                                    break;
+                                }
                                 continue;
                             } else {
                                 structureCompleted = true;
@@ -69,29 +73,32 @@ export class TerrainGenerator {
                             //console.log("attempt " + limit);
                             let partToAttempt: IStructurePart = this.randomStructurePart(parts, alreadyAttempted);
                             if (!partToAttempt) break;
-                            console.log("Attempting: " + partToAttempt.name);
+                            //console.log("Attempting: " + partToAttempt.name);
                             alreadyAttempted.push(partToAttempt);
                             if (constructionManager.attemptPlacePart(partToAttempt, cp)) {
                                 //console.log(partToAttempt.name);
                                 connectionPointFilled = true;
-                                console.log(constructionManager.placedParts.length + " " + constructionManager.openConnectionPoints.length + " Placed " + partToAttempt.name + " " + partToAttempt.rarity);
+                                //console.log(constructionManager.placedParts.length + " " + constructionManager.openConnectionPoints.length + " Placed " + partToAttempt.name + " " + partToAttempt.rarity);
                                 break;
                             } else {
                                 //console.log("Failed");
                             }
                         }
+                        //console.log(connectionPointFilled + " " + attemptLimit);
                         // If after the limit number of attempts the point is not filled then revert the last five moves
                         // If this will totally delete all placed parts then cancel this generation
                         if (!connectionPointFilled || constructionManager.placedParts.length > toAttempt.maxParts) {
                             constructionManager.openConnectionPoints.push(cp);
-                            //console.log("reverting");
-                            if (constructionManager.placedParts.length - 10 <= 0) break;
-                            constructionManager.revertMoves(10);
+                            if (cp.template.required) {
+                                //console.log("reverting");
+                                if (constructionManager.placedParts.length - 5 <= 0) break;
+                                constructionManager.revertMoves(5);
+                            }
                             //console.log("reverting 5 moves");
-                            alreadyAttempted = [];
                             attemptLimit--;
                             if (attemptLimit < 0) {
                                 //console.log("test");
+                                //structureCompleted = true;
                                 break;
                             }
                         }

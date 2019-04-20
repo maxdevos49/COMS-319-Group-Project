@@ -30,6 +30,7 @@ export interface IStructureConnection {
     connection_direction: string;
     expects: string;
     required: boolean;
+    requiredOnInit?: boolean;
 }
 
 export interface IPlacedStructurePartConnection {

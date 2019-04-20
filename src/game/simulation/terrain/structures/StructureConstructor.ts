@@ -41,10 +41,30 @@ export class StructureConstructor {
     }
 
     public isAllRequiredConnectionsFilled(): boolean {
+        if (this.openConnectionPoints.length == 0) {
+            return true;
+        } else if (this.openConnectionPoints.length == 1) {
+            return !this.openConnectionPoints[0].template.required;
+        }
+
         return this.openConnectionPoints.map((cp) => !cp.template.required).reduce((accum, cur) => accum && cur);
     }
 
-    public popOpenConnectionPoint(at?: number): IPlacedStructurePartConnection {
+    public popOpenConnectionPoint(at?: number, preferRequired? : boolean): IPlacedStructurePartConnection {
+        if (preferRequired) {
+            let required: IPlacedStructurePartConnection[] = this.openConnectionPoints.filter((cp) => cp.template.required);
+
+            if (required.length > 0) {
+                let adjustedAt = at % required.length;
+                let selected: IPlacedStructurePartConnection = required[adjustedAt];
+
+                this.openConnectionPoints = this.openConnectionPoints.filter((cp) => cp != selected);
+                return selected;
+            } else {
+                return this.popOpenConnectionPoint(at, false);
+            }
+        }
+
         if (at && at < this.openConnectionPoints.length - 1) {
             let temp = this.openConnectionPoints[at];
             this.openConnectionPoints[at] = this.openConnectionPoints.pop();
@@ -118,6 +138,18 @@ export class StructureConstructor {
                 };
             });
 
+            let allRequiredOnInitSatisfied = true;
+            placedConnections.forEach((partPCP) => {
+                if (partPCP.template.requiredOnInit) {
+                    let offset = getConnectionDirectionOffset(partPCP.template.connection_direction);
+                    let satisfied: boolean = this.tiles.checkTileIndexIdentifiesAs(this.getBlockIndexAt(partPCP.x + offset.dx, partPCP.y + offset.dy), partPCP.template.expects);
+                    if (!satisfied) allRequiredOnInitSatisfied = false;
+                }
+            });
+            if (!allRequiredOnInitSatisfied) {
+                continue;
+            }
+
             let existsAnyAlsoOccpied = false;
             let allSatisfied = true;
             placedConnections.forEach((partPCP) => {
@@ -132,7 +164,6 @@ export class StructureConstructor {
                         return this.checkConnectionWorks(part, absX, absY, partPCP.template, openCP);
                     })
                     .forEach((temp) => {
-                        //console.log(temp);
                         existsAnyAlsoOccpied = true;
                         allSatisfied = allSatisfied && temp;
                     });

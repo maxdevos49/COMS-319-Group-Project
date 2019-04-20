@@ -15,28 +15,28 @@
         "x": 1,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 0,
         "y": 1,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 2,
         "y": 1,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 1,
         "y": 2,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -58,21 +58,21 @@
         "x": 0,
         "y": 1,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 1,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 2,
         "y": 1,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -93,21 +93,21 @@
         "x": 2,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 3,
         "y": 1,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 2,
         "y": 2,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -129,21 +129,21 @@
         "x": 2,
         "y": 2,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 1,
         "y": 3,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 0,
         "y": 2,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -164,21 +164,21 @@
         "x": 1,
         "y": 2,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 0,
         "y": 1,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 1,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -199,14 +199,14 @@
         "x": 2,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 2,
         "y": 2,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -229,14 +229,14 @@
         "x": 0,
         "y": 2,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 2,
         "y": 2,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -258,7 +258,7 @@
         "x": 2,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -281,7 +281,7 @@
         "x": 3,
         "y": 2,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -303,7 +303,7 @@
         "x": 2,
         "y": 3,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -326,7 +326,7 @@
         "x": 0,
         "y": 2,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -348,14 +348,14 @@
         "x": 2,
         "y": 3,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 3,
         "y": 2,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -377,14 +377,14 @@
         "x": 2,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 3,
         "y": 1,
         "connection_direction": "east",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -406,14 +406,14 @@
         "x": 0,
         "y": 1,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 1,
         "y": 0,
         "connection_direction": "north",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]
@@ -435,14 +435,14 @@
         "x": 0,
         "y": 2,
         "connection_direction": "west",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       },
       {
         "x": 1,
         "y": 3,
         "connection_direction": "south",
-        "expects": ["@stone_path"],
+        "expects": "@stone_path",
         "required": true
       }
     ]

@@ -1,8 +1,8 @@
 [
   {
     "name": "grass_cliff_plain_1",
-    "rarity": 2000,
-    "rarity_usage_decrease": 100,
+    "rarity": 400,
+    "rarity_usage_decrease": 5,
     "width": 1,
     "height": 1,
     "structure": [
@@ -158,28 +158,30 @@
         "y": 0,
         "connection_direction": "south",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "east",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "west",
           "expects": "@grass_cliff_stone_s",
-        "required": true
+        "required": false
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "north",
         "expects": "@grass_cliff_stone_e",
-        "required": true
+        "required": false
       }
     ]
   },
@@ -198,28 +200,30 @@
         "y": 0,
         "connection_direction": "south",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "west",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "north",
         "expects": "@grass_cliff_stone_w",
-        "required": true
+        "required": false
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "east",
         "expects": "@grass_cliff_stone_s",
-        "required": true
+        "required": false
       }
     ]
   },
@@ -238,28 +242,30 @@
         "y": 0,
         "connection_direction": "north",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "west",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "south",
         "expects": "@grass_cliff_stone_w",
-        "required": true
+        "required": false
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "east",
         "expects": "@grass_cliff_stone_s",
-        "required": true
+        "required": false
       }
     ]
   },
@@ -278,34 +284,36 @@
         "y": 0,
         "connection_direction": "north",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "east",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "west",
         "expects": "@grass_cliff_stone_e",
-        "required": true
+        "required": false
       },
       {
         "x": 0,
         "y": 0,
         "connection_direction": "south",
         "expects": "@grass_cliff_stone_n",
-        "required": true
+        "required": false
       }
     ]
   },
   {
     "name": "grass_cliff_edge_s",
-    "rarity": 500,
+    "rarity": 100,
     "rarity_usage_decrease": 0,
     "width": 1,
     "height": 1,
@@ -318,7 +326,8 @@
         "y": 0,
         "connection_direction": "south",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
@@ -338,7 +347,7 @@
   },
   {
     "name": "grass_cliff_edge_w",
-    "rarity": 500,
+    "rarity": 100,
     "rarity_usage_decrease": 0,
     "width": 1,
     "height": 1,
@@ -351,7 +360,8 @@
         "y": 0,
         "connection_direction": "west",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
@@ -363,7 +373,7 @@
       {
         "x": 0,
         "y": 0,
-        "connection_direction": "north",
+        "connection_direction": "south",
         "expects": "@grass_cliff_stone_w",
         "required": false
       }
@@ -371,7 +381,7 @@
   },
   {
     "name": "grass_cliff_edge_n",
-    "rarity": 500,
+    "rarity": 100,
     "rarity_usage_decrease": 0,
     "width": 1,
     "height": 1,
@@ -384,7 +394,8 @@
         "y": 0,
         "connection_direction": "north",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,
@@ -404,7 +415,7 @@
   },
   {
     "name": "grass_cliff_edge_e",
-    "rarity": 500,
+    "rarity": 100,
     "rarity_usage_decrease": 0,
     "width": 1,
     "height": 1,
@@ -417,7 +428,8 @@
         "y": 0,
         "connection_direction": "east",
         "expects": "@grass_cliff_stone_full",
-        "required": true
+        "required": true,
+        "requiredOnInit": true
       },
       {
         "x": 0,

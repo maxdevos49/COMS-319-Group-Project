@@ -4,7 +4,7 @@
     "path": "grass_cliff.json",
     "generatesOn": "@grass_empty",
     "rarity": 30,
-    "maxParts": 150,
-    "minParts": 2
+    "maxParts": 800,
+    "minParts": 60
   }
 ]
