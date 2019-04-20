@@ -1,0 +1,121 @@
+[
+  {
+    "name": "barricade_straight_plate_connection_w",
+    "index": 120,
+    "groups": [
+      "@barricade_plate_connection_w",
+      "@barricade_connection_e"
+    ]
+  },
+  {
+    "name": "barricade_straight_plate_connection_n",
+    "index": 121,
+    "groups": [
+      "@barricade_plate_connection_n",
+      "@barricade_connection_s"
+    ],
+  },
+  {
+    "name": "barricade_straight_plate_connection_e",
+    "index": 122,
+    "groups": [
+      "@barricade_plate_connection_e",
+      "@barricade_connection_w"
+    ]
+  },
+  {
+    "name": "barricade_straight_plate_connection_s",
+    "index": 123,
+    "groups": [
+      "@barricade_plate_connection_s",
+      "@barricade_connection_n"
+    ]
+  },
+  {
+    "name": "barricade_t_plate_connection_e",
+    "index": 140,
+    "groups": [
+      "@barricade_plate_connection_e",
+      "@barricade_connection_s",
+      "@barricade_connection_n"
+    ]
+  },
+  {
+    "name": "barricade_t_plate_connection_s",
+    "index": 141,
+    "groups": [
+      "@barricade_plate_connection_s",
+      "@barricade_connection_e",
+      "@barricade_connection_w"
+    ]
+  },
+  {
+    "name": "barricade_t_plate_connection_w",
+    "index": 142,
+    "groups": [
+      "@barricade_plate_connection_w",
+      "@barricade_connection_s",
+      "@barricade_connection_n"
+    ]
+  },
+  {
+    "name": "barricade_t_plate_connection_n",
+    "index": 143,
+    "groups": [
+      "@barricade_plate_connection_n",
+      "@barricade_connection_e",
+      "@barricade_connection_w"
+    ]
+  },
+  {
+    "name": "barricade_straight_connection_ns",
+    "index": 160,
+    "groups": [
+      "@barricade_connection_s",
+      "@barricade_connection_n"
+    ]
+  },
+  {
+    "name": "barricade_straight_connection_ew",
+    "index": 161,
+    "groups": [
+      "@barricade_connection_e",
+      "@barricade_connection_w"
+    ]
+  },
+  {
+    "name": "barricade_end_e",
+    "index": 162,
+    "groups": [
+      "@barricade_connection_e"
+    ]
+  },
+  {
+    "name": "barricade_end_e",
+    "index": 163,
+    "groups": [
+      "@barricade_connection_e"
+    ]
+  },
+  {
+    "name": "barricade_end_s",
+    "index": 164,
+    "groups": [
+      "@barricade_connection_s"
+    ]
+  },
+  {
+    "name": "barricade_end_n",
+    "index": 165,
+    "groups": [
+      "@barricade_connection_n"
+    ]
+  },
+  {
+    "name": "barricade_end_w",
+    "index": 166,
+    "groups": [
+      "@barricade_connection_w"
+    ]
+  }
+]
