@@ -40,7 +40,11 @@
             "**/.classpath": true,
             "**/.project": true,
             "**/.settings": true,
-            "**/.factorypath": true
-        }
+            "**/.factorypath": true,
+	    "**/.editorconfig": true,
+	    "**/.gitlab-ci.yml": true, 
+	    "**/tsconfig.json": true,
+       	    "**/tsconfig.tsbuildinfo": true
+	}
     }
 }

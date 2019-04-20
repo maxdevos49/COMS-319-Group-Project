@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 
 const Schema = mongoose.Schema;
 
@@ -32,6 +31,13 @@ const AccountSchema = new Schema({
     role: {
         type: String,
         required: true
+    },
+    token: {
+        type: String
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
     },
     isActive: {
         type: Boolean,

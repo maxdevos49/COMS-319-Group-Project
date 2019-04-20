@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export default function(req: Request, res: Response, next: NextFunction) {
+export function authentication(req: Request, res: Response, next: NextFunction) {
     if (!req.session || !req.session.passport || !req.session.passport.user) {
         res.locals = {
             authentication: {

@@ -1,7 +1,6 @@
-import { Response } from "express";
 import bcrypt from "bcryptjs";
-import config from "../config";
-import { IAuthentication, IModelResult, IViewModel } from "./vash/vashInterface";
+import nodemailer from "nodemailer";
+import { config } from "../config";
 
 /**
  * Shared class for commonly reused code`
@@ -28,6 +27,43 @@ class Shared {
         return bcrypt.compareSync(str, hash);
     }
 
+    static async sendEmail(email: IEmail) {
+
+        let account = { user: "", pass: "" }
+        if (config.server.enviroment === "development") {
+            account = await nodemailer.createTestAccount();
+        } else {
+            account = {
+                user: config.email.username,
+                pass: config.email.password
+            }
+        }
+
+        let transporter = nodemailer.createTransport({
+            host: "smtp.ethereal.email",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: account.user,
+                pass: account.pass
+            }
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: '"BRTD@gmail.com" <BRTD@egmail.com>',
+            to: email.email,
+            subject: email.subject,
+            html: email.body
+        });
+
+        if (config.server.enviroment === "development") {
+            console.log("Message sent: %s", info.messageId);
+            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        }
+
+    }
+
     /**
      * Method designed to escape html in a string
      * @param text
@@ -46,33 +82,12 @@ class Shared {
             return map[m];
         });
     }
-
-    /**
-     * Creates a model for a view to use to display data
-     * @param givenResponse express response object
-     * @param givenModel
-     * @param givenData
-     * @returns an object containing all the information the view needs to function
-     */
-    static getModel(givenResponse: Response, givenModel?: IViewModel, givenData?: any): IModelResult {
-        //process auth
-        let modelResult: IModelResult = {
-            authentication: !givenResponse.locals.authentication ? { role: ["public"] } : givenResponse.locals.authentication
-        };
-
-        //process viewmodel
-        modelResult.viewModel = givenModel;
-
-        //process data
-        modelResult.data = givenData;
-
-        // process validation errors
-        if (givenResponse.locals.validation) {
-            modelResult.validation = givenResponse.locals.validation;
-        }
-
-        return modelResult;
-    }
 }
 
 export default Shared;
+
+export interface IEmail {
+    email: string;
+    subject: string;
+    body: string;
+}

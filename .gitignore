@@ -2,6 +2,7 @@
 *.js
 *.js.map
 *.js.min
+*.tsbuildinfo
 
 #Include lib js files
 !src/public/lib/**/*.js
@@ -20,3 +21,6 @@ bin
 
 # Webstorm
 .idea
+
+#VSCode
+.vscode

@@ -1,8 +1,9 @@
 import { GameConnection } from "../GameConnection.js";
-import {Player} from "../objects/Player.js";
+import { Player } from "../objects/Player.js";
+import { Bullet } from "../objects/Bullet.js";
 
 export class GameLoadScene extends Phaser.Scene {
-    
+
     /**
      * Socket Connection Object
      */
@@ -10,17 +11,22 @@ export class GameLoadScene extends Phaser.Scene {
 
     constructor() {
         super({ key: "GameLoadScene" });
-        this.gameSocket = new GameConnection();
     }
 
     preload(): void {
         this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
-        console.log(this.textures.list);
-        this.gameSocket.addNickName(this.registry.get("name"));
+        this.load.image("tiles", "/res/tiles.png");
+        this.gameSocket = new GameConnection();
     }
 
     create(): void {
         Player.createAnimations(this.anims);
-        this.scene.start("GameScene", this.gameSocket);
+        Bullet.createAnimations(this.anims);
+    }
+
+    update(): void {
+        if (this.gameSocket.ready) {
+            this.scene.start("GameScene", this.gameSocket);
+        }
     }
 }

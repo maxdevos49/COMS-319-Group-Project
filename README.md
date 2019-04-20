@@ -1,5 +1,7 @@
 # B.R.T.D. (Battle Royal Top Down Shooter)
 
+[GitLab badges](https://docs.gitlab.com/ee/user/project/badges.html) + [Shields.io](https://shields.io/)
+
 ### Authors:
  - Maxwell Devos
  - Mason Timmerman

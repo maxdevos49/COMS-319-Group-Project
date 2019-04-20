@@ -3,33 +3,29 @@ import mongoose from "mongoose";
 import socketIO from "socket.io";
 import http from "http";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
 import passport from "passport";
 import session from "express-session";
 
-import config from "./config";
-import { GameMatchmaking } from "./controllers/GameMatchmaking";
-import homeController from "./controllers/Home";
-import gameController from "./controllers/Game";
-import authController from "./controllers/Auth";
+import homeController from "./controllers/HomeController";
+import gameController from "./controllers/GameController";
+import authController from "./controllers/AuthController";
 
-import localStrat from "./middleware/passport";
-import authentication from "./middleware/authentication";
+import { localStrat } from "./middleware/passport";
+import { authentication } from "./middleware/authentication";
 
-import "./helpers/vash/helpers";
+import "./helpers/vash/lib/helpers";
+import { config } from "./config";
+import { GameMatchmaking } from "./game/GameMatchmaking";
 
 const router: express.Router = express.Router();
 
-export default function(server: http.Server) {
+export default function (server: http.Server) {
     //database
-    if (!config.database.dbUrl) throw "Database string is not valid";
     mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
 
     //passport
-    if (!config.session.secret) throw "Session secret is invalid";
-    router.use(session({ secret: config.session.secret, resave: false, saveUninitialized: false }));
-    // Make sure this comes after the express session
-
+    let sessionMiddleware = session({ secret: config.session.secret, resave: false, saveUninitialized: false });
+    router.use(sessionMiddleware);
     localStrat(passport);
 
     //middleware
@@ -41,7 +37,10 @@ export default function(server: http.Server) {
 
     //game controllers and sockets
     const io = socketIO(server);
-    const gamesController: GameMatchmaking = new GameMatchmaking(io);
+    io.use(function (socket, next) {
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
+    new GameMatchmaking(io);
 
     //web page controllers
     router.use("/Home", homeController);

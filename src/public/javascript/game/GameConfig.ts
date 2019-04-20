@@ -1,20 +1,24 @@
-import {BootScene} from "./scenes/BootScene.js";
-import {MainMenuScene} from "./scenes/MainMenuScene.js";
-import {GameScene} from "./scenes/GameScene.js";
-import {GameLoadScene} from "./scenes/GameLoadScene.js";
+import { BootScene } from "./scenes/BootScene.js";
+import { MainMenuScene } from "./scenes/MainMenuScene.js";
+import { GameScene } from "./scenes/GameScene.js";
+import { GameLoadScene } from "./scenes/GameLoadScene.js";
+import { ChatScene } from "./scenes/ChatScene.js";
 
 let gameConfig: GameConfig = {
-    title: "Example Game",
-    version: "0.1",
+    title: "B.R.T.D.",
+    version: "2.0.0",
     width: 1280,
     height: 720,
     type: Phaser.AUTO,
+    scale: {
+        mode: Phaser.Scale.FIT,
+    },
     parent: "game",
-    scene: [BootScene, MainMenuScene, GameLoadScene, GameScene],
+    scene: [BootScene, MainMenuScene, GameLoadScene, GameScene, ChatScene],
     physics: {
         default: "arcade",
         arcade: {
-            gravity: {x: 0, y: 0}
+            gravity: { x: 0, y: 0 }
         },
         debug: false
     },
@@ -22,4 +26,4 @@ let gameConfig: GameConfig = {
     backgroundColor: "#FFFFFF"
 };
 
-export {gameConfig};
+export { gameConfig };

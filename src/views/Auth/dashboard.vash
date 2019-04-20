@@ -5,30 +5,81 @@
         @{
             model.title = "Dashboard";
         }
-        <div class="container">
-            <br>
-            <h1>Dashboard coming soon</h1>
-            <br>
-            <br>
-            <br>
-            <p>Click here to play: <a href="/Game/">here</a></p>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
+
+        <div class="container col-md-10 p-4">
+
+            <!--Top Bar-->
+            <div class="col-md-12 p-4 m-2" style="box-shadow: 0px 0px 10px;">
+                <h1>Profile</h1>
+                <hr class="m-0 p-0"/>
+                <div class="row">
+
+                    <!--Left Side-->
+                    <div class="col-md-4 p-3">
+
+                        <!--Nickname-->
+                        <form method="POST" action="/auth/changeNickname" id="nicknameForm">
+                            <div class="p-1 class-group">
+                                @html.LabelFor(model => model.nickname)
+                                <div class="row">
+                                    @html.EditorFor(model => model.nickname, null, { readonly: "", class: "form-control col-md-10 m-1", autocomplete: "off" })
+                                    @html.Navigator(html.Edit, null, null, {class: "m-1", id:"nicknameLink"})
+                                    @html.Input(html.Save, null, {class: "m-1", style:"display: none", id:"nicknameSubmit"})
+                                </div>
+                                @html.ValidationMessageFor(model => model.nickname)
+                            </div>
+                        </form>
+
+                        <!--Email-->
+                        <div class="p-1">
+                            @html.LabelFor(model => model.email)
+                            <div class="row">
+                                @html.EditorFor(model => model.email, null, { readonly: "", class: "form-control col-md-10 m-1" })
+                                <a class="btn btn-primary m-1" href="/auth/confirmEmail"><i class="fa fa-info-circle fa-large" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Center-->
+                    <div class="col-md-4 p-3">
+                        <form method="POST" action="/auth/changePassword" id="passwordForm">
+                            <!--Password-->
+                            <div class="p-1 class-group">
+                                @html.LabelFor(model => model.password)
+                                <div class="row">
+                                    @html.PasswordBoxFor(model => model.password, null, { class: "form-control m-1" })
+                                </div>
+                                @html.ValidationMessageFor(model => model.password)
+                            </div>
+
+                            <!--Password Confirmation-->
+                            <div class="p-1">
+                                @html.LabelFor(model => model.passwordConfirmation)
+                                <div class="row">
+                                    @html.PasswordBoxFor(model => model.passwordConfirmation, null, { class: "form-control m-1" })
+                                </div>
+                                @html.ValidationMessageFor(model => model.passwordConfirmation)
+                            </div>
+
+                            @html.Input(html.Edit, "Reset Password", { class: "float-right"})
+                        </form>
+                    </div>
+
+                    <div class="col-md-4" style="text-align: center; display: flex; align-items: center">
+                        <a class="btn btn-success col-md-10" href="/Game/" style="font-size: 4em; margin: auto;">Play</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class=" col-md-12 p-4 m-2" style="box-shadow: 0 0 10px;">
+                <h2>Stats</h2>
+                <p>
+                    Display some player stats here. Maybe some pi charts or something of the likes for kd ratio. (<a href="https://www.chartjs.org">Chart.js</a>)
+                </p>
+            </div>
         </div>
 
+        <script type="module" src="/javascript/dashboard/dashboard.js" defer></script>
     })
 })

@@ -1,32 +1,38 @@
 import {expect} from "chai";
-import {b2Vec2} from "../../lib/box2d-physics-engine/Common/b2Math";
-import {b2World} from "../../lib/box2d-physics-engine/Dynamics/b2World";
-import {Player} from "../../src/controllers/simulation/Player";
-import {PlayerPositionUpdate} from "../../src/public/javascript/models/game/PlayerPositionUpdate";
+import {Player} from "../../src/game/simulation/objects/Player";
+import { GameSimulation } from "../../src/game/simulation/GameSimulation";
+import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 
 describe("Simulation Player Object", () => {
+    let simulation: GameSimulation;
+    let player: Player;
+    let otherPlayer: Player;
+
+    beforeEach(() => {
+    	simulation = new GameSimulation(new PlayerMoveUpdateQueue(1))
+        player = new Player(simulation, "testid1");
+        otherPlayer = new Player(simulation,"testid2");
+        simulation.nextFrame();
+    });
+
     it("Should create player located at 0,0", () => {
-        const gravity = new b2Vec2(0, 0);
-        const world = new b2World(gravity);
-        let player: Player = new Player("testid1", world);
-        expect(player.getBody().GetPosition()).to.have.property("x").that.equals(0);
-        expect(player.getBody().GetPosition()).to.have.property("y").that.equals(0);
+        expect(player.body.GetPosition()).to.have.property("x").that.equals(0);
+        expect(player.body.GetPosition()).to.have.property("y").that.equals(0);
     });
     it("Should return PostionUpdates with the given frame number", () => {
-        const gravity = new b2Vec2(0, 0);
-        const world = new b2World(gravity);
-        let player: Player = new Player("testid1", world);
         expect(player.getPositionUpdate(0)).to.have.property("frame").that.equals(0);
         expect(player.getPositionUpdate(100)).to.have.property("frame").that.equals(100);
     });
     it("Should return PositionUpdates that match the position of the player", () => {
-       const gravity = new b2Vec2(0, 0);
-       const world = new b2World(gravity);
-       let player: Player = new Player("testid1", world);
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(0);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(0);
-       player.getBody().SetPosition({x: 20, y: 20});
+       player.body.SetPosition({x: 20, y: 20});
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(20);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(20);
-   }) ;
+    });
+    it('Should detect when its shape collides with another shape', () => {
+        // The second player should spawn in the same location as the first
+        // player. Therefore, there should be a collision.
+        expect(player.body.GetContactList()).to.exist;
+    });
 });

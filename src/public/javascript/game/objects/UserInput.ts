@@ -1,12 +1,9 @@
-import {Player} from "../objects/Player.js";
-import {GameScene} from "../scenes/GameScene";
-import { PlayerMoveDirection, PlayerMoveUpdate } from "../../models/game/PlayerMoveUpdate.js";
+import { Player } from "../objects/Player.js";
+import { GameScene } from "../scenes/GameScene";
+import { PlayerMoveDirection, PlayerMoveUpdate } from "../models/PlayerMoveUpdate.js";
+import { GameObject } from "./GameObject";
 
 export class UserInput {
-    /**
-     * A reference to the player that this user input is moving
-     */
-    public player: Player;
     /**
      * The W key
      */
@@ -48,15 +45,17 @@ export class UserInput {
      */
     private camera: Phaser.Cameras.Scene2D.Camera;
 
+    private scene: Phaser.Scene;
+
     /**
      * Creates a UserInput object that handles input from the user.
-     * 
+     *
      * @param scene the scene the player is in
      * @param player the player to be moved
      */
-    constructor(scene: GameScene, player: Player) {
-        this.player = player;
+    constructor(scene: GameScene) {
         this.camera = scene.cameras.main;
+        this.scene = scene;
         // Keyboard inputs
         this.keyW = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -71,35 +70,39 @@ export class UserInput {
     }
 
     checkDirection(): PlayerMoveDirection {
-        if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {           // UP RIGHT
-            return PlayerMoveDirection.UpRight;
-        } else if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {     // UP LEFT
-            return PlayerMoveDirection.UpLeft;
-        } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {   // DOWN LEFT
-            return PlayerMoveDirection.DownLeft;
-        } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {  // DOWN RIGHT
-            return PlayerMoveDirection.DownRight;
-        } else if (this.keyW.isDown || this.keyUp.isDown) {     // UP
-            return PlayerMoveDirection.Up;
-        } else if (this.keyA.isDown || this.keyLeft.isDown) {   // LEFT
-            return PlayerMoveDirection.Left;
-        } else if (this.keyS.isDown || this.keyDown.isDown) {   // DOWN
-            return PlayerMoveDirection.Down;
-        } else if (this.keyD.isDown || this.keyRight.isDown) {  // RIGHT
-            return PlayerMoveDirection.Right;
+        if (this.scene.input.enabled) {
+            if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {           // UP RIGHT
+                return PlayerMoveDirection.UpRight;
+            } else if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {     // UP LEFT
+                return PlayerMoveDirection.UpLeft;
+            } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {   // DOWN LEFT
+                return PlayerMoveDirection.DownLeft;
+            } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {  // DOWN RIGHT
+                return PlayerMoveDirection.DownRight;
+            } else if (this.keyW.isDown || this.keyUp.isDown) {     // UP
+                return PlayerMoveDirection.Up;
+            } else if (this.keyA.isDown || this.keyLeft.isDown) {   // LEFT
+                return PlayerMoveDirection.Left;
+            } else if (this.keyS.isDown || this.keyDown.isDown) {   // DOWN
+                return PlayerMoveDirection.Down;
+            } else if (this.keyD.isDown || this.keyRight.isDown) {  // RIGHT
+                return PlayerMoveDirection.Right;
+            } else {
+                return PlayerMoveDirection.None;
+            }
         } else {
             return PlayerMoveDirection.None;
         }
     }
 
-    public getMoveUpdateFromInput(): PlayerMoveUpdate {
+    public getMoveUpdateFromInput(id: string, anchor: GameObject): PlayerMoveUpdate {
         // Can't use world x/y because they don't update often enough
         let mouseX = this.mousePointer.x + this.camera.worldView.x;
         let mouseY = this.mousePointer.y + this.camera.worldView.y;
         // Y coordinates are flipped
-        let angleFromPlayer = Math.atan2(this.player.y - mouseY, this.player.x - mouseX) - (Math.PI / 2);
+        let angleFromPlayer = Math.atan2(mouseY - anchor.y, mouseX - anchor.x);
 
-        return new PlayerMoveUpdate(this.player.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection());
+        return new PlayerMoveUpdate(anchor.id, 0, angleFromPlayer, this.mousePointer.active, this.checkDirection(), this.mousePointer.isDown);
     }
-    
+
 }
