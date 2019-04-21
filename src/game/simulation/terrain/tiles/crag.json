@@ -4,97 +4,111 @@
     "index": 131,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_2",
     "index": 132,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_3",
     "index": 133,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_4",
     "index": 134,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_5",
     "index": 135,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_6",
     "index": 136,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_7",
     "index": 137,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_8",
     "index": 138,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_9",
     "index": 139,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_10",
     "index": 158,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_11",
     "index": 159,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_12",
     "index":  117,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_13",
     "index":  118,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "crag_14",
     "index":  119,
     "groups": [
       "@crag_empty"
-    ]
+    ],
+    "layer": "ground"
   }
 ]

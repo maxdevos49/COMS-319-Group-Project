@@ -5,7 +5,8 @@
     "groups": [
       "@barricade_plate_connection_w",
       "@barricade_connection_e"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_straight_plate_connection_n",
@@ -13,7 +14,8 @@
     "groups": [
       "@barricade_plate_connection_n",
       "@barricade_connection_s"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_straight_plate_connection_e",
@@ -21,7 +23,8 @@
     "groups": [
       "@barricade_plate_connection_e",
       "@barricade_connection_w"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_straight_plate_connection_s",
@@ -29,7 +32,8 @@
     "groups": [
       "@barricade_plate_connection_s",
       "@barricade_connection_n"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_t_plate_connection_e",
@@ -38,7 +42,8 @@
       "@barricade_plate_connection_e",
       "@barricade_connection_s",
       "@barricade_connection_n"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_t_plate_connection_s",
@@ -47,7 +52,8 @@
       "@barricade_plate_connection_s",
       "@barricade_connection_e",
       "@barricade_connection_w"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_t_plate_connection_w",
@@ -56,7 +62,8 @@
       "@barricade_plate_connection_w",
       "@barricade_connection_s",
       "@barricade_connection_n"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_t_plate_connection_n",
@@ -65,7 +72,8 @@
       "@barricade_plate_connection_n",
       "@barricade_connection_e",
       "@barricade_connection_w"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_straight_connection_ns",
@@ -73,7 +81,8 @@
     "groups": [
       "@barricade_connection_s",
       "@barricade_connection_n"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_straight_connection_ew",
@@ -81,34 +90,39 @@
     "groups": [
       "@barricade_connection_e",
       "@barricade_connection_w"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_end_e",
     "index": 162,
     "groups": [
       "@barricade_connection_e"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_end_s",
     "index": 163,
     "groups": [
       "@barricade_connection_s"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_end_n",
     "index": 164,
     "groups": [
       "@barricade_connection_n"
-    ]
+    ],
+    "layer": "wall"
   },
   {
     "name": "barricade_end_w",
     "index": 165,
     "groups": [
       "@barricade_connection_w"
-    ]
+    ],
+    "layer": "wall"
   }
 ]

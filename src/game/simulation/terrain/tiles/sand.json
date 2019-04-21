@@ -1,26 +1,50 @@
 [
   {
     "name": "sand_1",
-    "index": 8
+    "index": 8,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "wall"
   },
   {
     "name": "sand_2",
-    "index": 9
+    "index": 9,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "wall"
   },
   {
     "name": "sand_3",
-    "index": 10
+    "index": 10,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "wall"
   },
   {
     "name": "sand_4",
-    "index": 11
+    "index": 11,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "wall"
   },
   {
     "name": "sand_5",
-    "index": 12
+    "index": 12,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "wall"
   },
   {
     "name": "sand_6",
-    "index": 13
+    "index": 13,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "wall"
   }
 ]

@@ -4,70 +4,80 @@
     "index": 20,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_2",
     "index": 21,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_3",
     "index": 15,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_4",
     "index": 16,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_5",
     "index": 17,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_6",
     "index": 18,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_7",
     "index": 34,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_8",
     "index": 35,
     "groups": [
       "@grass_empty"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_1",
     "index": 151,
     "groups": [
       "@grass_cliff_stone_full"
-    ]
+    ],
+    "layer": "hole"
   },
   {
     "name": "grass_cliff_2",
     "index": 152,
     "groups": [
       "@grass_cliff_stone_full"
-    ]
+    ],
+    "layer": "hole"
   },
   {
     "name": "grass_cliff_end_w",
@@ -76,7 +86,8 @@
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w",
       "@grass_cliff_stone_n"
-    ]
+    ],
+    "layer": "hole"
   },
   {
     "name": "grass_cliff_end_s",
@@ -85,7 +96,8 @@
       "@grass_cliff_stone_e",
       "@grass_cliff_stone_w",
       "@grass_cliff_stone_n"
-    ]
+    ],
+    "layer": "hole"
   },
   {
     "name": "grass_cliff_end_n",
@@ -94,7 +106,8 @@
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w",
       "@grass_cliff_stone_2"
-    ]
+    ],
+    "layer": "hole"
   },
   {
     "name": "grass_cliff_end_e",
@@ -103,7 +116,8 @@
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w",
       "@grass_cliff_stone_n"
-    ]
+    ],
+    "layer": "hole"
   },
   {
     "name": "grass_cliff_ocorner_1_se",
@@ -111,7 +125,8 @@
     "groups": [
       "@grass_cliff_stone_e",
       "@grass_cliff_stone_s"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_ocorner_1_sw",
@@ -119,7 +134,8 @@
     "groups": [
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_ocorner_1_nw",
@@ -127,7 +143,8 @@
     "groups": [
       "@grass_cliff_stone_n",
       "@grass_cliff_stone_w"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_ocorner_1_ne",
@@ -135,7 +152,8 @@
     "groups": [
       "@grass_cliff_stone_n",
       "@grass_cliff_stone_e"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_ocorner_2_ne",
@@ -158,27 +176,31 @@
     "index": 196,
     "groups": [
       "@grass_cliff_stone_s"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_edge_w",
     "index": 197,
     "groups": [
       "@grass_cliff_stone_w"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_edge_n",
     "index": 198,
     "groups": [
       "@grass_cliff_stone_n"
-    ]
+    ],
+    "layer": "ground"
   },
   {
     "name": "grass_cliff_edge_e",
     "index": 199,
     "groups": [
       "@grass_cliff_stone_e"
-    ]
+    ],
+    "layer": "ground"
   }
 ]
