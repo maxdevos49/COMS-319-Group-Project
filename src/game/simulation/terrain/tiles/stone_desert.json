@@ -1,0 +1,44 @@
+[
+  {
+    "name": "stone_desert_1",
+    "index": 22,
+    "groups": [
+      "@stone_desert_empty"
+    ]
+  },
+  {
+    "name": "stone_desert_2",
+    "index": 23,
+    "groups": [
+      "@stone_desert_empty"
+    ]
+  },
+  {
+    "name": "stone_desert_3",
+    "index": 24,
+    "groups": [
+      "@stone_desert_empty"
+    ]
+  },
+  {
+    "name": "stone_desert_4",
+    "index": 25,
+    "groups": [
+      "@stone_desert_empty"
+    ]
+  },
+  {
+    "name": "stone_desert_5",
+    "index": 26,
+    "groups": [
+      "@stone_desert_empty"
+    ]
+  },
+  {
+    "name": "stone_desert_6",
+    "index": 27,
+    "groups": [
+      "@stone_desert_empty"
+    ]
+  }
+]

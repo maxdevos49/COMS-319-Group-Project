@@ -13,7 +13,7 @@
     "groups": [
       "@barricade_plate_connection_n",
       "@barricade_connection_s"
-    ],
+    ]
   },
   {
     "name": "barricade_straight_plate_connection_e",
@@ -91,29 +91,22 @@
     ]
   },
   {
-    "name": "barricade_end_e",
-    "index": 163,
-    "groups": [
-      "@barricade_connection_e"
-    ]
-  },
-  {
     "name": "barricade_end_s",
-    "index": 164,
+    "index": 163,
     "groups": [
       "@barricade_connection_s"
     ]
   },
   {
     "name": "barricade_end_n",
-    "index": 165,
+    "index": 164,
     "groups": [
       "@barricade_connection_n"
     ]
   },
   {
     "name": "barricade_end_w",
-    "index": 166,
+    "index": 165,
     "groups": [
       "@barricade_connection_w"
     ]

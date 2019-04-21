@@ -15,7 +15,7 @@ import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
 
 export class TerrainGenerator {
-    private static chunkSize: number = 64;
+    private static chunkSize: number = 100;
     private static partAttemptPlaceLimit: number = 50;
 
     public static generateTerrain(simulation: GameSimulation, map: TerrainMap) {
@@ -55,7 +55,7 @@ export class TerrainGenerator {
                         let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length), false);
                         if (!cp || requiredFilled) {
                             if (constructionManager.placedParts.length < toAttempt.minParts) {
-                                if (constructionManager.placedParts.length <= 1) break;
+                                if (constructionManager.placedParts.length <= 4) break;
                                 constructionManager.revertMoves(4);
                                 attemptLimit--;
                                 if (attemptLimit < 0) {

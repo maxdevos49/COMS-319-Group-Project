@@ -1,8 +1,8 @@
 [
   {
     "name": "grass_cliff",
-    "path": "grass_cliff.json",
-    "generatesOn": "@grass_empty",
+    "path": "metal_barricade.json",
+    "generatesOn": "@crag_empty",
     "rarity": 30,
     "maxParts": 800,
     "minParts": 60
