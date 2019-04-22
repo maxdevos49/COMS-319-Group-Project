@@ -222,7 +222,7 @@ export class Player extends GameObject implements IHealth {
     public takeDamage(damage: number) {
         this.health -= damage;
         if (this.health <= 0) {
-            this.destroy();
+            this.simulation.destroyGameObject(this.id);
         }
     }
 }

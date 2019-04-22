@@ -13,6 +13,12 @@ describe("Simulation Player Object", () => {
         simulation = new GameSimulation(new PlayerMoveUpdateQueue(1))
         player = new Player(simulation, "testid1");
         otherPlayer = new Player(simulation,"testid2");
+        // I am adding the players to the simulation manually instead of
+        // using the addPlayer() method because it requires the smallest
+        // change in code to make the tests pass. We could also return a
+        // reference to the newly created Player from the addPlayer() method.
+        simulation.addGameObject(player);
+        simulation.addGameObject(otherPlayer);
         simulation.nextFrame();
     });
 
