@@ -70,5 +70,37 @@
       "@stone_path"
     ],
     "layer": "ground"
+  },
+  {
+    "name": "stone_rock_path_1",
+    "id": 100,
+    "groups": [
+      "@stone_rock_path"
+    ],
+    "layer": "scenery"
+  },
+  {
+    "name": "stone_rock_path_2",
+    "id": 101,
+    "groups": [
+      "@stone_rock_path"
+    ],
+    "layer": "scenery"
+  },
+  {
+    "name": "stone_rock_path_3",
+    "id": 102,
+    "groups": [
+      "@stone_rock_path"
+    ],
+    "layer": "scenery"
+  },
+  {
+    "name": "stone_rock_path_4",
+    "id": 103,
+    "groups": [
+      "@stone_rock_path"
+    ],
+    "layer": "scenery"
   }
 ]

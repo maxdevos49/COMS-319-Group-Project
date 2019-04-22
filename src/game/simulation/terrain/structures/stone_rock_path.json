@@ -1,0 +1,406 @@
+[
+  {
+    "name": "stone_rock_path_4_way",
+    "rarity": 5,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_t_wne",
+    "rarity": 5,
+    "rarity_usage_decrease": 5,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_t_nes",
+    "rarity": 5,
+    "rarity_usage_decrease": 5,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_t_esw",
+    "rarity": 5,
+    "rarity_usage_decrease": 5,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_t_swn",
+    "rarity": 5,
+    "rarity_usage_decrease": 5,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_end_n",
+    "rarity": 10,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_end_e",
+    "rarity": 10,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_end_s",
+    "rarity": 10,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_end_w",
+    "rarity": 10,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_ns_1",
+    "rarity": 150,
+    "rarity_usage_decrease": 10,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_2"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_ns",
+    "rarity": 150,
+    "rarity_usage_decrease": 10,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_ns_3",
+    "rarity": 150,
+    "rarity_usage_decrease": 10,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_4"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_ew_1",
+    "rarity": 150,
+    "rarity_usage_decrease": 10,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_1"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_ew_3",
+    "rarity": 150,
+    "rarity_usage_decrease": 10,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_3"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "stone_rock_path_ew_4",
+    "rarity": 150,
+    "rarity_usage_decrease": 10,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["stone_rock_path_4"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@stone_rock_path",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@stone_rock_path",
+        "required": true
+      }
+    ]
+  }
+]

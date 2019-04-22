@@ -157,13 +157,16 @@ export class TerrainMap {
 
     /**
      * Sets the tile index at the given layer and coordinate
-     * @param layerName The name of the layer to set the tile of
+     * @param layerName The name of the layer to set the tile of allowing a '&' delimited list of layers
      * @param x The x coordinate of the tile to set in the given layer
      * @param y The y coordinate of the tile to set in the given layer
      * @param index The index to set the tile to
      */
     public setBlock(layerName: string, x: number, y: number, index: number): void {
-        let layer = this.layers[this.layerNameToIndex.get(layerName)];
-        layer.data[(y * layer.width) + x] = index;
+        let layerNames: string[] = layerName.split("&");
+        layerNames.forEach((name => {
+            let layer = this.layers[this.layerNameToIndex.get(name)];
+            layer.data[(y * layer.width) + x] = index;
+        }));
     }
 }

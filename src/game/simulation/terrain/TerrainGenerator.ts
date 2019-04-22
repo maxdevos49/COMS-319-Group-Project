@@ -14,7 +14,7 @@ import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
 
 export class TerrainGenerator {
-    private static chunkSize: number = 100;
+    private static chunkSize: number = 200;
     private static partAttemptPlaceLimit: number = 50;
 
     public static generateTerrain(simulation: GameSimulation, width: number, height: number): TerrainMap {
@@ -37,7 +37,7 @@ export class TerrainGenerator {
             }
         }
 
-        while (true) {
+        for (let structurePlaceAttempts = 0; structurePlaceAttempts < 1500; structurePlaceAttempts++) {
             let attemptLimit: number = 1200;
             // Select a random structure
             let toAttempt: IStructure = structures[Math.floor(Math.random() * structures.length)];
@@ -50,7 +50,6 @@ export class TerrainGenerator {
                 // Select a random part and attempt to place it as the root
                 let constructionManager: StructureConstructor = new StructureConstructor(toAttempt, map, tiles);
                 if (constructionManager.setRoot(this.randomStructurePart(parts, []), structCenterX, structCenterY)) {
-                    console.log("hello");
                     // Loop until all of the connection points have been filled
                     let structureCompleted = false;
                     while (true) {
@@ -108,9 +107,8 @@ export class TerrainGenerator {
                     }
                     //console.log(structureCompleted + " " + constructionManager.openConnectionPoints.length + " " + constructionManager.placedParts.length);
                     if (structureCompleted && constructionManager.placedParts.length >= toAttempt.minParts) {
-                        console.log(structCenterX + " " + structCenterY + " " + constructionManager.placedParts.length);
+                        console.log(toAttempt.name + " " + structCenterX + " " + structCenterY + " " + constructionManager.placedParts.length);
                         constructionManager.commit();
-                        break;
                     }
                 }
             }
@@ -157,7 +155,7 @@ export class TerrainGenerator {
         regions.forEach((region) => {
             let distTemp = region.temperature - temp;
             let distHumidity = region.humidity - humidity;
-            let distance =  (distTemp * distTemp) + (distHumidity * distHumidity);
+            let distance =  (Math.min(distTemp, distHumidity) * Math.min(distTemp, distHumidity)) + (Math.max(distTemp, distHumidity));
             if (curBestDistance > distance) {
                curBest = region;
                curBestDistance = distance;

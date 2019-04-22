@@ -59,6 +59,7 @@ export class GameScene extends Phaser.Scene {
         console.log(this.connection.map);
         this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
         this.cameras.main.startFollow(this.cameraFollowPoint);
+        this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
     }
 
     create(): void {
@@ -67,7 +68,9 @@ export class GameScene extends Phaser.Scene {
         let tileset = this.tileMap.addTilesetImage("tiles", "tiles");
 	    this.connection.map.layers.forEach((layer) => {
             this.tileMap.createDynamicLayer(layer.name, tileset, 0, 0);
-        })
+        });
+        // @ts-ignore
+        this.animatedTiles.init(this.tileMap);
     }
 
     update(timestep: number, elapsed: number): void {

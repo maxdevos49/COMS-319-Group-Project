@@ -11,8 +11,8 @@
       {"name": "grass_7", "rarity": 100},
       {"name": "grass_8", "rarity": 100}
     ],
-    "humidity": 50,
-    "temperature": 30
+    "humidity": 62,
+    "temperature": 35
   },
   {
     "name": "crag",
@@ -31,8 +31,8 @@
       {"name": "crag_12", "rarity": 100},
       {"name": "crag_13", "rarity": 100}
     ],
-    "humidity": 30,
-    "temperature": 45
+    "humidity": 65,
+    "temperature": 70
   },
   {
     "name": "desert",
@@ -52,8 +52,8 @@
       {"name": "desert_13", "rarity": 5},
       {"name": "desert_14", "rarity": 5}
     ],
-    "humidity": 30,
-    "temperature": 65
+    "humidity": 35,
+    "temperature": 80
   },
   {
     "name": "stone_desert",
@@ -65,7 +65,28 @@
       {"name": "stone_desert_5", "rarity": 100},
       {"name": "stone_desert_6", "rarity": 100}
     ],
-    "humidity": 30,
-    "temperature": 56
+    "humidity": 40,
+    "temperature": 75
+  },
+  {
+    "name": "water",
+    "tiles": [
+      {"name": "water", "rarity": 100}
+    ],
+    "humidity": 64,
+    "temperature": 35
+  },
+  {
+    "name": "sand",
+    "tiles": [
+      {"name": "sand_1", "rarity": 100},
+      {"name": "sand_2", "rarity": 50},
+      {"name": "sand_3", "rarity": 5},
+      {"name": "sand_4", "rarity": 100},
+      {"name": "sand_5", "rarity": 20},
+      {"name": "sand_6", "rarity": 5}
+    ],
+    "humidity": 63,
+    "temperature": 35
   }
 ]

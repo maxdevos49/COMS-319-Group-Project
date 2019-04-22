@@ -333,7 +333,7 @@
   },
   {
     "name": "Corner se",
-    "rarity": 20,
+    "rarity": 10,
     "rarity_usage_decrease": 8,
     "width": 4,
     "height": 4,
@@ -362,7 +362,7 @@
   },
   {
     "name": "Corner ne",
-    "rarity": 20,
+    "rarity": 10,
     "rarity_usage_decrease": 8,
     "width": 4,
     "height": 4,
@@ -391,7 +391,7 @@
   },
   {
     "name": "Corner nw",
-    "rarity": 20,
+    "rarity": 10,
     "rarity_usage_decrease": 8,
     "width": 4,
     "height": 4,
@@ -420,7 +420,7 @@
   },
   {
     "name": "Corner sw",
-    "rarity": 20,
+    "rarity": 10,
     "rarity_usage_decrease": 8,
     "width": 4,
     "height": 4,

@@ -7,6 +7,8 @@
     "stone_desert.json",
     "stone_path.json",
     "metal_barricade.json",
-    "mossy_bush.json"
+    "mossy_bush.json",
+    "shrubbery.json",
+    "water.json"
   ]
 }

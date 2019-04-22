@@ -34,7 +34,6 @@ export class StructureConstructor {
             for (let y = placed.y; y < (placed.y + placed.template.height); y++) {
                 for (let x = placed.x; x < (placed.x + placed.template.width); x++) {
                     if (placed.template.structure[y - placed.y][x - placed.x] !== "") {
-                        console.log(placed.template.structure[y - placed.y][x - placed.x]);
                         let tile: ITile = this.tiles.tiles_name.get(placed.template.structure[y - placed.y][x - placed.x]);
                         this.map.setBlock(tile.layer, x, y, tile.id);
                     }
