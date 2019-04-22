@@ -1,0 +1,51 @@
+[
+  {
+    "name": "mossy_bush_1",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 2,
+    "height": 2,
+    "structure": [
+      ["mossy_bush_1_00", "mossy_bush_1_01"],
+      ["mossy_bush_1_10", "mossy_bush_1_11"]
+    ],
+    "connections": [ ]
+  },
+  {
+    "name": "mossy_bush_2",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 2,
+    "height": 2,
+    "structure": [
+      ["mossy_bush_2_00", "mossy_bush_2_01"],
+      ["mossy_bush_2_10", "mossy_bush_2_11"]
+    ],
+    "connections": [ ]
+  },
+  {
+    "name": "mossy_bush_3",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 2,
+    "height": 1,
+    "structure": [
+      ["mossy_bush_3_0", "mossy_bush_3_1"]
+    ],
+    "connections": [ ]
+  },
+  {
+    "name": "mossy_bush_2",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 4,
+    "height": 4,
+    "structure": [
+      ["", "", "mossy_bush_4_02", "mossy_bush_4_03"],
+      ["", "mossy_bush_4_11", "mossy_bush_4_12", "mossy_bush_4_13"],
+      ["mossy_bush_4_20", "mossy_bush_4_21", "mossy_bush_4_22", "mossy_bush_4_23"],
+      ["mossy_bush_4_30", "mossy_bush_4_31", "mossy_bush_4_32", ""]
+    ],
+    "connections": [ ]
+  }
+]

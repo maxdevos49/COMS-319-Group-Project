@@ -107,7 +107,7 @@ export class TerrainGenerator {
                         }
                     }
                     //console.log(structureCompleted + " " + constructionManager.openConnectionPoints.length + " " + constructionManager.placedParts.length);
-                    if (structureCompleted && constructionManager.placedParts.length > toAttempt.minParts) {
+                    if (structureCompleted && constructionManager.placedParts.length >= toAttempt.minParts) {
                         console.log(structCenterX + " " + structCenterY + " " + constructionManager.placedParts.length);
                         constructionManager.commit();
                         break;
