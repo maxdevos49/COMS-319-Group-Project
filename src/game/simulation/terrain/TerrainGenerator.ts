@@ -1,14 +1,13 @@
 import { TerrainMap } from "../../../public/javascript/game/models/TerrainMap";
 import { GameSimulation } from "../GameSimulation";
 import * as fs from "fs";
-import { ITile, ITileOption } from "./tiles/ITile";
+import { ITile, ITileLayer, ITileOption } from "./tiles/ITile";
 import * as path from "path";
 import { IRegion } from "./IRegion";
 import { NoiseMap } from "./NoiseMap";
 import {
     IPlacedStructurePartConnection,
     IStructure,
-    IStructureConnection,
     IStructurePart
 } from "./structures/IStructure";
 import { TileDictionary } from "./tiles/TileDictionary";
@@ -18,10 +17,13 @@ export class TerrainGenerator {
     private static chunkSize: number = 100;
     private static partAttemptPlaceLimit: number = 50;
 
-    public static generateTerrain(simulation: GameSimulation, map: TerrainMap) {
+    public static generateTerrain(simulation: GameSimulation, width: number, height: number): TerrainMap {
+        let layers: ITileLayer[] = this.loadAllLayers();
         let tiles:TileDictionary = this.loadAllTiles();
         let regions: IRegion[] = this.loadAllRegions();
         let structures: IStructure[] = this.loadAllStructures();
+
+        let map = new TerrainMap(width, height, 32, 32, layers, tiles.tiles);
 
         let temperatureMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
         let humidityMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
@@ -30,7 +32,8 @@ export class TerrainGenerator {
         for (let y = 0; y < map.height; y++) {
             for (let x = 0; x < map.width; x++) {
                 let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
-                map.data[y][x] = tiles.tiles_name.get(this.randomTile(region.tiles).name).index;
+                let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
+                map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
             }
         }
 
@@ -112,6 +115,8 @@ export class TerrainGenerator {
                 }
             }
         }
+
+        return map;
     }
 
     public static randomStructurePart(options: IStructurePart[], alreadyAttempted: IStructurePart[]) {
@@ -160,6 +165,10 @@ export class TerrainGenerator {
         });
 
         return curBest;
+    }
+
+    public static loadAllLayers(): ITileLayer[] {
+        return JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "layers.json"), "utf8")) as ITileLayer[];
     }
 
     public static loadAllTiles(): TileDictionary {

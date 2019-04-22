@@ -1,7 +1,7 @@
 [
   {
     "name": "stone_path_corner_se",
-    "index": 14,
+    "id": 14,
     "groups": [
       "@stone_path"
     ],
@@ -9,7 +9,7 @@
   },
   {
     "name": "stone_path_corner_sw",
-    "index": 1,
+    "id": 1,
     "groups": [
       "@stone_path"
     ],
@@ -17,7 +17,7 @@
   },
   {
     "name": "stone_path_corner_nw",
-    "index": 2,
+    "id": 2,
     "groups": [
       "@stone_path"
     ],
@@ -25,7 +25,7 @@
   },
   {
     "name": "stone_path_corner_ne",
-    "index": 3,
+    "id": 3,
     "groups": [
       "@stone_path"
     ],
@@ -33,7 +33,7 @@
   },
   {
     "name": "stone_path_edge_n",
-    "index": 4,
+    "id": 4,
     "groups": [
       "@stone_path"
     ],
@@ -41,7 +41,7 @@
   },
   {
     "name": "stone_path_edge_e",
-    "index": 5,
+    "id": 5,
     "groups": [
       "@stone_path"
     ],
@@ -49,7 +49,7 @@
   },
   {
     "name": "stone_path_edge_s",
-    "index": 6,
+    "id": 6,
     "groups": [
       "@stone_path"
     ],
@@ -57,7 +57,7 @@
   },
   {
     "name": "stone_path_edge_w",
-    "index": 7,
+    "id": 7,
     "groups": [
       "@stone_path"
     ],
@@ -65,7 +65,7 @@
   },
   {
     "name": "stone_path_center",
-    "index": 19,
+    "id": 19,
     "groups": [
       "@stone_path"
     ],

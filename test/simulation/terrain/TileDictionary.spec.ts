@@ -5,14 +5,16 @@ import { TileDictionary } from "../../../src/game/simulation/terrain/tiles/TileD
 describe("Tile Dictionary", () => {
     let tiles: ITile[] = [
         {
-            index: 1,
+            id: 1,
             name: "testtile1",
-            groups: ["@testgroup1", "@testgroup2"]
+            groups: ["@testgroup1", "@testgroup2"],
+            layer: "testlayer1"
         },
         {
-            index: 2,
+            id: 2,
             name: "testtile2",
-            groups: ["@testgroup2"]
+            groups: ["@testgroup2"],
+            layer: "testlayer1"
         }
     ];
 
@@ -23,7 +25,7 @@ describe("Tile Dictionary", () => {
 
     it("Should fill both maps with the given tiles", () => {
         expect(tileDict.tiles_name.size).equals(tiles.length);
-        expect(tileDict.tiles_index.size).equals(tiles.length);
+        expect(tileDict.tiles_id.size).equals(tiles.length);
     });
 
     it("Should fill name map with name to ITiles", () => {
@@ -33,9 +35,9 @@ describe("Tile Dictionary", () => {
     });
 
     it("Should fill index map with index to ITiles", () => {
-        expect(tileDict.tiles_index.get(1)).is.not.undefined;
-        expect(tileDict.tiles_index.get(2)).is.not.undefined;
-        expect(tileDict.tiles_index.get(3)).is.undefined;
+        expect(tileDict.tiles_id.get(1)).is.not.undefined;
+        expect(tileDict.tiles_id.get(2)).is.not.undefined;
+        expect(tileDict.tiles_id.get(3)).is.undefined;
     });
 
     it("isTileInGroup() should identify whether a given tile by name is in a group", () => {

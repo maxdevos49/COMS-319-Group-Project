@@ -17,19 +17,22 @@ describe("Structure Constructor", () => {
     beforeEach(() => {
         tiles = [
             {
-                index: 0,
+                id: 0,
                 name: "testbackingtile",
-                groups: ["@testbackingtile"]
+                groups: ["@testbackingtile"],
+                layer: "testlayer1"
             },
             {
-                index: 1,
+                id: 1,
                 name: "testtile1",
-                groups: ["@testgroup1", "@testgroup2"]
+                groups: ["@testgroup1", "@testgroup2"],
+                layer: "testlayer1"
             },
             {
-                index: 2,
+                id: 2,
                 name: "testtile2",
-                groups: ["@testgroup2"]
+                groups: ["@testgroup2"],
+                layer: "testlayer1"
             }
         ];
 
@@ -126,7 +129,7 @@ describe("Structure Constructor", () => {
         };
 
         tileDict = new TileDictionary(tiles);
-        map = new TerrainMap(100, 100, 0, 10, 10);
+        map = new TerrainMap(100, 100, 10, 20, [{name:"testlayer1", level: 0}], tiles);
         structConstr = new StructureConstructor(struct, map, tileDict);
     });
 
@@ -327,10 +330,10 @@ describe("Structure Constructor", () => {
 
     it("Should place blocks on terrain map with the commit call", () => {
         structConstr.setRoot(part1, 10, 20);
-        expect(map.data[20][10]).to.equal(0);
-        expect(map.data[20][11]).to.equal(0);
+        expect(map.getHighestTile(10, 20)).to.equal(0);
+        expect(map.getHighestTile(11, 20)).to.equal(0);
         structConstr.commit();
-        expect(map.data[20][10]).to.equal(1);
-        expect(map.data[20][11]).to.equal(0);
+        expect(map.getHighestTile(10, 20)).to.equal(1);
+        expect(map.getHighestTile(10, 20)).to.equal(0);
     });
 });

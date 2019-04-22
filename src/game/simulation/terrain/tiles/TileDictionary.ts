@@ -2,15 +2,17 @@ import { ITile } from "./ITile";
 
 export class TileDictionary {
     public tiles_name: Map<string, ITile>;
-    public tiles_index: Map<number, ITile>;
+    public tiles_id: Map<number, ITile>;
+    public tiles: ITile[];
 
     constructor(tiles: ITile[]) {
+        this.tiles = tiles;
         this.tiles_name = new Map<string, ITile>();
-        this.tiles_index = new Map<number, ITile>();
+        this.tiles_id = new Map<number, ITile>();
 
         tiles.forEach((tile) => {
            this.tiles_name.set(tile.name, tile);
-           this.tiles_index.set(tile.index, tile);
+           this.tiles_id.set(tile.id, tile);
         });
     }
 
@@ -33,7 +35,7 @@ export class TileDictionary {
      * @param group The group name which is prefixed by an '@' sign
      */
     public isTileIndexInGroup(tileIndex: number, group: string) {
-        let tile: ITile = this.tiles_index.get(tileIndex);
+        let tile: ITile = this.tiles_id.get(tileIndex);
         if (tile && tile.groups) {
             return tile.groups.includes(group);
         }
@@ -72,7 +74,7 @@ export class TileDictionary {
             if (nameOrGroupParts[i].length > 0 && nameOrGroupParts[i].charAt(0) == '@') {
                 if (this.isTileIndexInGroup(tileIndex, nameOrGroupParts[i])) return true;
             } else {
-                if (this.tiles_index.get(tileIndex).name == nameOrGroupParts[i]) return true;
+                if (this.tiles_id.get(tileIndex).name == nameOrGroupParts[i]) return true;
             }
         }
 

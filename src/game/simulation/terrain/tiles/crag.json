@@ -1,7 +1,7 @@
 [
   {
     "name": "crag_1",
-    "index": 131,
+    "id": 131,
     "groups": [
       "@crag_empty"
     ],
@@ -9,7 +9,7 @@
   },
   {
     "name": "crag_2",
-    "index": 132,
+    "id": 132,
     "groups": [
       "@crag_empty"
     ],
@@ -17,7 +17,7 @@
   },
   {
     "name": "crag_3",
-    "index": 133,
+    "id": 133,
     "groups": [
       "@crag_empty"
     ],
@@ -25,7 +25,7 @@
   },
   {
     "name": "crag_4",
-    "index": 134,
+    "id": 134,
     "groups": [
       "@crag_empty"
     ],
@@ -33,7 +33,7 @@
   },
   {
     "name": "crag_5",
-    "index": 135,
+    "id": 135,
     "groups": [
       "@crag_empty"
     ],
@@ -41,7 +41,7 @@
   },
   {
     "name": "crag_6",
-    "index": 136,
+    "id": 136,
     "groups": [
       "@crag_empty"
     ],
@@ -49,7 +49,7 @@
   },
   {
     "name": "crag_7",
-    "index": 137,
+    "id": 137,
     "groups": [
       "@crag_empty"
     ],
@@ -57,7 +57,7 @@
   },
   {
     "name": "crag_8",
-    "index": 138,
+    "id": 138,
     "groups": [
       "@crag_empty"
     ],
@@ -65,7 +65,7 @@
   },
   {
     "name": "crag_9",
-    "index": 139,
+    "id": 139,
     "groups": [
       "@crag_empty"
     ],
@@ -73,7 +73,7 @@
   },
   {
     "name": "crag_10",
-    "index": 158,
+    "id": 158,
     "groups": [
       "@crag_empty"
     ],
@@ -81,7 +81,7 @@
   },
   {
     "name": "crag_11",
-    "index": 159,
+    "id": 159,
     "groups": [
       "@crag_empty"
     ],
@@ -89,7 +89,7 @@
   },
   {
     "name": "crag_12",
-    "index":  117,
+    "id":  117,
     "groups": [
       "@crag_empty"
     ],
@@ -97,7 +97,7 @@
   },
   {
     "name": "crag_13",
-    "index":  118,
+    "id":  118,
     "groups": [
       "@crag_empty"
     ],
@@ -105,7 +105,7 @@
   },
   {
     "name": "crag_14",
-    "index":  119,
+    "id":  119,
     "groups": [
       "@crag_empty"
     ],

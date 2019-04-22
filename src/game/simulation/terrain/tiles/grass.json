@@ -1,7 +1,7 @@
 [
   {
     "name": "grass_1",
-    "index": 20,
+    "id": 20,
     "groups": [
       "@grass_empty"
     ],
@@ -9,7 +9,7 @@
   },
   {
     "name": "grass_2",
-    "index": 21,
+    "id": 21,
     "groups": [
       "@grass_empty"
     ],
@@ -17,7 +17,7 @@
   },
   {
     "name": "grass_3",
-    "index": 15,
+    "id": 15,
     "groups": [
       "@grass_empty"
     ],
@@ -25,7 +25,7 @@
   },
   {
     "name": "grass_4",
-    "index": 16,
+    "id": 16,
     "groups": [
       "@grass_empty"
     ],
@@ -33,7 +33,7 @@
   },
   {
     "name": "grass_5",
-    "index": 17,
+    "id": 17,
     "groups": [
       "@grass_empty"
     ],
@@ -41,7 +41,7 @@
   },
   {
     "name": "grass_6",
-    "index": 18,
+    "id": 18,
     "groups": [
       "@grass_empty"
     ],
@@ -49,7 +49,7 @@
   },
   {
     "name": "grass_7",
-    "index": 34,
+    "id": 34,
     "groups": [
       "@grass_empty"
     ],
@@ -57,7 +57,7 @@
   },
   {
     "name": "grass_8",
-    "index": 35,
+    "id": 35,
     "groups": [
       "@grass_empty"
     ],
@@ -65,7 +65,7 @@
   },
   {
     "name": "grass_cliff_1",
-    "index": 151,
+    "id": 151,
     "groups": [
       "@grass_cliff_stone_full"
     ],
@@ -73,7 +73,7 @@
   },
   {
     "name": "grass_cliff_2",
-    "index": 152,
+    "id": 152,
     "groups": [
       "@grass_cliff_stone_full"
     ],
@@ -81,7 +81,7 @@
   },
   {
     "name": "grass_cliff_end_w",
-    "index": 153,
+    "id": 153,
     "groups": [
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w",
@@ -91,7 +91,7 @@
   },
   {
     "name": "grass_cliff_end_s",
-    "index": 154,
+    "id": 154,
     "groups": [
       "@grass_cliff_stone_e",
       "@grass_cliff_stone_w",
@@ -101,7 +101,7 @@
   },
   {
     "name": "grass_cliff_end_n",
-    "index": 155,
+    "id": 155,
     "groups": [
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w",
@@ -111,7 +111,7 @@
   },
   {
     "name": "grass_cliff_end_e",
-    "index": 156,
+    "id": 156,
     "groups": [
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w",
@@ -121,7 +121,7 @@
   },
   {
     "name": "grass_cliff_ocorner_1_se",
-    "index": 171,
+    "id": 171,
     "groups": [
       "@grass_cliff_stone_e",
       "@grass_cliff_stone_s"
@@ -130,7 +130,7 @@
   },
   {
     "name": "grass_cliff_ocorner_1_sw",
-    "index": 172,
+    "id": 172,
     "groups": [
       "@grass_cliff_stone_s",
       "@grass_cliff_stone_w"
@@ -139,7 +139,7 @@
   },
   {
     "name": "grass_cliff_ocorner_1_nw",
-    "index": 173,
+    "id": 173,
     "groups": [
       "@grass_cliff_stone_n",
       "@grass_cliff_stone_w"
@@ -148,7 +148,7 @@
   },
   {
     "name": "grass_cliff_ocorner_1_ne",
-    "index": 174,
+    "id": 174,
     "groups": [
       "@grass_cliff_stone_n",
       "@grass_cliff_stone_e"
@@ -157,23 +157,23 @@
   },
   {
     "name": "grass_cliff_ocorner_2_ne",
-    "index": 175
+    "id": 175
   },
   {
     "name": "grass_cliff_ocorner_2_se",
-    "index": 176
+    "id": 176
   },
   {
     "name": "grass_cliff_ocorner_2_sw",
-    "index": 177
+    "id": 177
   },
   {
     "name": "grass_cliff_ocorner_2_nw",
-    "index": 178
+    "id": 178
   },
   {
     "name": "grass_cliff_edge_s",
-    "index": 196,
+    "id": 196,
     "groups": [
       "@grass_cliff_stone_s"
     ],
@@ -181,7 +181,7 @@
   },
   {
     "name": "grass_cliff_edge_w",
-    "index": 197,
+    "id": 197,
     "groups": [
       "@grass_cliff_stone_w"
     ],
@@ -189,7 +189,7 @@
   },
   {
     "name": "grass_cliff_edge_n",
-    "index": 198,
+    "id": 198,
     "groups": [
       "@grass_cliff_stone_n"
     ],
@@ -197,7 +197,7 @@
   },
   {
     "name": "grass_cliff_edge_e",
-    "index": 199,
+    "id": 199,
     "groups": [
       "@grass_cliff_stone_e"
     ],

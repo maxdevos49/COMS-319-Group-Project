@@ -31,12 +31,6 @@ export class GameSimulation {
     private static readonly positionIterations: number = 2;
 
 	/**
-	 * The dimensions of the map in tiles
-	 */
-    private static readonly mapTileWidth = 200;
-    private static readonly mapTileHeight = 200;
-
-	/**
 	 * The current frame number of the simulation.
 	 */
     public frame: number;
@@ -80,8 +74,7 @@ export class GameSimulation {
         this.objects = new Map<string, Player>();
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
-        this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0, 32,32);
-        TerrainGenerator.generateTerrain(this, this.map);
+        this.map = TerrainGenerator.generateTerrain(this,400, 400);
     }
 
 	/**

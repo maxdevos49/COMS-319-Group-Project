@@ -1,7 +1,7 @@
 [
   {
     "name": "desert_1",
-    "index": 111,
+    "id": 111,
     "groups": [
       "@desert_empty"
     ],
@@ -9,7 +9,7 @@
   },
   {
     "name": "desert_2",
-    "index": 112,
+    "id": 112,
     "groups": [
       "@desert_empty"
     ],
@@ -17,7 +17,7 @@
   },
   {
     "name": "desert_3",
-    "index": 113,
+    "id": 113,
     "groups": [
       "@desert_empty"
     ],
@@ -25,7 +25,7 @@
   },
   {
     "name": "desert_4",
-    "index": 114,
+    "id": 114,
     "groups": [
       "@desert_empty"
     ],
@@ -33,7 +33,7 @@
   },
   {
     "name": "desert_5",
-    "index": 115,
+    "id": 115,
     "groups": [
       "@desert_empty"
     ],
@@ -41,7 +41,7 @@
   },
   {
     "name": "desert_6",
-    "index": 116,
+    "id": 116,
     "groups": [
       "@desert_empty"
     ],
@@ -49,7 +49,7 @@
   },
   {
     "name": "desert_7",
-    "index": 76,
+    "id": 76,
     "groups": [
       "@desert_empty"
     ],
@@ -57,7 +57,7 @@
   },
   {
     "name": "desert_8",
-    "index": 77,
+    "id": 77,
     "groups": [
       "@desert_empty"
     ],
@@ -65,7 +65,7 @@
   },
   {
     "name": "desert_9",
-    "index": 78,
+    "id": 78,
     "groups": [
       "@desert_empty"
     ],
@@ -73,7 +73,7 @@
   },
   {
     "name": "desert_10",
-    "index": 79,
+    "id": 79,
     "groups": [
       "@desert_empty"
     ],
@@ -81,7 +81,7 @@
   },
   {
     "name": "desert_11",
-    "index": 96,
+    "id": 96,
     "groups": [
       "@desert_empty"
     ],
@@ -89,7 +89,7 @@
   },
   {
     "name": "desert_12",
-    "index": 97,
+    "id": 97,
     "groups": [
       "@desert_empty"
     ],
@@ -97,7 +97,7 @@
   },
   {
     "name": "desert_13",
-    "index": 98,
+    "id": 98,
     "groups": [
       "@desert_empty"
     ],
@@ -105,7 +105,7 @@
   },
   {
     "name": "desert_14",
-    "index": 99,
+    "id": 99,
     "groups": [
       "@desert_empty"
     ],

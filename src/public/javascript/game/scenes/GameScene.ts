@@ -7,6 +7,7 @@ import { IObjectDescription, GameObjectType } from "../models/objects/IObjectDes
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
 import { PlayerObjectDescription } from "../models/objects/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/BulletObjectDescription.js";
+import TilemapJSONFile = Phaser.Loader.FileTypes.TilemapJSONFile;
 
 
 export class GameScene extends Phaser.Scene {
@@ -53,20 +54,20 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	preload(): void {
-		this.tileMap = this.add.tilemap(
-			null,
-			this.connection.map.tileWidth,
-			this.connection.map.tileHeight,
-			this.connection.map.width,
-			this.connection.map.height,
-			this.connection.map.data
-		);
-        let tiles = this.tileMap.addTilesetImage("tiles");
-        this.tileMap.createStaticLayer(0, tiles, 0, 0);
+		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);
         this.lastFrame = 0;
-
+        console.log(this.connection.map);
         this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
         this.cameras.main.startFollow(this.cameraFollowPoint);
+    }
+
+    create(): void {
+	    this.tileMap = this.make.tilemap({key: this.connection.roomId});
+
+        let tileset = this.tileMap.addTilesetImage("tiles", "tiles");
+	    this.connection.map.layers.forEach((layer) => {
+            this.tileMap.createDynamicLayer(layer.name, tileset, 0, 0);
+        })
     }
 
     update(timestep: number, elapsed: number): void {

@@ -9,6 +9,7 @@ import {
 import { TerrainMap } from "../../../../public/javascript/game/models/TerrainMap";
 import { Point } from "../../../geom/Point";
 import { TileDictionary } from "../tiles/TileDictionary";
+import { ITile } from "../tiles/ITile";
 
 export class StructureConstructor {
     openConnectionPoints: IPlacedStructurePartConnection[];
@@ -33,7 +34,8 @@ export class StructureConstructor {
             for (let y = placed.y; y < (placed.y + placed.template.height); y++) {
                 for (let x = placed.x; x < (placed.x + placed.template.width); x++) {
                     if (placed.template.structure[y - placed.y][x - placed.x] !== "") {
-                        this.map.data[y][x] = this.tiles.tiles_name.get(placed.template.structure[y - placed.y][x - placed.x]).index;
+                        let tile: ITile = this.tiles.tiles_name.get(placed.template.structure[y - placed.y][x - placed.x]);
+                        this.map.setBlock(tile.layer, x, y, tile.id);
                     }
                 }
             }
@@ -279,7 +281,7 @@ export class StructureConstructor {
                 let placedBlock: number = this.getPlacedStructureBlockIndexAt(placed, x, y);
                 if (placedBlock !== -1) return placedBlock;
             }
-            return this.map.data[y][x]
+            return this.map.getHighestTile(x, y);
         }
         return -1;
     }
@@ -296,7 +298,7 @@ export class StructureConstructor {
         let dy = y - placed.y;
         if (0 <= dx && dx < placed.template.width && 0 <= dy && dy < placed.template.height) {
             if (placed.template.structure[dy][dx] !== "") {
-                return this.tiles.tiles_name.get(placed.template.structure[dy][dx]).index;
+                return this.tiles.tiles_name.get(placed.template.structure[dy][dx]).id;
             } else {
                 return -1;
             }
