@@ -5,6 +5,7 @@ import { GameSimulation } from "./simulation/GameSimulation";
 import { PlayerMoveUpdateQueue } from "../public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 import { PlayerMoveUpdate } from "../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../public/javascript/game/models/objects/IPositionUpdate";
+import { IEvent } from "../public/javascript/game/models/objects/IEvent";
 import { Player } from "./simulation/objects/Player";
 
 export class GameServer {
@@ -33,7 +34,7 @@ export class GameServer {
 	/**
 	 * The clients that are connected to this server
 	 */
-    private clients: Map<string, Socket>;
+    public clients: Map<string, Socket>;
 	/**
 	 * The map of every client id to their name
 	 */
@@ -116,7 +117,14 @@ export class GameServer {
         if (this.simulation.hasDeletedObjects()) {
             this.gameSocket.emit("/update/objects/delete", this.simulation.popDeletedObjectIds());
         }
-
+        if (this.simulation.hasPendingEvents()) {
+            this.simulation.events.forEach((event: IEvent) => {
+                const socket: Socket = this.clients.get(event.forPlayerId);
+                if (socket != null) {
+                    socket.emit("/update/event", event);
+                }
+            });
+        }
         // Pack up all of the PositionUpdates and send them to all clients
         let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
         this.clients.forEach((socket: Socket, id: string) => {

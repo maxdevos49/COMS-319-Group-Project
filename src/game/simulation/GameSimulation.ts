@@ -1,4 +1,4 @@
-import { b2Contact, b2ContactListener, b2Vec2, b2World, XY, } from "../../../lib/box2d-physics-engine/Box2D";
+import { b2Contact, b2Vec2, b2World } from "../../../lib/box2d-physics-engine/Box2D";
 
 import { Player } from "./objects/Player";
 import { GameObject } from "./objects/GameObject";
@@ -7,6 +7,7 @@ import { PlayerMoveUpdateQueue } from "../../public/javascript/game/data-structu
 import { PlayerMoveUpdate } from "../../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPositionUpdate";
 import { IObjectDescription } from "../../public/javascript/game/models/objects/IObjectDescription";
+import { IEvent } from "../../public/javascript/game/models/objects/IEvent";
 import { TerrainGenerator } from "./TerrainSimulator";
 
 /**
@@ -50,6 +51,10 @@ export class GameSimulation {
 	 * The terrain map for this simulation, object represents all of parts of the game world that don't change
 	 */
     public map: TerrainMap;
+    /**
+     * A list of events to be sent to clients.
+     */
+    public events: IEvent[];
 	/**
 	 * A reference to the move queue in the game server.
 	 */
@@ -78,6 +83,7 @@ export class GameSimulation {
 
         this.frame = 0;
         this.objects = new Map<string, Player>();
+        this.events = [];
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
         this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
@@ -96,15 +102,6 @@ export class GameSimulation {
 
             // Update the game object
             object.update();
-
-            // DEBUG: Information about the player and its body
-            // if (this.frame % 40 == 0) {
-            // 	const id = player.getId();
-            // 	const x = player.getBody().GetPosition().x;
-            // 	const y = player.getBody().GetPosition().y;
-            // 	const angle = player.getBody().GetAngle();
-            // 	console.log(`id: ${id}\tx: ${x}\ty: ${y}\tangle: ${angle}\n`);
-            // }
         });
 
         this.moves.incrementFrame();
@@ -255,5 +252,9 @@ export class GameSimulation {
         let temp: string[] = this.deletedObjectIds;
         this.deletedObjectIds = [];
         return temp;
+    }
+
+    public hasPendingEvents(): boolean {
+        return this.events.length !== 0;
     }
 }

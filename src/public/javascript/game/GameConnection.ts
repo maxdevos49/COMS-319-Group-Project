@@ -4,6 +4,7 @@ import { PositionUpdateQueue } from "./data-structures/PositionUpdateQueue.js";
 import { IPositionUpdate } from "./models/objects/IPositionUpdate";
 import { PlayerMoveUpdate } from "./models/PlayerMoveUpdate.js";
 import { IObjectDescription } from "./models/objects/IObjectDescription";
+import { IEvent, EventType } from "./models/objects/IEvent.js";
 import { TerrainMap } from "./models/TerrainMap";
 
 /**
@@ -90,6 +91,7 @@ export class GameConnection {
 			this.receiveTerrainMap();
 			this.newPlayerInfo();
 			this.positionUpdate();
+			this.receiveEvent();
 			this.newObjectDescription();
 			this.updateDeletedObjects();
 
@@ -157,6 +159,14 @@ export class GameConnection {
 			newUpdates.forEach((update: IPositionUpdate) => {
 				this.positionUpdates.addUpdate(update);
 			});
+		});
+	}
+
+	private receiveEvent(): void {
+		this.socket.on("/update/event", (event: IEvent) => {
+			if (event.type === EventType.Health) {
+				console.log(event.forPlayerId);
+			}
 		});
 	}
 
