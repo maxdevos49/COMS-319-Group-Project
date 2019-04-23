@@ -8,14 +8,14 @@ export class PlayerInfo {
     /**
      * The name of this player
      */
-    public name: string | undefined;
+    public name: string;
 
     /**
      * Constructs a new PlayerUpdate
      * @param id The id of this player
      * @param name THe name of this player
      */
-    constructor(id: string, name: string | undefined) {
+    constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
     }

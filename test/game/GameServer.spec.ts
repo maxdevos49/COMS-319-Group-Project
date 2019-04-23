@@ -1,5 +1,6 @@
 import socketIO, { Server } from "socket.io";
 import socketIOClient from "socket.io-client";
+import session from "express-session";
 
 import { expect } from "chai";
 
@@ -17,6 +18,26 @@ describe('Game server', () => {
     beforeEach(() => {
         gameServer = new GameServer(gameSocket);
     });
+
+    let sessionMiddleware = session({ secret: "secret", resave: false, saveUninitialized: false });
+
+    gameSocket.use(function (socket, next) {
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
+
+    gameSocket.use(function (socket, next) {
+        socket.request.session = {
+            passport: {
+                user: {
+                    id: "givenidfromdb",
+                    nickname: "BobTheBuilder",
+                    email: "bob@buildthat.com"
+                }
+            }
+        }
+        next();
+    });
+
 
     it('should initialize with an empty list of clients', () => {
         expect(gameServer).to.have.property('clients').with.lengthOf(0);
@@ -68,7 +89,7 @@ describe('Game server', () => {
         // Wait until the first client has connected
         clientSocket.on("/init/assignid", (id: string) => {
             clientSocket.on("/update/objects/new", (updates: IObjectDescription[]) => {
-                console.log(updates);
+                // console.log(updates);
                 // Wait until the updates contains the player
                 let index = updates.findIndex((update: IObjectDescription) => update.id === id);
                 if (index != -1) {

@@ -6,6 +6,7 @@ import { Player } from "../../src/game/simulation/objects/Player";
 import { Bullet } from "../../src/game/simulation/objects/Bullet";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../src/public/javascript/game/models/PlayerMoveUpdate";
+import { b2Vec2 } from "../../lib/box2d-physics-engine/Box2D";
 
 describe('GameSimulation', () => {
     it('should initialize a world', () => {
@@ -64,11 +65,10 @@ describe('GameSimulation', () => {
             expect(player.body.GetPosition().x).to.equal(0);
             expect(player.body.GetPosition().y).to.equal(0);
 
-            // Apply a move update.
-            let move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up, false);
-            simulation.updateMove(move);
             // Simulate 1 second in the simulation.
             for (let i = 0; i < 30; i++) {
+                const move: PlayerMoveUpdate = new PlayerMoveUpdate(id, 0, 1, true, PlayerMoveDirection.Up, false);
+                updateQueue.addPlayerMoveUpdate(move);
                 simulation.nextFrame();
             }
 
@@ -76,10 +76,10 @@ describe('GameSimulation', () => {
             expect(player.body.GetPosition().x).to.equal(0);
             expect(player.body.GetPosition().y).to.be.closeTo(-Player.SPEED, 0.0001);
 
-            // Apply a second move.
-            move = new PlayerMoveUpdate(id, 1, 0, false, PlayerMoveDirection.UpLeft, false);
-            simulation.updateMove(move);
+            // Simulate another second in the simulation.
             for (let i = 0; i < 30; i++) {
+                const move = new PlayerMoveUpdate(id, i + 30, 0, false, PlayerMoveDirection.UpLeft, false);
+                updateQueue.addPlayerMoveUpdate(move);
                 simulation.nextFrame();
             }
 
@@ -94,22 +94,19 @@ describe('GameSimulation', () => {
             const simulation: GameSimulation = new GameSimulation(updateQueue);
             const id: string = v1Gen();
             simulation.addPlayer(id);
-
             const player: Player = simulation.objects.get(id) as Player;
 
-            // the player should be in its default position at first
-            expect(player.body.GetAngle()).to.equal(0);
-            expect(player.body.GetPosition().x).to.equal(0);
-            expect(player.body.GetPosition().y).to.equal(0);
+            // The player is currently moving.
+            player.body.SetLinearVelocity({x: 5, y: 5});
 
-            // apply the move update
-            let move: null = null;
-            simulation.updateMove(move);
+            // There is nothing in updateQueue.
+            simulation.nextFrame();
 
-            // the player should not move
-            expect(player.body.GetAngle()).to.equal(0);
-            expect(player.body.GetPosition().x).to.equal(0);
-            expect(player.body.GetPosition().y).to.equal(0);
+            // A default move update should be applied, causing the player to
+            // stop moving.
+            const notMovingVector = new b2Vec2(0, 0);
+            expect(player.body.GetLinearVelocity().x).to.equal(notMovingVector.x);
+            expect(player.body.GetLinearVelocity().y).to.equal(notMovingVector.y);
         });
     });
     it("Should destroy bullet when it collides with a player", () => {
@@ -121,7 +118,7 @@ describe('GameSimulation', () => {
         for (let i = 0; i < 100; i++) {
             simulation.nextFrame();
         }
-        console.log(simulation.objects.get("testid2"));
+        // console.log(simulation.objects.get("testid2"));
         expect(simulation.objects.get("testid2")).to.be.undefined;
     });
     it("Should destroy object when method called", () => {

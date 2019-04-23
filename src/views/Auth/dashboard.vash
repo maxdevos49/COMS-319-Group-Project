@@ -80,6 +80,6 @@
             </div>
         </div>
 
-        <script type="module" src="/javascript/dashboard/dashboard.js"></script>
+        <script type="module" src="/javascript/dashboard/dashboard.js" defer></script>
     })
 })

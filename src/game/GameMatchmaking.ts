@@ -24,9 +24,9 @@ export class GameMatchmaking {
         this.gamesSocket = serverSocket.of("/games");
         this.gamesSocket.on("connection", (socket: Socket) => {
             // Messages for debugging
-            console.log("A client has connected to the games namespace");
+            // console.log("A client has connected to the games namespace");
             socket.on("disconnect", () => {
-                console.log("A client has disconnected to the games namespace");
+                // console.log("A client has disconnected to the games namespace");
             });
             // Client request list of existing games
             socket.on("/list", () => {

@@ -73,7 +73,7 @@ export class GameConnection {
 			let index = Math.floor(Math.random() * gamesList.gameIds.length);
 			this.roomId = gamesList.gameIds[index];
 			//connect to new namespace
-			this.socket = io("/games/" + this.roomId);
+			this.socket = io("/games/" + this.roomId, {reconnection: false});
 			this.connection();
 		});
 
@@ -120,11 +120,11 @@ export class GameConnection {
 	 */
 	private newPlayerInfo(): void {
 		this.socket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
-			console.log(
-				`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
-				otherPlayer.name
-				}`
-			);
+			// console.log(
+			// 	`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
+			// 	otherPlayer.name
+			// 	}`
+			// );
 			this.players.push(otherPlayer);
 		});
 	}
@@ -134,7 +134,7 @@ export class GameConnection {
 	 */
 	private newObjectDescription(): void {
 		this.socket.on("/update/objects/new", (newObjects: IObjectDescription[]) => {
-			console.log(`Received ${newObjects.length} new objects updates`);
+			// console.log(`Received ${newObjects.length} new objects updates`);
 			// Push all elements of the new array into the old one without allocating a new array
 			newObjects.forEach((object: IObjectDescription) => this.newObjects.push(object));
 		});
@@ -145,7 +145,7 @@ export class GameConnection {
 	 */
 	private updateDeletedObjects(): void {
 		this.socket.on("/update/objects/delete", (deletedIds: string[]) => {
-			console.log(`Received ${deletedIds.length} deleted objects updates`);
+			// console.log(`Received ${deletedIds.length} deleted objects updates`);
 			// Push all elements of the new array into the old one without allocating a new array
 			deletedIds.forEach((id: string) => this.deletedObjects.push(id));
 		});
