@@ -57,13 +57,14 @@ export class GameSimulation {
 	 */
     private deletedObjectIds: string[];
 
-	/**
-	 * Construct a new simulation. The simulation starts running as soon as it
-	 * is created unless the start parameter is false (it's true by default).
-	 *
-	 * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
-	 */
-    constructor(moves: PlayerMoveUpdateQueue) {
+    /**
+     * Construct a new simulation. The simulation starts running as soon as it
+     * is created unless the start parameter is false (it's true by default).
+     *
+     * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
+     * @param generateRandomTerrain Optional parameter which, if true, will cause the simulation to generate a random terrain with structures
+     */
+    constructor(moves: PlayerMoveUpdateQueue, generateRandomTerrain?: boolean) {
         this.moves = moves;
 
         // Initialize the box2d world
@@ -74,7 +75,9 @@ export class GameSimulation {
         this.objects = new Map<string, Player>();
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
-        this.map = TerrainGenerator.generateTerrain(this,1000, 1000);
+        if (generateRandomTerrain) {
+            this.map = TerrainGenerator.generateTerrain(this,1000, 1000);
+        }
     }
 
 	/**

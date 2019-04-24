@@ -37,6 +37,7 @@ export class TerrainGenerator {
 
         let map = new TerrainMap(width, height, 32, 32, layers, tiles.tiles);
 
+        console.log("Randomizing regions and placing tiles");
         let temperatureMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
         let humidityMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
 
@@ -49,6 +50,8 @@ export class TerrainGenerator {
             }
         }
 
+        console.log("Placing Structures on the map");
+        let successfulPlaceAttempts = 0;
         for (let structurePlaceAttempts = 0; structurePlaceAttempts < 1500; structurePlaceAttempts++) {
             let attemptLimit: number = 2000;
             // Select a random structure
@@ -120,11 +123,13 @@ export class TerrainGenerator {
                     // If all required connections have been filled and the generated structure meets the minimum number of required parts then commit the structure
                     if (structureCompleted && constructionManager.placedParts.length >= toAttempt.minParts) {
                         constructionManager.commit();
+                        successfulPlaceAttempts++;
                     }
                 }
             }
         }
 
+        console.log("Placed " + successfulPlaceAttempts + " structures on the map");
         return map;
     }
 

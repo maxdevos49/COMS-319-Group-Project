@@ -53,7 +53,7 @@ export class GameServer {
 
         this.serverId = v1Gen();
         this.moveUpdateQueue = new PlayerMoveUpdateQueue(100000, 10);
-        this.simulation = new GameSimulation(this.moveUpdateQueue);
+        this.simulation = new GameSimulation(this.moveUpdateQueue, true);
 
         // Initialize socket
         this.gameSocket = serverSocket.of("/games/" + this.serverId);
