@@ -126,4 +126,17 @@ describe('Game server', () => {
             done();
         });
     });
+
+    it('Should remove events after sending', (done) => {
+        let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
+        clientSocket.on("connect", () => {
+            const uuid: string = gameServer.clients.keys().next().value;
+            const newHealth: number = 50;
+            gameServer.simulation.events.push(new HealthEvent(uuid, newHealth));
+            clientSocket.on("/update/event", () => {
+                expect(gameServer.simulation.events.length).to.equal(0);
+            });
+            done();
+        });
+    });
 });

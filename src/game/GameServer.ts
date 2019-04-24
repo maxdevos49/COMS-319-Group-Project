@@ -148,10 +148,12 @@ export class GameServer {
             this.gameSocket.emit("/update/objects/delete", this.simulation.popDeletedObjectIds());
         }
         if (this.simulation.hasPendingEvents()) {
-            this.simulation.events.forEach((event: IEvent) => {
+            this.simulation.events.forEach((event: IEvent, index) => {
                 const socket: Socket = this.clients.get(event.forPlayerId);
                 if (socket != null) {
                     socket.emit("/update/event", event);
+                    // Remove the event since it has been sent to the client
+                    this.simulation.events.splice(index, 1);
                 }
             });
         }
