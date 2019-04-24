@@ -14,9 +14,21 @@ import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
 
 export class TerrainGenerator {
+    /**
+     * The size of the chunks for the perlin noise generator (bigger chunks = bigger regions)
+     */
     private static chunkSize: number = 200;
+    /**
+     * The max number of times to attempt to place a part on a connection point
+     */
     private static partAttemptPlaceLimit: number = 50;
 
+    /**
+     * Generates a new terrain map with a randomized terrain.
+     * @param simulation The simulation to generate the new random world in
+     * @param width The width of the map to generate
+     * @param height The height of the map to generate
+     */
     public static generateTerrain(simulation: GameSimulation, width: number, height: number): TerrainMap {
         let layers: ITileLayer[] = this.loadAllLayers();
         let tiles:TileDictionary = this.loadAllTiles();
@@ -38,7 +50,7 @@ export class TerrainGenerator {
         }
 
         for (let structurePlaceAttempts = 0; structurePlaceAttempts < 1500; structurePlaceAttempts++) {
-            let attemptLimit: number = 1200;
+            let attemptLimit: number = 2000;
             // Select a random structure
             let toAttempt: IStructure = structures[Math.floor(Math.random() * structures.length)];
             let parts: IStructurePart[] = this.loadAllStructureParts(toAttempt);
@@ -53,61 +65,60 @@ export class TerrainGenerator {
                     // Loop until all of the connection points have been filled
                     let structureCompleted = false;
                     while (true) {
+                        // Check if there are no more required connections left to fill
                         let requiredFilled: boolean = constructionManager.isAllRequiredConnectionsFilled();
-                        let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length), false);
-                        if (!cp || requiredFilled) {
+                        if (requiredFilled) {
+                            // If this part doesn't meet the minimum required number of parts then revert a few moves
                             if (constructionManager.placedParts.length < toAttempt.minParts) {
                                 if (constructionManager.placedParts.length <= 4) break;
                                 constructionManager.revertMoves(4);
+                                // If we have exceeded the allowed number of attempts then stop
                                 attemptLimit--;
                                 if (attemptLimit < 0) {
                                     break;
                                 }
-                                continue;
                             } else {
+                                // The structure is considered finished
                                 structureCompleted = true;
                                 break;
                             }
                         }
+                        let cp: IPlacedStructurePartConnection = constructionManager.popOpenConnectionPoint(Math.floor(Math.random() * constructionManager.openConnectionPoints.length));
+                        // Whether the connection point was filled
                         let connectionPointFilled = false;
+                        // The structure parts that were already attempted to be placed at the given location
                         let alreadyAttempted: IStructurePart[] = [];
+                        // Attempt to place a part at the connection point a certain number of times
                         for (let limit = this.partAttemptPlaceLimit; limit > 0; limit--) {
-                            //console.log("attempt " + limit);
                             let partToAttempt: IStructurePart = this.randomStructurePart(parts, alreadyAttempted);
+                            // If there are no parts left to be tried then stop
                             if (!partToAttempt) break;
-                            //console.log("Attempting: " + partToAttempt.name);
                             alreadyAttempted.push(partToAttempt);
+                            // If the part is placed
                             if (constructionManager.attemptPlacePart(partToAttempt, cp)) {
-                                //console.log(partToAttempt.name);
                                 connectionPointFilled = true;
-                                //console.log(constructionManager.placedParts.length + " " + constructionManager.openConnectionPoints.length + " Placed " + partToAttempt.name + " " + partToAttempt.rarity);
                                 break;
-                            } else {
-                                //console.log("Failed");
                             }
                         }
-                        //console.log(connectionPointFilled + " " + attemptLimit);
                         // If after the limit number of attempts the point is not filled then revert the last five moves
-                        // If this will totally delete all placed parts then cancel this generation
+                        // If this will totally delete all placed parts then stop this generation attempt
                         if (!connectionPointFilled || constructionManager.placedParts.length > toAttempt.maxParts) {
+                            // The connection point was not filled so re-add it to the array of points waiting to be filled
                             constructionManager.openConnectionPoints.push(cp);
+                            // Only perform the revert if the part that failed was a required part (optimization)
                             if (cp.template.required) {
-                                //console.log("reverting");
                                 if (constructionManager.placedParts.length - 5 <= 0) break;
                                 constructionManager.revertMoves(5);
                             }
-                            //console.log("reverting 5 moves");
+                            // If we have exceeded the attempt limit then stop
                             attemptLimit--;
                             if (attemptLimit < 0) {
-                                //console.log("test");
-                                //structureCompleted = true;
                                 break;
                             }
                         }
                     }
-                    //console.log(structureCompleted + " " + constructionManager.openConnectionPoints.length + " " + constructionManager.placedParts.length);
+                    // If all required connections have been filled and the generated structure meets the minimum number of required parts then commit the structure
                     if (structureCompleted && constructionManager.placedParts.length >= toAttempt.minParts) {
-                        console.log(toAttempt.name + " " + structCenterX + " " + structCenterY + " " + constructionManager.placedParts.length);
                         constructionManager.commit();
                     }
                 }
@@ -117,6 +128,12 @@ export class TerrainGenerator {
         return map;
     }
 
+    /**
+     * Returns a random structure part excluding the ones that are in the already attempted array. This method considers
+     * the rarity of each part and returns parts proportional to this.
+     * @param options The parts that this method can return
+     * @param alreadyAttempted The parts that this method shouldn't return
+     */
     public static randomStructurePart(options: IStructurePart[], alreadyAttempted: IStructurePart[]) {
         let possibleOptions: IStructurePart[] = options.filter((part) => part.rarity > 0 && !alreadyAttempted.includes(part));
 
@@ -141,6 +158,11 @@ export class TerrainGenerator {
         return null;
     }
 
+    /**
+     * Returns a random tile from the given options. This method considers the rarity of each tile and randomly returns
+     * tiles proportional to this value
+     * @param options The tiles that this function can return
+     */
     public static randomTile(options: ITileOption[]) {
         while (true) {
             let selected: ITileOption = options[Math.floor(Math.random() * options.length)];
@@ -148,6 +170,12 @@ export class TerrainGenerator {
         }
     }
 
+    /**
+     * Finds the region that best fits the given climate
+     * @param temp The temperature of the region from 0 to 100
+     * @param humidity The humidity of the region from 0 to 100
+     * @param regions The regions to consider
+     */
     public static findBestFitRegion(temp: number, humidity: number, regions: IRegion[]) {
         let curBest: IRegion;
         let curBestDistance: number = Number.MAX_VALUE;
@@ -165,10 +193,17 @@ export class TerrainGenerator {
         return curBest;
     }
 
+    /**
+     * Loads the layers file from the disk and returns the data in it
+     */
     public static loadAllLayers(): ITileLayer[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "layers.json"), "utf8")) as ITileLayer[];
     }
 
+    /**
+     * Loads the tiles json file from the disk and then uses the paths given in it to load all of the available tiles as
+     * a tile dictionary
+     */
     public static loadAllTiles(): TileDictionary {
         // Load atlas with paths to other tiles
         let tilesAtlas = JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "tiles.json"), "utf8")) as {tile_files: string[]};
@@ -182,14 +217,24 @@ export class TerrainGenerator {
         return new TileDictionary(tiles);
     }
 
+    /**
+     * Loads the regions json file from the disk and returns its data
+     */
     public static loadAllRegions(): IRegion[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "regions.json"), "utf8")) as IRegion[];
     }
 
+    /**
+     * Loads the structures file from the disk and returns its data
+     */
     public static loadAllStructures(): IStructure[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", "structures.json"), "utf8")) as IStructure[];
     }
 
+    /**
+     * Loads the structure parts json file that belongs to the given structures and returns its data
+     * @param struct The structure to load the parts for
+     */
     public static loadAllStructureParts(struct: IStructure): IStructurePart[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", struct.path), "utf8")) as IStructurePart[];
     }

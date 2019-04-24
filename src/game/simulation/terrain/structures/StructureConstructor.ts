@@ -11,15 +11,40 @@ import { Point } from "../../../geom/Point";
 import { TileDictionary } from "../tiles/TileDictionary";
 import { ITile } from "../tiles/ITile";
 
+/**
+ * The structure constructor is a helper object that allows a higher level generator to safely create structures. It
+ * does none of the selecting of which parts to place nor terminating and reverting after to many failures. It simply
+ * keeps track of what parts have been placed thus far and how many connection points need filled. It has methods that
+ * a higher level object can call to attempt to place a given part which will fail if some predicate is not matched
+ */
 export class StructureConstructor {
+    /**
+     * The connection points that haven't been filled
+     */
     openConnectionPoints: IPlacedStructurePartConnection[];
-
+    /**
+     * The parts that have been placed thus far by the structure constructor
+     */
     placedParts: IPlacedStructurePart[];
-
+    /**
+     * The structure this constructor is making
+     */
     struct: IStructure;
+    /**
+     * The terrain map this constructor is building on
+     */
     map: TerrainMap;
+    /**
+     * The tiles that this structure constructor has available to it
+     */
     tiles: TileDictionary;
 
+    /**
+     * Creates that new structure constructor to make the given structure
+     * @param struct The structure for this constructor to make
+     * @param map The map to make the structure on
+     * @param tiles The tile dictionary containing all available tiles
+     */
     constructor(struct: IStructure, map: TerrainMap, tiles: TileDictionary) {
         this.struct = struct;
         this.map = map;
@@ -29,6 +54,9 @@ export class StructureConstructor {
         this.placedParts = [];
     }
 
+    /**
+     * Commits the structures placed by this structure constructor to the terrain map
+     */
     public commit(): void {
         this.placedParts.forEach((placed: IPlacedStructurePart) => {
             for (let y = placed.y; y < (placed.y + placed.template.height); y++) {
@@ -42,6 +70,9 @@ export class StructureConstructor {
         });
     }
 
+    /**
+     * Checks if there are no required connection points left in the open connection point array
+     */
     public isAllRequiredConnectionsFilled(): boolean {
         if (this.openConnectionPoints.length == 0) {
             return true;
@@ -52,21 +83,11 @@ export class StructureConstructor {
         return this.openConnectionPoints.map((cp) => !cp.template.required).reduce((accum, cur) => accum && cur);
     }
 
-    public popOpenConnectionPoint(at?: number, preferRequired? : boolean): IPlacedStructurePartConnection {
-        if (preferRequired) {
-            let required: IPlacedStructurePartConnection[] = this.openConnectionPoints.filter((cp) => cp.template.required);
-
-            if (required.length > 0) {
-                let adjustedAt = at % required.length;
-                let selected: IPlacedStructurePartConnection = required[adjustedAt];
-
-                this.openConnectionPoints = this.openConnectionPoints.filter((cp) => cp != selected);
-                return selected;
-            } else {
-                return this.popOpenConnectionPoint(at, false);
-            }
-        }
-
+    /**
+     * Pops an open connection point off of the array and returns it
+     * @param at The optional index of the connection point to return
+     */
+    public popOpenConnectionPoint(at?: number): IPlacedStructurePartConnection {
         if (at && at < this.openConnectionPoints.length - 1) {
             let temp = this.openConnectionPoints[at];
             this.openConnectionPoints[at] = this.openConnectionPoints.pop();
@@ -76,6 +97,14 @@ export class StructureConstructor {
         }
     }
 
+    /**
+     * Sets the root of this structure constructor. The root is the only part that doesn't have to be placed on the
+     * connection point of another (even if there are required on init connections) The only requirement is that
+     * the map tiles you are placing this on are valid
+     * @param part The part to set as the root
+     * @param x The absolute x coordinate to place the top-left corner of the part
+     * @param y The absolute y coordinate to place the top-left corner of the part
+     */
     public setRoot(part: IStructurePart, x: number, y: number): boolean {
         // Check every point this structure part occupies
         // Check every point this structure part occupies
@@ -121,15 +150,15 @@ export class StructureConstructor {
             let absX = (on.x + onOffset.dx) - connection.x;
             let absY = (on.y + onOffset.dy) - connection.y;
 
+            // Check if these two connections work
             if (!this.checkConnectionWorks(part, absX, absY, connection, on)) continue;
-
+            // Create objects for the placed part but these might actually be valid
             let placedPart: IPlacedStructurePart = {
                 x: absX,
                 y: absY,
                 template: part,
                 connections: null
             };
-
             let placedConnections: IPlacedStructurePartConnection[] = part.connections.map((cp) => {
                 return {
                     x: absX + cp.x,
@@ -140,6 +169,7 @@ export class StructureConstructor {
                 };
             });
 
+            // If this part has any connection that are required on initialization then check that those exist
             let allRequiredOnInitSatisfied = true;
             placedConnections.forEach((partPCP) => {
                 if (partPCP.template.requiredOnInit) {
@@ -152,7 +182,8 @@ export class StructureConstructor {
                 continue;
             }
 
-            let existsAnyAlsoOccpied = false;
+            // If this part has also connected with any other parts check that those connections are also valid
+            let existsAnyAlsoOccupied = false;
             let allSatisfied = true;
             placedConnections.forEach((partPCP) => {
                 let partPCPOffset = getConnectionDirectionOffset(partPCP.template.connection_direction);
@@ -166,16 +197,17 @@ export class StructureConstructor {
                         return this.checkConnectionWorks(part, absX, absY, partPCP.template, openCP);
                     })
                     .forEach((temp) => {
-                        existsAnyAlsoOccpied = true;
+                        existsAnyAlsoOccupied = true;
                         allSatisfied = allSatisfied && temp;
                     });
             });
 
-            if (existsAnyAlsoOccpied) {
+            if (existsAnyAlsoOccupied) {
+                // If one of the additional connections was not satisfied then this part cannot be placed here
                 if (!allSatisfied) {
                     continue;
                 }
-
+                // If they were all satisfied that bond the two connections together (which marks it for removal)
                 placedConnections.forEach((partPCP) => {
                     let partPCPOffset = getConnectionDirectionOffset(partPCP.template.connection_direction);
                     this.openConnectionPoints.filter((openCP) => {
@@ -183,18 +215,15 @@ export class StructureConstructor {
                         return (openCP.x + openCPOffset.dx == partPCP.x) && (openCP.y + openCPOffset.dy == partPCP.y) &&
                             (openCP.x == partPCP.x + partPCPOffset.dx) && (openCP.y == partPCP.y + partPCPOffset.dy);
                     }).forEach((openCP) => {
-                        //console.log(openCP.x + " " + openCP.y + " " + openCP.template.connection_direction + " " + partPCP.x + " " + partPCP.y + " " + partPCP.template.connection_direction);
                         openCP.bondedWith = partPCP;
                         partPCP.bondedWith = openCP;
                     });
                 });
             }
-
             placedPart.connections = placedConnections;
 
+            // Find the placed connection point that was derived from the one used, mark it as such
             placedConnections.filter((cp) => cp.template == connection).forEach((cp) => {
-                //console.log("WOW!!! " + cp.x + " " + cp.y + " " + cp.template.connection_direction);
-                //console.log("WOW 22!!! " + on.x + " " + on.y + " " + on.template.connection_direction);
                 on.bondedWith = cp;
                 cp.bondedWith = on;
             });
@@ -211,6 +240,11 @@ export class StructureConstructor {
         return false;
     }
 
+    /**
+     * Reverts the given number of moves from this structure constructor. This will not revert the root placement but
+     * will revert all successful attemptPlacePart calls.
+     * @param num The number of moves to revert
+     */
     public revertMoves(num: number) {
         if (num > 0) {
             let toRevert: IPlacedStructurePart = this.placedParts.pop();
@@ -231,6 +265,15 @@ export class StructureConstructor {
         }
     }
 
+    /**
+     * Checks whether the given part can be placed at the given coordinate on the map without violating and requirements
+     * from either the two parts in question or any other parts
+     * @param part The part to check if it can be placed
+     * @param absX The absolute x coordinate to check if top-left coordinate of the part can be placed at
+     * @param absY The absolute y coordinate to check if top-left coordinate of the part can be placed at
+     * @param connection The connection of the given part to attempt to connect
+     * @param on The connection to attempt to connect the given part to
+     */
     public checkConnectionWorks(part: IStructurePart, absX: number, absY: number, connection: IStructureConnection, on: IPlacedStructurePartConnection): boolean {
         let onOffset = getConnectionDirectionOffset(on.template.connection_direction);
         let offset: {dx: number, dy: number} = getConnectionDirectionOffset(connection.connection_direction);
@@ -263,6 +306,12 @@ export class StructureConstructor {
         return true;
     }
 
+    /**
+     * Accumulates the points the given structure occupies in absolute coordinates (relative to the top-left of the map)
+     * @param part The part to accumulate to occupied points for
+     * @param partX The absolute x coordinate of the top-left point of the structure
+     * @param partY The absolute y coordinate of the top-left point of the structure
+     */
     public accumulateOccupiedPoints(part: IStructurePart, partX: number, partY: number): Point[] {
         let points: Point[] = [];
         for (let y = 0; y < part.height; y++) {
@@ -273,6 +322,11 @@ export class StructureConstructor {
         return points;
     }
 
+    /**
+     * Returns the block index at the given location including any structures that have been placed but not committed
+     * @param x The x coordinate of the block to check in absolute coordinates (relative to the top-left of the map)
+     * @param y The y coordinate of the block to check in absolute coordinates (relative to the top-left of the map)
+     */
     public getBlockIndexAt(x: number, y: number): number {
         // Make sure the coordinate is in range of the map
         if (0 <= x && x < this.map.width && 0 <= y && y < this.map.height) {
