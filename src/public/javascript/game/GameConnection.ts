@@ -40,6 +40,10 @@ export class GameConnection {
 	 */
 	public deletedObjects: string[];
 	/**
+	 * Events from the server that the player will handle.
+	 */
+	public events: IEvent[];
+	/**
 	 * The terrain map from the server
 	 */
 	public map: TerrainMap;
@@ -60,6 +64,7 @@ export class GameConnection {
 		this.players = [];
 		this.newObjects = [];
 		this.deletedObjects = [];
+		this.events = [];
 		this.ready = false;
 
 		this.connectToGame();
@@ -164,9 +169,7 @@ export class GameConnection {
 
 	private receiveEvent(): void {
 		this.socket.on("/update/event", (event: IEvent) => {
-			if (event.type === EventType.Health) {
-				console.log(event.forPlayerId);
-			}
+			this.events.push(event);
 		});
 	}
 

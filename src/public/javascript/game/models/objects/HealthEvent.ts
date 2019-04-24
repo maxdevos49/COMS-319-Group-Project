@@ -5,9 +5,9 @@ export class HealthEvent implements IEvent {
     public type: EventType;
     public setHealthTo: number;
 
-    constructor(id: string, health: number) {
-        this.forPlayerId = id;
+    constructor(forPlayerId: string, setHealthTo: number) {
+        this.forPlayerId = forPlayerId;
         this.type = EventType.Health;
-        this.setHealthTo = health;
+        this.setHealthTo = setHealthTo;
     }
 }

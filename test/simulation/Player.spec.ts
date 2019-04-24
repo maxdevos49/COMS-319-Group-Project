@@ -63,4 +63,9 @@ describe("Simulation Player Object", () => {
         player.takeDamage(100);
         expect(simulation.world.GetBodyCount()).to.equal(1);
     });
+    it("Should create an event upon losing health", () => {
+        const bullet = new Bullet(simulation, "id1", "ownerId", 0, 0, 0, 1);
+        player.collideWith(bullet);
+        expect(simulation.events.length).to.equal(1);
+    });
 });

@@ -18,6 +18,7 @@ import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
 import { Bullet } from "../../../game/simulation/objects/Bullet";
 import v1Gen from "uuid/v1";
+import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
 
 /**
  * A player in the game. Contains the physics body.
@@ -221,6 +222,8 @@ export class Player extends GameObject implements IHealth {
 
     public takeDamage(damage: number) {
         this.health -= damage;
+        // The event will be sent to the client
+        this.simulation.events.push(new HealthEvent(this.id, this.health))
         if (this.health <= 0) {
             this.simulation.destroyGameObject(this.id);
         }
