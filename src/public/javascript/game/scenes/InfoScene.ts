@@ -6,7 +6,7 @@ export class InfoScene extends Phaser.Scene {
     public hp: string;
 
     constructor() {
-        super({ key: "InfoScene", active: true });
+        super({ key: "InfoScene" });
         this.hp = "100";
     }
 
@@ -15,7 +15,7 @@ export class InfoScene extends Phaser.Scene {
      *
      * TODO: Refactor to handle multiple lines of HUD information.
      */
-    create() {
+    init() {
         const info = this.add.text(10, 10, "HP: " + this.hp, { font: "48px november", fill: "#000000" });
         this.scene.get("GameScene").events.on("setHP", (hp: number) => {
             this.hp = String(hp);

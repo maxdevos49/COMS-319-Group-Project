@@ -53,6 +53,7 @@ export class GameScene extends Phaser.Scene {
         this.connection = connection;
         this.uInput = new UserInput(this);
         this.scene.launch("ChatScene", connection);
+        this.scene.launch("InfoScene");
     }
 
     preload(): void {
