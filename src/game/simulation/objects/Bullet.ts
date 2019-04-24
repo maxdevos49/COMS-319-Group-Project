@@ -10,8 +10,6 @@ import { weaponCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 
 export class Bullet extends GameObject {
-    public id: string;
-    public type: GameObjectType;
 
 	/**
 	 * The id of the game object that owns this bullet (normally the player that shot it)

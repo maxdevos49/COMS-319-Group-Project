@@ -1,4 +1,3 @@
-// import { b2World } from "../../../../lib/box2d-physics-engine/Dynamics/b2World";
 import { GameSimulation } from "../GameSimulation";
 import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";

@@ -70,7 +70,7 @@ export class Player extends GameObject {
         // moves in response to forces, and has a finite, non-zero mass.
         const bodyDef: b2BodyDef = new b2BodyDef();
         bodyDef.type = b2BodyType.b2_dynamicBody;
-        bodyDef.position.Set(0, 0);
+        bodyDef.position.Set(this.simulation.map.width / 4, this.simulation.map.height / 4);//this is temporary for location
         this.body = this.simulation.world.CreateBody(bodyDef);
 
         // Fixtures are carried around on the bodies. They define a body's
