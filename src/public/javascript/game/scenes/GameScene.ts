@@ -110,9 +110,10 @@ export class GameScene extends Phaser.Scene {
         this.connection.events.forEach((event: IEvent, index) => {
             if (event.type === EventType.Health) {
                 const healthEvent = event as HealthEvent;
-                console.log('health is: ' + healthEvent.setHealthTo);
+                // Update HP displayed on screen
+                this.events.emit("setHP", healthEvent.setHealthTo);
                 if (healthEvent.setHealthTo <= 0) {
-                    this.scene.switch("MainMenuScene");
+                    // TODO: Give player the option to respawn
                 }
             }
             // Remove the event from the list since it should have been handled
