@@ -17,7 +17,7 @@ export class GameMatchmaking {
      */
     games: GameServer[];
 
-    constructor(serverSocket: Server) {
+    constructor(serverSocket: Server, randomizeTerrain: boolean = false) {
         this.games = [];
         this.serverSocket = serverSocket;
         // Create the socket for the games endpoint
@@ -41,7 +41,7 @@ export class GameMatchmaking {
         });
 
         // TODO: Implement smart game begin/end
-        this.games.push(new GameServer(serverSocket));
+        this.games.push(new GameServer(serverSocket, randomizeTerrain));
         console.log(
             "A game server has begun with id: " + this.games[0].serverId
         );

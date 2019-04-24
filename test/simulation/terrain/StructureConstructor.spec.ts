@@ -179,11 +179,9 @@ describe("Structure Constructor", () => {
         let connectionNorthOfSecondPart = structConstr.openConnectionPoints.findIndex((pcp) => {
             return pcp.x == 11 && pcp.y == 20 && pcp.template.connection_direction == "north";
         });
-        console.log("THAT CONNECTION: " + structConstr.openConnectionPoints[connectionNorthOfSecondPart].template.connection_direction);
         expect(structConstr.attemptPlacePart(part1, structConstr.popOpenConnectionPoint(connectionNorthOfSecondPart))).to.be.true;
 
         structConstr.placedParts.forEach((p) => console.log(p.x + " " + p.y));
-        structConstr.openConnectionPoints.forEach((p) => console.log("cp: " + p.x + " " + p.y + " " + p.template.connection_direction));
 
         expect(structConstr.placedParts).to.have.length(4);
         expect(structConstr.openConnectionPoints).to.have.length(8);

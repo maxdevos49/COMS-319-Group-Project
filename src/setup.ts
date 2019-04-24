@@ -36,7 +36,7 @@ export default function (server: http.Server) {
 
     //game controllers and sockets
     const io = socketIO(server);
-    new GameMatchmaking(io);
+    new GameMatchmaking(io, true);
 
     //web page controllers
     router.use("/Home", homeController);
