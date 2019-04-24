@@ -260,7 +260,6 @@ export class StructureConstructor {
             });
             // Remove any connection points this structure owned
             this.openConnectionPoints = this.openConnectionPoints.filter((cp) => cp.owner != toRevert);
-            //console.log(toRevert + " " + this.usedConnectionPoints.get(toRevert));
             this.revertMoves(num - 1);
         }
     }
@@ -280,21 +279,18 @@ export class StructureConstructor {
 
         // Check that the part fits within the map
         if (!(0 <= absX && absX + part.width < this.map.width && 0 <= absY && absY + part.height < this.map.height)) {
-            //console.log("failed here" + absX + " " + absY);
             return false;
         }
 
         // Check that the connection requirements for the existing connection are satisfied by the new part
         let existingConnectionSatisfied: boolean = this.tiles.checkTileIdentifiesAs(this.getStructureTileName(part, (on.x + onOffset.dx) - absX, (on.y + onOffset.dy) - absY), on.template.expects);
         let newConnectionSatisfied: boolean = this.tiles.checkTileIdentifiesAs(this.getStructureTileName(on.owner.template, (connection.x + offset.dx) + (absX - on.owner.x), (connection.y + offset.dy) + (absY - on.owner.y)), connection.expects);
-        //console.log(this.getStructureTileName(part, (on.x + onOffset.dx) - absX, (on.y + onOffset.dy) - absY) + " " + this.getStructureTileName(on.owner.template, (connection.x + offset.dx) + (absX - on.owner.x), (connection.y + offset.dy) + (absY - on.owner.y)));
+
         if (!(existingConnectionSatisfied && newConnectionSatisfied)) {
-            //console.log("failed at requirment: " + existingConnectionSatisfied + " " + newConnectionSatisfied + " " + absX + " " + absY);
             return false;
         }
         // Check every point this structure part occupied
         for (let p of this.accumulateOccupiedPoints(part, absX, absY)) {
-            //console.log(p.x + " " + p.y);
             // Check if the current block at each occupied point is one that this structure can overwrite
             let canOccupyPoint: boolean = this.tiles.checkTileIndexIdentifiesAs(this.getBlockIndexAt(p.x, p.y), this.struct.generatesOn);
             // If there are any points which this structure would need to occupy that are invalid, don't generate the structure
