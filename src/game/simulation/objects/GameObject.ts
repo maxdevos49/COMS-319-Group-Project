@@ -1,5 +1,5 @@
 import { GameSimulation } from "../GameSimulation";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
 
 export abstract class GameObject {

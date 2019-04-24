@@ -6,7 +6,7 @@ import { TerrainMap } from "../../public/javascript/game/models/TerrainMap";
 import { PlayerMoveUpdateQueue } from "../../public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPositionUpdate";
-import { IObjectDescription, GameObjectType } from "../../public/javascript/game/models/objects/IObjectDescription";
+import { IObjectDescription, GameObjectType } from "../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { TerrainGenerator } from "./TerrainSimulator";
 
 /**

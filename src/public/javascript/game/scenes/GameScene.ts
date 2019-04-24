@@ -3,10 +3,10 @@ import { GameConnection } from "../GameConnection.js";
 import { GameObject } from "../objects/GameObject.js";
 import { UserInput } from "../objects/UserInput.js";
 import { Bullet } from "../objects/Bullet.js";
-import { IObjectDescription, GameObjectType } from "../models/objects/IObjectDescription.js";
+import { IObjectDescription, GameObjectType } from "../models/objects/Descriptions/IObjectDescription.js";
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
-import { PlayerObjectDescription } from "../models/objects/PlayerObjectDescription.js";
-import { BulletObjectDescription } from "../models/objects/BulletObjectDescription.js";
+import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
+import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {

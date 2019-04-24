@@ -1,6 +1,6 @@
 import { GameObject } from "./GameObject.js";
 import { SCALE_FACTOR } from "../Game.js";
-import { PlayerObjectDescription } from "../models/objects/PlayerObjectDescription.js";
+import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
 import { PlayerPositionUpdate } from "../models/objects/PlayerPositionUpdate.js";
 import { PlayerMoveUpdate } from "../models/PlayerMoveUpdate.js";
 

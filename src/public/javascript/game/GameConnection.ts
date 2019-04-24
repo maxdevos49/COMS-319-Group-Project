@@ -3,7 +3,7 @@ import { PlayerInfo } from "./models/PlayerInfo.js";
 import { PositionUpdateQueue } from "./data-structures/PositionUpdateQueue.js";
 import { IPositionUpdate } from "./models/objects/IPositionUpdate";
 import { PlayerMoveUpdate } from "./models/PlayerMoveUpdate.js";
-import { IObjectDescription } from "./models/objects/IObjectDescription";
+import { IObjectDescription } from "./models/objects/Descriptions/IObjectDescription";
 import { TerrainMap } from "./models/TerrainMap";
 
 /**

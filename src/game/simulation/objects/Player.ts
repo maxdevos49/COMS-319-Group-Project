@@ -14,8 +14,8 @@ import {
     PlayerPositionUpdate
 } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
-import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/PlayerObjectDescription";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";

@@ -3,7 +3,7 @@ import { b2Vec2 } from "../../lib/box2d-physics-engine/Common/b2Math";
 import { b2World } from "../../lib/box2d-physics-engine/Dynamics/b2World";
 import { Bullet } from "../../src/game/simulation/objects/Bullet";
 import { BulletPositionUpdate } from "../../src/public/javascript/game/models/objects/BulletPositionUpdate";
-import { BulletObjectDescription } from "../../src/public/javascript/game/models/objects/BulletObjectDescription";
+import { BulletObjectDescription } from "../../src/public/javascript/game/models/objects/Descriptions/BulletObjectDescription";
 import { GameSimulation } from "../../src/game/simulation/GameSimulation";
 import { PlayerMoveUpdateQueue } from "../../src/public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 
