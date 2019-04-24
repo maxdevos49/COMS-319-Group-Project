@@ -77,7 +77,7 @@ export class TerrainMap {
     /**
      * A map from layer name to the index in the layers array
      */
-    public  layerNameToIndex: Map<string, number>;
+    public  layerNameToIndex: any;
     /**
      * The width of each tile
      */
@@ -119,12 +119,12 @@ export class TerrainMap {
         this.width = width;
         this.height = height;
         this.layers = [];
-        this.layerNameToIndex = new Map<string, number>();
+        this.layerNameToIndex = {};
         // Sort the layers by their level
-        layers.sort((layer1, layer2) => layer2.level - layer1.level);
+        layers.sort((layer1, layer2) => layer1.level - layer2.level);
         for (let i = 0; i < layers.length; i++) {
             this.layers.push(new PhaserTileMapLayer(layers[i].name, width, height, defaultTile));
-            this.layerNameToIndex.set(layers[i].name, i);
+            this.layerNameToIndex[layers[i].name] = i;
         }
         this.tilewidth = tileWidth;
         this.tileheight = tileHeight;
@@ -165,7 +165,7 @@ export class TerrainMap {
     public setBlock(layerName: string, x: number, y: number, index: number): void {
         let layerNames: string[] = layerName.split("&");
         layerNames.forEach((name => {
-            let layer = this.layers[this.layerNameToIndex.get(name)];
+            let layer = this.layers[this.layerNameToIndex[name]];
             layer.data[(y * layer.width) + x] = index;
         }));
     }

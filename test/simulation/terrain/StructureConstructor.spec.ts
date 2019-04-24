@@ -334,6 +334,6 @@ describe("Structure Constructor", () => {
         expect(map.getHighestTile(11, 20)).to.equal(0);
         structConstr.commit();
         expect(map.getHighestTile(10, 20)).to.equal(1);
-        expect(map.getHighestTile(10, 20)).to.equal(0);
+        expect(map.getHighestTile(11, 20)).to.equal(0);
     });
 });

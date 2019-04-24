@@ -25,8 +25,7 @@ describe("Terrain Map", () => {
         let testMap: TerrainMap = new TerrainMap(10, 15, 10, 20, layers, tiles);
         expect(testMap).to.have.property("width").that.equals(10);
         expect(testMap).to.have.property("height").that.equals(15);
-        expect(testMap.layers[0].data).to.have.length(15);
-        expect(testMap.layers[0].data[0]).to.have.length(10);
+        expect(testMap.layers[0].data).to.have.length(10 * 15);
     });
 
     it("Should fill the data array with the default value", () => {
