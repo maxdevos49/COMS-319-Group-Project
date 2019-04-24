@@ -138,6 +138,7 @@ export class TerrainMap {
      * @param x The x coordinate of the tile to check
      * @param y The y coordinate of the tile to check
      * @param ignore Optional array of strings with the names of layers to ignore when performing this search
+     * @return The index of the highest tile
      */
     public getHighestTile(x: number, y: number, ignore?: string[]): number {
         for (let i = this.layers.length - 1; i >= 0; i--) {
@@ -161,6 +162,7 @@ export class TerrainMap {
      * @param x The x coordinate of the tile to set in the given layer
      * @param y The y coordinate of the tile to set in the given layer
      * @param index The index to set the tile to
+     * @return {void}
      */
     public setBlock(layerName: string, x: number, y: number, index: number): void {
         let layerNames: string[] = layerName.split("&");

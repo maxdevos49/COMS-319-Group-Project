@@ -72,6 +72,7 @@ export class StructureConstructor {
 
     /**
      * Checks if there are no required connection points left in the open connection point array
+     * @return True if all of the required connections are filled, false otherwise
      */
     public isAllRequiredConnectionsFilled(): boolean {
         if (this.openConnectionPoints.length == 0) {
@@ -86,6 +87,7 @@ export class StructureConstructor {
     /**
      * Pops an open connection point off of the array and returns it
      * @param at The optional index of the connection point to return
+     * @return The last open connection point in the array or the one at the given index
      */
     public popOpenConnectionPoint(at?: number): IPlacedStructurePartConnection {
         if (at && at < this.openConnectionPoints.length - 1) {
@@ -104,6 +106,7 @@ export class StructureConstructor {
      * @param part The part to set as the root
      * @param x The absolute x coordinate to place the top-left corner of the part
      * @param y The absolute y coordinate to place the top-left corner of the part
+     * @return True if the root placement is successful, false otherwise
      */
     public setRoot(part: IStructurePart, x: number, y: number): boolean {
         // Check every point this structure part occupies
@@ -141,6 +144,13 @@ export class StructureConstructor {
         return true;
     }
 
+    /**
+     * Attempts to place the given part on the given connections, this will try to place every connection the given
+     * parts has on the given connection
+     * @param part The part to attempt to place
+     * @param on The connection to attempt to place the part on
+     * @return True if the part is placed, false otherwise
+     */
     public attemptPlacePart(part: IStructurePart, on: IPlacedStructurePartConnection): boolean {
         // Iterate through every connection point of the part template
         for (let i = 0; i < part.connections.length; i++) {
@@ -245,7 +255,7 @@ export class StructureConstructor {
      * will revert all successful attemptPlacePart calls.
      * @param num The number of moves to revert
      */
-    public revertMoves(num: number) {
+    public revertMoves(num: number): void {
         if (num > 0) {
             let toRevert: IPlacedStructurePart = this.placedParts.pop();
 
@@ -272,6 +282,7 @@ export class StructureConstructor {
      * @param absY The absolute y coordinate to check if top-left coordinate of the part can be placed at
      * @param connection The connection of the given part to attempt to connect
      * @param on The connection to attempt to connect the given part to
+     * @return True if the structure can be placed using the given connections, false otherwise
      */
     public checkConnectionWorks(part: IStructurePart, absX: number, absY: number, connection: IStructureConnection, on: IPlacedStructurePartConnection): boolean {
         let onOffset = getConnectionDirectionOffset(on.template.connection_direction);
@@ -307,6 +318,7 @@ export class StructureConstructor {
      * @param part The part to accumulate to occupied points for
      * @param partX The absolute x coordinate of the top-left point of the structure
      * @param partY The absolute y coordinate of the top-left point of the structure
+     * @return An array of points corresponding to every point the structure occupies
      */
     public accumulateOccupiedPoints(part: IStructurePart, partX: number, partY: number): Point[] {
         let points: Point[] = [];
@@ -322,6 +334,7 @@ export class StructureConstructor {
      * Returns the block index at the given location including any structures that have been placed but not committed
      * @param x The x coordinate of the block to check in absolute coordinates (relative to the top-left of the map)
      * @param y The y coordinate of the block to check in absolute coordinates (relative to the top-left of the map)
+     * @return The index of the tile at the given location
      */
     public getBlockIndexAt(x: number, y: number): number {
         // Make sure the coordinate is in range of the map
@@ -342,6 +355,7 @@ export class StructureConstructor {
      * @param placed The placed structure part
      * @param x The absolute x coordinate (relative to the top left corner of the map)
      * @param y The absolute y coordinate (relative to the top left corner of the map)
+     * @return The index of the tile at the given absolute coordinates or -1 if the given coordinate is not over the structure
      */
     public getPlacedStructureBlockIndexAt(placed: IPlacedStructurePart, x: number, y: number): number {
         let dx = x - placed.x;
@@ -361,6 +375,7 @@ export class StructureConstructor {
      * @param part The part to get the tile name of
      * @param x The x coordinate of the tile to check relative to the structure part
      * @param y The y coordinate of the tile to check relative to the structure part
+     * @return The name of the tile located at the given relative coordinate from the structure
      */
     public getStructureTileName(part: IStructurePart, x: number, y: number) {
         // Check that the coordinate exists in the structure

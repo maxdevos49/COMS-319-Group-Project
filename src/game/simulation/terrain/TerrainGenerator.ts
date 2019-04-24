@@ -28,6 +28,7 @@ export class TerrainGenerator {
      * @param simulation The simulation to generate the new random world in
      * @param width The width of the map to generate
      * @param height The height of the map to generate
+     * @return The terrain map that was generated
      */
     public static generateTerrain(simulation: GameSimulation, width: number, height: number): TerrainMap {
         let layers: ITileLayer[] = this.loadAllLayers();
@@ -138,6 +139,7 @@ export class TerrainGenerator {
      * the rarity of each part and returns parts proportional to this.
      * @param options The parts that this method can return
      * @param alreadyAttempted The parts that this method shouldn't return
+     * @return A random structure part
      */
     public static randomStructurePart(options: IStructurePart[], alreadyAttempted: IStructurePart[]) {
         let possibleOptions: IStructurePart[] = options.filter((part) => part.rarity > 0 && !alreadyAttempted.includes(part));
@@ -146,7 +148,7 @@ export class TerrainGenerator {
         if (possibleOptions.length == 1) {
             return possibleOptions[0];
         } else if (possibleOptions.length == 0) {
-            return undefined;
+            return null;
         }
 
         let totalRarity: number = possibleOptions.map((part) => part.rarity)
@@ -160,15 +162,16 @@ export class TerrainGenerator {
             }
         }
         // Should never happen
-        return null;
+        throw "Failed to select random structure part";
     }
 
     /**
      * Returns a random tile from the given options. This method considers the rarity of each tile and randomly returns
      * tiles proportional to this value
      * @param options The tiles that this function can return
+     * @return A random tile
      */
-    public static randomTile(options: ITileOption[]) {
+    public static randomTile(options: ITileOption[]): ITileOption {
         while (true) {
             let selected: ITileOption = options[Math.floor(Math.random() * options.length)];
             if ((Math.random() * 100) < selected.rarity) return selected;
@@ -180,6 +183,7 @@ export class TerrainGenerator {
      * @param temp The temperature of the region from 0 to 100
      * @param humidity The humidity of the region from 0 to 100
      * @param regions The regions to consider
+     * @return The region that best fits the given climate
      */
     public static findBestFitRegion(temp: number, humidity: number, regions: IRegion[]) {
         let curBest: IRegion;
@@ -200,6 +204,7 @@ export class TerrainGenerator {
 
     /**
      * Loads the layers file from the disk and returns the data in it
+     * @return All of the loaded tile layers
      */
     public static loadAllLayers(): ITileLayer[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "layers.json"), "utf8")) as ITileLayer[];
@@ -208,6 +213,7 @@ export class TerrainGenerator {
     /**
      * Loads the tiles json file from the disk and then uses the paths given in it to load all of the available tiles as
      * a tile dictionary
+     * @return All of the tiles as a tile dictionary
      */
     public static loadAllTiles(): TileDictionary {
         // Load atlas with paths to other tiles
@@ -224,6 +230,7 @@ export class TerrainGenerator {
 
     /**
      * Loads the regions json file from the disk and returns its data
+     * @return All of the regions that were loaded
      */
     public static loadAllRegions(): IRegion[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "regions.json"), "utf8")) as IRegion[];
@@ -231,6 +238,7 @@ export class TerrainGenerator {
 
     /**
      * Loads the structures file from the disk and returns its data
+     * @return All of the structures that were loaded
      */
     public static loadAllStructures(): IStructure[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", "structures.json"), "utf8")) as IStructure[];
@@ -239,6 +247,7 @@ export class TerrainGenerator {
     /**
      * Loads the structure parts json file that belongs to the given structures and returns its data
      * @param struct The structure to load the parts for
+     * @param All of the parts that were loaded for the given structure
      */
     public static loadAllStructureParts(struct: IStructure): IStructurePart[] {
         return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", struct.path), "utf8")) as IStructurePart[];
