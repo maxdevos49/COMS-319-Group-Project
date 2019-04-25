@@ -6,7 +6,7 @@ import { ItemPositionUpdate } from "../../../public/javascript/game/models/objec
 import { b2Body, b2BodyDef, b2BodyType, b2FixtureDef, b2CircleShape, b2Fixture } from "../../../../lib/box2d-physics-engine/Box2D";
 import { ItemObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/ItemObjectDescription";
 import { IITem } from "../../../game/interfaces/IITem";
-import { hitboxCollisionFilter } from "../CollisionFilters";
+import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 
 export class ItemObject extends GameObject {
 
@@ -32,7 +32,7 @@ export class ItemObject extends GameObject {
 
         //Body
         const bodyDef: b2BodyDef = new b2BodyDef();
-        bodyDef.type = b2BodyType.b2_dynamicBody;
+        bodyDef.type = b2BodyType.b2_staticBody;
         bodyDef.position.Set(5, 5);
         this.body = this.simulation.world.CreateBody(bodyDef);
 
@@ -40,7 +40,7 @@ export class ItemObject extends GameObject {
         const fixtureDef: b2FixtureDef = new b2FixtureDef();
         fixtureDef.userData = config.id;
         fixtureDef.shape = new b2CircleShape(.05);
-        fixtureDef.filter.Copy(hitboxCollisionFilter);
+        fixtureDef.filter.Copy(worldCollisionFilter);
         fixtureDef.density = 0;
         this.fixture = this.body.CreateFixture(fixtureDef);
 
@@ -87,8 +87,7 @@ export class ItemObject extends GameObject {
         //add into inventory eventually of colliding player
 
         //do this after adding to inventory
-        console.log("Hello");
-        this.simulation.destroyGameObject(this.id);
+        // this.simulation.destroyGameObject(this.id);
     }
 
 
