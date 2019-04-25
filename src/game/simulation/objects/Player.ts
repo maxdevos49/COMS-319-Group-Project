@@ -6,7 +6,7 @@ import {
     b2Fixture,
     b2FixtureDef,
     b2PolygonShape, b2Shape,
-    b2World, XY,
+    b2World, XY, b2Vec2,
 } from "../../../../lib/box2d-physics-engine/Box2D";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
 import {
@@ -21,6 +21,8 @@ import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
 import { Bullet } from "./Bullet";
 import v1Gen from "uuid/v1";
+import { ItemObject } from "./ItemObject";
+import { ItemType } from "../../../public/javascript/game/models/objects/Descriptions/IItemObjectDescription";
 
 /**
  * A player in the game. Contains the physics body.
@@ -89,6 +91,19 @@ export class Player extends GameObject {
         playerHitboxFixtureDef.shape = Player.playerHitboxShape;
         playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
+
+
+        //testing
+        let item = new ItemObject(this.simulation, {
+            id: "randoid",
+            type: GameObjectType.Item,
+            item: {
+                id: "randoid",
+                itemType: ItemType.Default,
+                sprite: "Default"
+            }
+
+        })
     }
 
     public destroy(): void {

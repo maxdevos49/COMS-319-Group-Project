@@ -7,6 +7,9 @@ import { IObjectDescription, GameObjectType } from "../models/objects/Descriptio
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
 import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
+import { on } from "cluster";
+import { Item } from "../objects/Item.js";
+import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -114,18 +117,26 @@ export class GameScene extends Phaser.Scene {
 
     private addNewObject(newObjectDescription: IObjectDescription) {
         let object: GameObject;
-        if (newObjectDescription.type === GameObjectType.Player) {
-            object = new Player(this, newObjectDescription as PlayerObjectDescription);
-            // Check if the id of this object is the clients, if it is save the reference to it
-            if (this.connection.clientId === newObjectDescription.id) {
-                this.clientPlayer = object as Player;
-                this.cameras.main.startFollow(this.clientPlayer);
-            }
-        } else if (newObjectDescription.type === GameObjectType.Bullet) {
-            object = new Bullet(this, newObjectDescription as BulletObjectDescription);
-        } else {
-            throw "Unknown game object type";
+
+        switch (newObjectDescription.type) {
+            case GameObjectType.Player:
+                object = new Player(this, newObjectDescription as PlayerObjectDescription);
+                // Check if the id of this object is the clients, if it is save the reference to it
+                if (this.connection.clientId === newObjectDescription.id) {
+                    this.clientPlayer = object as Player;
+                    this.cameras.main.startFollow(this.clientPlayer);
+                }
+                break;
+            case GameObjectType.Bullet:
+                object = new Bullet(this, newObjectDescription as BulletObjectDescription);
+                break;
+            case GameObjectType.Item:
+                object = new Item(this, newObjectDescription as ItemObjectDescription)
+                break;
+            default:
+                throw "Unknown game object type";
         }
+
         this.objects.set(object.id, object);
         this.add.existing(object);
     }

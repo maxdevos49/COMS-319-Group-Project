@@ -6,35 +6,43 @@ export class ItemObjectDescription implements IITemDescription {
     /**
      * Id of item
      */
-    id: string;
+    public id: string;
 
     /**
      * Type of Game Object
      */
-    type: GameObjectType;
+    public type: GameObjectType;
 
     /**
      * Type of item
      */
-    itemType: ItemType;
+    public itemType: ItemType;
 
 	/**
 	 * The position of the item horizontaly
 	 */
-    x: number;
+    public x: number;
 
     /**
      * The position of the item vertically
      */
-    y: number;
+    public y: number;
 
-    constructor(givenId: string, givenX: number, givenY: number, givenItemType: ItemType) {
+    /**
+     * The sprite for the item
+     */
+    public sprite: string;
+
+
+
+    constructor(givenId: string, givenX: number, givenY: number, givenItemType: ItemType, givenSprite: string) {
         //properties
         this.id = givenId;
         this.x = givenX;
         this.y = givenY;
         this.type = GameObjectType.Item;
         this.itemType = givenItemType;
+        this.sprite = givenSprite;
     }
 
 }
