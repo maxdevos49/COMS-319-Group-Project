@@ -6,8 +6,10 @@ import { ToolTip } from "./Tooltip.js";
 
 export class Item extends GameObject {
 
+    /**
+     * The tooltip to show for the item
+     */
     private toolTip: ToolTip;
-
 
 	/**
 	 * Constructs a new bullet object
@@ -16,24 +18,34 @@ export class Item extends GameObject {
 	 */
     constructor(givenScene: Phaser.Scene, givenDescription: ItemObjectDescription) {
         super(givenScene, givenDescription.x * SCALE_FACTOR, givenDescription.y * SCALE_FACTOR, givenDescription.sprite);
-        givenScene.physics.world.enable(this);
-        this.setScale(0.3, 0.3);//this is probably not the right way to do this.
 
         //properties
         this.id = givenDescription.id;
-        this.body
 
         //Text
         this.toolTip = new ToolTip(this.scene, {
             x: givenDescription.x * SCALE_FACTOR,
             y: givenDescription.y * SCALE_FACTOR,
-            name: "Default",
+            name: "Default",//Add to itemobject description
             tip: "Pickup press p",
             font: "november",
             fontSize: 15
         });
 
+        this.setScale(0.3, 0.3);
+    }
 
+    public showTooltip(): void {
+        this.toolTip.fadeIn();
+    }
+
+    public hideTooltip(): void {
+        this.toolTip.fadeOut();
+    }
+
+    public destroy(): void {
+        this.toolTip.destroy();
+        super.destroy();
     }
 
     /**

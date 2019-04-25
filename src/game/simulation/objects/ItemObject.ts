@@ -33,10 +33,10 @@ export class ItemObject extends GameObject {
         //Body
         const bodyDef: b2BodyDef = new b2BodyDef();
         bodyDef.type = b2BodyType.b2_staticBody;
-        bodyDef.position.Set(5, 5);
+        bodyDef.position.Set(config.x, config.y);
         this.body = this.simulation.world.CreateBody(bodyDef);
 
-        // Create the collision fixture for the bullet
+        //Create the collision fixture for the bullet
         const fixtureDef: b2FixtureDef = new b2FixtureDef();
         fixtureDef.userData = config.id;
         fixtureDef.shape = new b2CircleShape(.05);
@@ -87,7 +87,7 @@ export class ItemObject extends GameObject {
         //add into inventory eventually of colliding player
 
         //do this after adding to inventory
-        // this.simulation.destroyGameObject(this.id);
+        this.simulation.destroyGameObject(this.id);
     }
 
 
@@ -98,6 +98,16 @@ export class ItemObject extends GameObject {
  */
 export interface IITemObjectConfig {
     id: string;
+
+    /**
+     * The horizonal location
+     */
+    x: number;
+
+    /**
+     * The vertical location
+     */
+    y: number;
     type: GameObjectType;
     item: IITem;
 }

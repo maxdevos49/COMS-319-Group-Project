@@ -7,7 +7,6 @@ import { IObjectDescription, GameObjectType } from "../models/objects/Descriptio
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
 import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
-import { on } from "cluster";
 import { Item } from "../objects/Item.js";
 import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 
@@ -29,6 +28,7 @@ export class GameScene extends Phaser.Scene {
      * The ground layer of the map
 	 */
     private groundLayer: Phaser.Tilemaps.StaticTilemapLayer;
+
     /**
      * A reference to the player that this client is playing
      */

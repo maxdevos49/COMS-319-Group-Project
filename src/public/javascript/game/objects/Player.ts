@@ -36,15 +36,19 @@ export class Player extends GameObject {
 	 */
     constructor(scene: Phaser.Scene, description: PlayerObjectDescription) {
         super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites");
-        scene.physics.world.enable(this);
         this.play("objects/player/walking");
 
         this.id = description.id;
         this.setRotation(description.facing);
+
+        //physics
+        scene.physics.world.enable(this);//needed for camera movement
     }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {
         this.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
         this.setRotation(newUpdate.facing);
+
+        this.body.debugBodyColor = this.body.touching.none ? 0x0099ff : 0xff9900;
     }
 }

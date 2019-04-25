@@ -18,9 +18,9 @@ let gameConfig: GameConfig = {
     physics: {
         default: "arcade",
         arcade: {
+            debug: false,
             gravity: { x: 0, y: 0 }
         },
-        debug: false
     },
 
     backgroundColor: "#FFFFFF"

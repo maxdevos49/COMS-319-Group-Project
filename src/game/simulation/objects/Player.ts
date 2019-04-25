@@ -96,13 +96,26 @@ export class Player extends GameObject {
         //testing
         let item = new ItemObject(this.simulation, {
             id: "randoid",
+            x: 0,
+            y: 0,
             type: GameObjectType.Item,
             item: {
                 id: "randoid",
                 itemType: ItemType.Default,
                 sprite: "Default"
             }
+        })
 
+        let item2 = new ItemObject(this.simulation, {
+            id: "randoid2",
+            x: 3,
+            y: 0,
+            type: GameObjectType.Item,
+            item: {
+                id: "randoid2",
+                itemType: ItemType.Default,
+                sprite: "Default"
+            }
         })
     }
 
