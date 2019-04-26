@@ -33,6 +33,12 @@ export class GameScene extends Phaser.Scene {
      * A reference to the player that this client is playing
      */
     private clientPlayer: Player;
+
+    /**
+     * Items group
+     */
+    public itemGroup: GameObject[];
+
     /**
      * The user input object that will move the player.
      */

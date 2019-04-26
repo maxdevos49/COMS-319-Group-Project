@@ -32,7 +32,19 @@ export class Item extends GameObject {
             fontSize: 15
         });
 
-        this.setScale(0.3, 0.3);
+        this.setScale(0.3, 0.3);//temp
+
+        this.setInteractive();
+
+        this.on("pointerover", () => {
+            this.showTooltip();
+        })
+
+        this.on("pointerout", () => {
+            this.hideTooltip();
+        })
+
+        this.hideTooltip();
     }
 
     public showTooltip(): void {

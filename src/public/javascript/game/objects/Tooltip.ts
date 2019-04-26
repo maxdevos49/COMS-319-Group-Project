@@ -35,7 +35,7 @@ export class ToolTip extends Phaser.GameObjects.Container {
         this.scene.add.tween({
             targets: [this],
             ease: 'Sine.easeInOut',
-            duration: 500,
+            duration: 100,
             delay: 0,
             alpha: {
                 getStart: () => 0,
@@ -51,7 +51,7 @@ export class ToolTip extends Phaser.GameObjects.Container {
         this.scene.add.tween({
             targets: [this],
             ease: 'Sine.easeInOut',
-            duration: 500,
+            duration: 100,
             delay: 0,
             alpha: {
                 getStart: () => this.alpha,

@@ -3,6 +3,7 @@ import { SCALE_FACTOR } from "../Game.js";
 import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
 import { PlayerPositionUpdate } from "../models/objects/PlayerPositionUpdate.js";
 import { PlayerMoveUpdate } from "../models/PlayerMoveUpdate.js";
+import { GameScene } from "../scenes/GameScene.js";
 
 export class Player extends GameObject {
     /**
@@ -34,7 +35,7 @@ export class Player extends GameObject {
 	 * @param scene The scene that the player should be created in
 	 * @param description The description to build the object from
 	 */
-    constructor(scene: Phaser.Scene, description: PlayerObjectDescription) {
+    constructor(scene: GameScene, description: PlayerObjectDescription) {
         super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites");
         this.play("objects/player/walking");
 
@@ -43,12 +44,13 @@ export class Player extends GameObject {
 
         //physics
         scene.physics.world.enable(this);//needed for camera movement
+        // scene.physics.overlap(this.body, scene.itemGroup);
     }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {
         this.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
         this.setRotation(newUpdate.facing);
 
-        this.body.debugBodyColor = this.body.touching.none ? 0x0099ff : 0xff9900;
+        // this.body.debugBodyColor = this.body.touching.none ? 0x0099ff : 0xff9900;
     }
 }
