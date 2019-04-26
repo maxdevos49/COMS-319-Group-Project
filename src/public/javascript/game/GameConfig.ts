@@ -3,6 +3,7 @@ import { MainMenuScene } from "./scenes/MainMenuScene.js";
 import { GameScene } from "./scenes/GameScene.js";
 import { GameLoadScene } from "./scenes/GameLoadScene.js";
 import { ChatScene } from "./scenes/ChatScene.js";
+import { InfoScene } from "./scenes/InfoScene.js";
 
 let gameConfig: GameConfig = {
     title: "B.R.T.D.",
@@ -14,7 +15,7 @@ let gameConfig: GameConfig = {
         mode: Phaser.Scale.FIT,
     },
     parent: "game",
-    scene: [BootScene, MainMenuScene, GameLoadScene, GameScene, ChatScene],
+    scene: [BootScene, MainMenuScene, GameLoadScene, GameScene, ChatScene, InfoScene],
     physics: {
         default: "arcade",
         arcade: {

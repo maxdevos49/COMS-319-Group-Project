@@ -10,6 +10,11 @@ import { weaponCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 
 export class Bullet extends GameObject {
+    /**
+     * The amount of damage that a bullet causes.
+     */
+    public static DAMAGE: number = 10;
+
     public id: string;
     public type: GameObjectType;
 

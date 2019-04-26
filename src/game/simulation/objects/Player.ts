@@ -5,58 +5,60 @@ import {
     b2CircleShape,
     b2Fixture,
     b2FixtureDef,
-    b2PolygonShape, b2Shape,
-    b2World, XY,
+    b2PolygonShape,
+    XY,
 } from "../../../../lib/box2d-physics-engine/Box2D";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
-import {
-    PlayerActionState,
-    PlayerPositionUpdate
-} from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
+import { PlayerActionState, PlayerPositionUpdate } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
 import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
 import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
-import { Bullet } from "./Bullet";
+import { Bullet } from "../../../game/simulation/objects/Bullet";
 import v1Gen from "uuid/v1";
+import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
 
 /**
  * A player in the game. Contains the physics body.
  */
-export class Player extends GameObject {
-	/**
-	 * The cool-down between shooting in frames
-	 */
+export class Player extends GameObject implements IHealth {
+    /**
+     * The cool-down between shooting in frames
+     */
     public static SHOOT_COOLDOWN: number = 5;
-	/**
-	 * Velocity in meters per second that the players should move.
-	 */
-    public static playerSpeed: number = 16;
-	/**
-	 * The hit box for player weapon collisions
-	 */
+    /**
+     * Velocity in meters per second that the players should move.
+     */
+    public static SPEED: number = 16;
+    /**
+     * The hit box for player weapon collisions
+     */
     public static playerHitboxHalfWidth: number = 0.5;
     public static playerHitboxHalfLength: number = 0.5;
     public static playerHitboxShape: b2PolygonShape = new b2PolygonShape().SetAsBox(Player.playerHitboxHalfWidth, Player.playerHitboxHalfLength);
 
-	/**
-	 * The Box2D physics body used for the physics simulation.
-	 */
+    /**
+     * The Box2D physics body used for the physics simulation.
+     */
     public body: b2Body;
-	/**
-	 * The collision fixture used to compute player-world collisions
-	 */
+    /**
+     * The collision fixture used to compute player-world collisions
+     */
     public playerCollisionFixture: b2Fixture;
-	/**
-	 * The collision fixture used to compute hits on the player (more accurate)
-	 */
+    /**
+     * The collision fixture used to compute hits on the player (more accurate)
+     */
     public playerHitboxFixture: b2Fixture;
-	/**
-	 * The frame which this player last shot
-	 */
+    /**
+     * The frame which this player last shot
+     */
     public lastShotFrame: number;
+    /**
+     * The player's health that ranges from 0 to 100.
+     */
+    public health: number;
 
     constructor(simulation: GameSimulation, id: string) {
         super(id, GameObjectType.Player, simulation)
@@ -65,6 +67,8 @@ export class Player extends GameObject {
 
         // Assume frame 0 because this variable is only used to restrict shooting speed
         this.lastShotFrame = 0;
+
+        this.health = 100;
 
         // The player is a dynamic body, which means that it is fully simulated,
         // moves in response to forces, and has a finite, non-zero mass.
@@ -95,11 +99,11 @@ export class Player extends GameObject {
         this.simulation.world.DestroyBody(this.body);
     }
 
-	/**
-	 * Checks if this player can shoot at the given frame and if it can updates the player cool-down for shooting and
-	 * returns true.
-	 * @param frame The frame number to check if the player can shoot on
-	 */
+    /**
+     * Checks if this player can shoot at the given frame and if it can updates the player cool-down for shooting and
+     * returns true.
+     * @param frame The frame number to check if the player can shoot on
+     */
     public attemptShoot(frame: number): boolean {
         if ((frame - this.lastShotFrame) > Player.SHOOT_COOLDOWN) {
             this.lastShotFrame = frame;
@@ -108,10 +112,10 @@ export class Player extends GameObject {
         return false;
     }
 
-	/**
-	 * Gets the PlayerPositionUpdate that describes the current state of the player
-	 * @param frame The frame for the position update to be made
-	 */
+    /**
+     * Gets the PlayerPositionUpdate that describes the current state of the player
+     * @param frame The frame for the position update to be made
+     */
     public getPositionUpdate(frame: number): IPositionUpdate {
         return new PlayerPositionUpdate(
             frame,
@@ -123,10 +127,10 @@ export class Player extends GameObject {
         );
     }
 
-	/**
-	 * Gets the NewPlayerObject that describes the state of the player. This can be sent to initialize the clients
-	 * knowledge of this player
-	 */
+    /**
+     * Gets the NewPlayerObject that describes the state of the player. This can be sent to initialize the clients
+     * knowledge of this player
+     */
     public getAsNewObject(): IObjectDescription {
         return new PlayerObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle());
     }
@@ -154,43 +158,43 @@ export class Player extends GameObject {
         }
     }
 
-	/**
-	 * Get the velocity for a desired change in position represented by
-	 * Up, UpLeft, etc.
-	 *
-	 * @param {PlayerMoveDirection} direction - The direction the player wants to move.
-	 * @return {XY} A velocity vector.
-	 */
+    /**
+     * Get the velocity for a desired change in position represented by
+     * Up, UpLeft, etc.
+     *
+     * @param {PlayerMoveDirection} direction - The direction the player wants to move.
+     * @return {XY} A velocity vector.
+     */
     private static getVelocityVector(direction: PlayerMoveDirection): XY {
         const velocity: XY = { x: 0, y: 0 };
         switch (direction) {
             case PlayerMoveDirection.Right:
-                velocity.x = Player.playerSpeed;
+                velocity.x = Player.SPEED;
                 break;
             case PlayerMoveDirection.UpRight:
-                velocity.x = Player.playerSpeed;
-                velocity.y = -Player.playerSpeed;
+                velocity.x = Player.SPEED;
+                velocity.y = -Player.SPEED;
                 break;
             case PlayerMoveDirection.Up:
-                velocity.y = -Player.playerSpeed;
+                velocity.y = -Player.SPEED;
                 break;
             case PlayerMoveDirection.UpLeft:
-                velocity.x = -Player.playerSpeed;
-                velocity.y = -Player.playerSpeed;
+                velocity.x = -Player.SPEED;
+                velocity.y = -Player.SPEED;
                 break;
             case PlayerMoveDirection.Left:
-                velocity.x = -Player.playerSpeed;
+                velocity.x = -Player.SPEED;
                 break;
             case PlayerMoveDirection.DownLeft:
-                velocity.x = -Player.playerSpeed;
-                velocity.y = Player.playerSpeed;
+                velocity.x = -Player.SPEED;
+                velocity.y = Player.SPEED;
                 break;
             case PlayerMoveDirection.Down:
-                velocity.y = Player.playerSpeed;
+                velocity.y = Player.SPEED;
                 break;
             case PlayerMoveDirection.DownRight:
-                velocity.x = Player.playerSpeed;
-                velocity.y = Player.playerSpeed;
+                velocity.x = Player.SPEED;
+                velocity.y = Player.SPEED;
                 break;
         }
 
@@ -208,5 +212,20 @@ export class Player extends GameObject {
         }
 
         return velocity;
+    }
+
+    public collideWith(object: IObjectDescription) {
+        if (object.type === GameObjectType.Bullet) {
+            this.takeDamage(Bullet.DAMAGE);
+        }
+    }
+
+    public takeDamage(damage: number) {
+        this.health -= damage;
+        // The event will be sent to the client
+        this.simulation.events.push(new HealthEvent(this.id, this.health))
+        if (this.health <= 0) {
+            this.simulation.destroyGameObject(this.id);
+        }
     }
 }

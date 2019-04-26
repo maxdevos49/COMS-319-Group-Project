@@ -6,7 +6,8 @@ import { TerrainMap } from "../../public/javascript/game/models/TerrainMap";
 import { PlayerMoveUpdateQueue } from "../../public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPositionUpdate";
-import { IObjectDescription, GameObjectType} from "../../public/javascript/game/models/objects/IObjectDescription";
+import { IObjectDescription, GameObjectType } from "../../public/javascript/game/models/objects/IObjectDescription";
+import { IEvent } from "../../public/javascript/game/models/objects/IEvent";
 import { TerrainGenerator } from "./terrain/TerrainGenerator";
 
 /**
@@ -45,6 +46,10 @@ export class GameSimulation {
      */
     public map: TerrainMap;
     /**
+     * A list of events to be sent to clients.
+     */
+    public events: IEvent[];
+    /**
      * A reference to the move queue in the game server.
      */
     private moves: PlayerMoveUpdateQueue;
@@ -73,6 +78,7 @@ export class GameSimulation {
 
         this.frame = 0;
         this.objects = new Map<string, Player>();
+        this.events = [];
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
         if (generateRandomTerrain) {
@@ -259,5 +265,9 @@ export class GameSimulation {
         let temp: string[] = this.deletedObjectIds;
         this.deletedObjectIds = [];
         return temp;
+    }
+
+    public hasPendingEvents(): boolean {
+        return this.events.length !== 0;
     }
 }

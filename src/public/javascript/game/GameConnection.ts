@@ -4,6 +4,7 @@ import { PositionUpdateQueue } from "./data-structures/PositionUpdateQueue.js";
 import { IPositionUpdate } from "./models/objects/IPositionUpdate";
 import { PlayerMoveUpdate } from "./models/PlayerMoveUpdate.js";
 import { IObjectDescription } from "./models/objects/IObjectDescription";
+import { IEvent, EventType } from "./models/objects/IEvent.js";
 import { TerrainMap } from "./models/TerrainMap";
 
 /**
@@ -39,6 +40,10 @@ export class GameConnection {
 	 */
 	public deletedObjects: string[];
 	/**
+	 * Events from the server that the player will handle.
+	 */
+	public events: IEvent[];
+	/**
 	 * The terrain map from the server which is a string containing JSON that should be in the shape of a TerrainMap
 	 */
 	public map: TerrainMap;
@@ -59,6 +64,7 @@ export class GameConnection {
 		this.players = [];
 		this.newObjects = [];
 		this.deletedObjects = [];
+		this.events = [];
 		this.ready = false;
 
 		this.connectToGame();
@@ -90,6 +96,7 @@ export class GameConnection {
 			this.receiveTerrainMap();
 			this.newPlayerInfo();
 			this.positionUpdate();
+			this.receiveEvent();
 			this.newObjectDescription();
 			this.updateDeletedObjects();
 
@@ -157,6 +164,12 @@ export class GameConnection {
 			newUpdates.forEach((update: IPositionUpdate) => {
 				this.positionUpdates.addUpdate(update);
 			});
+		});
+	}
+
+	private receiveEvent(): void {
+		this.socket.on("/update/event", (event: IEvent) => {
+			this.events.push(event);
 		});
 	}
 

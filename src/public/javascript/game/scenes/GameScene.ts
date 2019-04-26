@@ -7,8 +7,9 @@ import { IObjectDescription, GameObjectType } from "../models/objects/IObjectDes
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
 import { PlayerObjectDescription } from "../models/objects/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/BulletObjectDescription.js";
+import { IEvent, EventType } from "../models/objects/IEvent.js";
+import { HealthEvent } from "../models/objects/HealthEvent.js";
 import TilemapJSONFile = Phaser.Loader.FileTypes.TilemapJSONFile;
-
 
 export class GameScene extends Phaser.Scene {
     /**
@@ -52,6 +53,7 @@ export class GameScene extends Phaser.Scene {
         this.connection = connection;
         this.uInput = new UserInput(this);
         this.scene.launch("ChatScene", connection);
+        this.scene.launch("InfoScene");
     }
 
 	preload(): void {
@@ -97,6 +99,21 @@ export class GameScene extends Phaser.Scene {
             if (tempUpdate != null) {
                 object.applyUpdate(tempUpdate);
             }
+        });
+
+        // Handle events from the server
+        this.connection.events.forEach((event: IEvent, index) => {
+            if (event.type === EventType.Health) {
+                const healthEvent = event as HealthEvent;
+                // Update HP displayed on screen
+                this.events.emit("setHP", healthEvent.setHealthTo);
+                if (healthEvent.setHealthTo <= 0) {
+                    // TODO: Give player the option to respawn
+                }
+            }
+            // Remove the event from the list since it should have been handled
+            // by now
+            this.connection.events.splice(index, 1);
         });
 
 		// Send the players move to the server
