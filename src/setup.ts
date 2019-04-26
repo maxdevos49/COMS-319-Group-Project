@@ -24,6 +24,9 @@ export default function (server: http.Server) {
     mongoose.connect(config.database.dbUrl, { useNewUrlParser: true });
 
     //passport
+    //passport
+    let sessionMiddleware = session({ secret: config.session.secret, resave: false, saveUninitialized: false });
+    router.use(sessionMiddleware);
     localStrat(passport);
 
     //middleware

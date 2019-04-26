@@ -54,8 +54,6 @@ export class GameScene extends Phaser.Scene {
         this.scene.launch("ChatScene", connection);
     }
 
-    preload(): void {
-
 	preload(): void {
 		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);
         this.lastFrame = 0;
