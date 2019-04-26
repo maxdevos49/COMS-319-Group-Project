@@ -25,7 +25,7 @@ export class ItemObject extends GameObject {
     public item: InventoryItem;
 
     constructor(givenSimulation: GameSimulation, config: IITemObjectConfig) {
-        super(config.id, config.type, givenSimulation);
+        super(config.id, GameObjectType.Item, givenSimulation);
 
         this.item = config.item;
 
@@ -107,6 +107,9 @@ export interface IITemObjectConfig {
      * The vertical location
      */
     y: number;
-    type: GameObjectType;
+
+    /**
+     * The type of item
+     */
     item: InventoryItem;
 }

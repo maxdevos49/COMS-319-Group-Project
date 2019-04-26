@@ -95,22 +95,22 @@ export class Player extends GameObject {
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
 
 
-         //testing
-        //  let item = new ItemObject(this.simulation, {
-        //     id: "randoid",
-        //     x: 2,
-        //     y: 2,
-        //     type: GameObjectType.Item,
-        //     item: new DefaultInventoryItem("Item1", "Press f for Respects")
-        // })
+        //list
+        // z-offset
+        //testing with items
+        let item = new ItemObject(this.simulation, {
+            id: v1Gen(),
+            x: 2,
+            y: 2,
+            item: new DefaultInventoryItem("Item1", "Press f for Respects")
+        })
 
-        // let item2 = new ItemObject(this.simulation, {
-        //     id: "randoid2",
-        //     x: 3,
-        //     y: 0,
-        //     type: GameObjectType.Item,
-        //     item: new DefaultInventoryItem("Item2", "Press nothing cuz that dont work yet")
-        // })
+        let item2 = new ItemObject(this.simulation, {
+            id: v1Gen(),
+            x: 3,
+            y: 0,
+            item: new DefaultInventoryItem("Item2", "Press nothing cuz that dont work yet")
+        })
     }
 
     public destroy(): void {

@@ -47,7 +47,7 @@ describe('GameSimulation', () => {
             const originalSize: number = simulation.objects.size;
             simulation.addPlayer(v1Gen());
             const newSize: number = simulation.objects.size;
-            expect(newSize).to.equal(originalSize + 1);
+            expect(newSize).to.equal(originalSize + 3);
         });
     });
 
@@ -97,7 +97,7 @@ describe('GameSimulation', () => {
             const player: Player = simulation.objects.get(id) as Player;
 
             // The player is currently moving.
-            player.body.SetLinearVelocity({x: 5, y: 5});
+            player.body.SetLinearVelocity({ x: 5, y: 5 });
 
             // There is nothing in updateQueue.
             simulation.nextFrame();
