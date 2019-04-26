@@ -1,0 +1,50 @@
+[
+  {
+    "name": "sand_1",
+    "id": 8,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "sand_2",
+    "id": 9,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "sand_3",
+    "id": 10,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "sand_4",
+    "id": 11,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "sand_5",
+    "id": 12,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "sand_6",
+    "id": 13,
+    "groups": [
+      "@sand_empty"
+    ],
+    "layer": "ground"
+  }
+]

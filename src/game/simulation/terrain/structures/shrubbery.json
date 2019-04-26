@@ -1,0 +1,28 @@
+[
+  {
+    "name": "bush_1",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["bush_1_00", "bush_1_01", "bush_1_02"],
+      ["bush_1_10", "bush_1_11", "bush_1_12"],
+      ["bush_1_20", "bush_1_21", "bush_1_22"]
+    ],
+    "connections": [ ]
+  },
+  {
+    "name": "bush_2",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 3,
+    "height": 3,
+    "structure": [
+      ["bush_2_00", "bush_2_01", "bush_2_02"],
+      ["bush_2_10", "bush_2_11", "bush_2_12"],
+      ["bush_2_20", "bush_2_21", "bush_2_22"]
+    ],
+    "connections": [ ]
+  }
+]

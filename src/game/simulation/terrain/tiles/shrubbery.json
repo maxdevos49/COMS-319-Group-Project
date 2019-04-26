@@ -1,0 +1,92 @@
+[
+  {
+    "name": "bush_1_00",
+    "id": 28,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_01",
+    "id": 29,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_02",
+    "id": 30,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_10",
+    "id": 48,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_11",
+    "id": 49,
+    "layer": "scenery&wall"
+  },
+  {
+    "name": "bush_1_12",
+    "id": 50,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_20",
+    "id": 68,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_21",
+    "id": 69,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_1_22",
+    "id": 70,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_00",
+    "id": 31,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_01",
+    "id": 32,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_02",
+    "id": 33,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_10",
+    "id": 51,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_11",
+    "id": 52,
+    "layer": "scenery&wall"
+  },
+  {
+    "name": "bush_2_12",
+    "id": 53,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_20",
+    "id": 51,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_21",
+    "id": 52,
+    "layer": "scenery"
+  },
+  {
+    "name": "bush_2_22",
+    "id": 53,
+    "layer": "scenery"
+  }
+]

@@ -6,8 +6,8 @@ import { TerrainMap } from "../../public/javascript/game/models/TerrainMap";
 import { PlayerMoveUpdateQueue } from "../../public/javascript/game/data-structures/PlayerMoveUpdateQueue";
 import { PlayerMoveUpdate, PlayerMoveDirection } from "../../public/javascript/game/models/PlayerMoveUpdate";
 import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPositionUpdate";
-import { IObjectDescription, GameObjectType } from "../../public/javascript/game/models/objects/IObjectDescription";
-import { TerrainGenerator } from "./TerrainSimulator";
+import { IObjectDescription, GameObjectType} from "../../public/javascript/game/models/objects/IObjectDescription";
+import { TerrainGenerator } from "./terrain/TerrainGenerator";
 
 /**
  * Simulation of the physical world of the game.
@@ -30,15 +30,9 @@ export class GameSimulation {
     private static readonly velocityIterations: number = 6;
     private static readonly positionIterations: number = 2;
 
-    /**
-     * The dimensions of the map in tiles
-     */
-    private static readonly mapTileWidth = 200;
-    private static readonly mapTileHeight = 200;
-
-    /**
-     * The current frame number of the simulation.
-     */
+	/**
+	 * The current frame number of the simulation.
+	 */
     public frame: number;
 
     /**
@@ -68,8 +62,9 @@ export class GameSimulation {
      * is created unless the start parameter is false (it's true by default).
      *
      * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
+     * @param generateRandomTerrain Optional parameter which, if true, will cause the simulation to generate a random terrain with structures
      */
-    constructor(moves: PlayerMoveUpdateQueue) {
+    constructor(moves: PlayerMoveUpdateQueue, generateRandomTerrain?: boolean) {
         this.moves = moves;
 
         // Initialize the box2d world
@@ -80,8 +75,12 @@ export class GameSimulation {
         this.objects = new Map<string, Player>();
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
-        this.map = new TerrainMap(GameSimulation.mapTileWidth, GameSimulation.mapTileHeight, 0);
-        TerrainGenerator.fillTerrain(this.map);
+        if (generateRandomTerrain) {
+            this.map = TerrainGenerator.generateTerrain(this,1000, 1000);
+        } else {
+            // This will only be called when the test suite is running to avoid the expensive terrain generation operation
+            this.map = new TerrainMap(1000, 1000, 32, 32, [], [], 1);
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ import { IObjectDescription, GameObjectType } from "../models/objects/IObjectDes
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
 import { PlayerObjectDescription } from "../models/objects/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/BulletObjectDescription.js";
+import TilemapJSONFile = Phaser.Loader.FileTypes.TilemapJSONFile;
 
 
 export class GameScene extends Phaser.Scene {
@@ -17,15 +18,11 @@ export class GameScene extends Phaser.Scene {
     /**
      * The data from id to game object that contains all game objects in the game
      */
-    private objects: Map<string, GameObject>;
-	/**
-     * The tile map for this game server
-	 */
-    private tileMap: Phaser.Tilemaps.Tilemap;
-	/**
-     * The ground layer of the map
-	 */
-    private groundLayer: Phaser.Tilemaps.StaticTilemapLayer;
+	private objects: Map<string, GameObject>;
+    /**
+     * The the tile map for the game
+     */
+	private tileMap: Phaser.Tilemaps.Tilemap;
     /**
      * A reference to the player that this client is playing
      */
@@ -37,7 +34,11 @@ export class GameScene extends Phaser.Scene {
 	/**
 	 * The last frame processed and rendered by this game scene
 	 */
-    private lastFrame: number;
+	private lastFrame: number;
+    /**
+     * The point that the camera will follow. The camera cannot directly follow the player because of subpixel movement
+     */
+    private cameraFollowPoint: Phaser.Geom.Point;
 
     constructor() {
         super({
@@ -55,28 +56,24 @@ export class GameScene extends Phaser.Scene {
 
     preload(): void {
 
-        this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
-            if (event.keyCode === 121) {
-                if (this.scale.isFullscreen) {
-                    this.scale.stopFullscreen();
-                } else {
-                    this.scale.startFullscreen();
-                }
-            }
-        });
-
-        this.tileMap = this.add.tilemap(
-            this.connection.roomId,
-            this.connection.map.tileWidth,
-            this.connection.map.tileHeight,
-            this.connection.map.width,
-            this.connection.map.height,
-            this.connection.map.data
-        );
-        let tiles = this.tileMap.addTilesetImage("tiles");
-        this.groundLayer = this.tileMap.createStaticLayer(0, tiles, 0, 0);
+	preload(): void {
+		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);
         this.lastFrame = 0;
-        this.input.setDefaultCursor("crosshair");
+        console.log(this.connection.map);
+        this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
+        this.cameras.main.startFollow(this.cameraFollowPoint);
+        this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+    }
+
+    create(): void {
+	    this.tileMap = this.make.tilemap({key: this.connection.roomId});
+
+        let tileset = this.tileMap.addTilesetImage("tiles", "tiles");
+	    this.connection.map.layers.forEach((layer) => {
+            this.tileMap.createDynamicLayer(layer.name, tileset, 0, 0);
+        });
+        // @ts-ignore
+        this.animatedTiles.init(this.tileMap);
     }
 
     update(timestep: number, elapsed: number): void {
@@ -104,23 +101,28 @@ export class GameScene extends Phaser.Scene {
             }
         });
 
-        // Send the players move to the server
-        // Wait until the clients own player has been loaded to start sending updates
-        if (this.clientPlayer) {
-            let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
-            this.connection.sendMove(moveUpdate);
-        }
-    }
+		// Send the players move to the server
+		// Wait until the clients own player has been loaded to start sending updates
+		if (this.clientPlayer) {
+			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
+			this.connection.sendMove(moveUpdate);
+
+			// Move the camera
+            this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
+            this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
+
+            console.log(this.clientPlayer.x / 32 + " " + this.clientPlayer.y / 32);
+		}
+	}
 
     private addNewObject(newObjectDescription: IObjectDescription) {
         let object: GameObject;
         if (newObjectDescription.type === GameObjectType.Player) {
-            object = new Player(this, newObjectDescription as PlayerObjectDescription);
-            // Check if the id of this object is the clients, if it is save the reference to it
-            if (this.connection.clientId === newObjectDescription.id) {
-                this.clientPlayer = object as Player;
-                this.cameras.main.startFollow(this.clientPlayer);
-            }
+			object = new Player(this, newObjectDescription as PlayerObjectDescription);
+			// Check if the id of this object is the clients, if it is save the reference to it
+			if (this.connection.clientId === newObjectDescription.id) {
+				this.clientPlayer = object as Player;
+			}
         } else if (newObjectDescription.type === GameObjectType.Bullet) {
             object = new Bullet(this, newObjectDescription as BulletObjectDescription);
         } else {
