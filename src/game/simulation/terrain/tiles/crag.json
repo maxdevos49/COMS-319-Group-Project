@@ -1,0 +1,114 @@
+[
+  {
+    "name": "crag_1",
+    "id": 131,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_2",
+    "id": 132,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_3",
+    "id": 133,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_4",
+    "id": 134,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_5",
+    "id": 135,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_6",
+    "id": 136,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_7",
+    "id": 137,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_8",
+    "id": 138,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_9",
+    "id": 139,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_10",
+    "id": 158,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_11",
+    "id": 159,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_12",
+    "id":  117,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_13",
+    "id":  118,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "crag_14",
+    "id":  119,
+    "groups": [
+      "@crag_empty"
+    ],
+    "layer": "ground"
+  }
+]

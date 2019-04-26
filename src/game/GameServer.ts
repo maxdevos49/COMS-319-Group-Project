@@ -66,13 +66,13 @@ export class GameServer {
      * Constructs a GameServer object
      * @param serverSocket
      */
-    constructor(serverSocket: Server) {
+    constructor(serverSocket: Server, randomizeTerrain: boolean = false) {
         this.clients = new Map<string, Socket>();
         this.playerNames = new Map<string, string>();
 
         this.serverId = v1Gen();
         this.moveUpdateQueue = new PlayerMoveUpdateQueue(100000, 10);
-        this.simulation = new GameSimulation(this.moveUpdateQueue);
+        this.simulation = new GameSimulation(this.moveUpdateQueue, randomizeTerrain);
 
         // Initialize socket
         this.gameSocket = serverSocket.of("/games/" + this.serverId);

@@ -44,7 +44,7 @@ export class GameConnection {
 	 */
 	public events: IEvent[];
 	/**
-	 * The terrain map from the server
+	 * The terrain map from the server which is a string containing JSON that should be in the shape of a TerrainMap
 	 */
 	public map: TerrainMap;
 	/**

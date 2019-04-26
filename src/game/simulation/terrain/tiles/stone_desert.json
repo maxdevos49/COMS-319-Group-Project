@@ -1,0 +1,50 @@
+[
+  {
+    "name": "stone_desert_1",
+    "id": 22,
+    "groups": [
+      "@stone_desert_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "stone_desert_2",
+    "id": 23,
+    "groups": [
+      "@stone_desert_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "stone_desert_3",
+    "id": 24,
+    "groups": [
+      "@stone_desert_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "stone_desert_4",
+    "id": 25,
+    "groups": [
+      "@stone_desert_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "stone_desert_5",
+    "id": 26,
+    "groups": [
+      "@stone_desert_empty"
+    ],
+    "layer": "ground"
+  },
+  {
+    "name": "stone_desert_6",
+    "id": 27,
+    "groups": [
+      "@stone_desert_empty"
+    ],
+    "layer": "ground"
+  }
+]
