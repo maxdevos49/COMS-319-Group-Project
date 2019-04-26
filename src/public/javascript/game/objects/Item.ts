@@ -26,12 +26,13 @@ export class Item extends GameObject {
         this.toolTip = new ToolTip(this.scene, {
             x: givenDescription.x * SCALE_FACTOR,
             y: givenDescription.y * SCALE_FACTOR,
-            name: "Default",//Add to itemobject description
-            tip: "Pickup press p",
+            name: givenDescription.name,//Add to itemobject description
+            tip: givenDescription.tip,
             font: "november",
             fontSize: 15
         });
 
+        this.toolTip.setVisible(false);
         this.setScale(0.3, 0.3);//temp
 
         this.setInteractive();
@@ -43,8 +44,6 @@ export class Item extends GameObject {
         this.on("pointerout", () => {
             this.hideTooltip();
         })
-
-        this.hideTooltip();
     }
 
     public showTooltip(): void {

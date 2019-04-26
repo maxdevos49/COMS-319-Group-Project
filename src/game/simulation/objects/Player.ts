@@ -23,6 +23,8 @@ import { Bullet } from "./Bullet";
 import v1Gen from "uuid/v1";
 import { ItemObject } from "./ItemObject";
 import { ItemType } from "../../../public/javascript/game/models/objects/Descriptions/IItemObjectDescription";
+import { InventoryItem } from "./InventoryItem";
+import { DefaultInventoryItem } from "./TestInventoryItem";
 
 /**
  * A player in the game. Contains the physics body.
@@ -93,30 +95,22 @@ export class Player extends GameObject {
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
 
 
-        //testing
-        let item = new ItemObject(this.simulation, {
-            id: "randoid",
-            x: 0,
-            y: 0,
-            type: GameObjectType.Item,
-            item: {
-                id: "randoid",
-                itemType: ItemType.Default,
-                sprite: "Default"
-            }
-        })
+         //testing
+        //  let item = new ItemObject(this.simulation, {
+        //     id: "randoid",
+        //     x: 2,
+        //     y: 2,
+        //     type: GameObjectType.Item,
+        //     item: new DefaultInventoryItem("Item1", "Press f for Respects")
+        // })
 
-        let item2 = new ItemObject(this.simulation, {
-            id: "randoid2",
-            x: 3,
-            y: 0,
-            type: GameObjectType.Item,
-            item: {
-                id: "randoid2",
-                itemType: ItemType.Default,
-                sprite: "Default"
-            }
-        })
+        // let item2 = new ItemObject(this.simulation, {
+        //     id: "randoid2",
+        //     x: 3,
+        //     y: 0,
+        //     type: GameObjectType.Item,
+        //     item: new DefaultInventoryItem("Item2", "Press nothing cuz that dont work yet")
+        // })
     }
 
     public destroy(): void {

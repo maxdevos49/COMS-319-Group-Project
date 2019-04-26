@@ -5,9 +5,8 @@ import { IPositionUpdate } from "../../../public/javascript/game/models/objects/
 import { ItemPositionUpdate } from "../../../public/javascript/game/models/objects/ItemPositionUpdate";
 import { b2Body, b2BodyDef, b2BodyType, b2FixtureDef, b2CircleShape, b2Fixture } from "../../../../lib/box2d-physics-engine/Box2D";
 import { ItemObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/ItemObjectDescription";
-import { IITem } from "../../../game/interfaces/IITem";
-import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
-
+import { worldCollisionFilter } from "../CollisionFilters";
+import { InventoryItem } from "./InventoryItem";
 export class ItemObject extends GameObject {
 
     /**
@@ -23,7 +22,7 @@ export class ItemObject extends GameObject {
     /**
      * The unique Item reference for the item type.
      */
-    public item: IITem;
+    public item: InventoryItem;
 
     constructor(givenSimulation: GameSimulation, config: IITemObjectConfig) {
         super(config.id, config.type, givenSimulation);
@@ -58,7 +57,7 @@ export class ItemObject extends GameObject {
      *Gets a new GameObject Description for adding to clients
      */
     public getAsNewObject(): IObjectDescription {
-        return new ItemObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.item.itemType, this.item.sprite);
+        return new ItemObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.item.itemType, this.item.sprite, this.item.name, this.item.tip);
     }
 
     /**
@@ -109,5 +108,5 @@ export interface IITemObjectConfig {
      */
     y: number;
     type: GameObjectType;
-    item: IITem;
+    item: InventoryItem;
 }

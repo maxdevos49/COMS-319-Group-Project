@@ -33,9 +33,18 @@ export class ItemObjectDescription implements IITemDescription {
      */
     public sprite: string;
 
+    /**
+     * The name of the item
+     */
+    public name: string;
+
+    /**
+     * The tool tip for the item
+     */
+    public tip: string;
 
 
-    constructor(givenId: string, givenX: number, givenY: number, givenItemType: ItemType, givenSprite: string) {
+    constructor(givenId: string, givenX: number, givenY: number, givenItemType: ItemType, givenSprite: string, givenName: string, givenTip?: string) {
         //properties
         this.id = givenId;
         this.x = givenX;
@@ -43,6 +52,8 @@ export class ItemObjectDescription implements IITemDescription {
         this.type = GameObjectType.Item;
         this.itemType = givenItemType;
         this.sprite = givenSprite;
+        this.name = givenName;
+        this.tip = givenTip;
     }
 
 }
