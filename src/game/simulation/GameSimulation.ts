@@ -82,10 +82,10 @@ export class GameSimulation {
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
         if (generateRandomTerrain) {
-            this.map = TerrainGenerator.generateTerrain(this,1000, 1000);
+            this.map = TerrainGenerator.generateTerrain(this,500, 500);
         } else {
             // This will only be called when the test suite is running to avoid the expensive terrain generation operation
-            this.map = new TerrainMap(1000, 1000, 32, 32, [], [], 1);
+            this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
     }
 

@@ -45,6 +45,10 @@ export class PhaserTileMapLayer {
      */
     level: number;
     /**
+     * Whether placing a block on this layer should remove the blocks from every layer above it
+     */
+    removesAbove: boolean;
+    /**
      * The identifies for when this object is converted to JSON
      */
     readonly type: string = "tilelayer";
@@ -56,9 +60,10 @@ export class PhaserTileMapLayer {
      * @param height The height of this layer
      * @param level The level of this layer with 0 as ground level
      * @param collides Whether this tile layer collides with game objects
+     * @param removesAbove Whether placing a tile on this layer should remove all of the tiles above it
      * @param defaultTile The tile index the layer should be filled with
      */
-    constructor(name: string, width: number, height: number, level: number, collides: boolean, defaultTile: number = 0) {
+    constructor(name: string, width: number, height: number, level: number, collides: boolean, removesAbove: boolean, defaultTile: number = 0) {
         this.name = name;
         this.x = 0;
         this.y = 0;
@@ -69,6 +74,7 @@ export class PhaserTileMapLayer {
         this.opacity = 1;
         this.visible = true;
         this.collides = collides;
+        this.removesAbove = removesAbove;
         this.level = level;
     }
 
@@ -144,7 +150,7 @@ export class TerrainMap {
         // Sort the layers by their level
         layers.sort((layer1, layer2) => layer1.level - layer2.level);
         for (let i = 0; i < layers.length; i++) {
-            this.layers.push(new PhaserTileMapLayer(layers[i].name, width, height, layers[i].level, layers[i].collides, defaultTile));
+            this.layers.push(new PhaserTileMapLayer(layers[i].name, width, height, layers[i].level, layers[i].collides, layers[i].removeAbove,  defaultTile));
             this.layerNameToIndex[layers[i].name] = i;
         }
         this.tilewidth = tileWidth;
@@ -189,6 +195,15 @@ export class TerrainMap {
         let layerNames: string[] = layerName.split("&");
         layerNames.forEach((name => {
             let layer = this.layers[this.layerNameToIndex[name]];
+
+            if (layer.removesAbove) {
+                this.layers.forEach((layerToCheck) => {
+                    if (layerToCheck.level > layer.level) {
+                       this.setBlock(layerToCheck.name, x, y, 0);
+                    }
+                });
+            }
+
             layer.data[(y * layer.width) + x] = index;
         }));
     }

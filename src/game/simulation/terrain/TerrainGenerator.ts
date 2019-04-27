@@ -173,7 +173,6 @@ export class TerrainGenerator {
 
                 for (let layer of map.layers) {
                     if (layer.collides && layer.getBlock(x, y) != 0) {
-                        console.log("Adding fixture for " + layer.name + " as x: " + x + " y: " + y + " layer: " + layer.level);
                         let tileBodyDef: b2BodyDef = new b2BodyDef();
                         tileBodyDef.type = b2BodyType.b2_staticBody;
                         tileBodyDef.position.Set(((x * 32) / 100) + ((32 / 100) / 2), ((y * 32) / 100) + ((32 / 100) / 2));
