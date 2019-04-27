@@ -129,7 +129,7 @@ describe("Structure Constructor", () => {
         };
 
         tileDict = new TileDictionary(tiles);
-        map = new TerrainMap(100, 100, 10, 20, [{name:"testlayer1", level: 0}], tiles);
+        map = new TerrainMap(100, 100, 10, 20, [{name:"testlayer1", level: 0, collides: false}], tiles);
         structConstr = new StructureConstructor(struct, map, tileDict);
     });
 

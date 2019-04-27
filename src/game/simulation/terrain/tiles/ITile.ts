@@ -13,6 +13,7 @@ export interface ITileOption {
 export interface ITileLayer {
     name: string;
     level: number;
+    collides: boolean;
 }
 
 export class TileSet {

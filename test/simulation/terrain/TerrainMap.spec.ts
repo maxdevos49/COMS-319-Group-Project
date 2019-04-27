@@ -13,11 +13,13 @@ describe("Terrain Map", () => {
     let layers: ITileLayer[] = [
         {
             name: "testlayer1",
-            level: 0
+            level: 0,
+            collides: false
         },
         {
             name: "testlayer2",
-            level: 2
+            level: 2,
+            collides: false
         }
     ];
 

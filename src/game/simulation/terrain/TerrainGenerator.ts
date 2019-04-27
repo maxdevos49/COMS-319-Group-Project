@@ -12,6 +12,11 @@ import {
 } from "./structures/IStructure";
 import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
+import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
+import { b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
+import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
+import { worldAndHitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
+import { b2PolygonShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2PolygonShape";
 
 export class TerrainGenerator {
     /**
@@ -157,6 +162,36 @@ export class TerrainGenerator {
         }
 
         console.log("Placed " + successfulPlaceAttempts + " structures on the map");
+
+        console.log("Adding collision fixtures for the terrain");
+        let tileHitboxShape = new b2PolygonShape().SetAsBox((32 / 100) / 2, (32 / 100) / 2);
+        for (let x = 0; x < map.width; x++) {
+            for (let y = 0; y < map.height; y++) {
+                if (x < this.borderSize - 1 || y < this.borderSize  - 1 || ((width - x) < this.borderSize - 1) || (height - y)  < this.borderSize - 1) {
+                    continue;
+                }
+
+                for (let layer of map.layers) {
+                    if (layer.collides && layer.getBlock(x, y) != 0) {
+                        console.log("Adding fixture for " + layer.name + " as x: " + x + " y: " + y + " layer: " + layer.level);
+                        let tileBodyDef: b2BodyDef = new b2BodyDef();
+                        tileBodyDef.type = b2BodyType.b2_staticBody;
+                        tileBodyDef.position.Set(((x * 32) / 100) + ((32 / 100) / 2), ((y * 32) / 100) + ((32 / 100) / 2));
+                        let tileBody: b2Body = simulation.world.CreateBody(tileBodyDef);
+
+                        const tileFixtureDef: b2FixtureDef = new b2FixtureDef();
+                        tileFixtureDef.shape = tileHitboxShape;
+                        if (layer.level > 0) {
+                            tileFixtureDef.filter.Copy(worldAndHitboxCollisionFilter);
+                        } else {
+                            tileFixtureDef.filter.Copy(worldCollisionFilter);
+                        }
+                        tileBody.CreateFixture(tileFixtureDef);
+                    }
+                }
+            }
+        }
+
         return map;
     }
 

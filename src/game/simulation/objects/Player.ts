@@ -74,7 +74,7 @@ export class Player extends GameObject implements IHealth {
         // moves in response to forces, and has a finite, non-zero mass.
         const bodyDef: b2BodyDef = new b2BodyDef();
         bodyDef.type = b2BodyType.b2_dynamicBody;
-        bodyDef.position.Set(0, 0);
+        bodyDef.position.Set(10, 10);
         this.body = this.simulation.world.CreateBody(bodyDef);
 
         // Fixtures are carried around on the bodies. They define a body's
@@ -83,7 +83,7 @@ export class Player extends GameObject implements IHealth {
         // Create fixture for the player colliding with the world
         const playerCollisionFixtureDef: b2FixtureDef = new b2FixtureDef();
         playerCollisionFixtureDef.userData = id;
-        playerCollisionFixtureDef.shape = new b2CircleShape(.5); // 50 m radius
+        playerCollisionFixtureDef.shape = new b2CircleShape((96 / 100) / 2); // 50 m radius
         playerCollisionFixtureDef.filter.Copy(worldCollisionFilter);
         // fixture.density = 1.0; // 1.0 kg/m^3
         this.playerCollisionFixture = this.body.CreateFixture(playerCollisionFixtureDef, 4.0); // 1.0 kg/m^3 density
