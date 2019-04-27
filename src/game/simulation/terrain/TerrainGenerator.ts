@@ -22,7 +22,14 @@ export class TerrainGenerator {
      * The max number of times to attempt to place a part on a connection point
      */
     private static partAttemptPlaceLimit: number = 50;
-
+    /**
+     * The size of the border of water that will be placed on the edges of the map
+     */
+    private static borderSize: number = 25;
+    /**
+     * The size of the sand gradient that will exist between the water border and normal terrain
+     */
+    private static borderSandGradientSize: number = 5;
     /**
      * Generates a new terrain map with a randomized terrain.
      * @param simulation The simulation to generate the new random world in
@@ -42,12 +49,31 @@ export class TerrainGenerator {
         let temperatureMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
         let humidityMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
 
+        let waterTile: ITile = tiles.tiles_name.get("water");
+        let sandRegion: IRegion = regions.find((reg) => reg.name == "sand");
         // Loop through every tile and assign it a random tile based on the region that best fits
         for (let y = 0; y < map.height; y++) {
             for (let x = 0; x < map.width; x++) {
-                let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
-                let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
-                map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
+                // If we are within the range which water for the border should be placed then place it
+                if (x < this.borderSize || y < this.borderSize || ((width - x) < this.borderSize) || (height - y)  < this.borderSize) {
+                    map.setBlock(waterTile.layer, x, y, waterTile.id);
+                } else  {
+                    let distanceFromBorder: number = Math.min(
+                        Math.abs(x - this.borderSize),
+                        Math.abs((y - this.borderSize)),
+                        Math.abs(width - this.borderSize - x),
+                        Math.abs(height - this.borderSize - y)
+                    );
+
+                    if (distanceFromBorder < this.borderSandGradientSize && (Math.pow(this.borderSandGradientSize - distanceFromBorder, 2)) / Math.pow(this.borderSandGradientSize, 2) > Math.random()) {
+                        let tileToPlace: ITile = tiles.tiles_name.get(this.randomTile(sandRegion.tiles).name);
+                        map.setBlock(tileToPlace.layer, x, y, tileToPlace.id);
+                    } else {
+                        let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
+                        let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
+                        map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
+                    }
+                }
             }
         }
 
