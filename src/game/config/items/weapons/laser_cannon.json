@@ -1,0 +1,14 @@
+{
+  "name": "Laser Cannon",
+  "description": "burst cannon blaster",
+  "groundedItemSprite": "Default",
+  "inventoryItemSprite": "Default",
+  "type": "weapon",
+  "rarity": 100,
+  "generatedNextTo": "#metal_barricade",
+  "ammoSize": 100,
+  "clipSize": 10,
+  "fireRate": 1,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}
