@@ -20,7 +20,7 @@ import { Bullet } from "../../../game/simulation/objects/Bullet";
 import v1Gen from "uuid/v1";
 import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
 import { ItemObject } from "./ItemObject";
-import { DefaultInventoryItem } from "./TestInventoryItem";
+import { DefaultInventoryItem } from "../items/TestInventoryItem";
 
 /**
  * A player in the game. Contains the physics body.

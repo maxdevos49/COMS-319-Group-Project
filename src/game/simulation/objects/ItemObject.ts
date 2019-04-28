@@ -6,7 +6,7 @@ import { ItemPositionUpdate } from "../../../public/javascript/game/models/objec
 import { b2Body, b2BodyDef, b2BodyType, b2FixtureDef, b2CircleShape, b2Fixture } from "../../../../lib/box2d-physics-engine/Box2D";
 import { ItemObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/ItemObjectDescription";
 import { worldCollisionFilter } from "../CollisionFilters";
-import { InventoryItem } from "./InventoryItem";
+import { InventoryItem } from "../items/InventoryItem";
 export class ItemObject extends GameObject {
 
     /**
