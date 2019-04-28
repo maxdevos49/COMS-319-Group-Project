@@ -12,6 +12,11 @@ import {
 } from "./structures/IStructure";
 import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
+import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
+import { b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
+import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
+import { worldAndHitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
+import { b2PolygonShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2PolygonShape";
 
 export class TerrainGenerator {
     /**
@@ -22,7 +27,14 @@ export class TerrainGenerator {
      * The max number of times to attempt to place a part on a connection point
      */
     private static partAttemptPlaceLimit: number = 50;
-
+    /**
+     * The size of the border of water that will be placed on the edges of the map
+     */
+    private static borderSize: number = 25;
+    /**
+     * The size of the sand gradient that will exist between the water border and normal terrain
+     */
+    private static borderSandGradientSize: number = 5;
     /**
      * Generates a new terrain map with a randomized terrain.
      * @param simulation The simulation to generate the new random world in
@@ -42,12 +54,31 @@ export class TerrainGenerator {
         let temperatureMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
         let humidityMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
 
+        let waterTile: ITile = tiles.tiles_name.get("water");
+        let sandRegion: IRegion = regions.find((reg) => reg.name == "sand");
         // Loop through every tile and assign it a random tile based on the region that best fits
         for (let y = 0; y < map.height; y++) {
             for (let x = 0; x < map.width; x++) {
-                let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
-                let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
-                map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
+                // If we are within the range which water for the border should be placed then place it
+                if (x < this.borderSize || y < this.borderSize || ((width - x) < this.borderSize) || (height - y)  < this.borderSize) {
+                    map.setBlock(waterTile.layer, x, y, waterTile.id);
+                } else  {
+                    let distanceFromBorder: number = Math.min(
+                        Math.abs(x - this.borderSize),
+                        Math.abs((y - this.borderSize)),
+                        Math.abs(width - this.borderSize - x),
+                        Math.abs(height - this.borderSize - y)
+                    );
+
+                    if (distanceFromBorder < this.borderSandGradientSize && (Math.pow(this.borderSandGradientSize - distanceFromBorder, 2)) / Math.pow(this.borderSandGradientSize, 2) > Math.random()) {
+                        let tileToPlace: ITile = tiles.tiles_name.get(this.randomTile(sandRegion.tiles).name);
+                        map.setBlock(tileToPlace.layer, x, y, tileToPlace.id);
+                    } else {
+                        let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
+                        let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
+                        map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
+                    }
+                }
             }
         }
 
@@ -131,6 +162,35 @@ export class TerrainGenerator {
         }
 
         console.log("Placed " + successfulPlaceAttempts + " structures on the map");
+
+        console.log("Adding collision fixtures for the terrain");
+        let tileHitboxShape = new b2PolygonShape().SetAsBox((32 / 100) / 2, (32 / 100) / 2);
+        for (let x = 0; x < map.width; x++) {
+            for (let y = 0; y < map.height; y++) {
+                if (x < this.borderSize - 1 || y < this.borderSize  - 1 || ((width - x) < this.borderSize - 1) || (height - y)  < this.borderSize - 1) {
+                    continue;
+                }
+
+                for (let layer of map.layers) {
+                    if (layer.collides && layer.getBlock(x, y) != 0) {
+                        let tileBodyDef: b2BodyDef = new b2BodyDef();
+                        tileBodyDef.type = b2BodyType.b2_staticBody;
+                        tileBodyDef.position.Set(((x * 32) / 100) + ((32 / 100) / 2), ((y * 32) / 100) + ((32 / 100) / 2));
+                        let tileBody: b2Body = simulation.world.CreateBody(tileBodyDef);
+
+                        const tileFixtureDef: b2FixtureDef = new b2FixtureDef();
+                        tileFixtureDef.shape = tileHitboxShape;
+                        if (layer.level > 0) {
+                            tileFixtureDef.filter.Copy(worldAndHitboxCollisionFilter);
+                        } else {
+                            tileFixtureDef.filter.Copy(worldCollisionFilter);
+                        }
+                        tileBody.CreateFixture(tileFixtureDef);
+                    }
+                }
+            }
+        }
+
         return map;
     }
 

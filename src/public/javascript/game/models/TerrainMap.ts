@@ -37,6 +37,18 @@ export class PhaserTileMapLayer {
      */
     visible: boolean;
     /**
+     * Whether this tile layer collides with players
+     */
+    collides: boolean;
+    /**
+     * The level of this layer with 0 being ground level
+     */
+    level: number;
+    /**
+     * Whether placing a block on this layer should remove the blocks from every layer above it
+     */
+    removesAbove: boolean;
+    /**
      * The identifies for when this object is converted to JSON
      */
     readonly type: string = "tilelayer";
@@ -46,9 +58,12 @@ export class PhaserTileMapLayer {
      * @param name The name of the layer
      * @param width The width of this layer
      * @param height The height of this layer
+     * @param level The level of this layer with 0 as ground level
+     * @param collides Whether this tile layer collides with game objects
+     * @param removesAbove Whether placing a tile on this layer should remove all of the tiles above it
      * @param defaultTile The tile index the layer should be filled with
      */
-    constructor(name: string, width: number, height: number, defaultTile: number = 0) {
+    constructor(name: string, width: number, height: number, level: number, collides: boolean, removesAbove: boolean, defaultTile: number = 0) {
         this.name = name;
         this.x = 0;
         this.y = 0;
@@ -58,6 +73,18 @@ export class PhaserTileMapLayer {
         for (let i = 0; i < this.data.length; i++) this.data[i] = defaultTile;
         this.opacity = 1;
         this.visible = true;
+        this.collides = collides;
+        this.removesAbove = removesAbove;
+        this.level = level;
+    }
+
+    /**
+     * Gets the block at the given location in this layer
+     * @param x The x coordinate of the block to get
+     * @param y The y coordinate of the block to get
+     */
+    getBlock(x: number, y: number) {
+        return this.data[(y * this.width) + x];
     }
 }
 
@@ -123,7 +150,7 @@ export class TerrainMap {
         // Sort the layers by their level
         layers.sort((layer1, layer2) => layer1.level - layer2.level);
         for (let i = 0; i < layers.length; i++) {
-            this.layers.push(new PhaserTileMapLayer(layers[i].name, width, height, defaultTile));
+            this.layers.push(new PhaserTileMapLayer(layers[i].name, width, height, layers[i].level, layers[i].collides, layers[i].removeAbove,  defaultTile));
             this.layerNameToIndex[layers[i].name] = i;
         }
         this.tilewidth = tileWidth;
@@ -148,8 +175,8 @@ export class TerrainMap {
                 if (ignore.includes(curLayer.name)) continue;
             }
             // Check if the block at this layer is occupied and return it if it is
-            if (curLayer.data[(y * curLayer.width) + x] != 0) {
-                return curLayer.data[(y * curLayer.width) + x];
+            if (curLayer.getBlock(x, y) != 0) {
+                return curLayer.getBlock(x, y);
             }
         }
         // All layers have been check and no solid block has been found
@@ -168,6 +195,15 @@ export class TerrainMap {
         let layerNames: string[] = layerName.split("&");
         layerNames.forEach((name => {
             let layer = this.layers[this.layerNameToIndex[name]];
+
+            if (layer.removesAbove) {
+                this.layers.forEach((layerToCheck) => {
+                    if (layerToCheck.level > layer.level) {
+                       this.setBlock(layerToCheck.name, x, y, 0);
+                    }
+                });
+            }
+
             layer.data[(y * layer.width) + x] = index;
         }));
     }

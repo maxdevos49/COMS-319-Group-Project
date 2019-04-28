@@ -22,10 +22,6 @@ describe("Simulation Player Object", () => {
         simulation.nextFrame();
     });
 
-    it("Should create player located at 0,0", () => {
-        expect(player.body.GetPosition()).to.have.property("x").that.equals(0);
-        expect(player.body.GetPosition()).to.have.property("y").that.equals(0);
-    });
     it("Should create a player with 100 health points", () => {
         expect(player.health).to.equal(100);
     });
@@ -38,8 +34,8 @@ describe("Simulation Player Object", () => {
         expect(player.getPositionUpdate(100)).to.have.property("frame").that.equals(100);
     });
     it("Should return PositionUpdates that match the position of the player", () => {
-       expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(0);
-       expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(0);
+       expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(player.body.GetPosition().x);
+       expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(player.body.GetPosition().y);
        player.body.SetPosition({x: 20, y: 20});
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(20);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(20);

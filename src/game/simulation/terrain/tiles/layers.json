@@ -1,18 +1,23 @@
 [
   {
     "name": "ground",
-    "layer": 0
+    "level": 0,
+    "collides": false
   },
   {
     "name": "hole",
-    "layer": -1
+    "level": -1,
+    "collides": true,
+    "removeAbove": true
   },
   {
     "name": "scenery",
-    "layer": 1
+    "level": 1,
+    "collides": false
   },
   {
     "name": "wall",
-    "layer": 2
+    "level": 2,
+    "collides": true
   }
 ]

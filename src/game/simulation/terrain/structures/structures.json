@@ -3,7 +3,7 @@
     "name": "stone_rock_path",
     "path": "stone_rock_path.json",
     "generatesOn": "@crag_empty",
-    "rarity": 30,
+    "rarity": 10,
     "maxParts": 150,
     "minParts": 10
   },
@@ -12,14 +12,14 @@
     "path": "grass_cliff.json",
     "generatesOn": "@grass_empty",
     "rarity": 100,
-    "maxParts": 150,
+    "maxParts": 200,
     "minParts": 10
   },
   {
     "name": "metal_barricade",
     "path": "metal_barricade.json",
     "generatesOn": "@crag_empty|@desert_empty",
-    "rarity": 20,
+    "rarity": 10,
     "maxParts": 120,
     "minParts": 60
   },
@@ -27,7 +27,7 @@
     "name": "shrubbery",
     "path": "shrubbery.json",
     "generatesOn": "@grass_empty",
-    "rarity": 120,
+    "rarity": 100,
     "maxParts": 1,
     "minParts": 1
   },
@@ -43,7 +43,7 @@
     "name": "mossy_bush",
     "path": "mossy_bush.json",
     "generatesOn": "@stone_desert_empty",
-    "rarity": 100,
+    "rarity": 50,
     "maxParts": 1,
     "minParts": 1
   }
