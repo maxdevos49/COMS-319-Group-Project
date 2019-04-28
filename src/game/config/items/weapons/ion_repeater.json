@@ -1,0 +1,15 @@
+{
+  "name": "Ion Repeater",
+  "description": "Rapid fire atom-splitter",
+  "groundedItemSprite": "items/weapons/ion_repeater",
+  "inventoryItemSprite": "items/weapons/ion_repeater",
+  "bulletSprite": "items/weapons/ion_repeater_bullet",
+  "type": "Weapon",
+  "rarity": 100,
+  "generatedNextTo": "#@metal_barricade",
+  "ammoSize": 400,
+  "clipSize": 50,
+  "fireRate": 4,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}

@@ -1,8 +1,9 @@
 {
   "name": "Laser Cannon",
   "description": "burst cannon blaster",
-  "groundedItemSprite": "Default",
-  "inventoryItemSprite": "Default",
+  "groundedItemSprite": "items/weapons/laser_cannon",
+  "inventoryItemSprite": "items/weapons/laser_cannon",
+  "bulletSprite": "items/weapons/laser_cannon_bullet",
   "type": "Weapon",
   "rarity": 100,
   "generatedNextTo": "#@metal_barricade",

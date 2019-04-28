@@ -1,0 +1,15 @@
+{
+  "name": "Thermal Concentrator",
+  "description": "Long-range torching device",
+  "groundedItemSprite": "items/weapons/thermal_concentrator",
+  "inventoryItemSprite": "items/weapons/thermal_concentrator",
+  "bulletSprite": "items/weapons/thermal_concentrator_bullet",
+  "type": "Weapon",
+  "rarity": 100,
+  "generatedNextTo": "#@metal_barricade",
+  "ammoSize": 30,
+  "clipSize": 5,
+  "fireRate": 0.5,
+  "bulletSpeed": 24,
+  "bulletKillSpeed": 17
+}

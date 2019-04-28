@@ -1,3 +1,8 @@
 [
-  "weapons/laser_cannon.json"
+  "weapons/laser_cannon.json",
+  "weapons/laser_blaster.json",
+  "weapons/ion_repeater.json",
+  "weapons/rocket_launcher.json",
+  "weapons/thermal_blaster.json",
+  "weapons/thermal_concentrator.json"
 ]

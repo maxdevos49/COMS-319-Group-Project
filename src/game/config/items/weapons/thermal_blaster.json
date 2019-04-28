@@ -1,0 +1,15 @@
+{
+  "name": "Thermal Blaster",
+  "description": "Super-heated particle thrower",
+  "groundedItemSprite": "items/weapons/thermal_blaster",
+  "inventoryItemSprite": "items/weapons/thermal_blaster",
+  "bulletSprite": "items/weapons/thermal_blaster_bullet",
+  "type": "Weapon",
+  "rarity": 100,
+  "generatedNextTo": "#@metal_barricade",
+  "ammoSize": 200,
+  "clipSize": 40,
+  "fireRate": 4,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}

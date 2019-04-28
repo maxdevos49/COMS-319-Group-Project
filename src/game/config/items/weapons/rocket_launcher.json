@@ -1,0 +1,15 @@
+{
+  "name": "Rocket Launcher",
+  "description": "Exploding projectile",
+  "groundedItemSprite": "items/weapons/laser_blaster",
+  "inventoryItemSprite": "items/weapons/laser_blaster",
+  "bulletSprite": "items/weapons/laser_blaster_bullet",
+  "type": "Weapon",
+  "rarity": 100,
+  "generatedNextTo": "#@metal_barricade",
+  "ammoSize": 10,
+  "clipSize": 1,
+  "fireRate": 1,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}
