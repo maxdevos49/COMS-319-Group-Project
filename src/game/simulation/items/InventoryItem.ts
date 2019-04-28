@@ -1,4 +1,5 @@
 import { ItemType } from "../../../public/javascript/game/models/objects/Descriptions/IItemObjectDescription";
+import { IItemConfig } from "./configs/IItemConfig";
 
 export abstract class InventoryItem {
 
@@ -18,26 +19,24 @@ export abstract class InventoryItem {
     tip?: string;
 
     /**
-     * The sprite key for the client to use
+     * The name of the sprite for the client to use when the item is on the ground
      */
-    sprite: string;
+    groundedItemSprite: string;
 
     /**
-     * Constructs an inventory item
-     * @param givenItemType
-     * @param givenSprite
-     * @param givenName
-     * @param givenTip
+     * The name of the sprite for the client to use when the item is in the client's inventory
      */
-    constructor(givenItemType: ItemType, givenSprite: string, givenName: string, givenTip?: string) {
+    inventoryItemSprite: string;
 
-        //properties
-        this.itemType = givenItemType;
-        this.sprite = givenSprite;
-        this.name = givenName;
-        this.tip = givenTip;
+    /**
+     * Constructs a new item from the item config
+     * @param config The item config to use
+     */
+    protected constructor(config: IItemConfig) {
+        this.itemType = (<any>ItemType)[config.type];
+        this.name = config.name;
+        this.tip = config.tooltip;
+        this.groundedItemSprite = config.groundedItemSprite;
+        this.inventoryItemSprite = config.inventoryItemSprite;
     }
-
-    //TODO a few more methods down here for things TBD
-
 }
