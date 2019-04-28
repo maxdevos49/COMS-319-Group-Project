@@ -1,5 +1,5 @@
 import { GameObject } from "./GameObject.js";
-import { BulletObjectDescription } from "../models/objects/BulletObjectDescription.js";
+import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 import { BulletPositionUpdate } from "../models/objects/BulletPositionUpdate.js";
 import { SCALE_FACTOR } from "../Game.js";
 

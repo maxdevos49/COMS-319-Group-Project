@@ -3,9 +3,9 @@ import { PlayerInfo } from "./models/PlayerInfo.js";
 import { PositionUpdateQueue } from "./data-structures/PositionUpdateQueue.js";
 import { IPositionUpdate } from "./models/objects/IPositionUpdate";
 import { PlayerMoveUpdate } from "./models/PlayerMoveUpdate.js";
-import { IObjectDescription } from "./models/objects/IObjectDescription";
-import { IEvent, EventType } from "./models/objects/IEvent.js";
+import { IEvent } from "./models/objects/IEvent.js";
 import { TerrainMap } from "./models/TerrainMap";
+import { IObjectDescription } from "./models/objects/Descriptions/IObjectDescription.js";
 
 /**
  * Socket endpoints for the client.

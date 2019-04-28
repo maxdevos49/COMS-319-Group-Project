@@ -11,14 +11,16 @@ import {
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
 import { PlayerActionState, PlayerPositionUpdate } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
-import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/PlayerObjectDescription";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
 import { Bullet } from "../../../game/simulation/objects/Bullet";
 import v1Gen from "uuid/v1";
 import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
+import { ItemObject } from "./ItemObject";
+import { DefaultInventoryItem } from "./TestInventoryItem";
 
 /**
  * A player in the game. Contains the physics body.
@@ -93,6 +95,24 @@ export class Player extends GameObject implements IHealth {
         playerHitboxFixtureDef.shape = Player.playerHitboxShape;
         playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
+
+
+        //list
+        // z-offset
+        //testing with items
+        let item = new ItemObject(this.simulation, {
+            id: v1Gen(),
+            x: 2,
+            y: 2,
+            item: new DefaultInventoryItem("Item1", "Press f for Respects")
+        })
+
+        let item2 = new ItemObject(this.simulation, {
+            id: v1Gen(),
+            x: 3,
+            y: 0,
+            item: new DefaultInventoryItem("Item2", "Press nothing cuz that dont work yet")
+        })
     }
 
     public destroy(): void {

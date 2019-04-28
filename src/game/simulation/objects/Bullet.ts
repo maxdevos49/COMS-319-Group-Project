@@ -1,7 +1,7 @@
 import { GameObject } from "./GameObject";
 import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
-import { BulletObjectDescription } from "../../../public/javascript/game/models/objects/BulletObjectDescription";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
+import { BulletObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/BulletObjectDescription";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { BulletPositionUpdate } from "../../../public/javascript/game/models/objects/BulletPositionUpdate";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
 import { b2Fixture, b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";

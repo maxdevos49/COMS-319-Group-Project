@@ -6,7 +6,7 @@ import { expect } from "chai";
 
 import { GameServer } from '../../src/game/GameServer';
 import { PlayerInfo } from "../../src/public/javascript/game/models/PlayerInfo";
-import { IObjectDescription } from "../../src/public/javascript/game/models/objects/IObjectDescription";
+import { IObjectDescription } from "../../src/public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { TerrainMap } from "../../src/public/javascript/game/models/TerrainMap";
 import { IEvent, EventType } from "../../src/public/javascript/game/models/objects/IEvent";
 import { HealthEvent } from "../../src/public/javascript/game/models/objects/HealthEvent";
