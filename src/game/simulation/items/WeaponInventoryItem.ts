@@ -1,5 +1,6 @@
 import { InventoryItem } from "./InventoryItem";
 import { IWeaponItemConfig } from "./configs/IWeaponItemConfig";
+import { ItemType } from "../../../public/javascript/game/models/objects/Descriptions/IItemObjectDescription";
 
 export class WeaponInventoryItem extends InventoryItem {
     /**
@@ -27,8 +28,8 @@ export class WeaponInventoryItem extends InventoryItem {
      */
     readonly bulletKillSpeed: number;
 
-    constructor(config: IWeaponItemConfig) {
-        super(config);
+    constructor(id: string, config: IWeaponItemConfig) {
+        super(id, config, ItemType.Weapon);
 
         this.ammo = config.ammoSize;
         this.clipSize = config.clipSize;

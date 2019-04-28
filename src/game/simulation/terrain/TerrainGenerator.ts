@@ -18,6 +18,9 @@ import { ITileOption } from "./tiles/ITileOption";
 import { ITileLayer } from "./tiles/ITileLayer";
 import { IStructurePart } from "./structures/IStructurePart";
 import { IPlacedStructurePartConnection } from "./structures/IPlaceedStructurePartConnection";
+import { IItemConfig } from "../items/configs/IItemConfig";
+import { ItemObject } from "../objects/ItemObject";
+import { InventoryItemFactory } from "../items/InventoryItemFactory";
 
 export class TerrainGenerator {
     /**
@@ -28,6 +31,15 @@ export class TerrainGenerator {
      * The max number of times to attempt to place a part on a connection point
      */
     private static partAttemptPlaceLimit: number = 50;
+    /**
+     * The number of items to attempt to place
+     */
+    private static itemsPlaceAttempts: number = 100;
+    /**
+     * The number of times to attempt to place an item once it's been randomly selected
+     */
+    private static itemPlaceAttemptLimit: number = 100;
+    private static itemPlaceCheckRadius: number = 2;
     /**
      * The size of the border of water that will be placed on the edges of the map
      */
@@ -192,7 +204,67 @@ export class TerrainGenerator {
             }
         }
 
+        console.log("Generating items on the map");
+        let itemConfigs: IItemConfig[] = this.loadAllItemConfigs();
+
+        let placedItems: ItemObject[] = [];
+        for (let itemPlaceAttempt = 0; itemPlaceAttempt < this.itemsPlaceAttempts; itemPlaceAttempt++) {
+            let toAttempt: IItemConfig = this.randomItemConfig(itemConfigs);
+            console.log(toAttempt);
+            for (let itemAttempt = 0; itemAttempt < this.itemPlaceAttemptLimit; itemAttempt++) {
+                // Select a random place on the map to attempt to place the structure
+                let itemX = Math.floor(Math.random() * map.width);
+                let itemY = Math.floor(Math.random() * map.height);
+                // Check that the item can be placed here
+                console.log("check");
+                if (this.checkItemCanBePlaced(map, tiles, itemX, itemY, toAttempt)) {
+                    console.log("Passed item check");
+                    // Check that no item already exists at this location
+                    if (!placedItems.find((placed) => placed.body.GetPosition().x == itemX && placed.body.GetPosition().y == itemY)) {
+                        // Place the item
+                        let placed: ItemObject = new ItemObject(simulation, InventoryItemFactory.createInventoryItem(toAttempt), (32 * itemX) / 100, (32 * itemY) / 100);
+                        simulation.addGameObject(placed);
+                        placedItems.push(placed);
+                    }
+                }
+            }
+        }
+
+        console.log(placedItems.length + " items placed");
+
         return map;
+    }
+
+    public static checkItemCanBePlaced(map: TerrainMap, tiles: TileDictionary,  x: number, y: number, config: IItemConfig): boolean {
+        let conditions: string[] = config.generatedNextTo.split("&");
+
+        for (let condition of conditions) {
+            console.log(condition);
+            if (condition.startsWith("@")) {
+                if (!tiles.checkTileIndexIdentifiesAs(map.getHighestTile(x, y), condition)) return false;
+            } else if (condition.startsWith("#")) {
+                let cleanCondition: string = condition.substring(1);
+
+                let validFound: boolean = false;
+                for (let toCheckY = y - this.itemPlaceCheckRadius; toCheckY <= y + this.itemPlaceCheckRadius; toCheckY++) {
+                    for (let toCheckX = x - this.itemPlaceCheckRadius; toCheckX <= x + this.itemPlaceCheckRadius; toCheckX++) {
+                        // Make sure the point is on the screen
+                        if (x < 0 || y < 0 || x >= map.width || y >= map.height) continue;
+                        if (tiles.checkTileIndexIdentifiesAs(map.getHighestTile(toCheckX, toCheckY), cleanCondition)) {
+                            validFound = true;
+                            break;
+                        }
+                    }
+                    // Don't keep looking if this condition has already been satisfied
+                    if (validFound) break;
+                }
+
+                if (!validFound) return false;
+            } else {
+                if (!(map.getHighestTile(x, y) == tiles.tiles_name.get(condition).id)) return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -235,6 +307,19 @@ export class TerrainGenerator {
     public static randomTile(options: ITileOption[]): ITileOption {
         while (true) {
             let selected: ITileOption = options[Math.floor(Math.random() * options.length)];
+            if ((Math.random() * 100) < selected.rarity) return selected;
+        }
+    }
+
+    /**
+     * Returns a random item config from the given options. This method considers the rarity of each tile and randomly
+     * returns configs proportional to this value
+     * @param options The options to consider
+     * @return A random item config
+     */
+    public static randomItemConfig(options: IItemConfig[]): IItemConfig {
+        while (true) {
+            let selected: IItemConfig = options[Math.floor(Math.random() * options.length)];
             if ((Math.random() * 100) < selected.rarity) return selected;
         }
     }
@@ -312,5 +397,17 @@ export class TerrainGenerator {
      */
     public static loadAllStructureParts(struct: IStructure): IStructurePart[] {
         return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "structures", struct.path), "utf8")) as IStructurePart[];
+    }
+
+    /**
+     * Loads all item configs which are listed in teh atlas.json file for items and returns there data as an array
+     */
+    public static loadAllItemConfigs(): IItemConfig[] {
+        // Load the atlas
+        let paths: string[] = JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "items", "atlas.json"), "utf8")) as string[];
+        // Load every file in the atlas
+        return paths.map((configPath) => {
+           return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "items", configPath), "utf8")) as IItemConfig;
+        });
     }
 }

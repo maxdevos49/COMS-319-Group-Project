@@ -26,9 +26,10 @@ export interface IItemConfig {
     /**
      * One of the following:
      * Name of tile
-     * Tile group prefixed by '@' sign
-     * Structure name prefixed by '#' sign
-     * or a combination of the above delimited by a '|' sign
+     * Tile group/name prefixed by '@' sign which the item must be on
+     * Tile name prefixed by '#' sign which the item must be near
+     * Tile group prefixed by '#@' signs which the item must be near
+     * or a combination of the above delimited by a '&' sign of which all conditions must be met
      *
      * which determines where the item can be placed
      */

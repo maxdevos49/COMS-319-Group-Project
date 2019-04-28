@@ -74,7 +74,8 @@ export class TileDictionary {
             if (nameOrGroupParts[i].length > 0 && nameOrGroupParts[i].charAt(0) == '@') {
                 if (this.isTileIndexInGroup(tileIndex, nameOrGroupParts[i])) return true;
             } else {
-                if (this.tiles_id.get(tileIndex).name == nameOrGroupParts[i]) return true;
+                let tile: ITile = this.tiles_id.get(tileIndex);
+                if (tile && tile.name == nameOrGroupParts[i]) return true;
             }
         }
 

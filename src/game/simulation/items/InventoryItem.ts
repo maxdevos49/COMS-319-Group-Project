@@ -4,6 +4,11 @@ import { IItemConfig } from "./configs/IItemConfig";
 export abstract class InventoryItem {
 
     /**
+     * The id of this item
+     */
+    id: string;
+
+    /**
      * The type of item
      */
     itemType: ItemType;
@@ -30,10 +35,13 @@ export abstract class InventoryItem {
 
     /**
      * Constructs a new item from the item config
+     * @param id The id to assign to this item
      * @param config The item config to use
+     * @param type The type of the item that is extending this
      */
-    protected constructor(config: IItemConfig) {
-        this.itemType = (<any>ItemType)[config.type];
+    protected constructor(id: string, config: IItemConfig, type: ItemType) {
+        this.id = id;
+        this.itemType = type;
         this.name = config.name;
         this.tip = config.tooltip;
         this.groundedItemSprite = config.groundedItemSprite;

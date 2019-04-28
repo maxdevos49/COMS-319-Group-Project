@@ -4,7 +4,8 @@
     "id": 120,
     "groups": [
       "@barricade_plate_connection_w",
-      "@barricade_connection_e"
+      "@barricade_connection_e",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -13,7 +14,8 @@
     "id": 121,
     "groups": [
       "@barricade_plate_connection_n",
-      "@barricade_connection_s"
+      "@barricade_connection_s",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -22,7 +24,8 @@
     "id": 122,
     "groups": [
       "@barricade_plate_connection_e",
-      "@barricade_connection_w"
+      "@barricade_connection_w",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -31,7 +34,8 @@
     "id": 123,
     "groups": [
       "@barricade_plate_connection_s",
-      "@barricade_connection_n"
+      "@barricade_connection_n",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -41,7 +45,8 @@
     "groups": [
       "@barricade_plate_connection_e",
       "@barricade_connection_s",
-      "@barricade_connection_n"
+      "@barricade_connection_n",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -51,7 +56,8 @@
     "groups": [
       "@barricade_plate_connection_s",
       "@barricade_connection_e",
-      "@barricade_connection_w"
+      "@barricade_connection_w",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -61,7 +67,8 @@
     "groups": [
       "@barricade_plate_connection_w",
       "@barricade_connection_s",
-      "@barricade_connection_n"
+      "@barricade_connection_n",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -71,7 +78,8 @@
     "groups": [
       "@barricade_plate_connection_n",
       "@barricade_connection_e",
-      "@barricade_connection_w"
+      "@barricade_connection_w",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -80,7 +88,8 @@
     "id": 160,
     "groups": [
       "@barricade_connection_s",
-      "@barricade_connection_n"
+      "@barricade_connection_n",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -89,7 +98,8 @@
     "id": 161,
     "groups": [
       "@barricade_connection_e",
-      "@barricade_connection_w"
+      "@barricade_connection_w",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -97,7 +107,8 @@
     "name": "barricade_end_e",
     "id": 162,
     "groups": [
-      "@barricade_connection_e"
+      "@barricade_connection_e",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -105,7 +116,8 @@
     "name": "barricade_end_s",
     "id": 163,
     "groups": [
-      "@barricade_connection_s"
+      "@barricade_connection_s",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -113,7 +125,8 @@
     "name": "barricade_end_n",
     "id": 164,
     "groups": [
-      "@barricade_connection_n"
+      "@barricade_connection_n",
+      "@metal_barricade"
     ],
     "layer": "wall"
   },
@@ -121,7 +134,8 @@
     "name": "barricade_end_w",
     "id": 165,
     "groups": [
-      "@barricade_connection_w"
+      "@barricade_connection_w",
+      "@metal_barricade"
     ],
     "layer": "wall"
   }
