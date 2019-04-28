@@ -1,15 +1,13 @@
 import {
-    getConnectionDirectionOffset,
-    IPlacedStructurePart,
-    IPlacedStructurePartConnection,
-    IStructure,
-    IStructureConnection,
-    IStructurePart
-} from "./IStructure";
+    IStructure} from "./IStructure";
 import { TerrainMap } from "../../../../public/javascript/game/models/TerrainMap";
 import { Point } from "../../../geom/Point";
 import { TileDictionary } from "../tiles/TileDictionary";
 import { ITile } from "../tiles/ITile";
+import { IStructurePart } from "./IStructurePart";
+import { IPlacedStructurePart } from "./IPlacedStructurePart";
+import { getConnectionDirectionOffset, IStructureConnection } from "./IStructureConnection";
+import { IPlacedStructurePartConnection } from "./IPlaceedStructurePartConnection";
 
 /**
  * The structure constructor is a helper object that allows a higher level generator to safely create structures. It

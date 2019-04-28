@@ -5,7 +5,7 @@ export abstract class InventoryItem {
     /**
      * The type of item
      */
-    itemType: ItemType
+    itemType: ItemType;
 
     /**
      * The name of the item

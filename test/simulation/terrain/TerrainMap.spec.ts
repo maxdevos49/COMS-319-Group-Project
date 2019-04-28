@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { TerrainMap } from "../../../src/public/javascript/game/models/TerrainMap";
-import { ITile, ITileLayer } from "../../../src/game/simulation/terrain/tiles/ITile";
+import { ITile} from "../../../src/game/simulation/terrain/tiles/ITile";
+import { ITileLayer } from "../../../src/game/simulation/terrain/tiles/ITileLayer";
 
 describe("Terrain Map", () => {
     let tiles: ITile[] = [

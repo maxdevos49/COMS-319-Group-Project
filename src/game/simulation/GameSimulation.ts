@@ -77,7 +77,7 @@ export class GameSimulation {
         this.world = new b2World(gravity);
 
         this.frame = 0;
-        this.objects = new Map<string, Player>();
+        this.objects = new Map<string, GameObject>();
         this.events = [];
         this.newObjectsIds = [];
         this.deletedObjectIds = [];

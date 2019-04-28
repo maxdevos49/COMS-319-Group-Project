@@ -1,4 +1,6 @@
-import { ITile, ITileLayer, TileSet } from "../../../../game/simulation/terrain/tiles/ITile";
+import { ITile} from "../../../../game/simulation/terrain/tiles/ITile";
+import { ITileLayer } from "../../../../game/simulation/terrain/tiles/ITileLayer";
+import { TileSet } from "../../../../game/simulation/terrain/tiles/TileSet";
 
 /**
  * Describes a tile map layer. This class has properties as phaser 3 expects them when loading from tile map JSON

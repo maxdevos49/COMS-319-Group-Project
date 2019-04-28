@@ -1,15 +1,12 @@
 import { TerrainMap } from "../../../public/javascript/game/models/TerrainMap";
 import { GameSimulation } from "../GameSimulation";
 import * as fs from "fs";
-import { ITile, ITileLayer, ITileOption } from "./tiles/ITile";
+import { ITile} from "./tiles/ITile";
 import * as path from "path";
 import { IRegion } from "./IRegion";
 import { NoiseMap } from "./NoiseMap";
 import {
-    IPlacedStructurePartConnection,
-    IStructure,
-    IStructurePart
-} from "./structures/IStructure";
+    IStructure} from "./structures/IStructure";
 import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
 import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
@@ -17,6 +14,10 @@ import { b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fi
 import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
 import { worldAndHitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { b2PolygonShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2PolygonShape";
+import { ITileOption } from "./tiles/ITileOption";
+import { ITileLayer } from "./tiles/ITileLayer";
+import { IStructurePart } from "./structures/IStructurePart";
+import { IPlacedStructurePartConnection } from "./structures/IPlaceedStructurePartConnection";
 
 export class TerrainGenerator {
     /**
@@ -267,7 +268,7 @@ export class TerrainGenerator {
      * @return All of the loaded tile layers
      */
     public static loadAllLayers(): ITileLayer[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "layers.json"), "utf8")) as ITileLayer[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "tiles", "layers.json"), "utf8")) as ITileLayer[];
     }
 
     /**
@@ -277,11 +278,11 @@ export class TerrainGenerator {
      */
     public static loadAllTiles(): TileDictionary {
         // Load atlas with paths to other tiles
-        let tilesAtlas = JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "tiles.json"), "utf8")) as {tile_files: string[]};
+        let tilesAtlas = JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "tiles", "tiles.json"), "utf8")) as {tile_files: string[]};
 
         let tiles: ITile[] = [];
         tilesAtlas.tile_files.forEach((file) => {
-           let tilesFromFile: ITile[] = JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", file), "utf8")) as ITile[];
+           let tilesFromFile: ITile[] = JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "tiles", file), "utf8")) as ITile[];
            tilesFromFile.forEach((tile) => tiles.push(tile));
         });
 
@@ -293,7 +294,7 @@ export class TerrainGenerator {
      * @return All of the regions that were loaded
      */
     public static loadAllRegions(): IRegion[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "regions.json"), "utf8")) as IRegion[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "regions.json"), "utf8")) as IRegion[];
     }
 
     /**
@@ -301,7 +302,7 @@ export class TerrainGenerator {
      * @return All of the structures that were loaded
      */
     public static loadAllStructures(): IStructure[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", "structures.json"), "utf8")) as IStructure[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "structures", "structures.json"), "utf8")) as IStructure[];
     }
 
     /**
@@ -310,6 +311,6 @@ export class TerrainGenerator {
      * @param All of the parts that were loaded for the given structure
      */
     public static loadAllStructureParts(struct: IStructure): IStructurePart[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", struct.path), "utf8")) as IStructurePart[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "structures", struct.path), "utf8")) as IStructurePart[];
     }
 }
