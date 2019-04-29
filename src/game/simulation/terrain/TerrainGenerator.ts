@@ -34,12 +34,12 @@ export class TerrainGenerator {
     /**
      * The number of items to attempt to place
      */
-    private static itemsPlaceAttempts: number = 100;
+    private static itemsPlaceAttempts: number = 1000;
     /**
      * The number of times to attempt to place an item once it's been randomly selected
      */
     private static itemPlaceAttemptLimit: number = 100;
-    private static itemPlaceCheckRadius: number = 2;
+    private static itemPlaceCheckRadius: number = 5;
     /**
      * The size of the border of water that will be placed on the edges of the map
      */
@@ -207,24 +207,34 @@ export class TerrainGenerator {
         console.log("Generating items on the map");
         let itemConfigs: IItemConfig[] = this.loadAllItemConfigs();
 
+        let prefferedNumber: number[] = this.rollPrefferedNumber(itemConfigs);
+        let numberPlaced: number[] = new Array(itemConfigs.length).fill(0);
         let placedItems: ItemObject[] = [];
+
         for (let itemPlaceAttempt = 0; itemPlaceAttempt < this.itemsPlaceAttempts; itemPlaceAttempt++) {
-            let toAttempt: IItemConfig = this.randomItemConfig(itemConfigs);
-            console.log(toAttempt);
+            console.log(itemPlaceAttempt);
+            let toAttempt: IItemConfig = this.getRandomItem(itemConfigs, numberPlaced, prefferedNumber);
+            // If all of the items have been placed to max then toAttempt will be undefined. Exit the loop
+            if (!toAttempt) break;
+
             for (let itemAttempt = 0; itemAttempt < this.itemPlaceAttemptLimit; itemAttempt++) {
                 // Select a random place on the map to attempt to place the structure
                 let itemX = Math.floor(Math.random() * map.width);
                 let itemY = Math.floor(Math.random() * map.height);
                 // Check that the item can be placed here
-                console.log("check");
                 if (this.checkItemCanBePlaced(map, tiles, itemX, itemY, toAttempt)) {
-                    console.log("Passed item check");
-                    // Check that no item already exists at this location
-                    if (!placedItems.find((placed) => placed.body.GetPosition().x == itemX && placed.body.GetPosition().y == itemY)) {
-                        // Place the item
-                        let placed: ItemObject = new ItemObject(simulation, InventoryItemFactory.createInventoryItem(toAttempt), (32 * itemX) / 100, (32 * itemY) / 100);
-                        simulation.addGameObject(placed);
-                        placedItems.push(placed);
+                    // Check that the this location is open ground
+                    if (map.getHighestLevel(itemX, itemY) == 0) {
+                        // Check that no item already exists at this location
+                        if (!placedItems.find((placed) => placed.body.GetPosition().x == itemX && placed.body.GetPosition().y == itemY)) {
+                            // Place the item
+                            let placed: ItemObject = new ItemObject(simulation, InventoryItemFactory.createInventoryItem(toAttempt), (32 * itemX) / 100, (32 * itemY) / 100);
+                            simulation.addGameObject(placed);
+                            placedItems.push(placed);
+                            numberPlaced[itemConfigs.indexOf(toAttempt)]++;
+                            console.log("prefered:" + prefferedNumber + " actaul: " + numberPlaced);
+                            break;
+                        }
                     }
                 }
             }
@@ -236,35 +246,41 @@ export class TerrainGenerator {
     }
 
     public static checkItemCanBePlaced(map: TerrainMap, tiles: TileDictionary,  x: number, y: number, config: IItemConfig): boolean {
-        let conditions: string[] = config.generatedNextTo.split("&");
+        for (let spawnOption of config.spawnOptions) {
+            let conditions: string[] = spawnOption.condition.split("&");
 
-        for (let condition of conditions) {
-            console.log(condition);
-            if (condition.startsWith("@")) {
-                if (!tiles.checkTileIndexIdentifiesAs(map.getHighestTile(x, y), condition)) return false;
-            } else if (condition.startsWith("#")) {
-                let cleanCondition: string = condition.substring(1);
+            let allConditionsMet: boolean = true;
+            for (let condition of conditions) {
+                if (condition.startsWith("@")) {
+                    if (!tiles.checkTileIndexIdentifiesAs(map.getHighestTile(x, y), condition)) allConditionsMet = false;
+                } else if (condition.startsWith("#")) {
+                    let cleanCondition: string = condition.substring(1);
 
-                let validFound: boolean = false;
-                for (let toCheckY = y - this.itemPlaceCheckRadius; toCheckY <= y + this.itemPlaceCheckRadius; toCheckY++) {
-                    for (let toCheckX = x - this.itemPlaceCheckRadius; toCheckX <= x + this.itemPlaceCheckRadius; toCheckX++) {
-                        // Make sure the point is on the screen
-                        if (x < 0 || y < 0 || x >= map.width || y >= map.height) continue;
-                        if (tiles.checkTileIndexIdentifiesAs(map.getHighestTile(toCheckX, toCheckY), cleanCondition)) {
-                            validFound = true;
-                            break;
+                    let validFound: boolean = false;
+                    for (let toCheckY = y - this.itemPlaceCheckRadius; toCheckY <= y + this.itemPlaceCheckRadius; toCheckY++) {
+                        for (let toCheckX = x - this.itemPlaceCheckRadius; toCheckX <= x + this.itemPlaceCheckRadius; toCheckX++) {
+                            // Make sure the point is on the screen
+                            if (x < 0 || y < 0 || x >= map.width || y >= map.height) continue;
+                            if (tiles.checkTileIndexIdentifiesAs(map.getHighestTile(toCheckX, toCheckY), cleanCondition)) {
+                                validFound = true;
+                                break;
+                            }
                         }
+                        // Don't keep looking if this condition has already been satisfied
+                        if (validFound) break;
                     }
-                    // Don't keep looking if this condition has already been satisfied
-                    if (validFound) break;
-                }
 
-                if (!validFound) return false;
-            } else {
-                if (!(map.getHighestTile(x, y) == tiles.tiles_name.get(condition).id)) return false;
+                    if (!validFound) allConditionsMet = false;
+                } else {
+                    if (!(map.getHighestTile(x, y) == tiles.tiles_name.get(condition).id)) allConditionsMet = false;
+                }
+            }
+            if (allConditionsMet) {
+                if (spawnOption.successChance > Math.random() * 100) return true;
             }
         }
-        return true;
+
+        return false;
     }
 
     /**
@@ -312,16 +328,29 @@ export class TerrainGenerator {
     }
 
     /**
-     * Returns a random item config from the given options. This method considers the rarity of each tile and randomly
-     * returns configs proportional to this value
-     * @param options The options to consider
-     * @return A random item config
+     * Goes through every number and randomly selects a number between the min and the max (including these numbers)
+     * @param items The items to roll the preferred number for
+     * @return The rolled preferred number of items
      */
-    public static randomItemConfig(options: IItemConfig[]): IItemConfig {
-        while (true) {
-            let selected: IItemConfig = options[Math.floor(Math.random() * options.length)];
-            if ((Math.random() * 100) < selected.rarity) return selected;
+    public static rollPrefferedNumber(items: IItemConfig[]): number[] {
+        return items.map((item) => {
+            return Math.floor(Math.random() * (item.maximumNumberOnMap - item.minimumNumberOnMap + 1) + item.minimumNumberOnMap);
+        });
+    }
+
+    /**
+     * Selects a random item from the list of usable configs excluding items that already have at least their preferred number
+     * generated
+     * @param options The options that can be selected from
+     * @param alreadyGenerated The array whose indices correspond to the options array and gives the number of that item that have already been generated
+     * @param preferredNumber The array whose indices correspond to the options array and give the preferred number of each item to generate
+     */
+    public static getRandomItem(options: IItemConfig[], alreadyGenerated: number[], preferredNumber: number[]) {
+        let availableOptions: IItemConfig[] = [];
+        for (let i = 0; i < options.length; i++) {
+            if (alreadyGenerated[i] < preferredNumber[i]) availableOptions.push(options[i]);
         }
+        return availableOptions[Math.floor(Math.random() * availableOptions.length)];
     }
 
     /**

@@ -1,3 +1,5 @@
+import { IItemSpawnOption } from "./IItemSpawnOption";
+
 export interface IItemConfig {
     /**
      * The name of this item
@@ -12,9 +14,14 @@ export interface IItemConfig {
      */
     type: string;
     /**
-     * The rarity of this item from 0 to 100 with 0 never being generated and 100 being completely common
+     * The minimum number of this item that can be placed on the map (note that this might be ignored if to many attempts
+     * are made to place this item)
      */
-    rarity: number;
+    minimumNumberOnMap: number;
+    /**
+     * The maximum number of this item that can be placed on the map
+     */
+    maximumNumberOnMap: number
     /**
      * The name of the sprite that is used when the weapon is on the ground
      */
@@ -24,14 +31,7 @@ export interface IItemConfig {
      */
     inventoryItemSprite: string;
     /**
-     * One of the following:
-     * Name of tile
-     * Tile group/name prefixed by '@' sign which the item must be on
-     * Tile name prefixed by '#' sign which the item must be near
-     * Tile group prefixed by '#@' signs which the item must be near
-     * or a combination of the above delimited by a '&' sign of which all conditions must be met
-     *
-     * which determines where the item can be placed
+     * An array of the possible ways this item can be spawned
      */
-    generatedNextTo: string;
+    spawnOptions: IItemSpawnOption[];
 }

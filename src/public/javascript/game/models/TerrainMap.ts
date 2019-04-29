@@ -185,6 +185,18 @@ export class TerrainMap {
         return 0;
     }
 
+    public getHighestLevel(x: number, y: number): number {
+        for (let i = this.layers.length - 1; i >= 0; i--) {
+            let curLayer = this.layers[i];
+            // Check if the block at this layer is occupied and return it if it is
+            if (curLayer.getBlock(x, y) != 0) {
+                return curLayer.level;
+            }
+        }
+        // All layers have been check and no solid block has been found, return the level of the bottom layer
+        return this.layers[this.layers,length - 1].level;
+    }
+
     /**
      * Sets the tile index at the given layer and coordinate
      * @param layerName The name of the layer to set the tile of allowing a '&' delimited list of layers

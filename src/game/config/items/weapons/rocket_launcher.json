@@ -1,12 +1,16 @@
 {
   "name": "Rocket Launcher",
-  "description": "Exploding projectile",
+  "tooltip": "Exploding projectile",
   "groundedItemSprite": "items/weapons/laser_blaster",
   "inventoryItemSprite": "items/weapons/laser_blaster",
   "bulletSprite": "items/weapons/laser_blaster_bullet",
   "type": "Weapon",
-  "rarity": 100,
-  "generatedNextTo": "#@metal_barricade",
+  "minimumNumberOnMap": 1,
+  "maximumNumberOnMap": 4,
+  "spawnOptions": [
+    {"successChance": 10, "condition": "#@metal_barricade"},
+    {"successChance": 100, "condition": "#water"}
+  ],
   "ammoSize": 10,
   "clipSize": 1,
   "fireRate": 1,

@@ -31,7 +31,7 @@ export class Player extends GameObject implements IHealth {
     /**
      * Velocity in meters per second that the players should move.
      */
-    public static SPEED: number = 16;
+    public static SPEED: number = 6;
     /**
      * The hit box for player weapon collisions
      */
