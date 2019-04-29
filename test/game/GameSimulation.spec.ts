@@ -47,7 +47,7 @@ describe('GameSimulation', () => {
             const originalSize: number = simulation.objects.size;
             simulation.addPlayer(v1Gen());
             const newSize: number = simulation.objects.size;
-            expect(newSize).to.equal(originalSize + 3);
+            expect(newSize).to.equal(originalSize + 1);
         });
     });
 
