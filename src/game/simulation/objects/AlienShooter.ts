@@ -10,7 +10,7 @@ import { b2PolygonShape } from "../../../../lib/box2d-physics-engine/Collision/S
 import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
 import { b2Fixture, b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
 import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
-import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
+import { hitboxCollisionFilter, worldBorderCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { Player } from "./Player";
 import { Bullet } from "./Bullet";
 import v1Gen from "uuid/v1";
@@ -70,9 +70,15 @@ export class AlienShooter extends GameObject {
     public body: b2Body;
 
     /**
-     * The collision fixture used to compute player-world collisions
+     * The collision fixture used to compute alien world collisions
      */
     public alienCollisionFixture: b2Fixture;
+
+    /**
+     * The collision fixture used to compute alien world border collisions
+     */
+    public alienWorldBorderCollisionFixture: b2Fixture;
+
     /**
      * The collision fixture used to compute hits on the alien (more accurate)
      */
@@ -99,14 +105,20 @@ export class AlienShooter extends GameObject {
         alienCollisionFixtureDef.userData = id;
         alienCollisionFixtureDef.shape = new b2CircleShape(AlienShooter.alienCollisionRadius);
         alienCollisionFixtureDef.filter.Copy(worldCollisionFilter);
-        this.alienCollisionFixture = this.body.CreateFixture(alienCollisionFixtureDef, 4.0); // 1.0 kg/m^3 density
+        this.alienCollisionFixture = this.body.CreateFixture(alienCollisionFixtureDef, 20.0); // 1.0 kg/m^3 density
+
+        const alienWorldBorderCollisionFixtureDef: b2FixtureDef = new b2FixtureDef();
+        alienWorldBorderCollisionFixtureDef.userData = id;
+        alienWorldBorderCollisionFixtureDef.shape = new b2CircleShape(AlienShooter.alienCollisionRadius);
+        alienWorldBorderCollisionFixtureDef.filter.Copy(worldBorderCollisionFilter);
+        this.alienWorldBorderCollisionFixture = this.body.CreateFixture(alienWorldBorderCollisionFixtureDef, 0.0);
 
         // Create fixture for the alien colliding with weapons
         const alienHitboxFixtureDef: b2FixtureDef = new b2FixtureDef();
         alienHitboxFixtureDef.userData = id;
         alienHitboxFixtureDef.shape = AlienShooter.alienHitboxShape;
         alienHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
-        this.alienHitboxFixture = this.body.CreateFixture(alienHitboxFixtureDef, 4.0);
+        this.alienHitboxFixture = this.body.CreateFixture(alienHitboxFixtureDef, 0.0);
     }
 
     destroy(): void {

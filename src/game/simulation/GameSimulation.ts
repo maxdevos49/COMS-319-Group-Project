@@ -92,6 +92,7 @@ export class GameSimulation {
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
 
+        this.addGameObject(new AlienShooter(this, v1Gen(), 10, 10));
         this.addGameObject(new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, 250 * .32, 250 * .32));
     }
 
@@ -156,6 +157,18 @@ export class GameSimulation {
         }
 
         this.frame++;
+    }
+
+    /**
+     * Gets an array of all of the objects that have the given type
+     * @param type The type to get all of the objects that are of the given type
+     */
+    public getAllObjectsOfType(type: GameObjectType) {
+        let ofType: GameObject[] = [];
+        for (let obj of this.objects.values()) {
+            if (obj.type == type) ofType.push(obj);
+        }
+        return ofType;
     }
 
     /**
