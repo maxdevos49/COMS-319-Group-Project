@@ -23,7 +23,6 @@ export class GameLoadScene extends Phaser.Scene {
 
     create(): void {
         Player.createAnimations(this.anims);
-        Bullet.createAnimations(this.anims);
         AlienShooter.createAnimations(this.anims);
     }
 

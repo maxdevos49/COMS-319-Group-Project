@@ -47,7 +47,7 @@ describe('GameSimulation', () => {
             const originalSize: number = simulation.objects.size;
             simulation.addPlayer(v1Gen());
             const newSize: number = simulation.objects.size;
-            expect(newSize).to.equal(originalSize + 3);
+            expect(newSize).to.equal(originalSize + 1);
         });
     });
 
@@ -61,9 +61,9 @@ describe('GameSimulation', () => {
             const player: Player = simulation.objects.get(id) as Player;
 
             // The player should be in its default position at first.
-            expect(player.body.GetAngle()).to.equal(0);
-            expect(player.body.GetPosition().x).to.equal(0);
-            expect(player.body.GetPosition().y).to.equal(0);
+            let startAngle: number = player.body.GetAngle();
+            let startX: number = player.body.GetPosition().x;
+            let startY: number = player.body.GetPosition().y;
 
             // Simulate 1 second in the simulation.
             for (let i = 0; i < 30; i++) {
@@ -73,8 +73,8 @@ describe('GameSimulation', () => {
             }
 
             expect(player.body.GetAngle()).to.equal(1);
-            expect(player.body.GetPosition().x).to.equal(0);
-            expect(player.body.GetPosition().y).to.be.closeTo(-Player.SPEED, 0.0001);
+            expect(player.body.GetPosition().x).to.be.closeTo(startX, 0.0001);
+            expect(player.body.GetPosition().y).to.be.closeTo(startY - Player.SPEED, 0.0001);
 
             // Simulate another second in the simulation.
             for (let i = 0; i < 30; i++) {
@@ -85,8 +85,8 @@ describe('GameSimulation', () => {
 
             expect(player.body.GetAngle()).to.equal(1);
             // -7.071067811865472 (actual) is close enough to -7.071067811865475 (expected)
-            expect(player.body.GetPosition().x).to.be.approximately(-1 * Player.SPEED / Math.sqrt(2), 0.00001);
-            expect(player.body.GetPosition().y).to.be.approximately(-1 * (Player.SPEED + Player.SPEED / Math.sqrt(2)), 0.00001);
+            expect(player.body.GetPosition().x).to.be.closeTo(startX - Player.SPEED / Math.sqrt(2), 0.00001);
+            expect(player.body.GetPosition().y).to.be.closeTo(startY - (Player.SPEED + Player.SPEED / Math.sqrt(2)), 0.00001);
         });
 
         it('should apply a default move if it receives no move update', () => {
@@ -111,7 +111,9 @@ describe('GameSimulation', () => {
     });
     it("Should destroy bullet when it collides with a player", () => {
         const simulation: GameSimulation = new GameSimulation(new PlayerMoveUpdateQueue(1));
-        simulation.addGameObject(new Player(simulation, "testid1"));
+        let player: Player = new Player(simulation, "testid1");
+        player.body.SetPositionXY(0, 0);
+        simulation.addGameObject(player);
         let bullet: Bullet = new Bullet(simulation, "testid2", "none", -1, 0, 0);
         bullet.body.SetLinearVelocity({ x: 1, y: 0 });
         simulation.addGameObject(bullet);

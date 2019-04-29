@@ -29,6 +29,11 @@ export class ItemObjectDescription implements IITemDescription {
     public y: number;
 
     /**
+     * The angle of the item
+     */
+    public angle: number;
+
+    /**
      * The sprite for the item
      */
     public sprite: string;
@@ -44,11 +49,12 @@ export class ItemObjectDescription implements IITemDescription {
     public tip: string;
 
 
-    constructor(givenId: string, givenX: number, givenY: number, givenItemType: ItemType, givenSprite: string, givenName: string, givenTip?: string) {
+    constructor(givenId: string, givenX: number, givenY: number, angle: number, givenItemType: ItemType, givenSprite: string, givenName: string, givenTip?: string) {
         //properties
         this.id = givenId;
         this.x = givenX;
         this.y = givenY;
+        this.angle = angle;
         this.type = GameObjectType.Item;
         this.itemType = givenItemType;
         this.sprite = givenSprite;

@@ -19,8 +19,6 @@ import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascrip
 import { Bullet } from "../../../game/simulation/objects/Bullet";
 import v1Gen from "uuid/v1";
 import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
-import { ItemObject } from "./ItemObject";
-import { DefaultInventoryItem } from "./TestInventoryItem";
 
 /**
  * A player in the game. Contains the physics body.
@@ -33,7 +31,7 @@ export class Player extends GameObject implements IHealth {
     /**
      * Velocity in meters per second that the players should move.
      */
-    public static SPEED: number = 16;
+    public static SPEED: number = 6;
     /**
      * The hit box for player weapon collisions
      */
@@ -76,7 +74,7 @@ export class Player extends GameObject implements IHealth {
         // moves in response to forces, and has a finite, non-zero mass.
         const bodyDef: b2BodyDef = new b2BodyDef();
         bodyDef.type = b2BodyType.b2_dynamicBody;
-        bodyDef.position.Set(0, 0);
+        bodyDef.position.Set(10, 10);
         this.body = this.simulation.world.CreateBody(bodyDef);
 
         // Fixtures are carried around on the bodies. They define a body's
@@ -85,7 +83,7 @@ export class Player extends GameObject implements IHealth {
         // Create fixture for the player colliding with the world
         const playerCollisionFixtureDef: b2FixtureDef = new b2FixtureDef();
         playerCollisionFixtureDef.userData = id;
-        playerCollisionFixtureDef.shape = new b2CircleShape(.5); // 50 m radius
+        playerCollisionFixtureDef.shape = new b2CircleShape((96 / 100) / 2); // 50 m radius
         playerCollisionFixtureDef.filter.Copy(worldCollisionFilter);
         // fixture.density = 1.0; // 1.0 kg/m^3
         this.playerCollisionFixture = this.body.CreateFixture(playerCollisionFixtureDef, 4.0); // 1.0 kg/m^3 density
@@ -95,24 +93,6 @@ export class Player extends GameObject implements IHealth {
         playerHitboxFixtureDef.shape = Player.playerHitboxShape;
         playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
-
-
-        //list
-        // z-offset
-        //testing with items
-        let item = new ItemObject(this.simulation, {
-            id: v1Gen(),
-            x: 2,
-            y: 2,
-            item: new DefaultInventoryItem("Item1", "Press f for Respects")
-        })
-
-        let item2 = new ItemObject(this.simulation, {
-            id: v1Gen(),
-            x: 3,
-            y: 0,
-            item: new DefaultInventoryItem("Item2", "Press nothing cuz that dont work yet")
-        })
     }
 
     public destroy(): void {

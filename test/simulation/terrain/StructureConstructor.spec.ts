@@ -2,8 +2,9 @@ import {expect} from "chai";
 import { StructureConstructor } from "../../../src/game/simulation/terrain/structures/StructureConstructor";
 import { ITile } from "../../../src/game/simulation/terrain/tiles/ITile";
 import { TileDictionary } from "../../../src/game/simulation/terrain/tiles/TileDictionary";
-import { IStructure, IStructurePart } from "../../../src/game/simulation/terrain/structures/IStructure";
+import { IStructure} from "../../../src/game/simulation/terrain/structures/IStructure";
 import { TerrainMap } from "../../../src/public/javascript/game/models/TerrainMap";
+import { IStructurePart } from "../../../src/game/simulation/terrain/structures/IStructurePart";
 
 describe("Structure Constructor", () => {
     let tiles: ITile[];
@@ -129,7 +130,7 @@ describe("Structure Constructor", () => {
         };
 
         tileDict = new TileDictionary(tiles);
-        map = new TerrainMap(100, 100, 10, 20, [{name:"testlayer1", level: 0}], tiles);
+        map = new TerrainMap(100, 100, 10, 20, [{name:"testlayer1", level: 0, collides: false}], tiles);
         structConstr = new StructureConstructor(struct, map, tileDict);
     });
 

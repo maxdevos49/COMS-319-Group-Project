@@ -1,0 +1,19 @@
+{
+  "name": "Ion Repeater",
+  "tooltip": "Rapid fire atom-splitter",
+  "groundedItemSprite": "items/weapons/ion_repeater",
+  "inventoryItemSprite": "items/weapons/ion_repeater",
+  "bulletSprite": "items/weapons/ion_repeater_bullet",
+  "type": "Weapon",
+  "minimumNumberOnMap": 2,
+  "maximumNumberOnMap": 4,
+  "spawnOptions": [
+    {"successChance": 100, "condition": "#@metal_barricade"},
+    {"successChance": 100, "condition": "@stone_path"}
+  ],
+  "ammoSize": 400,
+  "clipSize": 50,
+  "fireRate": 4,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}

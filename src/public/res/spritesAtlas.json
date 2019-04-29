@@ -1,125 +1,124 @@
+{"frames": [
+
 {
-	"textures": [
-		{
-			"image": "spritesAtlastest.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 100,
-				"h": 210
-			},
-			"scale": 1,
-			"frames": [
-				{
-					"filename": "objects/bullet/orb/1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 10,
-						"h": 10
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					},
-					"frame": {
-						"x": 0,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					}
-				},
-				{
-					"filename": "objects/bullet/orb/2",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 10,
-						"h": 10
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					},
-					"frame": {
-						"x": 10,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					}
-				},
-				{
-					"filename": "objects/bullet/orb/3",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 10,
-						"h": 10
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					},
-					"frame": {
-						"x": 20,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					}
-				},
-				{
-					"filename": "objects/player/walking/1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 100,
-						"h": 100
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 100,
-						"h": 100
-					},
-					"frame": {
-						"x": 0,
-						"y": 10,
-						"w": 100,
-						"h": 100
-					}
-				},
-				{
-					"filename": "objects/player/walking/2",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 100,
-						"h": 100
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 100,
-						"h": 100
-					},
-					"frame": {
-						"x": 0,
-						"y": 110,
-						"w": 100,
-						"h": 100
-					}
-				}
-			]
-		}
-	],
-	"meta": {
-		"app": "https://www.codeandweb.com/texturepacker",
-		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:fa2cb551f95ac930c27fdf05f0cb2cc1:ce78c39f1b44e621fdd6bde2bcbc6981:7b7b0ab542d8f4476927c1214236c45c$"
-	}
+	"filename": "items/weapons/ion_repeater",
+	"frame": {"x":0,"y":476,"w":100,"h":241},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":241},
+	"sourceSize": {"w":100,"h":241}
+},
+{
+	"filename": "items/weapons/ion_repeater_bullet",
+	"frame": {"x":92,"y":0,"w":54,"h":95},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":95},
+	"sourceSize": {"w":54,"h":95}
+},
+{
+	"filename": "items/weapons/laser_blaster",
+	"frame": {"x":60,"y":95,"w":70,"h":193},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":193},
+	"sourceSize": {"w":70,"h":193}
+},
+{
+	"filename": "items/weapons/laser_cannon",
+	"frame": {"x":130,"y":95,"w":91,"h":281},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":281},
+	"sourceSize": {"w":91,"h":281}
+},
+{
+	"filename": "items/weapons/laser_cannon_bullet",
+	"frame": {"x":146,"y":0,"w":57,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":83},
+	"sourceSize": {"w":57,"h":83}
+},
+{
+	"filename": "items/weapons/laster_blaster_bullet",
+	"frame": {"x":49,"y":0,"w":43,"h":62},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":62},
+	"sourceSize": {"w":43,"h":62}
+},
+{
+	"filename": "items/weapons/rocket_bullet",
+	"frame": {"x":0,"y":0,"w":24,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":93},
+	"sourceSize": {"w":24,"h":93}
+},
+{
+	"filename": "items/weapons/rocket_launcher",
+	"frame": {"x":100,"y":476,"w":101,"h":237},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":237},
+	"sourceSize": {"w":101,"h":237}
+},
+{
+	"filename": "items/weapons/thermal_blaster",
+	"frame": {"x":105,"y":717,"w":117,"h":249},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":249},
+	"sourceSize": {"w":117,"h":249}
+},
+{
+	"filename": "items/weapons/thermal_blaster_bullet",
+	"frame": {"x":24,"y":0,"w":25,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":73},
+	"sourceSize": {"w":25,"h":73}
+},
+{
+	"filename": "items/weapons/thermal_concentrator",
+	"frame": {"x":0,"y":717,"w":105,"h":247},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":247},
+	"sourceSize": {"w":105,"h":247}
+},
+{
+	"filename": "items/weapons/thermal_concentrator_bullet",
+	"frame": {"x":0,"y":95,"w":60,"h":143},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":143},
+	"sourceSize": {"w":60,"h":143}
+},
+{
+	"filename": "objects/player/walking/1",
+	"frame": {"x":0,"y":376,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "objects/player/walking/2",
+	"frame": {"x":100,"y":376,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "base_landscape.png",
+	"format": "RGBA8888",
+	"size": {"w":222,"h":966},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d883d5172c38a34a594eda48cc6308f1:a15ba5a62ffe12983d4c6c46c568828b:b106b7c0f513fb4f298d6bb8a1dc7919$"
+}
 }

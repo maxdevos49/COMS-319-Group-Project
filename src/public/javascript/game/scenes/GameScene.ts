@@ -149,7 +149,6 @@ export class GameScene extends Phaser.Scene {
                 // Check if the id of this object is the clients, if it is save the reference to it
                 if (this.connection.clientId === newObjectDescription.id) {
                     this.clientPlayer = object as Player;
-                    this.cameras.main.startFollow(this.clientPlayer);
                 }
                 break;
             case GameObjectType.Bullet:
