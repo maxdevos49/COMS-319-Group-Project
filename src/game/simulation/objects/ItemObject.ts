@@ -57,7 +57,7 @@ export class ItemObject extends GameObject {
      *Gets a new GameObject Description for adding to clients
      */
     public getAsNewObject(): IObjectDescription {
-        return new ItemObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.item.itemType, this.item.groundedItemSprite, this.item.name, this.item.tip);
+        return new ItemObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle(), this.item.itemType, this.item.groundedItemSprite, this.item.name, this.item.tip);
     }
 
     /**

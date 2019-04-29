@@ -18,7 +18,8 @@ export class Item extends GameObject {
 	 */
     constructor(givenScene: Phaser.Scene, givenDescription: ItemObjectDescription) {
         super(givenScene, givenDescription.x * SCALE_FACTOR, givenDescription.y * SCALE_FACTOR, "sprites", givenDescription.sprite);
-        console.log(givenDescription.sprite);
+        this.setRotation(givenDescription.angle);
+
         //properties
         this.id = givenDescription.id;
 

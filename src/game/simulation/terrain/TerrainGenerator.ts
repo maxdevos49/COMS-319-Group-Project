@@ -82,12 +82,11 @@ export class TerrainGenerator {
                         Math.abs(width - this.borderSize - x),
                         Math.abs(height - this.borderSize - y)
                     );
-
-                    if (distanceFromBorder < this.borderSandGradientSize && (Math.pow(this.borderSandGradientSize - distanceFromBorder, 2)) / Math.pow(this.borderSandGradientSize, 2) > Math.random()) {
+                    let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
+                    if (region.name != "water" && distanceFromBorder < this.borderSandGradientSize && (Math.pow(this.borderSandGradientSize - distanceFromBorder, 2)) / Math.pow(this.borderSandGradientSize, 2) > Math.random()) {
                         let tileToPlace: ITile = tiles.tiles_name.get(this.randomTile(sandRegion.tiles).name);
                         map.setBlock(tileToPlace.layer, x, y, tileToPlace.id);
                     } else {
-                        let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
                         let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
                         map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
                     }
@@ -228,11 +227,11 @@ export class TerrainGenerator {
                         // Check that no item already exists at this location
                         if (!placedItems.find((placed) => placed.body.GetPosition().x == itemX && placed.body.GetPosition().y == itemY)) {
                             // Place the item
-                            let placed: ItemObject = new ItemObject(simulation, InventoryItemFactory.createInventoryItem(toAttempt), (32 * itemX) / 100, (32 * itemY) / 100);
+                            let placed: ItemObject = new ItemObject(simulation, InventoryItemFactory.createInventoryItem(toAttempt), 0.16 + (32 * itemX) / 100, 0.16 + (32 * itemY) / 100);
+                            placed.body.SetAngle(Math.random() * 2 * Math.PI);
                             simulation.addGameObject(placed);
                             placedItems.push(placed);
                             numberPlaced[itemConfigs.indexOf(toAttempt)]++;
-                            console.log("prefered:" + prefferedNumber + " actaul: " + numberPlaced);
                             break;
                         }
                     }

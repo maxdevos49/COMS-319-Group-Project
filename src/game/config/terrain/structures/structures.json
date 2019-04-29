@@ -19,7 +19,7 @@
     "name": "metal_barricade",
     "path": "metal_barricade.json",
     "generatesOn": "@crag_empty|@desert_empty",
-    "rarity": 10,
+    "rarity": 20,
     "maxParts": 120,
     "minParts": 60
   },
