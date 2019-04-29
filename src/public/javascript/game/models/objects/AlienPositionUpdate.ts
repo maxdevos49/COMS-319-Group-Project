@@ -1,4 +1,4 @@
-import { IPositionUpdate } from "./IPositionUpdate";
+import { IPositionUpdate } from "./IPositionUpdate.js";
 
 export class AlienPositionUpdate implements IPositionUpdate {
     frame: number;

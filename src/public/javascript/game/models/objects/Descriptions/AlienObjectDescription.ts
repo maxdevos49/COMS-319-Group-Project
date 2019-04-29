@@ -1,4 +1,4 @@
-import { GameObjectType, IObjectDescription } from "./IObjectDescription";
+import { GameObjectType, IObjectDescription } from "./IObjectDescription.js";
 
 export class AlienObjectDescription implements IObjectDescription {
     id: string;

@@ -1,124 +1,335 @@
-{"frames": [
-
 {
-	"filename": "items/weapons/ion_repeater",
-	"frame": {"x":0,"y":476,"w":100,"h":241},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":241},
-	"sourceSize": {"w":100,"h":241}
-},
-{
-	"filename": "items/weapons/ion_repeater_bullet",
-	"frame": {"x":92,"y":0,"w":54,"h":95},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":95},
-	"sourceSize": {"w":54,"h":95}
-},
-{
-	"filename": "items/weapons/laser_blaster",
-	"frame": {"x":60,"y":95,"w":70,"h":193},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":193},
-	"sourceSize": {"w":70,"h":193}
-},
-{
-	"filename": "items/weapons/laser_cannon",
-	"frame": {"x":130,"y":95,"w":91,"h":281},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":281},
-	"sourceSize": {"w":91,"h":281}
-},
-{
-	"filename": "items/weapons/laser_cannon_bullet",
-	"frame": {"x":146,"y":0,"w":57,"h":83},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":83},
-	"sourceSize": {"w":57,"h":83}
-},
-{
-	"filename": "items/weapons/laster_blaster_bullet",
-	"frame": {"x":49,"y":0,"w":43,"h":62},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":62},
-	"sourceSize": {"w":43,"h":62}
-},
-{
-	"filename": "items/weapons/rocket_bullet",
-	"frame": {"x":0,"y":0,"w":24,"h":93},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":93},
-	"sourceSize": {"w":24,"h":93}
-},
-{
-	"filename": "items/weapons/rocket_launcher",
-	"frame": {"x":100,"y":476,"w":101,"h":237},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":237},
-	"sourceSize": {"w":101,"h":237}
-},
-{
-	"filename": "items/weapons/thermal_blaster",
-	"frame": {"x":105,"y":717,"w":117,"h":249},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":117,"h":249},
-	"sourceSize": {"w":117,"h":249}
-},
-{
-	"filename": "items/weapons/thermal_blaster_bullet",
-	"frame": {"x":24,"y":0,"w":25,"h":73},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":73},
-	"sourceSize": {"w":25,"h":73}
-},
-{
-	"filename": "items/weapons/thermal_concentrator",
-	"frame": {"x":0,"y":717,"w":105,"h":247},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":247},
-	"sourceSize": {"w":105,"h":247}
-},
-{
-	"filename": "items/weapons/thermal_concentrator_bullet",
-	"frame": {"x":0,"y":95,"w":60,"h":143},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":143},
-	"sourceSize": {"w":60,"h":143}
-},
-{
-	"filename": "objects/player/walking/1",
-	"frame": {"x":0,"y":376,"w":100,"h":100},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
-},
-{
-	"filename": "objects/player/walking/2",
-	"frame": {"x":100,"y":376,"w":100,"h":100},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
-	"sourceSize": {"w":100,"h":100}
-}],
-"meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
-	"version": "1.0",
-	"image": "base_landscape.png",
-	"format": "RGBA8888",
-	"size": {"w":222,"h":966},
-	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:d883d5172c38a34a594eda48cc6308f1:a15ba5a62ffe12983d4c6c46c568828b:b106b7c0f513fb4f298d6bb8a1dc7919$"
-}
+	"textures": [
+		{
+			"image": "Story17_ActivityDiagram.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 493,
+				"h": 673
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "items/weapons/laster_blaster_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 43,
+						"h": 62
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 43,
+						"h": 62
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 43,
+						"h": 62
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_blaster_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 25,
+						"h": 73
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 25,
+						"h": 73
+					},
+					"frame": {
+						"x": 43,
+						"y": 0,
+						"w": 25,
+						"h": 73
+					}
+				},
+				{
+					"filename": "items/weapons/laser_cannon_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 57,
+						"h": 83
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 57,
+						"h": 83
+					},
+					"frame": {
+						"x": 68,
+						"y": 0,
+						"w": 57,
+						"h": 83
+					}
+				},
+				{
+					"filename": "items/weapons/rocket_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 24,
+						"h": 93
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 24,
+						"h": 93
+					},
+					"frame": {
+						"x": 125,
+						"y": 0,
+						"w": 24,
+						"h": 93
+					}
+				},
+				{
+					"filename": "items/weapons/ion_repeater_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 54,
+						"h": 95
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 54,
+						"h": 95
+					},
+					"frame": {
+						"x": 149,
+						"y": 0,
+						"w": 54,
+						"h": 95
+					}
+				},
+				{
+					"filename": "objects/player/walking/1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					},
+					"frame": {
+						"x": 203,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/player/walking/2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					},
+					"frame": {
+						"x": 303,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_concentrator_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 60,
+						"h": 143
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 60,
+						"h": 143
+					},
+					"frame": {
+						"x": 403,
+						"y": 0,
+						"w": 60,
+						"h": 143
+					}
+				},
+				{
+					"filename": "items/weapons/laser_blaster",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 193
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 193
+					},
+					"frame": {
+						"x": 0,
+						"y": 143,
+						"w": 70,
+						"h": 193
+					}
+				},
+				{
+					"filename": "items/weapons/rocket_launcher",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 101,
+						"h": 237
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 101,
+						"h": 237
+					},
+					"frame": {
+						"x": 70,
+						"y": 143,
+						"w": 101,
+						"h": 237
+					}
+				},
+				{
+					"filename": "items/weapons/ion_repeater",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 241
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 241
+					},
+					"frame": {
+						"x": 171,
+						"y": 143,
+						"w": 100,
+						"h": 241
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_concentrator",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 105,
+						"h": 247
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 105,
+						"h": 247
+					},
+					"frame": {
+						"x": 271,
+						"y": 143,
+						"w": 105,
+						"h": 247
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_blaster",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 117,
+						"h": 249
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 117,
+						"h": 249
+					},
+					"frame": {
+						"x": 376,
+						"y": 143,
+						"w": 117,
+						"h": 249
+					}
+				},
+				{
+					"filename": "objects/aliens/shooter/still/1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 376,
+						"h": 278
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 376,
+						"h": 278
+					},
+					"frame": {
+						"x": 0,
+						"y": 392,
+						"w": 376,
+						"h": 278
+					}
+				},
+				{
+					"filename": "items/weapons/laser_cannon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 91,
+						"h": 281
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 91,
+						"h": 281
+					},
+					"frame": {
+						"x": 376,
+						"y": 392,
+						"w": 91,
+						"h": 281
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:9a8ad0fc7501068c817bc14540fae4d8:ad385d99d38aeefd808b906aad4adfa7:dcbeb1a49c692072ec98fedfdef608e9$"
+	}
 }

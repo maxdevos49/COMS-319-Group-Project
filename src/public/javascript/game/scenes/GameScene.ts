@@ -11,8 +11,8 @@ import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerOb
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 import { Item } from "../objects/Item.js";
-import { AlienShooter } from "../objects/AlienShooter";
-import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription";
+import { AlienShooter } from "../objects/AlienShooter.js";
+import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {

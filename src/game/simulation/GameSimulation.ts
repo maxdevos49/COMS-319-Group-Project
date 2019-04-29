@@ -9,6 +9,8 @@ import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPo
 import { IEvent } from "../../public/javascript/game/models/objects/IEvent";
 import { TerrainGenerator } from "./terrain/TerrainGenerator";
 import { GameObjectType, IObjectDescription } from "../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import { AlienShooter } from "./objects/AlienShooter";
+import v1Gen from "uuid/v1";
 
 /**
  * Simulation of the physical world of the game.
@@ -41,6 +43,7 @@ export class GameSimulation {
      * The Map makes it easier to update players by their ID.
      */
     public objects: Map<string, GameObject>;
+
     /**
      * The terrain map for this simulation, object represents all of parts of the game world that don't change
      */
@@ -87,6 +90,8 @@ export class GameSimulation {
             // This will only be called when the test suite is running to avoid the expensive terrain generation operation
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
+
+        this.addGameObject(new AlienShooter(this, v1Gen(), 15, 15));
     }
 
     /**

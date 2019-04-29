@@ -1,8 +1,8 @@
-import { GameObject } from "./GameObject";
-import { AlienPositionUpdate } from "../models/objects/AlienPositionUpdate";
-import { GameScene } from "../scenes/GameScene";
-import { SCALE_FACTOR } from "../Game";
-import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription";
+import { GameObject } from "./GameObject.js";
+import { AlienPositionUpdate } from "../models/objects/AlienPositionUpdate.js";
+import { GameScene } from "../scenes/GameScene.js";
+import { SCALE_FACTOR } from "../Game.js";
+import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription.js";
 
 export class AlienShooter extends GameObject {
     /**
@@ -31,6 +31,8 @@ export class AlienShooter extends GameObject {
 
         this.id = description.id;
         this.setRotation(description.angle);
+
+        this.setScale(0.25, 0.25);
     }
 
     applyUpdate(newUpdate: AlienPositionUpdate): void {
