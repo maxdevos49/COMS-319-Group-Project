@@ -3,14 +3,16 @@ import { GameConnection } from "../GameConnection.js";
 import { GameObject } from "../objects/GameObject.js";
 import { UserInput } from "../objects/UserInput.js";
 import { Bullet } from "../objects/Bullet.js";
-import { IObjectDescription, GameObjectType } from "../models/objects/Descriptions/IObjectDescription.js";
+import { GameObjectType, IObjectDescription } from "../models/objects/Descriptions/IObjectDescription.js";
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
-import { IEvent, EventType } from "../models/objects/IEvent.js";
+import { EventType, IEvent } from "../models/objects/IEvent.js";
 import { HealthEvent } from "../models/objects/HealthEvent.js";
 import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 import { Item } from "../objects/Item.js";
+import { AlienShooter } from "../objects/AlienShooter";
+import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription";
 
 
 export class GameScene extends Phaser.Scene {
@@ -155,6 +157,9 @@ export class GameScene extends Phaser.Scene {
                 break;
             case GameObjectType.Item:
                 object = new Item(this, newObjectDescription as ItemObjectDescription)
+                break;
+            case GameObjectType.Alien:
+                object = new AlienShooter(this, newObjectDescription as AlienObjectDescription);
                 break;
             default:
                 throw "Unknown game object type";

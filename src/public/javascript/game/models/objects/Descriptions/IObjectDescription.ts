@@ -15,5 +15,6 @@ export interface IObjectDescription {
 export enum GameObjectType {
     Player,
     Bullet,
+    Alien,
     Item
 }
