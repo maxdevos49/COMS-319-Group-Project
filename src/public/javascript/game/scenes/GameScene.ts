@@ -13,6 +13,8 @@ import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObject
 import { Item } from "../objects/Item.js";
 import { AlienShooter } from "../objects/AlienShooter.js";
 import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription.js";
+import { WorldBorder } from "../objects/WorldBorder.js";
+import { WorldBorderObjectDescription } from "../models/objects/Descriptions/WorldBorderObjectDescription.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -136,7 +138,7 @@ export class GameScene extends Phaser.Scene {
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
 
-            console.log(this.clientPlayer.x / 32 + " " + this.clientPlayer.y / 32);
+            console.log(this.clientPlayer.x + " " + this.clientPlayer.y);
 		}
 	}
 
@@ -159,6 +161,9 @@ export class GameScene extends Phaser.Scene {
                 break;
             case GameObjectType.Alien:
                 object = new AlienShooter(this, newObjectDescription as AlienObjectDescription);
+                break;
+            case GameObjectType.WorldBorder:
+                object = new WorldBorder(this, newObjectDescription as WorldBorderObjectDescription);
                 break;
             default:
                 throw "Unknown game object type";

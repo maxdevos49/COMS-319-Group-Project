@@ -16,5 +16,6 @@ export enum GameObjectType {
     Player,
     Bullet,
     Alien,
-    Item
+    Item,
+    WorldBorder
 }

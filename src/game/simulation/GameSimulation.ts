@@ -11,6 +11,7 @@ import { TerrainGenerator } from "./terrain/TerrainGenerator";
 import { GameObjectType, IObjectDescription } from "../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { AlienShooter } from "./objects/AlienShooter";
 import v1Gen from "uuid/v1";
+import { WorldBorder } from "./objects/WorldBorder";
 
 /**
  * Simulation of the physical world of the game.
@@ -91,7 +92,7 @@ export class GameSimulation {
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
 
-        this.addGameObject(new AlienShooter(this, v1Gen(), 15, 15));
+        this.addGameObject(new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, 250 * .32, 250 * .32));
     }
 
     /**
