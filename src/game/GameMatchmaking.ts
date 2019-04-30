@@ -67,8 +67,8 @@ export class GameMatchmaking {
             } else {
                 this.idToSocket.set(socket.id, socket);
                 this.idToInfo.set(socket.id, new PlayerInfo(socket.id, socket.request.session.passport.user.nickname, socket.request.session.passport.user.role));
-
                 socket.on("disconnect", () => {
+                    console.log("TEST");
                     this.idToSocket.delete(socket.id);
                     this.idToInfo.delete(socket.id);
                     // Tell all remaining sockets that this player has left
@@ -83,12 +83,12 @@ export class GameMatchmaking {
         console.log("Starting an initial server");
         this.startNewServer();
 
-        // Check if there's anything to do once a second
+        // Check if there's anything to do
         setInterval(() => {
             // Check if the game should start
-            if (this.idToInfo.size > GameMatchmaking.numPlayerToStart || this.forceStart) {
+            if (this.idToInfo.size >= GameMatchmaking.numPlayerToStart || this.forceStart) {
                 // If a new game server exists and it is ready then add the players to it
-                if (this.nextServerId && this.games.get(this.nextServerId).curState == GameState.ready) {
+                if (this.nextServerId != null && this.games.get(this.nextServerId).curState == GameState.ready) {
                     console.log("Ready to start the game, informing players of the new server with id " + this.nextServerId);
                     this.idToSocket.forEach((socket: Socket, id: string) => socket.emit("/update/start", this.nextServerId));
                     // Tell the server how many players we are informing about the game so it knows how many to expect
@@ -107,7 +107,7 @@ export class GameMatchmaking {
                    this.startNewServer();
                }
             });
-        }, 1000);
+        }, 500);
     }
 
     public startNewServer(): void {
