@@ -98,7 +98,7 @@ export class GameServer {
                 this.playerNames.set(newClientId, socket.request.session.passport.user.nickname);
 
                 // Inform every other connected player that a new player has connected and inform new player of the existing players
-                let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
+                let newPlayerInfo = new PlayerInfo(newClientId, this.playerNames.get(newClientId));
                 this.clients.forEach((playerSocket: Socket, playerId: string) => {
                     // Inform the old player of the new player
                     playerSocket.emit("/update/player/new", newPlayerInfo);
@@ -111,7 +111,6 @@ export class GameServer {
 
                 // Add a record of the player
                 this.clients.set(newClientId, socket);
-                this.playerNames.set(newClientId, newClientId);
 
                 // Send the new player descriptions of all of the objects as they are now
                 socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
@@ -122,10 +121,13 @@ export class GameServer {
                 // Send the new player the terrain data
                 socket.emit("/init/terrain", this.simulation.map);
 
-                // Game player move update endpoint
-                socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
-                    this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
-                });
+                // Register the endpoint that listens for move updates from the client
+                this.setOnUpdateMove(socket);
+
+                // Register the endpoint for when a client disconnects.
+                // Passing in the client ID here saves us from having to
+                // iterate over the client map to get the ID for a given socket.
+                this.setOnDisconnect(socket, newClientId);
             }
         });
         // 30 times a second
@@ -172,6 +174,27 @@ export class GameServer {
                 // If we cannot intelligently eliminate position updates as not needed then send all of them
                 this.gameSocket.emit("/update/position", updates);
             }
+        });
+    }
+
+    /**
+     * Set a listener on the given socket to handle player move updates.
+     * @param socket The socket to set a listener on.
+     */
+    private setOnUpdateMove(socket: Socket): void {
+        socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
+            this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
+        });
+    }
+
+    /**
+     * Set a listener on the given socket to handle a disconnection.
+     * @param socket The socket to set a listener on.
+     * @param id The ID associated with the socket.
+     */
+    private setOnDisconnect(socket: Socket, id: string): void {
+        socket.on("disconnect", () => {
+            this.simulation.destroyGameObject(id);
         });
     }
 }
