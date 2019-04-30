@@ -10,9 +10,9 @@ export interface IPositionUpdate {
 	/**
 	 * The x coordinate of the position update
 	 */
-	x: number;
+	x?: number;
 	/**
 	 * The y coordinate of the position update
 	 */
-    y: number;
+    y?: number;
 }

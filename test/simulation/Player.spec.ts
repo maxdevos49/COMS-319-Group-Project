@@ -64,8 +64,9 @@ describe("Simulation Player Object", () => {
     });
     it("Should create an event upon losing health", () => {
         const bullet = new Bullet(simulation, "id1", "ownerId", 0, 0, 0, 1);
+        let originalEventLength: number = simulation.events.length;
         player.collideWith(bullet);
-        expect(simulation.events.length).to.equal(1);
+        expect(simulation.events.length).to.equal(originalEventLength + 1);
     });
     it("Should destroy itself when health reaches or goes below zero", () => {
         let original: number = simulation.world.GetBodyCount();

@@ -3,15 +3,20 @@ import { GameConnection } from "../GameConnection.js";
 import { GameObject } from "../objects/GameObject.js";
 import { UserInput } from "../objects/UserInput.js";
 import { Bullet } from "../objects/Bullet.js";
-import { IObjectDescription, GameObjectType } from "../models/objects/Descriptions/IObjectDescription.js";
+import { GameObjectType, IObjectDescription } from "../models/objects/Descriptions/IObjectDescription.js";
 import { IPositionUpdate } from "../models/objects/IPositionUpdate.js";
-import { IEvent, EventType } from "../models/objects/IEvent.js";
+import { EventType, IEvent } from "../models/objects/IEvent.js";
 import { HealthEvent } from "../models/objects/HealthEvent.js";
 import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerObjectDescription.js";
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 import { Item } from "../objects/Item.js";
 import { StatsEvent } from "../models/objects/StatsEvent.js";
+import { AlienShooter } from "../objects/AlienShooter.js";
+import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription.js";
+import { WorldBorder } from "../objects/WorldBorder.js";
+import { WorldBorderObjectDescription } from "../models/objects/Descriptions/WorldBorderObjectDescription.js";
+import { BorderDifficultyLevelEvent } from "../models/objects/BorderDifficultyLevelEvent";
 
 
 export class GameScene extends Phaser.Scene {
@@ -111,7 +116,7 @@ export class GameScene extends Phaser.Scene {
         });
 
         // Handle events from the server
-        this.connection.events.forEach((event: IEvent, index) => {
+        this.connection.events.forEach((event: IEvent) => {
             if (event.type === EventType.Health) {
                 const healthEvent = event as HealthEvent;
                 // Update HP displayed on screen
@@ -119,23 +124,22 @@ export class GameScene extends Phaser.Scene {
             } else if (event.type === EventType.Stats) {
                 const statsEvent = event as StatsEvent;
                 this.scene.launch("EndScene", statsEvent.stats);
+            } else if (event.type == EventType.BorderDifficulty) {
+                const borderDifficultyEvent: BorderDifficultyLevelEvent = event as BorderDifficultyLevelEvent;
+                this.events.emit("setDamageAlpha", borderDifficultyEvent.newDifficulty / 10);
             }
-            // Remove the event from the list since it should have been handled
-            // by now
-            this.connection.events.splice(index, 1);
         });
+        this.connection.events = [];
 
 		// Send the players move to the server
 		// Wait until the clients own player has been loaded to start sending updates
 		if (this.clientPlayer) {
 			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
 			this.connection.sendMove(moveUpdate);
-
+            console.log(this.clientPlayer.x, this.clientPlayer.y);
 			// Move the camera
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
-
-            console.log(this.clientPlayer.x / 32 + " " + this.clientPlayer.y / 32);
 		}
 	}
 
@@ -155,6 +159,12 @@ export class GameScene extends Phaser.Scene {
                 break;
             case GameObjectType.Item:
                 object = new Item(this, newObjectDescription as ItemObjectDescription)
+                break;
+            case GameObjectType.Alien:
+                object = new AlienShooter(this, newObjectDescription as AlienObjectDescription);
+                break;
+            case GameObjectType.WorldBorder:
+                object = new WorldBorder(this, newObjectDescription as WorldBorderObjectDescription);
                 break;
             default:
                 throw "Unknown game object type";
