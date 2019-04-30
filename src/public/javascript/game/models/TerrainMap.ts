@@ -186,6 +186,9 @@ export class TerrainMap {
     }
 
     public getHighestLevel(x: number, y: number): number {
+        // Edge case that no layers exist (often invoked during testing"
+        if (!this.layers || this.layers.length == 0) return 0;
+
         for (let i = this.layers.length - 1; i >= 0; i--) {
             let curLayer = this.layers[i];
             // Check if the block at this layer is occupied and return it if it is
