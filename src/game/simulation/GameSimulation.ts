@@ -31,6 +31,16 @@ export class GameSimulation {
     private static readonly velocityIterations: number = 6;
     private static readonly positionIterations: number = 2;
 
+    /**
+     * The radius around the center which the players will spawn
+     */
+    public static readonly playerSpawnRadius: number = 150;
+
+    /**
+     * The number of players that were in the game at the start
+     */
+    public numPlayersAtStart: number;
+
 	/**
 	 * The current frame number of the simulation.
 	 */
@@ -153,14 +163,20 @@ export class GameSimulation {
     }
 
     /**
-     * Generate a new player and add it to the world.
-     *
-     * @param {string} id - The UUID of the player.
+     * Specifies what players will be in this game (should only be called once)
+     * @param playerIds The array of players that will be playing in this game simulation
      */
-    public addPlayer(id: string): void {
-        const player: Player = new Player(this, id);
-        this.objects.set(id, player);
-        this.newObjectsIds.push(id);
+    public setPlayers(playerIds: string[]): void {
+        for (let i = 0; i < playerIds.length; i++) {
+            // TODO: Check that this is a valid spawn
+            let spawnX = GameSimulation.playerSpawnRadius * Math.cos(2 * Math.PI * (i / playerIds.length));
+            let spawnY = GameSimulation.playerSpawnRadius * Math.sin(2 * Math.PI * (i / playerIds.length));
+
+            let player: Player = new Player(this, playerIds[i]);
+            player.body.SetPositionXY(spawnX, spawnY);
+            this.objects.set(playerIds[i], player);
+            this.newObjectsIds.push(playerIds[i]);
+        }
     }
 
     /**
