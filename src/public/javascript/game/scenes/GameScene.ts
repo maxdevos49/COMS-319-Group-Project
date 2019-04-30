@@ -15,6 +15,7 @@ import { AlienShooter } from "../objects/AlienShooter.js";
 import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription.js";
 import { WorldBorder } from "../objects/WorldBorder.js";
 import { WorldBorderObjectDescription } from "../models/objects/Descriptions/WorldBorderObjectDescription.js";
+import { BorderDifficultyLevelEvent } from "../models/objects/BorderDifficultyLevelEvent";
 
 
 export class GameScene extends Phaser.Scene {
@@ -114,7 +115,7 @@ export class GameScene extends Phaser.Scene {
         });
 
         // Handle events from the server
-        this.connection.events.forEach((event: IEvent, index) => {
+        this.connection.events.forEach((event: IEvent) => {
             if (event.type === EventType.Health) {
                 const healthEvent = event as HealthEvent;
                 // Update HP displayed on screen
@@ -122,11 +123,12 @@ export class GameScene extends Phaser.Scene {
                 if (healthEvent.setHealthTo <= 0) {
                     // TODO: Give player the option to respawn
                 }
+            } else if (event.type == EventType.BorderDifficulty) {
+                const borderDifficultyEvent: BorderDifficultyLevelEvent = event as BorderDifficultyLevelEvent;
+                this.events.emit("setDamageAlpha", borderDifficultyEvent.newDifficulty / 10);
             }
-            // Remove the event from the list since it should have been handled
-            // by now
-            this.connection.events.splice(index, 1);
         });
+        this.connection.events = [];
 
 		// Send the players move to the server
 		// Wait until the clients own player has been loaded to start sending updates
@@ -137,8 +139,6 @@ export class GameScene extends Phaser.Scene {
 			// Move the camera
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
-
-            console.log(this.clientPlayer.x + " " + this.clientPlayer.y);
 		}
 	}
 

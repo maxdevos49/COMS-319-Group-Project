@@ -93,7 +93,7 @@ export class GameSimulation {
         }
 
         this.addGameObject(new AlienShooter(this, v1Gen(), 10, 10));
-        this.addGameObject(new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, 250 * .32, 250 * .32));
+        this.addGameObject(new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [250 * .32, 10]));
     }
 
     /**
@@ -234,7 +234,7 @@ export class GameSimulation {
     public getPositionUpdates(): IPositionUpdate[] {
         let updates: IPositionUpdate[] = [];
         this.objects.forEach((object: GameObject, id: string) => {
-            updates.push(object.getPositionUpdate(this.frame))
+            if (object.sendUpdates) updates.push(object.getPositionUpdate(this.frame))
         });
         return updates;
     }

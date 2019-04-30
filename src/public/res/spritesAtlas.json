@@ -1,11 +1,11 @@
 {
 	"textures": [
 		{
-			"image": "spritesAtlas.png",
+			"image": "Water Top.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 496,
-				"h": 723
+				"w": 1937,
+				"h": 837
 			},
 			"scale": 1,
 			"frames": [
@@ -31,24 +31,24 @@
 					}
 				},
 				{
-					"filename": "items/weapons/rocket_bullet",
+					"filename": "items/weapons/laster_blaster_bullet",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 93,
-						"h": 24
+						"w": 62,
+						"h": 43
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 93,
-						"h": 24
+						"w": 62,
+						"h": 43
 					},
 					"frame": {
 						"x": 20,
 						"y": 0,
-						"w": 93,
-						"h": 24
+						"w": 62,
+						"h": 43
 					}
 				},
 				{
@@ -66,52 +66,10 @@
 						"h": 25
 					},
 					"frame": {
-						"x": 113,
+						"x": 82,
 						"y": 0,
 						"w": 73,
 						"h": 25
-					}
-				},
-				{
-					"filename": "items/weapons/laster_blaster_bullet",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 62,
-						"h": 43
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 62,
-						"h": 43
-					},
-					"frame": {
-						"x": 186,
-						"y": 0,
-						"w": 62,
-						"h": 43
-					}
-				},
-				{
-					"filename": "items/weapons/ion_repeater_bullet",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 95,
-						"h": 54
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 95,
-						"h": 54
-					},
-					"frame": {
-						"x": 248,
-						"y": 0,
-						"w": 95,
-						"h": 54
 					}
 				},
 				{
@@ -129,10 +87,94 @@
 						"h": 57
 					},
 					"frame": {
-						"x": 343,
+						"x": 155,
 						"y": 0,
 						"w": 83,
 						"h": 57
+					}
+				},
+				{
+					"filename": "items/weapons/rocket_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 93,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 93,
+						"h": 24
+					},
+					"frame": {
+						"x": 238,
+						"y": 0,
+						"w": 93,
+						"h": 24
+					}
+				},
+				{
+					"filename": "items/weapons/ion_repeater_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 95,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 95,
+						"h": 54
+					},
+					"frame": {
+						"x": 331,
+						"y": 0,
+						"w": 95,
+						"h": 54
+					}
+				},
+				{
+					"filename": "objects/player/walking/2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					},
+					"frame": {
+						"x": 426,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/player/walking/1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 100
+					},
+					"frame": {
+						"x": 526,
+						"y": 0,
+						"w": 100,
+						"h": 100
 					}
 				},
 				{
@@ -150,8 +192,8 @@
 						"h": 60
 					},
 					"frame": {
-						"x": 0,
-						"y": 57,
+						"x": 626,
+						"y": 0,
 						"w": 143,
 						"h": 60
 					}
@@ -171,94 +213,10 @@
 						"h": 70
 					},
 					"frame": {
-						"x": 143,
-						"y": 57,
+						"x": 769,
+						"y": 0,
 						"w": 193,
 						"h": 70
-					}
-				},
-				{
-					"filename": "items/weapons/laser_cannon",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 281,
-						"h": 91
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 281,
-						"h": 91
-					},
-					"frame": {
-						"x": 0,
-						"y": 127,
-						"w": 281,
-						"h": 91
-					}
-				},
-				{
-					"filename": "objects/player/walking/1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 100,
-						"h": 100
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 100,
-						"h": 100
-					},
-					"frame": {
-						"x": 281,
-						"y": 127,
-						"w": 100,
-						"h": 100
-					}
-				},
-				{
-					"filename": "objects/player/walking/2",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 100,
-						"h": 100
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 100,
-						"h": 100
-					},
-					"frame": {
-						"x": 381,
-						"y": 127,
-						"w": 100,
-						"h": 100
-					}
-				},
-				{
-					"filename": "items/weapons/ion_repeater",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 241,
-						"h": 100
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 241,
-						"h": 100
-					},
-					"frame": {
-						"x": 0,
-						"y": 227,
-						"w": 241,
-						"h": 100
 					}
 				},
 				{
@@ -276,10 +234,31 @@
 						"h": 101
 					},
 					"frame": {
-						"x": 241,
-						"y": 227,
+						"x": 962,
+						"y": 0,
 						"w": 237,
 						"h": 101
+					}
+				},
+				{
+					"filename": "items/weapons/ion_repeater",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 241,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 241,
+						"h": 100
+					},
+					"frame": {
+						"x": 1199,
+						"y": 0,
+						"w": 241,
+						"h": 100
 					}
 				},
 				{
@@ -297,8 +276,8 @@
 						"h": 105
 					},
 					"frame": {
-						"x": 0,
-						"y": 328,
+						"x": 1440,
+						"y": 0,
 						"w": 247,
 						"h": 105
 					}
@@ -318,10 +297,31 @@
 						"h": 117
 					},
 					"frame": {
-						"x": 247,
-						"y": 328,
+						"x": 1687,
+						"y": 0,
 						"w": 249,
 						"h": 117
+					}
+				},
+				{
+					"filename": "items/weapons/laser_cannon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 281,
+						"h": 91
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 281,
+						"h": 91
+					},
+					"frame": {
+						"x": 0,
+						"y": 117,
+						"w": 281,
+						"h": 91
 					}
 				},
 				{
@@ -339,10 +339,31 @@
 						"h": 278
 					},
 					"frame": {
-						"x": 0,
-						"y": 445,
+						"x": 281,
+						"y": 117,
 						"w": 376,
 						"h": 278
+					}
+				},
+				{
+					"filename": "mask",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1280,
+						"h": 720
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1280,
+						"h": 720
+					},
+					"frame": {
+						"x": 657,
+						"y": 117,
+						"w": 1280,
+						"h": 720
 					}
 				}
 			]
@@ -351,6 +372,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:3ec5a407ab3d14ab72a3c1431da52271:fd468ab8856203e9f7914cb26e364be7:941fdc8fcb393b91cb8b27a54e5a9c98$"
+		"smartupdate": "$TexturePacker:SmartUpdate:4fa6ddce48f7cb1ac49d1a927cdce08d:73f3fd7206875db55b2ade82dfa7438d:0b7bf6b8fdf1c7df44d91299b82e2102$"
 	}
 }

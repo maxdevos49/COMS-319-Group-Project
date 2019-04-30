@@ -40,6 +40,11 @@ export class AlienShooter extends GameObject {
     public static alienSightRadius: number = 10;
 
     /**
+     * The chance, from 0 to 100, that the alien will de-spawn in a given frame in which they can see no player
+     */
+    public static despawnChance: number = 1;
+
+    /**
      * The distance at which the alien will stop tracking the player
      */
     public static alienGapDistance: number = 3;
@@ -170,11 +175,16 @@ export class AlienShooter extends GameObject {
             }
 
             if (this.distanceFrom(currentTarget) < AlienShooter.alienShootDistance && this.lastShotFrame + (30 * AlienShooter.alienFireRate) < this.simulation.frame) {
-                console.log("shooting");
                 this.simulation.addGameObject(new Bullet(this.simulation, v1Gen(), this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle(), 17, 20, AlienShooter.alienHitboxHalfLength + .2))
                 this.lastShotFrame = this.simulation.frame;
             }
         } else {
+            // If the alien is out of the line of sight of any player, randomly check if they should de-spawn
+            if (Math.random() * 100 < AlienShooter.despawnChance) {
+                console.log("de-spawn");
+                this.simulation.destroyGameObject(this.id);
+            }
+
             this.body.SetLinearVelocity({x: 0, y: 0});
         }
     };
