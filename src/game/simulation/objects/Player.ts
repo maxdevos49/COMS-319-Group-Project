@@ -68,7 +68,7 @@ export class Player extends GameObject implements IHealth {
         // Assume frame 0 because this variable is only used to restrict shooting speed
         this.lastShotFrame = 0;
 
-        this.health = 10000;
+        this.health = 100;
 
         // The player is a dynamic body, which means that it is fully simulated,
         // moves in response to forces, and has a finite, non-zero mass.
@@ -223,7 +223,7 @@ export class Player extends GameObject implements IHealth {
     public takeDamage(damage: number) {
         this.health -= damage;
         // The event will be sent to the client
-        //this.simulation.events.push(new HealthEvent(this.id, this.health))
+        this.simulation.events.push(new HealthEvent(this.id, this.health))
         if (this.health <= 0) {
             this.simulation.destroyGameObject(this.id);
         }
