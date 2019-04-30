@@ -68,7 +68,6 @@ export class GameMatchmaking {
                 this.idToSocket.set(socket.id, socket);
                 this.idToInfo.set(socket.id, new PlayerInfo(socket.id, socket.request.session.passport.user.nickname, socket.request.session.passport.user.role));
                 socket.on("disconnect", () => {
-                    console.log("TEST");
                     this.idToSocket.delete(socket.id);
                     this.idToInfo.delete(socket.id);
                     // Tell all remaining sockets that this player has left
@@ -83,7 +82,7 @@ export class GameMatchmaking {
         console.log("Starting an initial server");
         this.startNewServer();
 
-        // Check if there's anything to do
+        // Check if there is the players can be added to the game or if the previous game is over
         setInterval(() => {
             // Check if the game should start
             if (this.idToInfo.size >= GameMatchmaking.numPlayerToStart || this.forceStart) {
