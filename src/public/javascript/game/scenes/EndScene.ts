@@ -15,17 +15,23 @@ export class EndScene extends Phaser.Scene {
 
     init(stats: PlayerStats): void {
         this.cameras.main.setBackgroundColor(0x611717);
+
+        const winner: string = "You win!";
+        const loser: string = "You lose!";
+        const winLoseText: string = stats.finishPlace === 1 ? winner : loser;
+        this.gameOverText = this.add.bitmapText(0, 100, font, winLoseText, 70);
+        this.gameOverText.setX((this.sys.canvas.width / 2) - (this.gameOverText.getTextBounds().local.width / 2));
+
         this.enemiesKilledText = this.add.bitmapText(0, 200, font, "Enemies killed: " + stats.enemiesKilled, 20);
         this.enemiesKilledText.setX((this.sys.canvas.width / 2) - (this.enemiesKilledText.getTextBounds().local.width / 2));
-        const min = Math.floor(stats.secondsInGame / 60);
-        const sec = Math.round(stats.secondsInGame - (min * 60));
+
+        const min: number = Math.floor(stats.secondsInGame / 60);
+        const sec: number = Math.round(stats.secondsInGame - (min * 60));
         this.timeInGameText = this.add.bitmapText(0, 240, font, "Time in game: " + min + " minutes " + sec + " seconds", 20);
         this.timeInGameText.setX((this.sys.canvas.width / 2) - (this.timeInGameText.getTextBounds().local.width / 2));
     }
 
     preload(): void {
-        this.gameOverText = this.add.bitmapText(0, 100, font, "You lose!", 70);
-        this.gameOverText.setX((this.sys.canvas.width / 2) - (this.gameOverText.getTextBounds().local.width / 2));
         this.mainMenuButton = new Button(
             this,
             this.sys.canvas.width - 10,

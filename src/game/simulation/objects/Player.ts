@@ -79,6 +79,7 @@ export class Player extends GameObject implements IHealth {
         this.stats = {
             enemiesKilled: 0,
             secondsInGame: 0,
+            finishPlace: 1,
         };
 
         // The player is a dynamic body, which means that it is fully simulated,
@@ -230,7 +231,14 @@ export class Player extends GameObject implements IHealth {
             if (playerDead) {
                 const bullet: Bullet = object as Bullet;
                 const other: Player = this.simulation.objects.get(bullet.ownerId) as Player;
+                const numAlive = this.simulation.totalPlayers - this.simulation.deadPlayers;
                 other.stats.enemiesKilled += 1;
+                // This was the second to last player who died, so the other
+                // player must be the winner.
+                if (numAlive === 1) {
+                    other.stats.secondsInGame = this.simulation.frame / 30;
+                    this.simulation.events.push(new StatsEvent(other.id, other.stats));
+                }
             }
         }
     }
@@ -248,8 +256,10 @@ export class Player extends GameObject implements IHealth {
         // The player is dead
         if (this.health <= 0) {
             this.stats.secondsInGame = this.simulation.frame / 30;
+            this.stats.finishPlace = this.simulation.totalPlayers - this.simulation.deadPlayers;
             this.simulation.events.push(new StatsEvent(this.id, this.stats));
             this.simulation.destroyGameObject(this.id);
+            this.simulation.deadPlayers++;
             return true;
         }
         return false;

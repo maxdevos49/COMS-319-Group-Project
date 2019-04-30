@@ -42,6 +42,14 @@ export class GameSimulation {
      */
     public objects: Map<string, GameObject>;
     /**
+     * The number of players in the game.
+     */
+    public totalPlayers: number;
+    /**
+     * The number of players in the game that are alive.
+     */
+    public deadPlayers: number;
+    /**
      * The terrain map for this simulation, object represents all of parts of the game world that don't change
      */
     public map: TerrainMap;
@@ -78,6 +86,8 @@ export class GameSimulation {
 
         this.frame = 0;
         this.objects = new Map<string, GameObject>();
+        this.totalPlayers = 0;
+        this.deadPlayers = 0;
         this.events = [];
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
@@ -159,6 +169,7 @@ export class GameSimulation {
         const player: Player = new Player(this, id);
         this.objects.set(id, player);
         this.newObjectsIds.push(id);
+        this.totalPlayers++;
     }
 
     /**
