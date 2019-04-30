@@ -15,6 +15,6 @@ export interface IITemDescription extends IObjectDescription {
 }
 
 export enum ItemType {
-    Default,
-    SpeedBoost,
+    Weapon,
+    Default
 }

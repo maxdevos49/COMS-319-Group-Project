@@ -17,7 +17,8 @@ export class Item extends GameObject {
 	 * @param givenDescription The description to create the bullet from
 	 */
     constructor(givenScene: Phaser.Scene, givenDescription: ItemObjectDescription) {
-        super(givenScene, givenDescription.x * SCALE_FACTOR, givenDescription.y * SCALE_FACTOR, givenDescription.sprite);
+        super(givenScene, givenDescription.x * SCALE_FACTOR, givenDescription.y * SCALE_FACTOR, "sprites", givenDescription.sprite);
+        this.setRotation(givenDescription.angle);
 
         //properties
         this.id = givenDescription.id;
@@ -33,17 +34,17 @@ export class Item extends GameObject {
         });
 
         this.toolTip.setVisible(false);
-        this.setScale(0.3, 0.3);//temp
+        this.setScale(0.2, 0.2);
 
         this.setInteractive();
 
         this.on("pointerover", () => {
             this.showTooltip();
-        })
+        });
 
         this.on("pointerout", () => {
             this.hideTooltip();
-        })
+        });
     }
 
     public showTooltip(): void {

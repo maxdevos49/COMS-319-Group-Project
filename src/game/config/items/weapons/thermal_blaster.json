@@ -1,0 +1,19 @@
+{
+  "name": "Thermal Blaster",
+  "tooltip": "Super-heated particle thrower",
+  "groundedItemSprite": "items/weapons/thermal_blaster",
+  "inventoryItemSprite": "items/weapons/thermal_blaster",
+  "bulletSprite": "items/weapons/thermal_blaster_bullet",
+  "type": "Weapon",
+  "minimumNumberOnMap": 8,
+  "maximumNumberOnMap": 10,
+  "spawnOptions": [
+    {"successChance": 50, "condition": "#@metal_barricade"},
+    {"successChance": 100, "condition": "#water"}
+  ],
+  "ammoSize": 200,
+  "clipSize": 40,
+  "fireRate": 4,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Laser Cannon",
+  "tooltip": "burst cannon blaster",
+  "groundedItemSprite": "items/weapons/laser_cannon",
+  "inventoryItemSprite": "items/weapons/laser_cannon",
+  "bulletSprite": "items/weapons/laser_cannon_bullet",
+  "type": "Weapon",
+  "minimumNumberOnMap": 3,
+  "maximumNumberOnMap": 6,
+  "spawnOptions": [
+    {"successChance": 10, "condition": "#@metal_barricade"},
+    {"successChance": 100, "condition": "#@stone_rock_path"}
+  ],
+  "ammoSize": 100,
+  "clipSize": 10,
+  "fireRate": 1,
+  "bulletSpeed": 20,
+  "bulletKillSpeed": 17
+}

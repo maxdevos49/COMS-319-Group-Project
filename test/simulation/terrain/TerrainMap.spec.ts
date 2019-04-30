@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { TerrainMap } from "../../../src/public/javascript/game/models/TerrainMap";
-import { ITile, ITileLayer } from "../../../src/game/simulation/terrain/tiles/ITile";
+import { ITile} from "../../../src/game/simulation/terrain/tiles/ITile";
+import { ITileLayer } from "../../../src/game/simulation/terrain/tiles/ITileLayer";
 
 describe("Terrain Map", () => {
     let tiles: ITile[] = [
@@ -13,11 +14,13 @@ describe("Terrain Map", () => {
     let layers: ITileLayer[] = [
         {
             name: "testlayer1",
-            level: 0
+            level: 0,
+            collides: false
         },
         {
             name: "testlayer2",
-            level: 2
+            level: 2,
+            collides: false
         }
     ];
 

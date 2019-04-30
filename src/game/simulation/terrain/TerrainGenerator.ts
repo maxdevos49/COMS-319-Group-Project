@@ -1,17 +1,26 @@
 import { TerrainMap } from "../../../public/javascript/game/models/TerrainMap";
 import { GameSimulation } from "../GameSimulation";
 import * as fs from "fs";
-import { ITile, ITileLayer, ITileOption } from "./tiles/ITile";
+import { ITile} from "./tiles/ITile";
 import * as path from "path";
 import { IRegion } from "./IRegion";
 import { NoiseMap } from "./NoiseMap";
 import {
-    IPlacedStructurePartConnection,
-    IStructure,
-    IStructurePart
-} from "./structures/IStructure";
+    IStructure} from "./structures/IStructure";
 import { TileDictionary } from "./tiles/TileDictionary";
 import { StructureConstructor } from "./structures/StructureConstructor";
+import { b2Body, b2BodyDef, b2BodyType } from "../../../../lib/box2d-physics-engine/Dynamics/b2Body";
+import { b2FixtureDef } from "../../../../lib/box2d-physics-engine/Dynamics/b2Fixture";
+import { b2CircleShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2CircleShape";
+import { worldAndHitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
+import { b2PolygonShape } from "../../../../lib/box2d-physics-engine/Collision/Shapes/b2PolygonShape";
+import { ITileOption } from "./tiles/ITileOption";
+import { ITileLayer } from "./tiles/ITileLayer";
+import { IStructurePart } from "./structures/IStructurePart";
+import { IPlacedStructurePartConnection } from "./structures/IPlaceedStructurePartConnection";
+import { IItemConfig } from "../items/configs/IItemConfig";
+import { ItemObject } from "../objects/ItemObject";
+import { InventoryItemFactory } from "../items/InventoryItemFactory";
 
 export class TerrainGenerator {
     /**
@@ -22,7 +31,23 @@ export class TerrainGenerator {
      * The max number of times to attempt to place a part on a connection point
      */
     private static partAttemptPlaceLimit: number = 50;
-
+    /**
+     * The number of items to attempt to place
+     */
+    private static itemsPlaceAttempts: number = 1000;
+    /**
+     * The number of times to attempt to place an item once it's been randomly selected
+     */
+    private static itemPlaceAttemptLimit: number = 100;
+    private static itemPlaceCheckRadius: number = 5;
+    /**
+     * The size of the border of water that will be placed on the edges of the map
+     */
+    private static borderSize: number = 25;
+    /**
+     * The size of the sand gradient that will exist between the water border and normal terrain
+     */
+    private static borderSandGradientSize: number = 5;
     /**
      * Generates a new terrain map with a randomized terrain.
      * @param simulation The simulation to generate the new random world in
@@ -42,12 +67,30 @@ export class TerrainGenerator {
         let temperatureMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
         let humidityMap: NoiseMap = new NoiseMap(map.width, map.height, this.chunkSize);
 
+        let waterTile: ITile = tiles.tiles_name.get("water");
+        let sandRegion: IRegion = regions.find((reg) => reg.name == "sand");
         // Loop through every tile and assign it a random tile based on the region that best fits
         for (let y = 0; y < map.height; y++) {
             for (let x = 0; x < map.width; x++) {
-                let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
-                let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
-                map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
+                // If we are within the range which water for the border should be placed then place it
+                if (x < this.borderSize || y < this.borderSize || ((width - x) < this.borderSize) || (height - y)  < this.borderSize) {
+                    map.setBlock(waterTile.layer, x, y, waterTile.id);
+                } else  {
+                    let distanceFromBorder: number = Math.min(
+                        Math.abs(x - this.borderSize),
+                        Math.abs((y - this.borderSize)),
+                        Math.abs(width - this.borderSize - x),
+                        Math.abs(height - this.borderSize - y)
+                    );
+                    let region: IRegion = this.findBestFitRegion(temperatureMap.map[y][x], humidityMap.map[y][x], regions);
+                    if (region.name != "water" && distanceFromBorder < this.borderSandGradientSize && (Math.pow(this.borderSandGradientSize - distanceFromBorder, 2)) / Math.pow(this.borderSandGradientSize, 2) > Math.random()) {
+                        let tileToPlace: ITile = tiles.tiles_name.get(this.randomTile(sandRegion.tiles).name);
+                        map.setBlock(tileToPlace.layer, x, y, tileToPlace.id);
+                    } else {
+                        let bestFitTile: ITile = tiles.tiles_name.get(this.randomTile(region.tiles).name);
+                        map.setBlock(bestFitTile.layer, x, y, bestFitTile.id);
+                    }
+                }
             }
         }
 
@@ -131,7 +174,112 @@ export class TerrainGenerator {
         }
 
         console.log("Placed " + successfulPlaceAttempts + " structures on the map");
+
+        console.log("Adding collision fixtures for the terrain");
+        let tileHitboxShape = new b2PolygonShape().SetAsBox((32 / 100) / 2, (32 / 100) / 2);
+        for (let x = 0; x < map.width; x++) {
+            for (let y = 0; y < map.height; y++) {
+                if (x < this.borderSize - 1 || y < this.borderSize  - 1 || ((width - x) < this.borderSize - 1) || (height - y)  < this.borderSize - 1) {
+                    continue;
+                }
+
+                for (let layer of map.layers) {
+                    if (layer.collides && layer.getBlock(x, y) != 0) {
+                        let tileBodyDef: b2BodyDef = new b2BodyDef();
+                        tileBodyDef.type = b2BodyType.b2_staticBody;
+                        tileBodyDef.position.Set(((x * 32) / 100) + ((32 / 100) / 2), ((y * 32) / 100) + ((32 / 100) / 2));
+                        let tileBody: b2Body = simulation.world.CreateBody(tileBodyDef);
+
+                        const tileFixtureDef: b2FixtureDef = new b2FixtureDef();
+                        tileFixtureDef.shape = tileHitboxShape;
+                        if (layer.level > 0) {
+                            tileFixtureDef.filter.Copy(worldAndHitboxCollisionFilter);
+                        } else {
+                            tileFixtureDef.filter.Copy(worldCollisionFilter);
+                        }
+                        tileBody.CreateFixture(tileFixtureDef);
+                    }
+                }
+            }
+        }
+
+        console.log("Generating items on the map");
+        let itemConfigs: IItemConfig[] = this.loadAllItemConfigs();
+
+        let prefferedNumber: number[] = this.rollPrefferedNumber(itemConfigs);
+        let numberPlaced: number[] = new Array(itemConfigs.length).fill(0);
+        let placedItems: ItemObject[] = [];
+
+        for (let itemPlaceAttempt = 0; itemPlaceAttempt < this.itemsPlaceAttempts; itemPlaceAttempt++) {
+            console.log(itemPlaceAttempt);
+            let toAttempt: IItemConfig = this.getRandomItem(itemConfigs, numberPlaced, prefferedNumber);
+            // If all of the items have been placed to max then toAttempt will be undefined. Exit the loop
+            if (!toAttempt) break;
+
+            for (let itemAttempt = 0; itemAttempt < this.itemPlaceAttemptLimit; itemAttempt++) {
+                // Select a random place on the map to attempt to place the structure
+                let itemX = Math.floor(Math.random() * map.width);
+                let itemY = Math.floor(Math.random() * map.height);
+                // Check that the item can be placed here
+                if (this.checkItemCanBePlaced(map, tiles, itemX, itemY, toAttempt)) {
+                    // Check that the this location is open ground
+                    if (map.getHighestLevel(itemX, itemY) == 0) {
+                        // Check that no item already exists at this location
+                        if (!placedItems.find((placed) => placed.body.GetPosition().x == itemX && placed.body.GetPosition().y == itemY)) {
+                            // Place the item
+                            let placed: ItemObject = new ItemObject(simulation, InventoryItemFactory.createInventoryItem(toAttempt), 0.16 + (32 * itemX) / 100, 0.16 + (32 * itemY) / 100);
+                            placed.body.SetAngle(Math.random() * 2 * Math.PI);
+                            simulation.addGameObject(placed);
+                            placedItems.push(placed);
+                            numberPlaced[itemConfigs.indexOf(toAttempt)]++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        console.log(placedItems.length + " items placed");
+
         return map;
+    }
+
+    public static checkItemCanBePlaced(map: TerrainMap, tiles: TileDictionary,  x: number, y: number, config: IItemConfig): boolean {
+        for (let spawnOption of config.spawnOptions) {
+            let conditions: string[] = spawnOption.condition.split("&");
+
+            let allConditionsMet: boolean = true;
+            for (let condition of conditions) {
+                if (condition.startsWith("@")) {
+                    if (!tiles.checkTileIndexIdentifiesAs(map.getHighestTile(x, y), condition)) allConditionsMet = false;
+                } else if (condition.startsWith("#")) {
+                    let cleanCondition: string = condition.substring(1);
+
+                    let validFound: boolean = false;
+                    for (let toCheckY = y - this.itemPlaceCheckRadius; toCheckY <= y + this.itemPlaceCheckRadius; toCheckY++) {
+                        for (let toCheckX = x - this.itemPlaceCheckRadius; toCheckX <= x + this.itemPlaceCheckRadius; toCheckX++) {
+                            // Make sure the point is on the screen
+                            if (x < 0 || y < 0 || x >= map.width || y >= map.height) continue;
+                            if (tiles.checkTileIndexIdentifiesAs(map.getHighestTile(toCheckX, toCheckY), cleanCondition)) {
+                                validFound = true;
+                                break;
+                            }
+                        }
+                        // Don't keep looking if this condition has already been satisfied
+                        if (validFound) break;
+                    }
+
+                    if (!validFound) allConditionsMet = false;
+                } else {
+                    if (!(map.getHighestTile(x, y) == tiles.tiles_name.get(condition).id)) allConditionsMet = false;
+                }
+            }
+            if (allConditionsMet) {
+                if (spawnOption.successChance > Math.random() * 100) return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -179,6 +327,32 @@ export class TerrainGenerator {
     }
 
     /**
+     * Goes through every number and randomly selects a number between the min and the max (including these numbers)
+     * @param items The items to roll the preferred number for
+     * @return The rolled preferred number of items
+     */
+    public static rollPrefferedNumber(items: IItemConfig[]): number[] {
+        return items.map((item) => {
+            return Math.floor(Math.random() * (item.maximumNumberOnMap - item.minimumNumberOnMap + 1) + item.minimumNumberOnMap);
+        });
+    }
+
+    /**
+     * Selects a random item from the list of usable configs excluding items that already have at least their preferred number
+     * generated
+     * @param options The options that can be selected from
+     * @param alreadyGenerated The array whose indices correspond to the options array and gives the number of that item that have already been generated
+     * @param preferredNumber The array whose indices correspond to the options array and give the preferred number of each item to generate
+     */
+    public static getRandomItem(options: IItemConfig[], alreadyGenerated: number[], preferredNumber: number[]) {
+        let availableOptions: IItemConfig[] = [];
+        for (let i = 0; i < options.length; i++) {
+            if (alreadyGenerated[i] < preferredNumber[i]) availableOptions.push(options[i]);
+        }
+        return availableOptions[Math.floor(Math.random() * availableOptions.length)];
+    }
+
+    /**
      * Finds the region that best fits the given climate
      * @param temp The temperature of the region from 0 to 100
      * @param humidity The humidity of the region from 0 to 100
@@ -207,7 +381,7 @@ export class TerrainGenerator {
      * @return All of the loaded tile layers
      */
     public static loadAllLayers(): ITileLayer[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "layers.json"), "utf8")) as ITileLayer[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "tiles", "layers.json"), "utf8")) as ITileLayer[];
     }
 
     /**
@@ -217,11 +391,11 @@ export class TerrainGenerator {
      */
     public static loadAllTiles(): TileDictionary {
         // Load atlas with paths to other tiles
-        let tilesAtlas = JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", "tiles.json"), "utf8")) as {tile_files: string[]};
+        let tilesAtlas = JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "tiles", "tiles.json"), "utf8")) as {tile_files: string[]};
 
         let tiles: ITile[] = [];
         tilesAtlas.tile_files.forEach((file) => {
-           let tilesFromFile: ITile[] = JSON.parse(fs.readFileSync(path.join(__dirname, "tiles", file), "utf8")) as ITile[];
+           let tilesFromFile: ITile[] = JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "tiles", file), "utf8")) as ITile[];
            tilesFromFile.forEach((tile) => tiles.push(tile));
         });
 
@@ -233,7 +407,7 @@ export class TerrainGenerator {
      * @return All of the regions that were loaded
      */
     public static loadAllRegions(): IRegion[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "regions.json"), "utf8")) as IRegion[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "regions.json"), "utf8")) as IRegion[];
     }
 
     /**
@@ -241,7 +415,7 @@ export class TerrainGenerator {
      * @return All of the structures that were loaded
      */
     public static loadAllStructures(): IStructure[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", "structures.json"), "utf8")) as IStructure[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "structures", "structures.json"), "utf8")) as IStructure[];
     }
 
     /**
@@ -250,6 +424,18 @@ export class TerrainGenerator {
      * @param All of the parts that were loaded for the given structure
      */
     public static loadAllStructureParts(struct: IStructure): IStructurePart[] {
-        return JSON.parse(fs.readFileSync(path.join(__dirname, "structures", struct.path), "utf8")) as IStructurePart[];
+        return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "terrain", "structures", struct.path), "utf8")) as IStructurePart[];
+    }
+
+    /**
+     * Loads all item configs which are listed in teh atlas.json file for items and returns there data as an array
+     */
+    public static loadAllItemConfigs(): IItemConfig[] {
+        // Load the atlas
+        let paths: string[] = JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "items", "atlas.json"), "utf8")) as string[];
+        // Load every file in the atlas
+        return paths.map((configPath) => {
+           return JSON.parse(fs.readFileSync(path.join(".", "src", "game", "config", "items", configPath), "utf8")) as IItemConfig;
+        });
     }
 }
