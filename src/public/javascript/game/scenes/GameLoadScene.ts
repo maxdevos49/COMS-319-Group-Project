@@ -1,6 +1,6 @@
 import { GameConnection } from "../GameConnection.js";
 import { Player } from "../objects/Player.js";
-import { Bullet } from "../objects/Bullet.js";
+import { AlienShooter } from "../objects/AlienShooter.js";
 
 export class GameLoadScene extends Phaser.Scene {
 
@@ -22,6 +22,7 @@ export class GameLoadScene extends Phaser.Scene {
 
     create(): void {
         Player.createAnimations(this.anims);
+        AlienShooter.createAnimations(this.anims);
     }
 
     update(): void {

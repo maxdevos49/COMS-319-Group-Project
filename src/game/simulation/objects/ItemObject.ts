@@ -25,7 +25,7 @@ export class ItemObject extends GameObject {
     public item: InventoryItem;
 
     constructor(givenSimulation: GameSimulation, item: InventoryItem, x: number = 0, y: number = 0) {
-        super(item.id, GameObjectType.Item, givenSimulation);
+        super(item.id, GameObjectType.Item, givenSimulation, false);
 
         this.item = item;
 

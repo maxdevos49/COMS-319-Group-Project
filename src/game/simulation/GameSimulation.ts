@@ -9,6 +9,9 @@ import { IPositionUpdate } from "../../public/javascript/game/models/objects/IPo
 import { IEvent } from "../../public/javascript/game/models/objects/IEvent";
 import { TerrainGenerator } from "./terrain/TerrainGenerator";
 import { GameObjectType, IObjectDescription } from "../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import { AlienShooter } from "./objects/AlienShooter";
+import v1Gen from "uuid/v1";
+import { WorldBorder } from "./objects/WorldBorder";
 
 /**
  * Simulation of the physical world of the game.
@@ -41,6 +44,7 @@ export class GameSimulation {
      * The Map makes it easier to update players by their ID.
      */
     public objects: Map<string, GameObject>;
+
     /**
      * The terrain map for this simulation, object represents all of parts of the game world that don't change
      */
@@ -61,6 +65,11 @@ export class GameSimulation {
      * An array containing the ids of the objects that have been deleted from the simulation
      */
     private deletedObjectIds: string[];
+
+    /**
+     * A reference to the world border which is also contained in the objects map
+     */
+    private worldBorder: WorldBorder;
 
     /**
      * Construct a new simulation. The simulation starts running as soon as it
@@ -87,6 +96,9 @@ export class GameSimulation {
             // This will only be called when the test suite is running to avoid the expensive terrain generation operation
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
+
+        this.worldBorder = new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [110, 2]);
+        this.addGameObject(this.worldBorder);
     }
 
     /**
@@ -153,6 +165,18 @@ export class GameSimulation {
     }
 
     /**
+     * Gets an array of all of the objects that have the given type
+     * @param type The type to get all of the objects that are of the given type
+     */
+    public getAllObjectsOfType(type: GameObjectType) {
+        let ofType: GameObject[] = [];
+        for (let obj of this.objects.values()) {
+            if (obj.type == type) ofType.push(obj);
+        }
+        return ofType;
+    }
+
+    /**
      * Generate a new player and add it to the world.
      *
      * @param {string} id - The UUID of the player.
@@ -161,6 +185,7 @@ export class GameSimulation {
         const player: Player = new Player(this, id);
         this.objects.set(id, player);
         this.newObjectsIds.push(id);
+        this.worldBorder.attemptAdvanceBorderStage();
     }
 
     /**
@@ -215,7 +240,7 @@ export class GameSimulation {
     public getPositionUpdates(): IPositionUpdate[] {
         let updates: IPositionUpdate[] = [];
         this.objects.forEach((object: GameObject, id: string) => {
-            updates.push(object.getPositionUpdate(this.frame))
+            if (object.sendUpdates) updates.push(object.getPositionUpdate(this.frame))
         });
         return updates;
     }
