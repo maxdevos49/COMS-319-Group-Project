@@ -67,6 +67,11 @@ export class GameSimulation {
     private deletedObjectIds: string[];
 
     /**
+     * A reference to the world border which is also contained in the objects map
+     */
+    private worldBorder: WorldBorder;
+
+    /**
      * Construct a new simulation. The simulation starts running as soon as it
      * is created unless the start parameter is false (it's true by default).
      *
@@ -92,8 +97,8 @@ export class GameSimulation {
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
 
-        this.addGameObject(new AlienShooter(this, v1Gen(), 10, 10));
-        this.addGameObject(new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [250 * .32, 10]));
+        this.worldBorder = new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [110, 2]);
+        this.addGameObject(this.worldBorder);
     }
 
     /**
@@ -180,6 +185,7 @@ export class GameSimulation {
         const player: Player = new Player(this, id);
         this.objects.set(id, player);
         this.newObjectsIds.push(id);
+        this.worldBorder.attemptAdvanceBorderStage();
     }
 
     /**

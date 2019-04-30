@@ -14,7 +14,7 @@ import { BorderDifficultyLevelEvent } from "../../../public/javascript/game/mode
 
 export class WorldBorder extends GameObject {
 
-    public static moveSpeed: number = 5;
+    public static moveSpeed: number = 0.05;
 
     public static alienSearchRadius: number = AlienShooter.alienSightRadius + 2;
 
@@ -56,7 +56,7 @@ export class WorldBorder extends GameObject {
     /**
      * The ratio that the difficulty goes up per 100 pixels (up from the base difficulty of 1 when outside of the border)
      */
-    public static difficultyLevelDistanceRatio: number = .2;
+    public static difficultyLevelDistanceRatio: number = .1;
 
     /**
      * The map from player id to the last computed level of difficulty for them
@@ -84,6 +84,12 @@ export class WorldBorder extends GameObject {
     }
 
     update(): void {
+        // Shrink the border one step if needed
+        if (this.curRadius > this.moveStages[this.curStage]) {
+            this.curRadius -= WorldBorder.moveSpeed;
+            this.worldBorderCollisionFixture.m_shape.m_radius = this.curRadius;
+        }
+
         let players: Player[] = this.simulation.getAllObjectsOfType(GameObjectType.Player) as Player[];
         let aliens: AlienShooter[] = this.simulation.getAllObjectsOfType(GameObjectType.Alien) as AlienShooter[];
 
@@ -124,6 +130,16 @@ export class WorldBorder extends GameObject {
             }).forEach((player) => {
                 this.attemptSpawnAlien(player);
             });
+        }
+    }
+
+    /**
+     * Attempts to advance the border into the next stage, but only if the border has been shrunk the size the
+     * current stage requests and the border has another stage
+     */
+    public attemptAdvanceBorderStage(): void {
+        if (this.curStage < this.moveStages.length && this.curRadius <= this.moveStages[this.curStage]) {
+            this.curStage++;
         }
     }
 

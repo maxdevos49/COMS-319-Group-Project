@@ -181,7 +181,6 @@ export class AlienShooter extends GameObject {
         } else {
             // If the alien is out of the line of sight of any player, randomly check if they should de-spawn
             if (Math.random() * 100 < AlienShooter.despawnChance) {
-                console.log("de-spawn");
                 this.simulation.destroyGameObject(this.id);
             }
 
