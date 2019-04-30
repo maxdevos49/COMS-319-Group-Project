@@ -11,9 +11,15 @@ import {
 import v1Gen from "uuid/v1";
 
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
-import { PlayerActionState, PlayerPositionUpdate } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
+import {
+    PlayerActionState,
+    PlayerPositionUpdate
+} from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import {
+    GameObjectType,
+    IObjectDescription
+} from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
@@ -229,15 +235,20 @@ export class Player extends GameObject implements IHealth {
         if (object.type === GameObjectType.Bullet) {
             const playerDead: boolean = this.takeDamage(Bullet.DAMAGE);
             if (playerDead) {
-                const bullet: Bullet = object as Bullet;
-                const other: Player = this.simulation.objects.get(bullet.ownerId) as Player;
                 const numAlive = this.simulation.totalPlayers - this.simulation.deadPlayers;
-                other.stats.enemiesKilled += 1;
-                // This was the second to last player who died, so the other
-                // player must be the winner.
-                if (numAlive === 1) {
-                    other.stats.secondsInGame = this.simulation.frame / 30;
-                    this.simulation.events.push(new StatsEvent(other.id, other.stats));
+
+                const bullet: Bullet = object as Bullet;
+                const other: GameObject = this.simulation.objects.get(bullet.ownerId);
+                if (other.type == GameObjectType.Player) {
+                    const otherPlayer: Player = other as Player;
+                    otherPlayer.stats.enemiesKilled += 1;
+
+                    // This was the second to last player who died, so the other
+                    // player must be the winner.
+                    if (numAlive === 1) {
+                        otherPlayer.stats.secondsInGame = this.simulation.frame / 30;
+                        this.simulation.events.push(new StatsEvent(other.id, otherPlayer.stats));
+                    }
                 }
             }
         }
