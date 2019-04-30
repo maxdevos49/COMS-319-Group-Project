@@ -8,6 +8,8 @@ import {
     b2PolygonShape,
     XY,
 } from "../../../../lib/box2d-physics-engine/Box2D";
+import v1Gen from "uuid/v1";
+
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
 import { PlayerActionState, PlayerPositionUpdate } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
@@ -17,8 +19,8 @@ import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters
 import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
 import { Bullet } from "../../../game/simulation/objects/Bullet";
-import v1Gen from "uuid/v1";
 import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
+import { StatsEvent } from "../../../public/javascript/game/models/objects/StatsEvent";
 import { PlayerStats } from "./PlayerStats";
 
 /**
@@ -246,7 +248,7 @@ export class Player extends GameObject implements IHealth {
         // The player is dead
         if (this.health <= 0) {
             this.stats.secondsInGame = this.simulation.frame / 30;
-            // TODO: send stats to player
+            this.simulation.events.push(new StatsEvent(this.id, this.stats));
             this.simulation.destroyGameObject(this.id);
             return true;
         }

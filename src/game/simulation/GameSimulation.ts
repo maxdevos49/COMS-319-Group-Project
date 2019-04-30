@@ -66,8 +66,8 @@ export class GameSimulation {
      * Construct a new simulation. The simulation starts running as soon as it
      * is created unless the start parameter is false (it's true by default).
      *
-     * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
-     * @param generateRandomTerrain Optional parameter which, if true, will cause the simulation to generate a random terrain with structures
+     * @param moves - A queue of pending moves.
+     * @param generateRandomTerrain - Optional parameter which, if true, will cause the simulation to generate a random terrain with structures
      */
     constructor(moves: PlayerMoveUpdateQueue, generateRandomTerrain?: boolean) {
         this.moves = moves;
@@ -81,7 +81,7 @@ export class GameSimulation {
         this.events = [];
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
-        if (generateRandomTerrain) {
+        if (false) {
             this.map = TerrainGenerator.generateTerrain(this,500, 500);
         } else {
             // This will only be called when the test suite is running to avoid the expensive terrain generation operation
@@ -91,8 +91,6 @@ export class GameSimulation {
 
     /**
      * Advance to the next physics frame.
-     *
-     * @return {void}
      */
     public nextFrame(): void {
         this.objects.forEach((object) => {
@@ -155,7 +153,7 @@ export class GameSimulation {
     /**
      * Generate a new player and add it to the world.
      *
-     * @param {string} id - The UUID of the player.
+     * @param id - The UUID of the player.
      */
     public addPlayer(id: string): void {
         const player: Player = new Player(this, id);
@@ -165,7 +163,7 @@ export class GameSimulation {
 
     /**
      * Adds the game object to the simulation. This doesn't add it to the world (objects themselves are responsible for this
-     * @param object The game object to add to this simulation
+     * @param object - The game object to add to this simulation
      */
     public addGameObject(object: GameObject) {
         this.newObjectsIds.push(object.id);
@@ -175,7 +173,7 @@ export class GameSimulation {
     /**
      * Removes the game object that has the given simulation from this simulation. This will also remove it from the
      * box2d world if it exists inside of it
-     * @param id The id of the object to remove from the simulation
+     * @param id - The id of the object to remove from the simulation
      */
     public destroyGameObject(id: string) {
         if (this.objects.has(id)) {
@@ -189,7 +187,7 @@ export class GameSimulation {
     /**
      * Process a move update from a client.
      *
-     * @param {PlayerMoveUpdate} move - An object containing move information.
+     * @param move - An object containing move information.
      */
     public updateMove(move: PlayerMoveUpdate): void {
         const player: Player | undefined = this.objects.get(move.id) as Player;
@@ -201,7 +199,7 @@ export class GameSimulation {
     /**
      * Get the current frame number.
      *
-     * @return {number} The current frame number.
+     * @return the current frame number.
      */
     public getFrame(): number {
         return this.frame;
@@ -210,7 +208,7 @@ export class GameSimulation {
     /**
      * Gets an array of position updates for every object that is in the simulation
      *
-     * @return {PositionUpdate[]} An array of position updates.
+     * @return an array of position updates.
      */
     public getPositionUpdates(): IPositionUpdate[] {
         let updates: IPositionUpdate[] = [];
