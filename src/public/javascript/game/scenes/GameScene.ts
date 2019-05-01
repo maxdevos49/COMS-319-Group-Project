@@ -161,22 +161,24 @@ export class GameScene extends Phaser.Scene {
                 break;
             case GameObjectType.Bullet:
                 object = new Bullet(this, newObjectDescription as BulletObjectDescription);
+                this.add.existing(object);
                 break;
             case GameObjectType.Item:
                 object = new Item(this, newObjectDescription as ItemObjectDescription)
+                this.add.existing(object);
                 break;
             case GameObjectType.Alien:
                 object = new AlienShooter(this, newObjectDescription as AlienObjectDescription);
                 break;
             case GameObjectType.WorldBorder:
                 object = new WorldBorder(this, newObjectDescription as WorldBorderObjectDescription);
+                this.add.existing(object);
                 break;
             default:
                 throw "Unknown game object type";
         }
 
         this.objects.set(object.id, object);
-        this.add.existing(object);
     }
 
 	/**

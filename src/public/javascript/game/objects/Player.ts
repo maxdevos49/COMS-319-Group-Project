@@ -6,20 +6,30 @@ import { PlayerMoveUpdate } from "../models/PlayerMoveUpdate.js";
 import { GameScene } from "../scenes/GameScene.js";
 
 export class Player extends GameObject {
+    private container: Phaser.GameObjects.Container;
+    private torso: Phaser.GameObjects.Sprite;
+    private head: Phaser.GameObjects.Sprite;
+    private arm_r: Phaser.GameObjects.Sprite;
+    private arm_l: Phaser.GameObjects.Sprite;
+    private leg_r: Phaser.GameObjects.Sprite;
+    private leg_l: Phaser.GameObjects.Sprite;
+    private backpack: Phaser.GameObjects.Sprite;
+
+
     /**
      * Registers the animations used by player objects
      * @param animationManager The animation manager to register the animations into
      */
     public static createAnimations(animationManager: Phaser.Animations.AnimationManager) {
-        animationManager.create({
-            key: "objects/player/walking",
-            frames: [
-                { key: "sprites", frame: 'objects/player/walking/1' },
-                { key: "sprites", frame: 'objects/player/walking/2' }
-            ],
-            frameRate: 2,
-            repeat: -1
-        });
+        // animationManager.create({
+        //     key: "objects/player/walking",
+        //     frames: [
+        //         { key: "sprites", frame: 'objects/player/walking/1' },
+        //         { key: "sprites", frame: 'objects/player/walking/2' }
+        //     ],
+        //     frameRate: 2,
+        //     repeat: -1
+        // });
     }
 
 	/**
@@ -28,21 +38,104 @@ export class Player extends GameObject {
 	 * @param description The description to build the object from
 	 */
     constructor(scene: GameScene, description: PlayerObjectDescription) {
-        super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites");
-        this.play("objects/player/walking");
+        super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites", "items/weapons/ion_repeater_bullet");
+
+        let rand: number = Math.floor((Math.random() * 3) + 1);
+        let color: string;
+
+        switch(rand) {
+            case 1:
+                color = "blue";
+                break;
+            case 2:
+                color = "red";
+                break;
+            case 3:
+                color = "green";
+                break;
+        }
+
+        rand = Math.floor((Math.random() * 3) + 1);
+        let type: string;
+
+        switch(rand) {
+            case 1:
+                type = "light";
+                break;
+            case 2:
+                type = "medium";
+                break;
+            case 3:
+                type = "heavy";
+                break;
+        }
+        
+        if (type === "heavy") {
+            this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/heavy/torso`);
+            this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/heavy/head`);
+            this.arm_r = new Phaser.GameObjects.Sprite(scene, 85, -70, "sprites", `objects/soldiers/${color}/heavy/arm_r`);
+            this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", `objects/soldiers/${color}/heavy/arm_l`);
+            this.leg_r = new Phaser.GameObjects.Sprite(scene, 42, -30, "sprites", `objects/soldiers/${color}/heavy/leg_r`);
+            this.leg_l = new Phaser.GameObjects.Sprite(scene, -42, -30, "sprites", `objects/soldiers/${color}/heavy/leg_l`);
+            this.backpack = new Phaser.GameObjects.Sprite(scene, 0, 90, "sprites", `objects/soldiers/${color}/heavy/backpack`);
+        } else {
+            this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/${type}/torso`);
+            this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/${type}/head`);
+            this.arm_r = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", `objects/soldiers/${color}/${type}/arm_r`);
+            this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", `objects/soldiers/${color}/${type}/arm_l`);
+            this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -30, "sprites", `objects/soldiers/${color}/${type}/leg_r`);
+            this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -30, "sprites", `objects/soldiers/${color}/${type}/leg_l`);
+        }
+
+        // if medium
+        // this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/green/medium/torso");
+        // this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/green/medium/head");
+        // this.arm_r = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", "objects/soldiers/green/medium/arm_r");
+        // this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", "objects/soldiers/green/medium/arm_l");
+        // this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -30, "sprites", "objects/soldiers/green/medium/leg_r");
+        // this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -30, "sprites", "objects/soldiers/green/medium/leg_l");
+
+        // if light
+        // this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/light/torso");
+        // this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/light/head");
+        // this.arm_r = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", "objects/soldiers/blue/light/arm_r");
+        // this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", "objects/soldiers/blue/light/arm_l");
+        // this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -30, "sprites", "objects/soldiers/blue/light/leg_r");
+        // this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -30, "sprites", "objects/soldiers/blue/light/leg_l");
+
+        this.container = new Phaser.GameObjects.Container(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR);
+
+        this.container.add(this.leg_r);
+        this.container.add(this.leg_l);
+        this.container.add(this.arm_r);
+        this.container.add(this.arm_l);
+        this.container.add(this.torso);
+        if (type === "heavy") { this.container.add(this.backpack); }
+        this.container.add(this.head);
+
+        scene.add.existing(this);
+        scene.add.existing(this.container);
+
+        this.setScale(0.5, 0.5);
+        this.container.setScale(0.5, 0.5);
 
         this.id = description.id;
-        this.setRotation(description.facing);
+        this.setRotation(description.facing + Math.PI / 2);
 
         //physics
         scene.physics.world.enable(this);//needed for camera movement
-        // scene.physics.overlap(this.body, scene.itemGroup);
     }
 
     applyUpdate(newUpdate: PlayerPositionUpdate): void {
         this.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
-        this.setRotation(newUpdate.facing);
+        this.setRotation(newUpdate.facing + Math.PI / 2);
 
-        // this.body.debugBodyColor = this.body.touching.none ? 0x0099ff : 0xff9900;
+        this.container.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
+        this.container.setRotation(newUpdate.facing + Math.PI / 2);
+    }
+
+    destroy(): void {
+        this.container.destroy();
+        super.destroy();
     }
 }
