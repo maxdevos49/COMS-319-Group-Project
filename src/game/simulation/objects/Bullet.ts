@@ -35,17 +35,19 @@ export class Bullet extends GameObject {
 	 */
     public fixture: b2Fixture;
 
-	/**
-	 * Constructs a new bullet object for the given simulation
-	 * @param simulation The simulation this bullet belongs to
-	 * @param id The id of the the bullet
-	 * @param ownerId The id of the gameobject that owns the bullet
-	 * @param x The x coordinate of the bullet, default 0
-	 * @param y The y coordinate of the bullet, default 0
-	 * @param angle The angle of the bullet, default 0
-	 * @param killSpeed The speed at which this bullet will be destroyed if it drops below
-	 */
-    constructor(simulation: GameSimulation, id: string, ownerId: string, x: number = 0, y: number = 0, angle: number = 0, killSpeed: number = 0) {
+    /**
+     * Constructs a new bullet object for the given simulation
+     * @param simulation The simulation this bullet belongs to
+     * @param id The id of the the bullet
+     * @param ownerId The id of the gameobject that owns the bullet
+     * @param x The x coordinate of the bullet, default 0
+     * @param y The y coordinate of the bullet, default 0
+     * @param angle The angle of the bullet, default 0
+     * @param killSpeed The speed at which this bullet will be destroyed if it drops below
+     * @param speed The speed of this bullet
+     * @param offset The distance in 100 pixels which the bullet will be moved down the fire path when spawning
+     */
+    constructor(simulation: GameSimulation, id: string, ownerId: string, x: number = 0, y: number = 0, angle: number = 0, killSpeed: number = 0, speed: number = 0, offset: number = 0) {
         super(id, GameObjectType.Bullet, simulation);
         this.ownerId = ownerId;
         this.killSpeed = killSpeed;
@@ -54,7 +56,8 @@ export class Bullet extends GameObject {
         const bodyDef: b2BodyDef = new b2BodyDef();
         bodyDef.userData = id;
         bodyDef.type = b2BodyType.b2_dynamicBody;
-        bodyDef.position.Set(x, y);
+        bodyDef.position.Set(x + (offset * Math.cos(angle)), y + (offset * Math.sin(angle)));
+        bodyDef.linearVelocity.Set(speed * Math.cos(angle), speed * Math.sin(angle));
         bodyDef.angle = angle;
         bodyDef.bullet = true;
         this.body = this.simulation.world.CreateBody(bodyDef);

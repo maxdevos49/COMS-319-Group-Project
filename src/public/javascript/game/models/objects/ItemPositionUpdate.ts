@@ -29,7 +29,7 @@ export class ItemPositionUpdate implements IPositionUpdate {
      * @param givenX
      * @param givenY
      */
-    constructor(givenId: string, givenFrame: number, givenX: number, givenY: number, ) {
+    constructor(givenId: string, givenFrame: number, givenX: number, givenY: number) {
         this.id = givenId;
         this.frame = givenFrame;
         this.x = givenX;
