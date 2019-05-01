@@ -38,15 +38,32 @@ export class Player extends GameObject {
 	 * @param description The description to build the object from
 	 */
     constructor(scene: GameScene, description: PlayerObjectDescription) {
-        super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites", "items/ion_repeater_bullet");
+        super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites", "items/weapons/ion_repeater_bullet");
         
-        this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/heavy/torso");
-        this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/heavy/head");
-        this.arm_r = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/heavy/arm_r");
-        this.arm_l = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/heavy/arm_l");
-        this.leg_r = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/heavy/leg_r");
-        this.leg_l = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/heavy/leg_l");
-        this.backpack = new Phaser.GameObjects.Sprite(scene, 0, 85, "sprites", "objects/soldiers/blue/heavy/backpack");
+        // if heavy
+        this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/red/heavy/torso");
+        this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/red/heavy/head");
+        this.arm_r = new Phaser.GameObjects.Sprite(scene, 85, -70, "sprites", "objects/soldiers/red/heavy/arm_r");
+        this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", "objects/soldiers/red/heavy/arm_l");
+        this.leg_r = new Phaser.GameObjects.Sprite(scene, 42, -30, "sprites", "objects/soldiers/red/heavy/leg_r");
+        this.leg_l = new Phaser.GameObjects.Sprite(scene, -42, -30, "sprites", "objects/soldiers/red/heavy/leg_l");
+        this.backpack = new Phaser.GameObjects.Sprite(scene, 0, 90, "sprites", "objects/soldiers/red/heavy/backpack");
+
+        // if medium
+        // this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/green/medium/torso");
+        // this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/green/medium/head");
+        // this.arm_r = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", "objects/soldiers/green/medium/arm_r");
+        // this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", "objects/soldiers/green/medium/arm_l");
+        // this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -30, "sprites", "objects/soldiers/green/medium/leg_r");
+        // this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -30, "sprites", "objects/soldiers/green/medium/leg_l");
+
+        // if light
+        // this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/light/torso");
+        // this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/blue/light/head");
+        // this.arm_r = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", "objects/soldiers/blue/light/arm_r");
+        // this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", "objects/soldiers/blue/light/arm_l");
+        // this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -30, "sprites", "objects/soldiers/blue/light/leg_r");
+        // this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -30, "sprites", "objects/soldiers/blue/light/leg_l");
 
         this.container = new Phaser.GameObjects.Container(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR);
 
@@ -61,6 +78,9 @@ export class Player extends GameObject {
         scene.add.existing(this);
         scene.add.existing(this.container);
 
+        this.setScale(0.75, 0.75);
+        this.container.setScale(0.75, 0.75);
+
         this.id = description.id;
         this.setRotation(description.facing + Math.PI / 2);
 
@@ -74,5 +94,10 @@ export class Player extends GameObject {
 
         this.container.setPosition(newUpdate.x * SCALE_FACTOR, newUpdate.y * SCALE_FACTOR);
         this.container.setRotation(newUpdate.facing + Math.PI / 2);
+    }
+
+    destroy(): void {
+        this.container.destroy();
+        super.destroy();
     }
 }
