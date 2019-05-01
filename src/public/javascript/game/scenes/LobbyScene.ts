@@ -39,6 +39,8 @@ export class LobbyScene extends Phaser.Scene {
     }
 
     preload(): void {
+        this.playerTextYPosition = 200;
+
         this.adminStartButton = new Button(
             this,
             (this.sys.canvas.width / 2) - 100,

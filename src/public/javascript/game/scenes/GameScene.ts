@@ -75,6 +75,7 @@ export class GameScene extends Phaser.Scene {
         this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
 
         this.scene.launch("ChatScene", this.connection);
+        this.scene.bringToTop("ChatScene");
         this.scene.launch("InfoScene");
         this.scene.bringToTop("InfoScene");
     }
