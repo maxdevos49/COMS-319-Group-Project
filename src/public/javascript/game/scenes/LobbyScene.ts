@@ -60,7 +60,7 @@ export class LobbyScene extends Phaser.Scene {
     }
 
     private initSocket(): void {
-        this.matchmakingSocket = io("/games");
+        this.matchmakingSocket = io("/games", { reconnection: false });
 
         this.matchmakingSocket.on("/update/new/player", (info: PlayerInfo) => {
             const text = info.name + ' (' + info.role + ')';
@@ -93,7 +93,7 @@ export class LobbyScene extends Phaser.Scene {
 
         this.matchmakingSocket.on("/update/start", (id: string) => {
             this.matchmakingSocket.disconnect();
-            this.scene.start("GameLoadScene", {id: id});
+            this.scene.start("GameLoadScene", { id: id });
         });
     }
 }
