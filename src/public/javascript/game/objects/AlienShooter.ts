@@ -34,10 +34,13 @@ export class AlienShooter extends GameObject {
     constructor(scene: GameScene, description: AlienObjectDescription) {
         super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites", "items/weapons/ion_repeater_bullet");
 
-        this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/aliens/alien_1/torso");
-        this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/aliens/alien_1/head");
-        this.arm_r = new Phaser.GameObjects.Sprite(scene, 85, -70, "sprites", "objects/aliens/alien_1/arm_r");
-        this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", "objects/aliens/alien_1/arm_l");
+        let rand: number = Math.floor((Math.random() * 3) + 1);
+        let type: string = "alien_" + rand;
+
+        this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/aliens/${type}/torso`);
+        this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/aliens/${type}/head`);
+        this.arm_r = new Phaser.GameObjects.Sprite(scene, 85, -70, "sprites", `objects/aliens/${type}/arm_r`);
+        this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", `objects/aliens/${type}/arm_l`);
 
         this.container = new Phaser.GameObjects.Container(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR);
 

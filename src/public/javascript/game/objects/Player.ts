@@ -39,15 +39,53 @@ export class Player extends GameObject {
 	 */
     constructor(scene: GameScene, description: PlayerObjectDescription) {
         super(scene, description.x * SCALE_FACTOR, description.y * SCALE_FACTOR, "sprites", "items/weapons/ion_repeater_bullet");
+
+        let rand: number = Math.floor((Math.random() * 3) + 1);
+        let color: string;
+
+        switch(rand) {
+            case 1:
+                color = "blue";
+                break;
+            case 2:
+                color = "red";
+                break;
+            case 3:
+                color = "green";
+                break;
+        }
+
+        rand = Math.floor((Math.random() * 3) + 1);
+        let type: string;
+
+        switch(rand) {
+            case 1:
+                type = "light";
+                break;
+            case 2:
+                type = "medium";
+                break;
+            case 3:
+                type = "heavy";
+                break;
+        }
         
-        // if heavy
-        this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/red/heavy/torso");
-        this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/red/heavy/head");
-        this.arm_r = new Phaser.GameObjects.Sprite(scene, 85, -70, "sprites", "objects/soldiers/red/heavy/arm_r");
-        this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", "objects/soldiers/red/heavy/arm_l");
-        this.leg_r = new Phaser.GameObjects.Sprite(scene, 42, -30, "sprites", "objects/soldiers/red/heavy/leg_r");
-        this.leg_l = new Phaser.GameObjects.Sprite(scene, -42, -30, "sprites", "objects/soldiers/red/heavy/leg_l");
-        this.backpack = new Phaser.GameObjects.Sprite(scene, 0, 90, "sprites", "objects/soldiers/red/heavy/backpack");
+        if (type === "heavy") {
+            this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/heavy/torso`);
+            this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/heavy/head`);
+            this.arm_r = new Phaser.GameObjects.Sprite(scene, 85, -70, "sprites", `objects/soldiers/${color}/heavy/arm_r`);
+            this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", `objects/soldiers/${color}/heavy/arm_l`);
+            this.leg_r = new Phaser.GameObjects.Sprite(scene, 42, -30, "sprites", `objects/soldiers/${color}/heavy/leg_r`);
+            this.leg_l = new Phaser.GameObjects.Sprite(scene, -42, -30, "sprites", `objects/soldiers/${color}/heavy/leg_l`);
+            this.backpack = new Phaser.GameObjects.Sprite(scene, 0, 90, "sprites", `objects/soldiers/${color}/heavy/backpack`);
+        } else {
+            this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/${type}/torso`);
+            this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/${type}/head`);
+            this.arm_r = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", `objects/soldiers/${color}/${type}/arm_r`);
+            this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", `objects/soldiers/${color}/${type}/arm_l`);
+            this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -30, "sprites", `objects/soldiers/${color}/${type}/leg_r`);
+            this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -30, "sprites", `objects/soldiers/${color}/${type}/leg_l`);
+        }
 
         // if medium
         // this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", "objects/soldiers/green/medium/torso");
@@ -72,14 +110,14 @@ export class Player extends GameObject {
         this.container.add(this.arm_r);
         this.container.add(this.arm_l);
         this.container.add(this.torso);
-        this.container.add(this.backpack);
+        if (type === "heavy") { this.container.add(this.backpack); }
         this.container.add(this.head);
 
         scene.add.existing(this);
         scene.add.existing(this.container);
 
-        this.setScale(0.75, 0.75);
-        this.container.setScale(0.75, 0.75);
+        this.setScale(0.5, 0.5);
+        this.container.setScale(0.5, 0.5);
 
         this.id = description.id;
         this.setRotation(description.facing + Math.PI / 2);
