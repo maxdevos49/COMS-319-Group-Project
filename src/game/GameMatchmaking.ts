@@ -87,7 +87,8 @@ export class GameMatchmaking {
 
                 // Send the new player information about all of the current players
                 this.idToInfo.forEach((player: PlayerInfo, id: string) => {
-                    socket.emit("/update/new/player", player);
+                    if (id != socket.id) socket.emit("/update/new/player", player);
+                    this.idToSocket.get(id).emit("/update/new/player", this.idToInfo.get(socket.id));
                 });
             }
         });
