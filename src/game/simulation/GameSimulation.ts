@@ -112,7 +112,7 @@ export class GameSimulation {
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
 
-        this.worldBorder = new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [110, 2]);
+        this.worldBorder = new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [110, 70, 40, 10]);
         this.addGameObject(this.worldBorder);
     }
 
@@ -173,6 +173,10 @@ export class GameSimulation {
 
             curContact = curContact.m_next;
         }
+
+        // Check if the border should move in
+        let expectBorderStage = Math.floor(this.worldBorder.moveStages.length * (this.deadPlayers / this.totalPlayers));
+        if (this.worldBorder.curStage != expectBorderStage) this.worldBorder.attemptAdvanceBorderStage();
 
         this.frame++;
     }
