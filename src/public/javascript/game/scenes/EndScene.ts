@@ -42,9 +42,6 @@ export class EndScene extends Phaser.Scene {
         );
 
         this.mainMenuButton.addOnClickListener(() => {
-            this.scene.remove("InfoScene");
-            this.scene.remove("ChatScene")
-            this.scene.remove("GameScene");
             this.scene.start("MainMenuScene");
         });
     }

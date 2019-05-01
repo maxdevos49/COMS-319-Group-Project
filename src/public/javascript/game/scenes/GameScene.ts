@@ -123,9 +123,9 @@ export class GameScene extends Phaser.Scene {
                 this.events.emit("setHP", healthEvent.setHealthTo);
             } else if (event.type === EventType.Stats) {
                 const statsEvent = event as StatsEvent;
-                this.scene.pause("GameScene");
-                this.scene.pause("InfoScene");
-                this.scene.launch("EndScene", statsEvent.stats);
+                this.scene.stop("InfoScene");
+                this.scene.stop("ChatScene");
+                this.scene.start("EndScene", statsEvent.stats);
             } else if (event.type == EventType.BorderDifficulty) {
                 const borderDifficultyEvent: BorderDifficultyLevelEvent = event as BorderDifficultyLevelEvent;
                 this.events.emit("setDamageAlpha", borderDifficultyEvent.newDifficulty / 10);
