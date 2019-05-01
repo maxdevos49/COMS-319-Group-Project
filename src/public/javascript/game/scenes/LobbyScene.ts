@@ -1,12 +1,18 @@
 import { Button } from "../gui/Button.js";
 import { GameConnection } from "../GameConnection.js";
+import { GameLoadScene } from "./GameLoadScene";
+import { PlayerInfo } from "../models/PlayerInfo";
 
 const font: string = "november";
 
 export class LobbyScene extends Phaser.Scene {
-    public gameSocket: GameConnection;
     private adminStartButton: Button;
     private titleText: Phaser.GameObjects.BitmapText;
+
+    /**
+     * The socket connection to the game matchmaking server
+     */
+    private matchmakingSocket: SocketIOClient.Socket;
 
     constructor() {
         super({ key: "LobbyScene" });
@@ -17,7 +23,6 @@ export class LobbyScene extends Phaser.Scene {
         this.titleText.setX((this.sys.canvas.width / 2) - (this.titleText.getTextBounds().local.width / 2));
 
         this.cameras.main.setBackgroundColor(0x611717);
-        this.gameSocket = new GameConnection();
     }
 
     preload(): void {
@@ -31,8 +36,34 @@ export class LobbyScene extends Phaser.Scene {
             "Force Start",
             30
         );
+        this.adminStartButton.setVisible(false);
         this.adminStartButton.addOnClickListener(() => {
-            // TODO: send start signal to /games/start
+            this.matchmakingSocket.emit("/start");
+        });
+
+        this.initSocket();
+    }
+
+    private initSocket(): void {
+        this.matchmakingSocket = io("/games");
+
+        this.matchmakingSocket.on("/update/new/player", (info: PlayerInfo) => {
+           // TODO: Handle new player
+        });
+
+        this.matchmakingSocket.on("/update/remove/player", (id: string) => {
+           // TODO: Handle remove player
+        });
+
+        this.matchmakingSocket.on("/update/role", (role: string) => {
+            console.log("Role: " + role);
+            if (role == "admin") {
+                this.adminStartButton.setVisible(true);
+            }
+        });
+
+        this.matchmakingSocket.on("/update/start", (id: string) => {
+           this.scene.start("GameLoadScene", {id: id});
         });
     }
 }

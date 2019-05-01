@@ -13,8 +13,8 @@ export class GameLoadScene extends Phaser.Scene {
         super({ key: "GameLoadScene" });
     }
 
-    init(connection: GameConnection): void {
-        this.connection = connection;
+    init(info: {id: string}): void {
+        this.connection = new GameConnection(info.id);
     }
 
     preload(): void {

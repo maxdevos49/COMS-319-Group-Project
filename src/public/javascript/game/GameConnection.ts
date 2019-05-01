@@ -54,8 +54,9 @@ export class GameConnection {
 
 	/**
 	 * Creates a new game socket connection
+     * @param id The id of the game to connect to
 	 */
-	constructor() {
+	constructor(id: string) {
 		this.roomId = "";
 		this.clientId = "";
 
@@ -66,15 +67,9 @@ export class GameConnection {
 		this.events = [];
 		this.ready = false;
 
-		this.connectToGame();
-	}
+		this.roomId = id;
+        this.socket = io("/games/" + id);
 
-	/**
-	 * Performs the connection handshake for the game
-	 */
-	private connectToGame(): void {
-        console.log('conneting to /games namespace');
-        this.socket = io("/games", {reconnection: false});
         this.connection();
 	}
 

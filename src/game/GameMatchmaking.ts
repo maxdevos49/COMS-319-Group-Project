@@ -82,6 +82,8 @@ export class GameMatchmaking {
                     console.log('name in PlayerInfo: ' + player.name);
                     socket.emit("/update/new/player", player);
                 });
+
+                
             }
         });
 
