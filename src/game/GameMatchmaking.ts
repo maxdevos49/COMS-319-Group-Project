@@ -69,6 +69,7 @@ export class GameMatchmaking {
                 this.idToSocket.set(socket.id, socket);
                 this.idToInfo.set(socket.id, new PlayerInfo(socket.id, socket.request.session.passport.user.nickname, socket.request.session.passport.user.role));
                 socket.on("disconnect", () => {
+                    console.log('a player disconnected!');
                     this.idToSocket.delete(socket.id);
                     this.idToInfo.delete(socket.id);
                     // Tell all remaining sockets that this player has left
@@ -86,13 +87,8 @@ export class GameMatchmaking {
 
                 // Send the new player information about all of the current players
                 this.idToInfo.forEach((player: PlayerInfo, id: string) => {
-                    console.log('socket id: ' + id);
-                    console.log('id in PlayerInfo: ' + player.id);
-                    console.log('name in PlayerInfo: ' + player.name);
                     socket.emit("/update/new/player", player);
                 });
-
-                
             }
         });
 
