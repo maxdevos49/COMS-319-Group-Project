@@ -7,17 +7,20 @@ export class GameLoadScene extends Phaser.Scene {
     /**
      * Socket Connection Object
      */
-    public gameSocket: GameConnection;
+    public connection: GameConnection;
 
     constructor() {
         super({ key: "GameLoadScene" });
+    }
+
+    init(connection: GameConnection): void {
+        this.connection = connection;
     }
 
     preload(): void {
         this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
         this.load.image("tiles", "/res/tiles.png");
         this.load.image("Default", "/res/Default.png");
-        this.gameSocket = new GameConnection();
     }
 
     create(): void {
@@ -26,8 +29,8 @@ export class GameLoadScene extends Phaser.Scene {
     }
 
     update(): void {
-        if (this.gameSocket.ready) {
-            this.scene.start("GameScene", this.gameSocket);
+        if (this.connection.ready) {
+            this.scene.start("GameScene", this.connection);
         }
     }
 }

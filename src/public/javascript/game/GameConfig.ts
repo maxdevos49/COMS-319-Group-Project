@@ -1,5 +1,6 @@
 import { BootScene } from "./scenes/BootScene.js";
 import { MainMenuScene } from "./scenes/MainMenuScene.js";
+import { LobbyScene } from "./scenes/LobbyScene.js";
 import { GameScene } from "./scenes/GameScene.js";
 import { GameLoadScene } from "./scenes/GameLoadScene.js";
 import { ChatScene } from "./scenes/ChatScene.js";
@@ -19,6 +20,7 @@ let gameConfig: GameConfig = {
     scene: [
         BootScene,
         MainMenuScene,
+        LobbyScene,
         GameLoadScene,
         GameScene,
         ChatScene,

@@ -58,7 +58,6 @@ export class GameConnection {
 	constructor() {
 		this.roomId = "";
 		this.clientId = "";
-		this.socket = io("/games");
 
 		this.positionUpdates = new PositionUpdateQueue();
 		this.players = [];
@@ -74,16 +73,9 @@ export class GameConnection {
 	 * Performs the connection handshake for the game
 	 */
 	private connectToGame(): void {
-		this.socket.on("/list", (gamesList: GamesList) => {
-			let index = Math.floor(Math.random() * gamesList.gameIds.length);
-			this.roomId = gamesList.gameIds[index];
-			//connect to new namespace
-			this.socket = io("/games/" + this.roomId, {reconnection: false});
-			this.connection();
-		});
-
-		//call for game id list
-		this.socket.emit("/list");
+        console.log('conneting to /games namespace');
+        this.socket = io("/games", {reconnection: false});
+        this.connection();
 	}
 
 	/**
@@ -109,6 +101,7 @@ export class GameConnection {
 	 */
 	private receiveClientId(): void {
 		this.socket.on("/init/assignid", (givenClientId: string) => {
+            console.log('received id: ' + givenClientId);
 			this.clientId = givenClientId;
 		});
 	}
@@ -125,11 +118,11 @@ export class GameConnection {
 	 */
 	private newPlayerInfo(): void {
 		this.socket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
-			// console.log(
-			// 	`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
-			// 	otherPlayer.name
-			// 	}`
-			// );
+			console.log(
+				`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
+				otherPlayer.name
+				}`
+			);
 			this.players.push(otherPlayer);
 		});
 	}
