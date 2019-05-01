@@ -8,6 +8,7 @@ import { IPositionUpdate } from "../public/javascript/game/models/objects/IPosit
 import { IEvent } from "../public/javascript/game/models/objects/IEvent";
 import { Player } from "./simulation/objects/Player";
 import { ChatServer } from "./ChatServer";
+import { GameObjectType } from "../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 
 export enum GameState {
     building,
@@ -215,6 +216,13 @@ export class GameServer {
                     this.gameSocket.emit("/update/position", updates);
                 }
             });
+
+            // Check if only one player remains and end the game if so
+            if (this.simulation.getAllObjectsOfType(GameObjectType.Player).length <= 1) {
+                console.log("Only one player remains, game is over");
+                this.curState = GameState.over;
+            }
+
         } else {
             // Check if the game is ready to start
             if (this.curState == GameState.waitingForPlayers &&  this.clients.size == this.numPlayersToExpect) {

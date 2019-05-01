@@ -74,6 +74,15 @@ export class GameMatchmaking {
                     // Tell all remaining sockets that this player has left
                     this.idToSocket.forEach((otherSocket: Socket, id: string) => otherSocket.emit("/update/remove/player", socket.id));
                 });
+                // Allows admin users to force start the game
+                socket.on("/start", () => {
+                    if (this.idToInfo.get(socket.id).role == "admin") {
+                        this.forceStart = true;
+                    }
+                });
+
+                // Send the player their role
+                socket.emit("", this.idToInfo.get(socket.id).role);
 
                 // Send the new player information about all of the current players
                 this.idToInfo.forEach((player: PlayerInfo, id: string) => {
