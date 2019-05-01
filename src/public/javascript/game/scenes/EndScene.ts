@@ -29,20 +29,22 @@ export class EndScene extends Phaser.Scene {
         const sec: number = Math.round(stats.secondsInGame - (min * 60));
         this.timeInGameText = this.add.bitmapText(0, 240, font, "Time in game: " + min + " minutes " + sec + " seconds", 20);
         this.timeInGameText.setX((this.sys.canvas.width / 2) - (this.timeInGameText.getTextBounds().local.width / 2));
-    }
 
-    preload(): void {
         this.mainMenuButton = new Button(
             this,
-            this.sys.canvas.width - 10,
-            this.sys.canvas.height - 10,
+            (this.sys.canvas.width / 2) - 100,
+            350,
             200,
             55,
             font,
-            "Join Game",
+            "Main Menu",
             30
         );
+
         this.mainMenuButton.addOnClickListener(() => {
+            this.scene.remove("InfoScene");
+            this.scene.remove("ChatScene")
+            this.scene.remove("GameScene");
             this.scene.start("MainMenuScene");
         });
     }

@@ -1,6 +1,5 @@
 import { GameConnection } from "../GameConnection.js";
 import { Player } from "../objects/Player.js";
-import { Bullet } from "../objects/Bullet.js";
 
 export class GameLoadScene extends Phaser.Scene {
 

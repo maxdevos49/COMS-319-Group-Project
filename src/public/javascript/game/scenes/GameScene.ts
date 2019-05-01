@@ -118,6 +118,8 @@ export class GameScene extends Phaser.Scene {
                 this.events.emit("setHP", healthEvent.setHealthTo);
             } else if (event.type === EventType.Stats) {
                 const statsEvent = event as StatsEvent;
+                this.scene.pause("GameScene");
+                this.scene.pause("InfoScene");
                 this.scene.launch("EndScene", statsEvent.stats);
             }
             // Remove the event from the list since it should have been handled
