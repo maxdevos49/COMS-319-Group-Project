@@ -135,7 +135,7 @@ export class GameScene extends Phaser.Scene {
 		if (this.clientPlayer) {
 			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
 			this.connection.sendMove(moveUpdate);
-            console.log(this.clientPlayer.x, this.clientPlayer.y);
+            // console.log(this.clientPlayer.x, this.clientPlayer.y);
 			// Move the camera
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
