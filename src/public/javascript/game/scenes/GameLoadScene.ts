@@ -26,6 +26,7 @@ export class GameLoadScene extends Phaser.Scene {
     }
 
     update(): void {
+        console.log("Loading scene");
         if (this.gameSocket.ready) {
             this.scene.start("GameScene", this.gameSocket);
         }
