@@ -174,8 +174,10 @@ export class GameSimulation {
             curContact = curContact.m_next;
         }
 
-        // Check if the border should move in
+        // Check if the border should move in. The size will either be proportional to the number of players left
+        // or if there are few players in the game hard locked based on exactly how many are left
         let expectBorderStage = Math.floor(this.worldBorder.moveStages.length * (this.deadPlayers / this.totalPlayers));
+        expectBorderStage = Math.max(expectBorderStage, this.worldBorder.moveStages.length - (2 - this.totalPlayers - this.deadPlayers));
         if (this.worldBorder.curStage != expectBorderStage) this.worldBorder.attemptAdvanceBorderStage();
 
         this.frame++;

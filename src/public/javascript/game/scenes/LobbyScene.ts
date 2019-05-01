@@ -1,7 +1,6 @@
 import { Button } from "../gui/Button.js";
-import { GameConnection } from "../GameConnection.js";
-import { GameLoadScene } from "./GameLoadScene";
-import { PlayerInfo } from "../models/PlayerInfo";
+import { GameLoadScene } from "./GameLoadScene.js";
+import { PlayerInfo } from "../models/PlayerInfo.js";
 
 const font: string = "november";
 

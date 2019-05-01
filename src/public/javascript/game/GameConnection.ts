@@ -62,7 +62,6 @@ export class GameConnection {
      * @param id The id of the game to connect to
 	 */
 	constructor(id: string) {
-		this.roomId = "";
 		this.clientId = "";
 
 		this.positionUpdates = new PositionUpdateQueue();

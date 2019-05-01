@@ -35,7 +35,7 @@ export class InfoScene extends Phaser.Scene {
     }
 
     /**
-     * Add the info text to the screen and listen for updates.
+     * Add the info text to the screen
      */
     init() {
         this.damageMask = this.add.sprite(1280 / 2, 720 / 2, "sprites", "mask");
@@ -51,7 +51,9 @@ export class InfoScene extends Phaser.Scene {
             this.textReferences.set(label, textObj);
             y += 50;
         });
+    }
 
+    preload() {
         this.setUpListeners();
     }
 

@@ -10,7 +10,6 @@ import { Player } from "./simulation/objects/Player";
 import { ChatServer } from "./ChatServer";
 import { GameObjectType } from "../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { StatsEvent } from "../public/javascript/game/models/objects/StatsEvent";
-import { HealthEvent } from "../public/javascript/game/models/objects/HealthEvent";
 
 export enum GameState {
     building,
@@ -207,6 +206,23 @@ export class GameServer {
 
         // The following tasks are performed only if the simulation has started
         if (this.curState == GameState.playing) {
+            // Check if only one player remains
+            // It's important that this happens first as otherwise event's about the last player dying won't get
+            // sent to that player
+            if (this.simulation.getAllObjectsOfType(GameObjectType.Player).length <= 1) {
+                console.log("hello");
+                this.curState = GameState.over;
+                // Should only be one (or possibly zero)
+                this.simulation.getAllObjectsOfType(GameObjectType.Player).forEach((obj) => {
+                    console.log("goodbye");
+                    let player: Player = obj as Player;
+                    player.stats.secondsInGame = this.simulation.frame / 30;
+                    // Manually send this event as the server is going to close
+                    this.clients.get(player.id).emit("/update/event", new StatsEvent(player.id, player.stats));
+                });
+                // Remove the reference to increase GC speed
+                clearInterval(this.interval);
+            }
             // Process a physics frames
             this.simulation.nextFrame();
             // Pack up all of the PositionUpdates and send them to all clients
@@ -231,22 +247,6 @@ export class GameServer {
                     this.gameSocket.emit("/update/position", updates);
                 }
             });
-
-            // Check if only one player remains
-            if (this.simulation.getAllObjectsOfType(GameObjectType.Player).length <= 1) {
-                console.log("hello");
-                this.curState = GameState.over;
-                // Should only be one (or possibly zero)
-                this.simulation.getAllObjectsOfType(GameObjectType.Player).forEach((obj) => {
-                    console.log("goodbye");
-                    let player: Player = obj as Player;
-                    player.stats.secondsInGame = this.simulation.frame / 30;
-                    // Manually send this event as the server is going to close
-                    this.clients.get(player.id).emit("/update/event", new StatsEvent(player.id, player.stats));
-                });
-                // Remove the reference to increase GC speed
-                clearInterval(this.interval);
-            }
         } else {
             // Check if the game is ready to start
             if (this.curState == GameState.waitingForPlayers && this.readyPlayers == this.numPlayersToExpect) {

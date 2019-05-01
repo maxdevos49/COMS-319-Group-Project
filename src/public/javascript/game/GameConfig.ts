@@ -22,7 +22,6 @@ let gameConfig: GameConfig = {
         MainMenuScene,
         LobbyScene,
         GameLoadScene,
-        GameScene,
         ChatScene,
         InfoScene,
         EndScene,

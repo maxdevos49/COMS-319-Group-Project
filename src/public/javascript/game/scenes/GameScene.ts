@@ -59,24 +59,23 @@ export class GameScene extends Phaser.Scene {
         super({
             key: "GameScene"
         });
-
-        this.objects = new Map<string, GameObject>();
     }
 
     init(connection: GameConnection): void {
+        this.objects = new Map<string, GameObject>();
         this.connection = connection;
         this.uInput = new UserInput(this);
-        this.scene.launch("ChatScene", connection);
-        this.scene.launch("InfoScene");
     }
 
 	preload(): void {
 		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);
         this.lastFrame = 0;
-        console.log(this.connection.map);
         this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
         this.cameras.main.startFollow(this.cameraFollowPoint);
         this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+
+        this.scene.launch("ChatScene", this.connection);
+        this.scene.launch("InfoScene");
     }
 
     create(): void {
@@ -128,6 +127,8 @@ export class GameScene extends Phaser.Scene {
                 this.connection.disconnet();
                 this.scene.stop("InfoScene");
                 this.scene.stop("ChatScene");
+                // Destroy all of the current objects
+                this.objects.forEach((obj: GameObject, id: string) => obj.destroy());
                 this.scene.start("EndScene", statsEvent.stats);
             } else if (event.type == EventType.BorderDifficulty) {
                 const borderDifficultyEvent: BorderDifficultyLevelEvent = event as BorderDifficultyLevelEvent;
@@ -141,7 +142,6 @@ export class GameScene extends Phaser.Scene {
 		if (this.clientPlayer) {
 			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
 			this.connection.sendMove(moveUpdate);
-            console.log(this.clientPlayer.x, this.clientPlayer.y);
 			// Move the camera
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);
