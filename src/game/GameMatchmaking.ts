@@ -7,7 +7,7 @@ export class GameMatchmaking {
     /**
      * The number of players needed in the matchmaking server for the game to start
      */
-    public static numPlayerToStart: number = 4;
+    public static numPlayerToStart: number = 100;
 
     /**
      * The root server socket of this server
@@ -62,13 +62,15 @@ export class GameMatchmaking {
 
         this.gamesSocket.on("connection", (socket: Socket) => {
             if (!socket.request.session) {
-                socket.emit("/authorization", {message: "Authentication failed. You will now be disconnected."});
+                socket.emit("/authorization", { message: "Authentication failed. You will now be disconnected." });
                 socket.disconnect();
             } else {
+
                 console.log('a new connection to the server!');
                 this.idToSocket.set(socket.id, socket);
                 this.idToInfo.set(socket.id, new PlayerInfo(socket.id, socket.request.session.passport.user.nickname, socket.request.session.passport.user.role));
                 socket.on("disconnect", () => {
+                    console.log('a player disconnected!');
                     this.idToSocket.delete(socket.id);
                     this.idToInfo.delete(socket.id);
                     // Tell all remaining sockets that this player has left
@@ -86,13 +88,9 @@ export class GameMatchmaking {
 
                 // Send the new player information about all of the current players
                 this.idToInfo.forEach((player: PlayerInfo, id: string) => {
-                    console.log('socket id: ' + id);
-                    console.log('id in PlayerInfo: ' + player.id);
-                    console.log('name in PlayerInfo: ' + player.name);
-                    socket.emit("/update/new/player", player);
+                    if (id != socket.id) socket.emit("/update/new/player", player);
+                    this.idToSocket.get(id).emit("/update/new/player", this.idToInfo.get(socket.id));
                 });
-
-                
             }
         });
 
@@ -116,12 +114,12 @@ export class GameMatchmaking {
 
             // Close games that are now over
             this.games.forEach((server: GameServer, id: string) => {
-               if (server.curState == GameState.over) {
-                   this.games.delete(id);
+                if (server.curState == GameState.over) {
+                    this.games.delete(id);
 
-                   console.log("Previous game has finished, starting a new game");
-                   this.startNewServer();
-               }
+                    console.log("Previous game has finished, starting a new game");
+                    this.startNewServer();
+                }
             });
         }, 500);
     }
