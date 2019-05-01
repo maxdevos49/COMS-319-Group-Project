@@ -37,7 +37,7 @@ export class GameSimulation {
     /**
      * The radius around the center which the players will spawn
      */
-    public static readonly playerSpawnRadius: number = 150;
+    public static readonly playerSpawnRadius: number = 75;
 
 	/**
 	 * The current frame number of the simulation.
