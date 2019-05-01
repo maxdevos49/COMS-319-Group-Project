@@ -37,7 +37,7 @@ export class GameSimulation {
     /**
      * The radius around the center which the players will spawn
      */
-    public static readonly playerSpawnRadius: number = 75;
+    public static readonly playerSpawnRadius: number = 70;
 
 	/**
 	 * The current frame number of the simulation.
@@ -188,9 +188,9 @@ export class GameSimulation {
     public setPlayers(playerIds: string[]): void {
         for (let i = 0; i < playerIds.length; i++) {
             // TODO: Check that this is a valid spawn
-            let spawnX = GameSimulation.playerSpawnRadius * Math.cos(2 * Math.PI * (i / playerIds.length));
-            let spawnY = GameSimulation.playerSpawnRadius * Math.sin(2 * Math.PI * (i / playerIds.length));
-
+            let spawnX = (this.map.width * .32 / 2) + GameSimulation.playerSpawnRadius * Math.cos(2 * Math.PI * (i / playerIds.length));
+            let spawnY = (this.map.height * .32 / 2) + GameSimulation.playerSpawnRadius * Math.sin(2 * Math.PI * (i / playerIds.length));
+            console.log("spawning player at " + spawnX + " " + spawnY);
             let player: Player = new Player(this, playerIds[i]);
             player.body.SetPositionXY(spawnX, spawnY);
             this.objects.set(playerIds[i], player);

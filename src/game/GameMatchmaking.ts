@@ -82,7 +82,7 @@ export class GameMatchmaking {
                 });
 
                 // Send the player their role
-                socket.emit("", this.idToInfo.get(socket.id).role);
+                socket.emit("/update/role", this.idToInfo.get(socket.id).role);
 
                 // Send the new player information about all of the current players
                 this.idToInfo.forEach((player: PlayerInfo, id: string) => {
