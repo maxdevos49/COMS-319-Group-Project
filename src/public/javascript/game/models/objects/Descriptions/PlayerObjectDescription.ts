@@ -1,4 +1,4 @@
-import { IObjectDescription, GameObjectType } from "./IObjectDescription";
+import { IObjectDescription, GameObjectType } from "./IObjectDescription.js";
 
 /**
  * Describes the initial state of a game player. This is used to inform clients of new players that they don't
