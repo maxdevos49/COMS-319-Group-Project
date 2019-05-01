@@ -91,6 +91,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(timestep: number, elapsed: number): void {
+        if (!this.connection.readySent) this.connection.sendReady();
+
         // Limit updates to be processed once every 30 seconds
         let curFrame = Math.floor(timestep / 30);
 
@@ -123,6 +125,7 @@ export class GameScene extends Phaser.Scene {
                 this.events.emit("setHP", healthEvent.setHealthTo);
             } else if (event.type === EventType.Stats) {
                 const statsEvent = event as StatsEvent;
+                this.connection.disconnet();
                 this.scene.stop("InfoScene");
                 this.scene.stop("ChatScene");
                 this.scene.start("EndScene", statsEvent.stats);

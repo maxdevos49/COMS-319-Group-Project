@@ -110,6 +110,9 @@ export class Player extends GameObject implements IHealth {
         playerHitboxFixtureDef.shape = Player.playerHitboxShape;
         playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
+
+        // Tell the client what their health is
+        this.simulation.events.push(new HealthEvent(this.id, this.health));
     }
 
     public destroy(): void {
@@ -235,20 +238,11 @@ export class Player extends GameObject implements IHealth {
         if (object.type === GameObjectType.Bullet) {
             const playerDead: boolean = this.takeDamage(Bullet.DAMAGE);
             if (playerDead) {
-                const numAlive = this.simulation.totalPlayers - this.simulation.deadPlayers;
-
                 const bullet: Bullet = object as Bullet;
                 const other: GameObject = this.simulation.objects.get(bullet.ownerId);
-                if (other.type == GameObjectType.Player) {
+                if (other.type == GameObjectType.Player && other.id != this.id) {
                     const otherPlayer: Player = other as Player;
                     otherPlayer.stats.enemiesKilled += 1;
-
-                    // This was the second to last player who died, so the other
-                    // player must be the winner.
-                    if (numAlive === 1) {
-                        otherPlayer.stats.secondsInGame = this.simulation.frame / 30;
-                        this.simulation.events.push(new StatsEvent(other.id, otherPlayer.stats));
-                    }
                 }
             }
         }

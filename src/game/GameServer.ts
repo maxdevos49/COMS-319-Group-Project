@@ -9,6 +9,8 @@ import { IEvent } from "../public/javascript/game/models/objects/IEvent";
 import { Player } from "./simulation/objects/Player";
 import { ChatServer } from "./ChatServer";
 import { GameObjectType } from "../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import { StatsEvent } from "../public/javascript/game/models/objects/StatsEvent";
+import { HealthEvent } from "../public/javascript/game/models/objects/HealthEvent";
 
 export enum GameState {
     building,
@@ -56,6 +58,11 @@ export class GameServer {
 	 */
     private playerInfo: Map<string, PlayerInfo>;
 
+    /**
+     * The number of players that have sent ready
+     */
+    public readyPlayers: number;
+
 	/**
 	 * The simulation of the physical game world.
 	 */
@@ -81,12 +88,15 @@ export class GameServer {
      */
     public numPlayersToExpect: number;
 
+    private interval: NodeJS.Timeout;
+
     /**
      * Constructs a GameServer object
      * @param serverSocket
      */
     constructor(serverSocket: Server, randomizeTerrain: boolean = false) {
         this.curState = GameState.building;
+        this.readyPlayers = 0;
 
         this.clients = new Map<string, Socket>();
         this.playerInfo = new Map<string, PlayerInfo>();
@@ -141,6 +151,10 @@ export class GameServer {
                 // Send the new player the terrain data
                 socket.emit("/init/terrain", this.simulation.map);
 
+                socket.on("/update/ready", () => {
+                    this.readyPlayers++;
+                });
+
                 // Register the endpoint that listens for move updates from the client
                 this.setOnUpdateMove(socket);
 
@@ -151,7 +165,7 @@ export class GameServer {
             }
         });
         // 30 times a second
-        setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
+        this.interval = setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
 
         this.curState = GameState.ready;
     }
@@ -218,15 +232,24 @@ export class GameServer {
                 }
             });
 
-            // Check if only one player remains and end the game if so
+            // Check if only one player remains
             if (this.simulation.getAllObjectsOfType(GameObjectType.Player).length <= 1) {
-                console.log("Only one player remains, game is over");
+                console.log("hello");
                 this.curState = GameState.over;
+                // Should only be one (or possibly zero)
+                this.simulation.getAllObjectsOfType(GameObjectType.Player).forEach((obj) => {
+                    console.log("goodbye");
+                    let player: Player = obj as Player;
+                    player.stats.secondsInGame = this.simulation.frame / 30;
+                    // Manually send this event as the server is going to close
+                    this.clients.get(player.id).emit("/update/event", new StatsEvent(player.id, player.stats));
+                });
+                // Remove the reference to increase GC speed
+                clearInterval(this.interval);
             }
-
         } else {
             // Check if the game is ready to start
-            if (this.curState == GameState.waitingForPlayers &&  this.clients.size == this.numPlayersToExpect) {
+            if (this.curState == GameState.waitingForPlayers && this.readyPlayers == this.numPlayersToExpect) {
                 this.curState = GameState.playing;
                 // Place the players around the map
                 this.simulation.setPlayers(Array.from(this.clients.keys()));

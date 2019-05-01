@@ -18,9 +18,7 @@ export class GameLoadScene extends Phaser.Scene {
     }
 
     preload(): void {
-        this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
-        this.load.image("tiles", "/res/tiles.png");
-        this.load.image("Default", "/res/Default.png");
+
     }
 
     create(): void {
@@ -29,7 +27,7 @@ export class GameLoadScene extends Phaser.Scene {
     }
 
     update(): void {
-        if (this.connection.ready) {
+        if (this.connection.requiredRecieved) {
             this.scene.start("GameScene", this.connection);
         }
     }

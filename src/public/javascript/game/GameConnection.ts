@@ -50,7 +50,12 @@ export class GameConnection {
 	/**
 	 * True if the connection has been made and all data that needs to be received before switching to the game scene has been loaded
 	 */
-	public ready: boolean;
+	public requiredRecieved: boolean;
+
+    /**
+     * True if the ready signal has been sent to the server
+     */
+	public readySent: boolean;
 
 	/**
 	 * Creates a new game socket connection
@@ -65,7 +70,8 @@ export class GameConnection {
 		this.newObjects = [];
 		this.deletedObjects = [];
 		this.events = [];
-		this.ready = false;
+		this.requiredRecieved = false;
+		this.readySent = false;
 
 		this.roomId = id;
         this.socket = io("/games/" + id);
@@ -104,7 +110,7 @@ export class GameConnection {
 	private receiveTerrainMap(): void {
 		this.socket.on("/init/terrain", (map: TerrainMap) => {
 			this.map = map;
-			this.ready = true;
+			this.requiredRecieved = true;
 		});
 	}
 
@@ -167,4 +173,19 @@ export class GameConnection {
 	public sendMove(move: PlayerMoveUpdate): void {
 		this.socket.emit("/update/player/move", move);
 	}
+
+    /**
+     * Sends the message that the client is ready for the game to the server
+     */
+	public sendReady(): void {
+	    this.readySent = true;
+	    this.socket.emit("/update/ready");
+    }
+
+    /**
+     * Disconnects from the game
+     */
+    public disconnet(): void {
+	    this.socket.disconnect();
+    }
 }

@@ -63,7 +63,8 @@ export class LobbyScene extends Phaser.Scene {
         });
 
         this.matchmakingSocket.on("/update/start", (id: string) => {
-           this.scene.start("GameLoadScene", {id: id});
+            this.matchmakingSocket.disconnect();
+            this.scene.start("GameLoadScene", {id: id});
         });
     }
 }
