@@ -32,4 +32,12 @@ worldAndHitboxCollisionFilter.maskBits = 0b01010;
 // -1 for no collisions
 worldAndHitboxCollisionFilter.groupIndex =  0;
 
-export { worldCollisionFilter, hitboxCollisionFilter, weaponCollisionFilter, worldAndHitboxCollisionFilter };
+let worldBorderCollisionFilter = new b2Filter();
+// The collision category of this filter
+worldBorderCollisionFilter.categoryBits = 0b100000;
+// The categories to accept collisions from
+worldBorderCollisionFilter.maskBits = 0b100000;
+// -1 for no collisions
+worldBorderCollisionFilter.groupIndex =  0;
+
+export { worldCollisionFilter, hitboxCollisionFilter, weaponCollisionFilter, worldAndHitboxCollisionFilter, worldBorderCollisionFilter };

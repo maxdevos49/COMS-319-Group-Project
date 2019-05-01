@@ -148,14 +148,13 @@ export class GameServer {
             this.gameSocket.emit("/update/objects/delete", this.simulation.popDeletedObjectIds());
         }
         if (this.simulation.hasPendingEvents()) {
-            this.simulation.events.forEach((event: IEvent, index) => {
+            this.simulation.events.forEach((event: IEvent) => {
                 const socket: Socket = this.clients.get(event.forPlayerId);
                 if (socket != null) {
                     socket.emit("/update/event", event);
-                    // Remove the event since it has been sent to the client
-                    this.simulation.events.splice(index, 1);
                 }
             });
+            this.simulation.events = [];
         }
         // Pack up all of the PositionUpdates and send them to all clients
         let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
@@ -163,8 +162,14 @@ export class GameServer {
             // Get the player object of the given client, if one doesn't exist send all of the information to the server
             // Every certain number of frames send an update about everything in the game
             let player: Player = (this.simulation.objects.get(id) as Player);
+
             if (player && (this.simulation.frame % GameServer.FORCE_FULL_UPDATE_FRAME_RATE) != 0) {
                 socket.volatile.emit("/update/position", updates.filter((update: IPositionUpdate) => {
+                    // If the position update doesn't provide xy coordinate always send it
+                    if (update.x === undefined || update.y === undefined) {
+                        return true;
+                    }
+
                     return ((player.body.GetPosition().x - update.x) < (GameServer.PLAYER_VIEW_WIDTH / 2)) &&
                         ((player.body.GetPosition().y - update.y) < (GameServer.PLAYER_VIEW_HEIGHT / 2))
                 }));
