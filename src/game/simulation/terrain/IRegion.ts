@@ -1,4 +1,4 @@
-import { ITileOption } from "./tiles/ITile";
+import { ITileOption } from "./tiles/ITileOption";
 
 export interface IRegion {
     name: string;

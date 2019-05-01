@@ -6,13 +6,13 @@ import { ItemPositionUpdate } from "../../../public/javascript/game/models/objec
 import { b2Body, b2BodyDef, b2BodyType, b2FixtureDef, b2CircleShape, b2Fixture } from "../../../../lib/box2d-physics-engine/Box2D";
 import { ItemObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/ItemObjectDescription";
 import { worldCollisionFilter } from "../CollisionFilters";
-import { InventoryItem } from "./InventoryItem";
+import { InventoryItem } from "../items/InventoryItem";
 export class ItemObject extends GameObject {
 
     /**
      * The physics body
      */
-    private body: b2Body;
+    public body: b2Body;
 
     /**
      * The hit area of the item
@@ -24,20 +24,20 @@ export class ItemObject extends GameObject {
      */
     public item: InventoryItem;
 
-    constructor(givenSimulation: GameSimulation, config: IITemObjectConfig) {
-        super(config.id, GameObjectType.Item, givenSimulation);
+    constructor(givenSimulation: GameSimulation, item: InventoryItem, x: number = 0, y: number = 0) {
+        super(item.id, GameObjectType.Item, givenSimulation);
 
-        this.item = config.item;
+        this.item = item;
 
         //Body
         const bodyDef: b2BodyDef = new b2BodyDef();
         bodyDef.type = b2BodyType.b2_staticBody;
-        bodyDef.position.Set(config.x, config.y);
+        bodyDef.position.Set(x, y);
         this.body = this.simulation.world.CreateBody(bodyDef);
 
         //Create the collision fixture for the bullet
         const fixtureDef: b2FixtureDef = new b2FixtureDef();
-        fixtureDef.userData = config.id;
+        fixtureDef.userData = item.id;
         fixtureDef.shape = new b2CircleShape(.05);
         fixtureDef.filter.Copy(worldCollisionFilter);
         fixtureDef.density = 0;
@@ -57,7 +57,7 @@ export class ItemObject extends GameObject {
      *Gets a new GameObject Description for adding to clients
      */
     public getAsNewObject(): IObjectDescription {
-        return new ItemObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.item.itemType, this.item.sprite, this.item.name, this.item.tip);
+        return new ItemObjectDescription(this.id, this.body.GetPosition().x, this.body.GetPosition().y, this.body.GetAngle(), this.item.itemType, this.item.groundedItemSprite, this.item.name, this.item.tip);
     }
 
     /**

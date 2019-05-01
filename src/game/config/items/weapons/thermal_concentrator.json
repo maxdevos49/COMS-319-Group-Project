@@ -1,0 +1,20 @@
+{
+  "name": "Thermal Concentrator",
+  "tooltip": "Long-range torching device",
+  "groundedItemSprite": "items/weapons/thermal_concentrator",
+  "inventoryItemSprite": "items/weapons/thermal_concentrator",
+  "bulletSprite": "items/weapons/thermal_concentrator_bullet",
+  "type": "Weapon",
+  "minimumNumberOnMap": 3,
+  "maximumNumberOnMap": 6,
+  "spawnOptions": [
+    {"successChance": 10, "condition": "#@metal_barricade"},
+    {"successChance": 100, "condition": "#water"},
+    {"successChance": 20, "condition": "@grass_empty"}
+  ],
+  "ammoSize": 30,
+  "clipSize": 5,
+  "fireRate": 0.5,
+  "bulletSpeed": 24,
+  "bulletKillSpeed": 17
+}

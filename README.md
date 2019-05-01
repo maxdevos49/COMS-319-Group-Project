@@ -1,12 +1,11 @@
 # B.R.T.D. (Battle Royal Top Down Shooter)
 
-[GitLab badges](https://docs.gitlab.com/ee/user/project/badges.html) + [Shields.io](https://shields.io/)
+B.R.T.D is a game inspired from the many popular battle royal games.
 
-### Authors:
- - Maxwell Devos
- - Mason Timmerman
- - Joesph Naberhaus
- - John Jago
+## Live Instances
+ - Newest commit: [https://staging-cs319.herokuapp.com](https://staging-cs319.herokuapp.com)
+ - Develop branch: [https://dev-cs319.herokuapp.com](https://dev-cs319.herokuapp.com)
+ - Master branch: [https://prod-cs319.herokuapp.com](https://prod-cs319.herokuapp.com)
 
 ## Instructions
 To get started first make sure you have `Node.js 10` installed. To do this you can use the command
@@ -17,7 +16,7 @@ Second you will want to make sure all the node modules for the project are insta
 ```
 $ npm run setup
 ```
-At this point you should be ready to run the server. To do this use the command;
+At this point you should be ready to run the server. To do this use the command:
 ```
 $ npm run dev
 ```
@@ -37,8 +36,9 @@ $ git push heroku <branch-name>:master
 $ heroku open
 ```
 
-## Deployment Links
- - Newest commit: [https://staging-cs319.herokuapp.com](https://staging-cs319.herokuapp.com)
- - Develop Branch: [https://dev-cs319.herokuapp.com](https://dev-cs319.herokuapp.com)
- - Master Branch: [https://prod-cs319.herokuapp.com](https://prod-cs319.herokuapp.com)
- 
+## Authors
+
+ - Maxwell Devos
+ - Mason Timmerman
+ - Joesph Naberhaus
+ - John Jago

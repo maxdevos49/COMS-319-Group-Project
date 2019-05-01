@@ -22,10 +22,6 @@ describe("Simulation Player Object", () => {
         simulation.nextFrame();
     });
 
-    it("Should create player located at 0,0", () => {
-        expect(player.body.GetPosition()).to.have.property("x").that.equals(0);
-        expect(player.body.GetPosition()).to.have.property("y").that.equals(0);
-    });
     it("Should create a player with 100 health points", () => {
         expect(player.health).to.equal(100);
     });
@@ -38,8 +34,8 @@ describe("Simulation Player Object", () => {
         expect(player.getPositionUpdate(100)).to.have.property("frame").that.equals(100);
     });
     it("Should return PositionUpdates that match the position of the player", () => {
-       expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(0);
-       expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(0);
+       expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(player.body.GetPosition().x);
+       expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(player.body.GetPosition().y);
        player.body.SetPosition({x: 20, y: 20});
        expect(player.getPositionUpdate(0)).to.have.property("x").that.equals(20);
        expect(player.getPositionUpdate(0)).to.have.property("y").that.equals(20);
@@ -54,18 +50,30 @@ describe("Simulation Player Object", () => {
         player.collideWith(bullet);
         expect(player.health).to.equal(90);
     });
+    it("Should increment the other player's kill count when killed", () => {
+        expect(otherPlayer.stats.enemiesKilled).to.equal(0);
+        // Quickly decrease HP to 10 so that the bullet kills
+        player.takeDamage(90);
+        const bullet = new Bullet(simulation, "id1", "testid2", 0, 0, 0, 1);
+        player.collideWith(bullet);
+        expect(otherPlayer.stats.enemiesKilled).to.equal(1);
+    });
     it("Should not lose health upon colliding with another player", () => {
         player.collideWith(otherPlayer);
         expect(player.health).to.equal(100);
-    });
-    it("Should destroy itself when health reaches or goes below zero", () => {
-        expect(simulation.world.GetBodyCount()).to.equal(6);
-        player.takeDamage(100);
-        expect(simulation.world.GetBodyCount()).to.equal(5);
     });
     it("Should create an event upon losing health", () => {
         const bullet = new Bullet(simulation, "id1", "ownerId", 0, 0, 0, 1);
         player.collideWith(bullet);
         expect(simulation.events.length).to.equal(1);
+    });
+    it("Should destroy itself when health reaches or goes below zero", () => {
+        let original: number = simulation.world.GetBodyCount();
+        player.takeDamage(100);
+        expect(simulation.world.GetBodyCount()).to.equal(original - 1);
+    });
+    it("Should record the number of seconds spent in the game when it dies", () => {
+        player.takeDamage(100);
+        expect(player.stats.secondsInGame).to.equal(simulation.frame / 30);
     });
 });

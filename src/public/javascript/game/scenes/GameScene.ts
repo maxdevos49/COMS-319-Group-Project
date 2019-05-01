@@ -11,6 +11,7 @@ import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerOb
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 import { Item } from "../objects/Item.js";
+import { StatsEvent } from "../models/objects/StatsEvent.js";
 
 
 export class GameScene extends Phaser.Scene {
@@ -115,9 +116,9 @@ export class GameScene extends Phaser.Scene {
                 const healthEvent = event as HealthEvent;
                 // Update HP displayed on screen
                 this.events.emit("setHP", healthEvent.setHealthTo);
-                if (healthEvent.setHealthTo <= 0) {
-                    // TODO: Give player the option to respawn
-                }
+            } else if (event.type === EventType.Stats) {
+                const statsEvent = event as StatsEvent;
+                this.scene.launch("EndScene", statsEvent.stats);
             }
             // Remove the event from the list since it should have been handled
             // by now
@@ -147,7 +148,6 @@ export class GameScene extends Phaser.Scene {
                 // Check if the id of this object is the clients, if it is save the reference to it
                 if (this.connection.clientId === newObjectDescription.id) {
                     this.clientPlayer = object as Player;
-                    this.cameras.main.startFollow(this.clientPlayer);
                 }
                 break;
             case GameObjectType.Bullet:
