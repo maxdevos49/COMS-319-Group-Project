@@ -107,6 +107,7 @@ export class GameServer {
 
             //Authentication
             if (!socket.request.session) {
+                console.log("Rejecting connection");
                 socket.emit("/authorization", { message: "Authentication failed. You will now be disconnected." });
                 socket.disconnect();
             } else if (this.curState == GameState.playing) {
