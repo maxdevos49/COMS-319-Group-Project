@@ -34,6 +34,11 @@ export class GameSimulation {
     private static readonly velocityIterations: number = 6;
     private static readonly positionIterations: number = 2;
 
+    /**
+     * The radius around the center which the players will spawn
+     */
+    public static readonly playerSpawnRadius: number = 70;
+
 	/**
 	 * The current frame number of the simulation.
 	 */
@@ -45,6 +50,14 @@ export class GameSimulation {
      */
     public objects: Map<string, GameObject>;
 
+    /**
+     * The number of players in the game.
+     */
+    public totalPlayers: number;
+    /**
+     * The number of players in the game that are alive.
+     */
+    public deadPlayers: number;
     /**
      * The terrain map for this simulation, object represents all of parts of the game world that don't change
      */
@@ -75,8 +88,8 @@ export class GameSimulation {
      * Construct a new simulation. The simulation starts running as soon as it
      * is created unless the start parameter is false (it's true by default).
      *
-     * @param {PlayerMoveUpdateQueue} moves - A queue of pending moves.
-     * @param generateRandomTerrain Optional parameter which, if true, will cause the simulation to generate a random terrain with structures
+     * @param moves - A queue of pending moves.
+     * @param generateRandomTerrain - Optional parameter which, if true, will cause the simulation to generate a random terrain with structures
      */
     constructor(moves: PlayerMoveUpdateQueue, generateRandomTerrain?: boolean) {
         this.moves = moves;
@@ -87,6 +100,8 @@ export class GameSimulation {
 
         this.frame = 0;
         this.objects = new Map<string, GameObject>();
+        this.totalPlayers = 0;
+        this.deadPlayers = 0;
         this.events = [];
         this.newObjectsIds = [];
         this.deletedObjectIds = [];
@@ -97,14 +112,12 @@ export class GameSimulation {
             this.map = new TerrainMap(500, 500, 32, 32, [], [], 1);
         }
 
-        this.worldBorder = new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [110, 2]);
+        this.worldBorder = new WorldBorder(v1Gen(), this, 250 * .32, 250 * .32, [110, 70, 40, 10]);
         this.addGameObject(this.worldBorder);
     }
 
     /**
      * Advance to the next physics frame.
-     *
-     * @return {void}
      */
     public nextFrame(): void {
         this.objects.forEach((object) => {
@@ -161,7 +174,32 @@ export class GameSimulation {
             curContact = curContact.m_next;
         }
 
+        // Check if the border should move in. The size will either be proportional to the number of players left
+        // or if there are few players in the game hard locked based on exactly how many are left
+        let expectBorderStage = Math.floor(this.worldBorder.moveStages.length * (this.deadPlayers / this.totalPlayers));
+        expectBorderStage = Math.max(expectBorderStage, this.worldBorder.moveStages.length - (2 - this.totalPlayers - this.deadPlayers));
+        if (this.worldBorder.curStage != expectBorderStage) this.worldBorder.attemptAdvanceBorderStage();
+
         this.frame++;
+    }
+
+    /**
+     * Specifies what players will be in this game (should only be called once)
+     * @param playerIds The array of players that will be playing in this game simulation
+     */
+    public setPlayers(playerIds: string[]): void {
+        for (let i = 0; i < playerIds.length; i++) {
+            // TODO: Check that this is a valid spawn
+            let spawnX = (this.map.width * .32 / 2) + GameSimulation.playerSpawnRadius * Math.cos(2 * Math.PI * (i / playerIds.length));
+            let spawnY = (this.map.height * .32 / 2) + GameSimulation.playerSpawnRadius * Math.sin(2 * Math.PI * (i / playerIds.length));
+            console.log("spawning player at " + spawnX + " " + spawnY);
+            let player: Player = new Player(this, playerIds[i]);
+            player.body.SetPositionXY(spawnX, spawnY);
+            this.objects.set(playerIds[i], player);
+            this.newObjectsIds.push(playerIds[i]);
+        }
+
+        this.totalPlayers = playerIds.length;
     }
 
     /**
@@ -177,20 +215,8 @@ export class GameSimulation {
     }
 
     /**
-     * Generate a new player and add it to the world.
-     *
-     * @param {string} id - The UUID of the player.
-     */
-    public addPlayer(id: string): void {
-        const player: Player = new Player(this, id);
-        this.objects.set(id, player);
-        this.newObjectsIds.push(id);
-        this.worldBorder.attemptAdvanceBorderStage();
-    }
-
-    /**
      * Adds the game object to the simulation. This doesn't add it to the world (objects themselves are responsible for this
-     * @param object The game object to add to this simulation
+     * @param object - The game object to add to this simulation
      */
     public addGameObject(object: GameObject) {
         this.newObjectsIds.push(object.id);
@@ -200,7 +226,7 @@ export class GameSimulation {
     /**
      * Removes the game object that has the given simulation from this simulation. This will also remove it from the
      * box2d world if it exists inside of it
-     * @param id The id of the object to remove from the simulation
+     * @param id - The id of the object to remove from the simulation
      */
     public destroyGameObject(id: string) {
         if (this.objects.has(id)) {
@@ -214,7 +240,7 @@ export class GameSimulation {
     /**
      * Process a move update from a client.
      *
-     * @param {PlayerMoveUpdate} move - An object containing move information.
+     * @param move - An object containing move information.
      */
     public updateMove(move: PlayerMoveUpdate): void {
         const player: Player | undefined = this.objects.get(move.id) as Player;
@@ -226,7 +252,7 @@ export class GameSimulation {
     /**
      * Get the current frame number.
      *
-     * @return {number} The current frame number.
+     * @return the current frame number.
      */
     public getFrame(): number {
         return this.frame;
@@ -235,7 +261,7 @@ export class GameSimulation {
     /**
      * Gets an array of position updates for every object that is in the simulation
      *
-     * @return {PositionUpdate[]} An array of position updates.
+     * @return an array of position updates.
      */
     public getPositionUpdates(): IPositionUpdate[] {
         let updates: IPositionUpdate[] = [];

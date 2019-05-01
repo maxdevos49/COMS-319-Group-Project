@@ -10,13 +10,13 @@ export class WorldBorder extends GameObject {
     borderCircle: Arc;
 
     constructor(scene: GameScene, description: WorldBorderObjectDescription) {
-        super(scene, description.centeredX * SCALE_FACTOR, description.centeredY * SCALE_FACTOR, "sprites", "objects/border/center")
+        super(scene, description.centeredX * SCALE_FACTOR, description.centeredY * SCALE_FACTOR, "sprites", "objects/border/center");
         this.id = description.id;
 
         this.setScale(3.0, 3.0);
-
-        this.borderCircle = scene.add.arc(description.centeredX * SCALE_FACTOR, description.centeredY * SCALE_FACTOR,  description.curRadius * SCALE_FACTOR, 0, 360);
+        this.borderCircle = new Arc(scene, description.centeredX * SCALE_FACTOR, description.centeredY * SCALE_FACTOR,  description.curRadius * SCALE_FACTOR, 0, 360);
         this.borderCircle.setStrokeStyle(4, 0xff0000, 0.6);
+        scene.add.existing(this.borderCircle);
     }
 
     applyUpdate(newUpdate: WorldBorderPositionUpdate): void {

@@ -8,17 +8,26 @@ import {
     b2PolygonShape,
     XY,
 } from "../../../../lib/box2d-physics-engine/Box2D";
+import v1Gen from "uuid/v1";
+
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
-import { PlayerActionState, PlayerPositionUpdate } from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
+import {
+    PlayerActionState,
+    PlayerPositionUpdate
+} from "../../../public/javascript/game/models/objects/PlayerPositionUpdate";
 import { GameObject } from "./GameObject";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import {
+    GameObjectType,
+    IObjectDescription
+} from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { PlayerObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/PlayerObjectDescription";
 import { hitboxCollisionFilter, worldCollisionFilter } from "../CollisionFilters";
 import { GameSimulation } from "../GameSimulation";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../../../public/javascript/game/models/PlayerMoveUpdate";
 import { Bullet } from "../../../game/simulation/objects/Bullet";
-import v1Gen from "uuid/v1";
 import { HealthEvent } from "../../../public/javascript/game/models/objects/HealthEvent";
+import { StatsEvent } from "../../../public/javascript/game/models/objects/StatsEvent";
+import { PlayerStats } from "./PlayerStats";
 
 /**
  * A player in the game. Contains the physics body.
@@ -59,6 +68,10 @@ export class Player extends GameObject implements IHealth {
      * The player's health that ranges from 0 to 100.
      */
     public health: number;
+    /**
+     * Stats about the player in the game, such as number of enemies killed.
+     */
+    public stats: PlayerStats;
 
     constructor(simulation: GameSimulation, id: string) {
         super(id, GameObjectType.Player, simulation)
@@ -69,6 +82,11 @@ export class Player extends GameObject implements IHealth {
         this.lastShotFrame = 0;
 
         this.health = 100;
+        this.stats = {
+            enemiesKilled: 0,
+            secondsInGame: 0,
+            finishPlace: 1,
+        };
 
         // The player is a dynamic body, which means that it is fully simulated,
         // moves in response to forces, and has a finite, non-zero mass.
@@ -85,7 +103,6 @@ export class Player extends GameObject implements IHealth {
         playerCollisionFixtureDef.userData = id;
         playerCollisionFixtureDef.shape = new b2CircleShape((96 / 100) / 2); // 50 m radius
         playerCollisionFixtureDef.filter.Copy(worldCollisionFilter);
-        // fixture.density = 1.0; // 1.0 kg/m^3
         this.playerCollisionFixture = this.body.CreateFixture(playerCollisionFixtureDef, 4.0); // 1.0 kg/m^3 density
         // Create fixture for the player colliding with weapons
         const playerHitboxFixtureDef: b2FixtureDef = new b2FixtureDef();
@@ -93,6 +110,9 @@ export class Player extends GameObject implements IHealth {
         playerHitboxFixtureDef.shape = Player.playerHitboxShape;
         playerHitboxFixtureDef.filter.Copy(hitboxCollisionFilter);
         this.playerHitboxFixture = this.body.CreateFixture(playerHitboxFixtureDef, 4.0);
+
+        // Tell the client what their health is
+        this.simulation.events.push(new HealthEvent(this.id, this.health));
     }
 
     public destroy(): void {
@@ -162,8 +182,8 @@ export class Player extends GameObject implements IHealth {
      * Get the velocity for a desired change in position represented by
      * Up, UpLeft, etc.
      *
-     * @param {PlayerMoveDirection} direction - The direction the player wants to move.
-     * @return {XY} A velocity vector.
+     * @param direction - The direction the player wants to move.
+     * @return a velocity vector.
      */
     private static getVelocityVector(direction: PlayerMoveDirection): XY {
         const velocity: XY = { x: 0, y: 0 };
@@ -216,16 +236,37 @@ export class Player extends GameObject implements IHealth {
 
     public collideWith(object: IObjectDescription) {
         if (object.type === GameObjectType.Bullet) {
-            this.takeDamage(Bullet.DAMAGE);
+            const playerDead: boolean = this.takeDamage(Bullet.DAMAGE);
+            if (playerDead) {
+                const bullet: Bullet = object as Bullet;
+                const other: GameObject = this.simulation.objects.get(bullet.ownerId);
+                if (other.type == GameObjectType.Player && other.id != this.id) {
+                    const otherPlayer: Player = other as Player;
+                    otherPlayer.stats.enemiesKilled += 1;
+                }
+            }
         }
     }
 
-    public takeDamage(damage: number) {
+    /**
+     * Subtract the given amount of HP from this player. This method also
+     * handles the player's death (when HP drops to zero).
+     * @param damage - The amount of HP to subract from the player.
+     * @return true if the player dies as a result of taking damange.
+     */
+    public takeDamage(damage: number): boolean {
         this.health -= damage;
         // The event will be sent to the client
         this.simulation.events.push(new HealthEvent(this.id, this.health))
+        // The player is dead
         if (this.health <= 0) {
+            this.stats.secondsInGame = this.simulation.frame / 30;
+            this.stats.finishPlace = this.simulation.totalPlayers - this.simulation.deadPlayers;
+            this.simulation.events.push(new StatsEvent(this.id, this.stats));
             this.simulation.destroyGameObject(this.id);
+            this.simulation.deadPlayers++;
+            return true;
         }
+        return false;
     }
 }

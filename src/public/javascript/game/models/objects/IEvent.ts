@@ -5,5 +5,6 @@ export interface IEvent {
 
 export enum EventType {
     Health,
+    Stats,
     BorderDifficulty
 }

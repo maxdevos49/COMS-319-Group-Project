@@ -11,6 +11,7 @@ import { PlayerObjectDescription } from "../models/objects/Descriptions/PlayerOb
 import { BulletObjectDescription } from "../models/objects/Descriptions/BulletObjectDescription.js";
 import { ItemObjectDescription } from "../models/objects/Descriptions/ItemObjectDescription.js";
 import { Item } from "../objects/Item.js";
+import { StatsEvent } from "../models/objects/StatsEvent.js";
 import { AlienShooter } from "../objects/AlienShooter.js";
 import { AlienObjectDescription } from "../models/objects/Descriptions/AlienObjectDescription.js";
 import { WorldBorder } from "../objects/WorldBorder.js";
@@ -58,24 +59,23 @@ export class GameScene extends Phaser.Scene {
         super({
             key: "GameScene"
         });
-
-        this.objects = new Map<string, GameObject>();
     }
 
     init(connection: GameConnection): void {
+        this.objects = new Map<string, GameObject>();
         this.connection = connection;
         this.uInput = new UserInput(this);
-        this.scene.launch("ChatScene", connection);
-        this.scene.launch("InfoScene");
     }
 
 	preload(): void {
 		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);
         this.lastFrame = 0;
-        console.log(this.connection.map);
         this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
         this.cameras.main.startFollow(this.cameraFollowPoint);
         this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+
+        this.scene.launch("ChatScene", this.connection);
+        this.scene.launch("InfoScene");
     }
 
     create(): void {
@@ -90,6 +90,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     update(timestep: number, elapsed: number): void {
+        if (!this.connection.readySent) this.connection.sendReady();
+
         // Limit updates to be processed once every 30 seconds
         let curFrame = Math.floor(timestep / 30);
 
@@ -120,9 +122,14 @@ export class GameScene extends Phaser.Scene {
                 const healthEvent = event as HealthEvent;
                 // Update HP displayed on screen
                 this.events.emit("setHP", healthEvent.setHealthTo);
-                if (healthEvent.setHealthTo <= 0) {
-                    // TODO: Give player the option to respawn
-                }
+            } else if (event.type === EventType.Stats) {
+                const statsEvent = event as StatsEvent;
+                this.connection.disconnet();
+                this.scene.stop("InfoScene");
+                this.scene.stop("ChatScene");
+                // Destroy all of the current objects
+                this.objects.forEach((obj: GameObject, id: string) => obj.destroy());
+                this.scene.start("EndScene", statsEvent.stats);
             } else if (event.type == EventType.BorderDifficulty) {
                 const borderDifficultyEvent: BorderDifficultyLevelEvent = event as BorderDifficultyLevelEvent;
                 this.events.emit("setDamageAlpha", borderDifficultyEvent.newDifficulty / 10);
@@ -135,7 +142,6 @@ export class GameScene extends Phaser.Scene {
 		if (this.clientPlayer) {
 			let moveUpdate = this.uInput.getMoveUpdateFromInput(this.connection.clientId, this.clientPlayer);
 			this.connection.sendMove(moveUpdate);
-            console.log(this.clientPlayer.x, this.clientPlayer.y);
 			// Move the camera
             this.cameraFollowPoint.x = Math.floor(this.clientPlayer.x);
             this.cameraFollowPoint.y = Math.floor(this.clientPlayer.y);

@@ -50,40 +50,32 @@ export class GameConnection {
 	/**
 	 * True if the connection has been made and all data that needs to be received before switching to the game scene has been loaded
 	 */
-	public ready: boolean;
+	public requiredRecieved: boolean;
+
+    /**
+     * True if the ready signal has been sent to the server
+     */
+	public readySent: boolean;
 
 	/**
 	 * Creates a new game socket connection
+     * @param id The id of the game to connect to
 	 */
-	constructor() {
-		this.roomId = "";
+	constructor(id: string) {
 		this.clientId = "";
-		this.socket = io("/games");
 
 		this.positionUpdates = new PositionUpdateQueue();
 		this.players = [];
 		this.newObjects = [];
 		this.deletedObjects = [];
 		this.events = [];
-		this.ready = false;
+		this.requiredRecieved = false;
+		this.readySent = false;
 
-		this.connectToGame();
-	}
+		this.roomId = id;
+        this.socket = io("/games/" + id);
 
-	/**
-	 * Performs the connection handshake for the game
-	 */
-	private connectToGame(): void {
-		this.socket.on("/list", (gamesList: GamesList) => {
-			let index = Math.floor(Math.random() * gamesList.gameIds.length);
-			this.roomId = gamesList.gameIds[index];
-			//connect to new namespace
-			this.socket = io("/games/" + this.roomId, {reconnection: false});
-			this.connection();
-		});
-
-		//call for game id list
-		this.socket.emit("/list");
+        this.connection();
 	}
 
 	/**
@@ -109,6 +101,7 @@ export class GameConnection {
 	 */
 	private receiveClientId(): void {
 		this.socket.on("/init/assignid", (givenClientId: string) => {
+            console.log('received id: ' + givenClientId);
 			this.clientId = givenClientId;
 		});
 	}
@@ -116,7 +109,7 @@ export class GameConnection {
 	private receiveTerrainMap(): void {
 		this.socket.on("/init/terrain", (map: TerrainMap) => {
 			this.map = map;
-			this.ready = true;
+			this.requiredRecieved = true;
 		});
 	}
 
@@ -125,11 +118,11 @@ export class GameConnection {
 	 */
 	private newPlayerInfo(): void {
 		this.socket.on("/update/player/new", (otherPlayer: PlayerInfo) => {
-			// console.log(
-			// 	`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
-			// 	otherPlayer.name
-			// 	}`
-			// );
+			console.log(
+				`Revieving Player updates.\n\tId: ${otherPlayer.id}\n\tName: ${
+				otherPlayer.name
+				}`
+			);
 			this.players.push(otherPlayer);
 		});
 	}
@@ -179,4 +172,19 @@ export class GameConnection {
 	public sendMove(move: PlayerMoveUpdate): void {
 		this.socket.emit("/update/player/move", move);
 	}
+
+    /**
+     * Sends the message that the client is ready for the game to the server
+     */
+	public sendReady(): void {
+	    this.readySent = true;
+	    this.socket.emit("/update/ready");
+    }
+
+    /**
+     * Disconnects from the game
+     */
+    public disconnet(): void {
+	    this.socket.disconnect();
+    }
 }

@@ -8,6 +8,16 @@ import { IPositionUpdate } from "../public/javascript/game/models/objects/IPosit
 import { IEvent } from "../public/javascript/game/models/objects/IEvent";
 import { Player } from "./simulation/objects/Player";
 import { ChatServer } from "./ChatServer";
+import { GameObjectType } from "../public/javascript/game/models/objects/Descriptions/IObjectDescription";
+import { StatsEvent } from "../public/javascript/game/models/objects/StatsEvent";
+
+export enum GameState {
+    building,
+    ready,
+    waitingForPlayers,
+    playing,
+    over
+}
 
 export class GameServer {
 	/**
@@ -45,7 +55,12 @@ export class GameServer {
 	/**
 	 * The map of every client id to their name
 	 */
-    private playerNames: Map<string, string>;
+    private playerInfo: Map<string, PlayerInfo>;
+
+    /**
+     * The number of players that have sent ready
+     */
+    public readyPlayers: number;
 
 	/**
 	 * The simulation of the physical game world.
@@ -63,12 +78,27 @@ export class GameServer {
     private chatServer: ChatServer;
 
     /**
+     * The current state of the server is it's lifecycle
+     */
+    public curState: GameState;
+
+    /**
+     * The number of players to expect to join
+     */
+    public numPlayersToExpect: number;
+
+    private interval: NodeJS.Timeout;
+
+    /**
      * Constructs a GameServer object
      * @param serverSocket
      */
     constructor(serverSocket: Server, randomizeTerrain: boolean = false) {
+        this.curState = GameState.building;
+        this.readyPlayers = 0;
+
         this.clients = new Map<string, Socket>();
-        this.playerNames = new Map<string, string>();
+        this.playerInfo = new Map<string, PlayerInfo>();
 
         this.serverId = v1Gen();
         this.moveUpdateQueue = new PlayerMoveUpdateQueue(100000, 10);
@@ -86,7 +116,11 @@ export class GameServer {
 
             //Authentication
             if (!socket.request.session) {
+                console.log("Rejecting connection");
                 socket.emit("/authorization", { message: "Authentication failed. You will now be disconnected." });
+                socket.disconnect();
+            } else if (this.curState == GameState.playing) {
+                socket.emit("/authorization", { message: "You cannot join a game that has already started" });
                 socket.disconnect();
             } else {
 
@@ -95,41 +129,54 @@ export class GameServer {
                 socket.emit("/init/assignid", newClientId);
 
                 //add nickname to names of players
-                this.playerNames.set(newClientId, socket.request.session.passport.user.nickname);
+                this.playerInfo.set(newClientId, new PlayerInfo(newClientId, socket.request.session.passport.user.nickname, socket.request.session.passport.user.role));
 
-                // Inform every other connected player that a new player has connected and inform new player of the existing players
-                let newPlayerInfo = new PlayerInfo(newClientId, newClientId);
                 this.clients.forEach((playerSocket: Socket, playerId: string) => {
                     // Inform the old player of the new player
-                    playerSocket.emit("/update/player/new", newPlayerInfo);
+                    playerSocket.emit("/update/player/new", this.playerInfo.get(newClientId));
                     // Inform the new player of the old player
                     socket.emit(
                         "/update/player/new",
-                        new PlayerInfo(playerId, this.playerNames.get(playerId))
+                        this.playerInfo.get(playerId)
                     );
                 });
 
                 // Add a record of the player
                 this.clients.set(newClientId, socket);
-                this.playerNames.set(newClientId, newClientId);
 
                 // Send the new player descriptions of all of the objects as they are now
                 socket.emit("/update/objects/new", this.simulation.getObjectDescriptions());
 
-                // Add the player to the simulation
-                this.simulation.addPlayer(newClientId);
-
                 // Send the new player the terrain data
                 socket.emit("/init/terrain", this.simulation.map);
 
-                // Game player move update endpoint
-                socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
-                    this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
+                socket.on("/update/ready", () => {
+                    this.readyPlayers++;
                 });
+
+                // Register the endpoint that listens for move updates from the client
+                this.setOnUpdateMove(socket);
+
+                // Register the endpoint for when a client disconnects.
+                // Passing in the client ID here saves us from having to
+                // iterate over the client map to get the ID for a given socket.
+                this.setOnDisconnect(socket, newClientId);
             }
         });
         // 30 times a second
-        setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
+        this.interval = setInterval(() => this.nextFrame(), GameSimulation.timeStep * 1000);
+
+        this.curState = GameState.ready;
+    }
+
+    /**
+     * Begins the game start sequence, the game server will wait until the given number of players connects or until
+     * the timeout finishes
+     * @param numberPlayers The number of players to expect to connect
+     */
+    public startGame(numberPlayers: number) {
+        this.curState = GameState.waitingForPlayers;
+        this.numPlayersToExpect = numberPlayers;
     }
 
 	/**
@@ -137,8 +184,8 @@ export class GameServer {
 	 * updates to the clients.
 	 */
     private nextFrame(): void {
-        // Process a physics frames
-        this.simulation.nextFrame();
+
+        // The following tasks are performed regardless of whether the game has started
         // Pack up all of the new objects and send them (if there are any this frame)
         if (this.simulation.hasNewObjectDescriptions()) {
             this.gameSocket.emit("/update/objects/new", this.simulation.popNewObjectDescriptions());
@@ -156,27 +203,78 @@ export class GameServer {
             });
             this.simulation.events = [];
         }
-        // Pack up all of the PositionUpdates and send them to all clients
-        let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
-        this.clients.forEach((socket: Socket, id: string) => {
-            // Get the player object of the given client, if one doesn't exist send all of the information to the server
-            // Every certain number of frames send an update about everything in the game
-            let player: Player = (this.simulation.objects.get(id) as Player);
 
-            if (player && (this.simulation.frame % GameServer.FORCE_FULL_UPDATE_FRAME_RATE) != 0) {
-                socket.volatile.emit("/update/position", updates.filter((update: IPositionUpdate) => {
-                    // If the position update doesn't provide xy coordinate always send it
-                    if (update.x === undefined || update.y === undefined) {
-                        return true;
-                    }
-
-                    return ((player.body.GetPosition().x - update.x) < (GameServer.PLAYER_VIEW_WIDTH / 2)) &&
-                        ((player.body.GetPosition().y - update.y) < (GameServer.PLAYER_VIEW_HEIGHT / 2))
-                }));
-            } else {
-                // If we cannot intelligently eliminate position updates as not needed then send all of them
-                this.gameSocket.emit("/update/position", updates);
+        // The following tasks are performed only if the simulation has started
+        if (this.curState == GameState.playing) {
+            // Check if only one player remains
+            // It's important that this happens first as otherwise event's about the last player dying won't get
+            // sent to that player
+            if (this.simulation.getAllObjectsOfType(GameObjectType.Player).length <= 1) {
+                console.log("hello");
+                this.curState = GameState.over;
+                // Should only be one (or possibly zero)
+                this.simulation.getAllObjectsOfType(GameObjectType.Player).forEach((obj) => {
+                    console.log("goodbye");
+                    let player: Player = obj as Player;
+                    player.stats.secondsInGame = this.simulation.frame / 30;
+                    // Manually send this event as the server is going to close
+                    this.clients.get(player.id).emit("/update/event", new StatsEvent(player.id, player.stats));
+                });
+                // Remove the reference to increase GC speed
+                clearInterval(this.interval);
             }
+            // Process a physics frames
+            this.simulation.nextFrame();
+            // Pack up all of the PositionUpdates and send them to all clients
+            let updates: IPositionUpdate[] = this.simulation.getPositionUpdates();
+            this.clients.forEach((socket: Socket, id: string) => {
+                // Get the player object of the given client, if one doesn't exist send all of the information to the server
+                // Every certain number of frames send an update about everything in the game
+                let player: Player = (this.simulation.objects.get(id) as Player);
+
+                if (player && (this.simulation.frame % GameServer.FORCE_FULL_UPDATE_FRAME_RATE) != 0) {
+                    socket.volatile.emit("/update/position", updates.filter((update: IPositionUpdate) => {
+                        // If the position update doesn't provide xy coordinate always send it
+                        if (update.x === undefined || update.y === undefined) {
+                            return true;
+                        }
+
+                        return ((player.body.GetPosition().x - update.x) < (GameServer.PLAYER_VIEW_WIDTH / 2)) &&
+                            ((player.body.GetPosition().y - update.y) < (GameServer.PLAYER_VIEW_HEIGHT / 2))
+                    }));
+                } else {
+                    // If we cannot intelligently eliminate position updates as not needed then send all of them
+                    this.gameSocket.emit("/update/position", updates);
+                }
+            });
+        } else {
+            // Check if the game is ready to start
+            if (this.curState == GameState.waitingForPlayers && this.readyPlayers == this.numPlayersToExpect) {
+                this.curState = GameState.playing;
+                // Place the players around the map
+                this.simulation.setPlayers(Array.from(this.clients.keys()));
+            }
+        }
+    }
+
+    /**
+     * Set a listener on the given socket to handle player move updates.
+     * @param socket The socket to set a listener on.
+     */
+    private setOnUpdateMove(socket: Socket): void {
+        socket.on("/update/player/move", (newUpdate: PlayerMoveUpdate) => {
+            this.moveUpdateQueue.addPlayerMoveUpdate(newUpdate);
+        });
+    }
+
+    /**
+     * Set a listener on the given socket to handle a disconnection.
+     * @param socket The socket to set a listener on.
+     * @param id The ID associated with the socket.
+     */
+    private setOnDisconnect(socket: Socket, id: string): void {
+        socket.on("disconnect", () => {
+            this.simulation.destroyGameObject(id);
         });
     }
 }

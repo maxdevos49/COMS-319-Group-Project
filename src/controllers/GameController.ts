@@ -5,14 +5,14 @@ const router: Router = express.Router();
 /**
  * GET:/index
  */
-router.get("/index", permit(["user"], "/auth/login"), (req: Request, res: Response) => {
+router.get("/index", permit(["user", "admin"], "/auth/login"), (req: Request, res: Response) => {
     res.render("Game/index");
 });
 
 /**
  * GET:/index
  */
-router.get("/", permit(["user"], "/auth/login"), (req: Request, res: Response) => {
+router.get("/", permit(["user", "admin"], "/auth/login"), (req: Request, res: Response) => {
     res.render("Game/index");
 });
 

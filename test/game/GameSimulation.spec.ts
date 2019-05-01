@@ -18,8 +18,7 @@ describe('GameSimulation', () => {
     it('should extract a move from the queue for each player during a physics frame', () => {
         const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
         const simulation: GameSimulation = new GameSimulation(updateQueue);
-        simulation.addPlayer("1");
-        simulation.addPlayer("2");
+        simulation.setPlayers(["1", "2"]);
         const player1Update: PlayerMoveUpdate = new PlayerMoveUpdate("1", 0, 1, true, PlayerMoveDirection.Down, false);
         const player2Update: PlayerMoveUpdate = new PlayerMoveUpdate("2", 0, 1, true, PlayerMoveDirection.Down, false);
         updateQueue.addPlayerMoveUpdate(player1Update);
@@ -45,7 +44,7 @@ describe('GameSimulation', () => {
 
             // the size of the players list should increase by 1
             const originalSize: number = simulation.objects.size;
-            simulation.addPlayer(v1Gen());
+            simulation.setPlayers([v1Gen()]);
             const newSize: number = simulation.objects.size;
             expect(newSize).to.equal(originalSize + 1);
         });
@@ -56,7 +55,7 @@ describe('GameSimulation', () => {
             const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
             const simulation: GameSimulation = new GameSimulation(updateQueue);
             const id: string = v1Gen();
-            simulation.addPlayer(id);
+            simulation.setPlayers([id]);
 
             const player: Player = simulation.objects.get(id) as Player;
 
@@ -93,7 +92,7 @@ describe('GameSimulation', () => {
             const updateQueue: PlayerMoveUpdateQueue = new PlayerMoveUpdateQueue(30, 10);
             const simulation: GameSimulation = new GameSimulation(updateQueue);
             const id: string = v1Gen();
-            simulation.addPlayer(id);
+            simulation.setPlayers([id]);
             const player: Player = simulation.objects.get(id) as Player;
 
             // The player is currently moving.

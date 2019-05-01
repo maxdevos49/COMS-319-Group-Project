@@ -88,6 +88,9 @@ describe('Game server', () => {
         let clientSocket: SocketIOClient.Socket = socketIOClient("http://localhost:4223/games/" + gameServer.serverId);
         // Wait until the first client has connected
         clientSocket.on("/init/assignid", (id: string) => {
+            // Force start the game
+            gameServer.startGame(1);
+            clientSocket.emit("/update/ready");
             clientSocket.on("/update/objects/new", (updates: IObjectDescription[]) => {
                 // console.log(updates);
                 // Wait until the updates contains the player
