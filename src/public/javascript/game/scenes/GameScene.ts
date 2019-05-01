@@ -76,6 +76,7 @@ export class GameScene extends Phaser.Scene {
 
         this.scene.launch("ChatScene", this.connection);
         this.scene.launch("InfoScene");
+        this.scene.bringToTop("InfoScene");
     }
 
     create(): void {

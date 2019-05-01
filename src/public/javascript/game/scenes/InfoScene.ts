@@ -63,6 +63,7 @@ export class InfoScene extends Phaser.Scene {
         });
 
         this.scene.get("GameScene").events.on("setDamageAlpha", (alpha: number) => {
+            console.log(alpha);
             this.add.tween({
                 targets: this.damageMask,
                 alpha: alpha,
