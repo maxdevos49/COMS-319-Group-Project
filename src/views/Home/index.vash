@@ -5,15 +5,34 @@
         @{
             model.title = "Home";
         }
+
+        <style>
+        .video-container {
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        video {
+        min-width: 100%;
+        min-height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        }
+        </style>
        
-	    <div class="container col-md-12" style="min-height: 95vh; background-image: url('/images/default.png'); background-size: contain; background-repeat: no-repeat; background-position: center; padding-top: 30vh;">
+	    <div class="container col-md-12 video-container" style="min-height: 95vh; background-image: url('/images/default.png'); background-size: contain; background-repeat: no-repeat; background-position: center; padding-top: 30vh;">
+                <video autoplay muted loop src="/images/brtd.mov"></video>
             
             <div class="container col-md-4 text-center p-1">
+
                 <div>
                     <h1>B.R.T.D.</h1>
-                    <p>Battle Royal Top Down Shooter</p>
+                    <p>Battle Royale Top Down Shooter</p>
                 </div>
-                <a class="btn btn-success col-md-10 m-1" href="/Game/" style="font-size: 3em;">Play</a>
+                <a class="btn btn-success pd-4 col-md-10 m-1" href="/Game/" style="font-size: 3em;">Play</a>
                 <a class="btn btn-primary col-md-5" href="/Home/changelog"  style="font-size: 1.4em;">Changelog</a>
                 <a class="btn btn-warning col-md-5" href="/Home/about" style="font-size: 1.4em;">About</a>
             </div>
