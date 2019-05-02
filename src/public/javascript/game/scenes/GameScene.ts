@@ -68,11 +68,10 @@ export class GameScene extends Phaser.Scene {
     }
 
 	preload(): void {
-		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);
+		this.load.tilemapTiledJSON(this.connection.roomId, this.connection.map as any);//this could be slow...
         this.lastFrame = 0;
         this.cameraFollowPoint = new Phaser.Geom.Point(-1000, -1000);
         this.cameras.main.startFollow(this.cameraFollowPoint);
-        this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
 
         this.scene.launch("ChatScene", this.connection);
         this.scene.bringToTop("ChatScene");

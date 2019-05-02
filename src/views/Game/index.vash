@@ -2,12 +2,13 @@
 
     @html.block('content', function(model){
         <script src="/socket.io/socket.io.js"></script>
-        <script type="module" src="/lib/phaser/phaser.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.16.2/phaser.min.js" integrity="sha256-6kqpXJdAHgjN0kcTzwynl8QtHF2S534+invNK9BFOWg=" crossorigin="anonymous"></script>
+        @* <script type="module" src="/lib/phaser/phaser.js" defer></script>*@
         <script type="module" src="/javascript/game/Game.js" defer></script>
         @{
             model.title = "Game";
         }
-        <div id="gameContainer" class="text-center">
+        <div id="gameContainer" class="text-center p-4">
             <div id="game"></div>
         </div>
     })

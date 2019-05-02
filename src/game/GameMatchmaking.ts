@@ -7,7 +7,7 @@ export class GameMatchmaking {
     /**
      * The number of players needed in the matchmaking server for the game to start
      */
-    public static numPlayerToStart: number = 100;
+    public static numPlayerToStart: number = 4;
 
     /**
      * The root server socket of this server
@@ -17,7 +17,6 @@ export class GameMatchmaking {
      * The socket namespace of the games endpoint
      */
     gamesSocket: Namespace;
-
     /**
      * The map from id to game server
      */

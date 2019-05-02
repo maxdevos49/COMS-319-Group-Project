@@ -34,7 +34,7 @@ let gameConfig: GameConfig = {
         },
     },
 
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#000000"
 };
 
 export { gameConfig };

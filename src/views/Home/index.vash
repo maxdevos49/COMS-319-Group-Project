@@ -22,10 +22,10 @@
         transform: translateX(-50%) translateY(-50%);
         }
         </style>
-       
-	    <div class="container col-md-12 video-container" style="min-height: 95vh; background-image: url('/images/default.png'); background-size: contain; background-repeat: no-repeat; background-position: center; padding-top: 30vh;">
+
+	    <div class="container col-md-12 video-container" style="min-height: 95vh; background-image: url('/images/default.png'); background-size: contain; background-repeat: no-repeat; background-position: center; padding-top: 30vh; padding-right: 40vw;">
                 <video autoplay muted loop src="/images/brtd.mov"></video>
-            
+
             <div class="container col-md-4 text-center p-1">
 
                 <div>
