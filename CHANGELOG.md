@@ -1,5 +1,35 @@
 # B.R.T.D. Changelog
 
+## v3.0.0 release
+Date: April 30, 2019
+
+## Additions
+ - Items now spawn on the map
+ - The player is now spawned around the edge of the map
+ - The world generation now uses new textures
+ - The player is now animated
+ - The health now has a cool animation when losing some
+ - The player now gets a red flash when they take damage
+ - The server keeps track of basic stats about the player, such as the number of enemies killed and time spent in the game.
+ - When a player dies, they see whether they win or lose, the number of enemies killed, and the time spent playing.
+ - The player can go back to the Main Menu, where they can join the game again.
+ - The players are added to a pre-game lobby where they wait for other players to join or where admins can force the game to start
+ - Items were added to the game
+ - Items have tooltips that show up when your mouse is over it
+ - Players now collide with terrain
+ - Bullets have a new texture
+ - Added the full game cycle
+ - Aliens were added to the game
+ - Aliens spawn if you go into the storm
+ - Game ends when there is only 1 player left
+  
+# Updates
+ - Main menu is now colorful
+ - The website colors have been updated to reflect the game better
+
+# Bugfixes
+ - Fixed missing font characters
+
 ## v2.0.0 beta
 Date: April 19, 2019
 
