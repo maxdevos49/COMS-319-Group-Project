@@ -65,6 +65,7 @@ export class GameScene extends Phaser.Scene {
         this.objects = new Map<string, GameObject>();
         this.connection = connection;
         this.uInput = new UserInput(this);
+        this.sys.canvas.style.cursor = "crosshair";
     }
 
 	preload(): void {

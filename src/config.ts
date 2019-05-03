@@ -20,7 +20,7 @@ export const config: IConfig = {
             year: 2021,
             github: "https://github.com/Maxdevos49",
             website: "https://thatonespot.herokuapp.com/index.html",
-            bio: "Software Engineering undergraduate at Iowa State University, President of the Web Development Club, and Full Stack Developer at the ISU EH&S department.",
+            bio: "",
             image: "/images/default-user.png"
         },
         {

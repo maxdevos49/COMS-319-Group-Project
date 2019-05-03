@@ -13,6 +13,9 @@ export class EndScene extends Phaser.Scene {
     private speed: number[];
     private colors: number[];
 
+    private bac: Phaser.GameObjects.Rectangle;
+
+
     constructor() {
         super({ key: "EndScene" });
         this.recs = [];
@@ -29,9 +32,14 @@ export class EndScene extends Phaser.Scene {
         for (let i = 0; i < 40; i++) {
             this.recs.push(new Phaser.GameObjects.Rectangle(this, ranRan(width), ranRan(height), ranRan(200) + 20, ranRan(50) + 10, this.colors[ranRan(3)], Math.random()));
             this.recs[i].setOrigin(0, 0);
-            this.speed.push(ranRan(2) + 10);
+            this.speed.push(ranRan(2) + 5);
             this.add.existing(this.recs[i]);
         }
+
+        this.bac = new Phaser.GameObjects.Rectangle(this, width / 2 - 200, height / 2 - 300, 400, 400, 0x000000);
+        this.bac.setOrigin(0, 0);
+        this.bac.setStrokeStyle(2, 0xffffff);
+        this.add.existing(this.bac);
 
         const winner: string = "You win!";
         const loser: string = "You lose!";

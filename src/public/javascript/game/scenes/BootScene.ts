@@ -13,7 +13,7 @@ export class BootScene extends Phaser.Scene {
         let progressBox = this.add.graphics();
 
         progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(width/2 - 320/2, height/2 - 25, 320, 50);
+        progressBox.fillRect(width / 2 - 320 / 2, height / 2 - 25, 320, 50);
 
         let loadingText = this.make.text({
             x: width / 2,
@@ -53,7 +53,7 @@ export class BootScene extends Phaser.Scene {
             percentText.setText((parseInt(value) * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0xffffff, 1);
-            progressBar.fillRect(width/2 - 300/2, height/2 - 15, 300 * value, 30);
+            progressBar.fillRect(width / 2 - 300 / 2, height / 2 - 15, 300 * value, 30);
         });
 
         this.load.on('fileprogress', function (file: any) {
@@ -61,14 +61,14 @@ export class BootScene extends Phaser.Scene {
         });
 
         this.load.on('complete', () => {
+            progressBar.destroy();
+            progressBox.destroy();
+            percentText.destroy();
+            assetText.destroy();
+            loadingText.setText("Group 14 Presents");
             setTimeout(() => {
-                progressBar.destroy();
-                progressBox.destroy();
-                loadingText.destroy();
-                percentText.destroy();
-                assetText.destroy();
                 this.scene.start("MainMenuScene");
-            }, 1000)
+            }, 2000)
         });
 
         this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');

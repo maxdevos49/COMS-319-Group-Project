@@ -6,11 +6,15 @@
 * Tangerine: #F19F4D
 */
 .bg-blue{
-    background-color: #4484CE !important;
+    background-color: rgb(51, 70, 91) !important;
+    /* background-color: #4484CE !important; */
+
 }
 
 .bg-aluminum{
-    background-color: #D9D9D9 !important;
+    /* background-color: rgb(255, 255, 255) !important; */
+    background-color: rgb(51, 70, 91) !important;
+    /* background-color: #D9D9D9 !important; */
 }
 
 .bg-yellow {
@@ -24,5 +28,9 @@
 /****Debug CSS******/
 .border {
     border: 2px solid black !important;
+}
+
+a {
+    color: rgb(198, 198, 198);
 }
 
