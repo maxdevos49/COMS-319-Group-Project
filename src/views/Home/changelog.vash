@@ -18,7 +18,7 @@ v2.0.0 beta
 Date: April 19, 2019
 --------------------
 
-Additions
+Additions:
 - Added a chat GameObject
 - Added a ChatWindow GameObject that manages chat GameObjects
 - Added a chat connection class to manage the connection and request for chat
@@ -44,7 +44,7 @@ Additions
 - Added a perlin noise generator to make smooth terrain
 - Added localhost option when starting the server
 
-Updates
+Updates:
 - Updated the mouse to be a crosshair
 - .VSCode folder is now in .gitignore
 - Server game simulation resolution is now 100 times larger
@@ -57,7 +57,7 @@ Updates
 - Enitity spawning was changed to be more controlled by the server
 - Entities now require to have received a join request from the server before it is shown
 
-BugFixes
+BugFixes:
 - Players no longer have zero friction in the bodies after disconnecting
 - Fixed dashboard script not loading in production
 - Fixed chat overlay problems

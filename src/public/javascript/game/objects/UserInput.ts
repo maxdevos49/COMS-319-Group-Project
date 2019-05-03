@@ -2,6 +2,7 @@ import { Player } from "../objects/Player.js";
 import { GameScene } from "../scenes/GameScene";
 import { PlayerMoveDirection, PlayerMoveUpdate } from "../models/PlayerMoveUpdate.js";
 import { GameObject } from "./GameObject";
+import { Scene } from "phaser";
 
 export class UserInput {
     /**
@@ -72,22 +73,31 @@ export class UserInput {
     checkDirection(): PlayerMoveDirection {
         if (this.scene.input.enabled) {
             if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {           // UP RIGHT
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.UpRight;
             } else if ((this.keyW.isDown || this.keyUp.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {     // UP LEFT
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.UpLeft;
             } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyA.isDown || this.keyLeft.isDown)) {   // DOWN LEFT
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.DownLeft;
             } else if ((this.keyS.isDown || this.keyDown.isDown) && (this.keyD.isDown || this.keyRight.isDown)) {  // DOWN RIGHT
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.DownRight;
             } else if (this.keyW.isDown || this.keyUp.isDown) {     // UP
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.Up;
             } else if (this.keyA.isDown || this.keyLeft.isDown) {   // LEFT
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.Left;
             } else if (this.keyS.isDown || this.keyDown.isDown) {   // DOWN
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.Down;
             } else if (this.keyD.isDown || this.keyRight.isDown) {  // RIGHT
+                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.Right;
             } else {
+                this.scene.tweens.pauseAll();
                 return PlayerMoveDirection.None;
             }
         } else {

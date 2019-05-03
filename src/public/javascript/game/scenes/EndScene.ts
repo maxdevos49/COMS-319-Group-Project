@@ -9,12 +9,37 @@ export class EndScene extends Phaser.Scene {
     timeInGameText: Phaser.GameObjects.BitmapText;
     mainMenuButton: Button;
 
+    private recs: Phaser.GameObjects.Rectangle[];
+    private speed: number[];
+    private colors: number[];
+
+    private bac: Phaser.GameObjects.Rectangle;
+
+
     constructor() {
         super({ key: "EndScene" });
+        this.recs = [];
+        this.speed = [];
+        this.colors = [0xff0000, 0x00ff00, 0x0000ff];
     }
 
     init(stats: PlayerStats): void {
-        this.cameras.main.setBackgroundColor(0x611717);
+        let height = this.cameras.main.height;
+        let width = this.cameras.main.width;
+
+        this.recs = [];
+        this.speed = [];
+        for (let i = 0; i < 40; i++) {
+            this.recs.push(new Phaser.GameObjects.Rectangle(this, ranRan(width), ranRan(height), ranRan(200) + 20, ranRan(50) + 10, this.colors[ranRan(3)], Math.random()));
+            this.recs[i].setOrigin(0, 0);
+            this.speed.push(ranRan(2) + 5);
+            this.add.existing(this.recs[i]);
+        }
+
+        this.bac = new Phaser.GameObjects.Rectangle(this, width / 2 - 200, height / 2 - 300, 400, 400, 0x000000);
+        this.bac.setOrigin(0, 0);
+        this.bac.setStrokeStyle(2, 0xffffff);
+        this.add.existing(this.bac);
 
         const winner: string = "You win!";
         const loser: string = "You lose!";
@@ -45,4 +70,22 @@ export class EndScene extends Phaser.Scene {
             this.scene.start("MainMenuScene");
         });
     }
+
+    public update(): void {
+        let height = this.cameras.main.height;
+        let width = this.cameras.main.width;
+
+        for (let i = 0; i < 40; i++) {
+            this.recs[i].x += this.speed[i];
+            if (this.recs[i].x > width + this.recs[i].width) {
+                this.recs[i].x = 0 - this.recs[i].width;
+                this.recs[i].y = ranRan(height);
+            }
+        }
+    }
+}
+
+
+function ranRan(range: number): number {
+    return Math.floor(Math.random() * range);
 }

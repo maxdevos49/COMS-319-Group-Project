@@ -19,7 +19,7 @@
                     @*Nickname*@
                     <div class="form-group">
                         @html.LabelFor(model => model.nickname)
-                        @html.EditorFor(model => model.nickname, null, { class: "form-control"})
+                        @html.EditorFor(model => model.nickname, null, { class: "form-control", placeholder: "This is what others see. Also you can change it!"})
                         @html.ValidationMessageFor(model => model.nickname)
                     </div>
 

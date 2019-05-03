@@ -6,6 +6,7 @@ import { GameLoadScene } from "./scenes/GameLoadScene.js";
 import { ChatScene } from "./scenes/ChatScene.js";
 import { InfoScene } from "./scenes/InfoScene.js";
 import { EndScene } from "./scenes/EndScene.js";
+import { ControlsScene } from "./scenes/ControlsScene.js";
 
 let gameConfig: GameConfig = {
     title: "B.R.T.D.",
@@ -25,6 +26,7 @@ let gameConfig: GameConfig = {
         ChatScene,
         InfoScene,
         EndScene,
+        ControlsScene
     ],
     physics: {
         default: "arcade",
