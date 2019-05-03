@@ -68,7 +68,7 @@ export class BootScene extends Phaser.Scene {
                 percentText.destroy();
                 assetText.destroy();
                 this.scene.start("MainMenuScene");
-            }, 1500)
+            }, 1000)
         });
 
         this.load.scenePlugin('AnimatedTiles', '/lib/phaser/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
