@@ -65,10 +65,10 @@ export class Player extends GameObject {
                 type = "light";
                 break;
             case 2:
-                type = "light";
+                type = "medium";
                 break;
             case 3:
-                type = "light";
+                type = "heavy";
                 break;
         }
         
@@ -148,7 +148,7 @@ export class Player extends GameObject {
                 {
                     targets: this.leg_r,
                     y: '-=10',
-                    ease: 'Quadratic',
+                    ease: 'Quad',
                     useFrames: true,
                     duration: 12,
                     repeat: -1,
@@ -157,7 +157,7 @@ export class Player extends GameObject {
                 {
                     targets: this.leg_l,
                     y: '-=10',
-                    ease: 'Quadratic',
+                    ease: 'Quad',
                     useFrames: true,
                     duration: 12,
                     repeat: -1,

@@ -95,7 +95,6 @@ export class UserInput {
                 return PlayerMoveDirection.Down;
             } else if (this.keyD.isDown || this.keyRight.isDown) {  // RIGHT
                 this.scene.tweens.resumeAll();
-                this.scene.tweens.resumeAll();
                 return PlayerMoveDirection.Right;
             } else {
                 this.scene.tweens.pauseAll();
