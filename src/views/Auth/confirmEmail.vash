@@ -13,7 +13,7 @@
             <div class="col-md-6 p-0" style="margin: auto; box-shadow: 0 0 10px;">
                 <div class="bg-success text-white p-3">
                     <h1>Confirm Email</h1>
-                    <p>Enter your email to have an email sent and then confirmed by following a link it contains</p>
+                    <p>Enter your email to have an email sent and then confirmed by following a link it contains.</p>
                 </div>
                 <form class="p-2" method="POST" action="/Auth/confirmEmail" id="emailForm">
                     <!--Email-->

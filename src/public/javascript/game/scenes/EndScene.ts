@@ -14,7 +14,7 @@ export class EndScene extends Phaser.Scene {
     }
 
     init(stats: PlayerStats): void {
-        this.cameras.main.setBackgroundColor(0x611717);
+        // this.cameras.main.setBackgroundColor(0x611717);
 
         const winner: string = "You win!";
         const loser: string = "You lose!";

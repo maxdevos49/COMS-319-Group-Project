@@ -9,7 +9,7 @@
         @*CSS*@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-        
+
         <link rel="stylesheet" href="/css/layout.css">
         <link rel="shortcut icon" href="/images/favicon.ico"/>
 
@@ -65,21 +65,21 @@
                 }
             </div>
         </nav>
-     
+
         <div class="bg-white">
 
             @html.block('content')
-            
+
         </div>
 
         <footer class="font-small bg-aluminum pt-4">
-        
+
             <div class="container-fluid text-center text-md-left">
                 <div class="row">
                     <div class="col-md-6 mt-md-0 mt-3">
                         <h5 class="text-uppercase text">CS319 Project</h5>
                         <p class="text">
-                            B.R.T.D. is a Top Down Battle Royal Shooter Game. 
+                            B.R.T.D. is a Top Down Battle Royal Shooter Game.
                         </p>
                     </div>
 
@@ -94,7 +94,7 @@
                             <li class="nav-item"><a href="/Home/about">About</a></li>
                         </ul>
                     </div>
-                    
+
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase text">Developers</h5>
                         <ul class="list-unstyled">
@@ -107,11 +107,11 @@
                 </div>
             </div>
             <div class="footer-copyright text-center py-3 text">
-                © 2018 Copyright: Group 14
+                © 2019@((2019 !== new Date().getFullYear()) ? <text> - @(new Date().getFullYear())</text> : <text></text>): Group 14
             </div>
         </footer>
 
-        
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>

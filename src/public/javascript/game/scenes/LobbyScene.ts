@@ -35,7 +35,7 @@ export class LobbyScene extends Phaser.Scene {
     init(): void {
         this.titleText = this.add.bitmapText(0, 100, font, "Lobby", 60);
         this.titleText.setX((this.sys.canvas.width / 2) - (this.titleText.getTextBounds().local.width / 2));
-        this.cameras.main.setBackgroundColor(0x611717);
+        // this.cameras.main.setBackgroundColor(0x611717);
     }
 
     preload(): void {
