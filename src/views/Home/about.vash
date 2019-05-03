@@ -24,20 +24,20 @@
 
                 @model.config.developers.forEach(function(item){
 
-                    <div class="bg-primary p-1"  style="margin: auto; width: 20%">
+                    <div class="bg-blue p-1"  style="margin: auto; width: 20%">
                         <div class="container">
-                            <p>
-                                <h4 class="text-white">@item.name</h4>
+                            <h4 class="text-white pt-3">@item.name</h4>
+                            <p style="color: rgb(198, 198, 198)">
                                 Major: @item.major<br/>
                                 Expected Graduation: @item.year<br/>
-                                Website: @((item.website !== "") ? <a class="text-white" href="@item.website">Visit</a><br/> : <text>NA<br/></text>)
+                                Website: @((item.website !== "") ? <a class="text-white" href="@item.website">Visit</a> : <text>NA</text>)<br>
                                 Github: @((item.github !== "") ? <a class="text-white" href="@item.github">Visit</a> : <text>NA</text>)
                             </p>
                         </div>
                         <div class="bg-white" style="height: 30vh; background-image: url(@item.image); background-size: cover; background-repeat: no-repeat"></div>
 
                         <div class="container">
-                            <p class="text-white">@item.bio</p>
+                            <p class="text-white pt-2">@((item.bio !== "") ? <text>Bio:<br> @item.bio</text> : "")</p>
                         </div>
                     </div>
 

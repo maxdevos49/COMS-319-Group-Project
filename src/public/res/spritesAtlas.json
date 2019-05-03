@@ -1,75 +1,621 @@
 {
 	"textures": [
 		{
-			"image": "spritesAtlastest.png",
+			"image": "spritesAtlas.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 100,
-				"h": 210
+				"w": 1900,
+				"h": 1954
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "objects/bullet/orb/1",
+					"filename": "objects/border/center",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 10,
-						"h": 10
+						"w": 20,
+						"h": 22
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 10,
-						"h": 10
+						"w": 20,
+						"h": 22
 					},
 					"frame": {
 						"x": 0,
 						"y": 0,
-						"w": 10,
-						"h": 10
+						"w": 20,
+						"h": 22
 					}
 				},
 				{
-					"filename": "objects/bullet/orb/2",
+					"filename": "items/weapons/rocket_bullet",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 10,
-						"h": 10
+						"w": 93,
+						"h": 24
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 10,
-						"h": 10
-					},
-					"frame": {
-						"x": 10,
-						"y": 0,
-						"w": 10,
-						"h": 10
-					}
-				},
-				{
-					"filename": "objects/bullet/orb/3",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 10,
-						"h": 10
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 10,
-						"h": 10
+						"w": 93,
+						"h": 24
 					},
 					"frame": {
 						"x": 20,
 						"y": 0,
-						"w": 10,
-						"h": 10
+						"w": 93,
+						"h": 24
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_blaster_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 73,
+						"h": 25
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 73,
+						"h": 25
+					},
+					"frame": {
+						"x": 113,
+						"y": 0,
+						"w": 73,
+						"h": 25
+					}
+				},
+				{
+					"filename": "items/weapons/laster_blaster_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 62,
+						"h": 43
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 62,
+						"h": 43
+					},
+					"frame": {
+						"x": 186,
+						"y": 0,
+						"w": 62,
+						"h": 43
+					}
+				},
+				{
+					"filename": "items/weapons/ion_repeater_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 95,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 95,
+						"h": 54
+					},
+					"frame": {
+						"x": 248,
+						"y": 0,
+						"w": 95,
+						"h": 54
+					}
+				},
+				{
+					"filename": "items/weapons/laser_cannon_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 83,
+						"h": 57
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 83,
+						"h": 57
+					},
+					"frame": {
+						"x": 343,
+						"y": 0,
+						"w": 83,
+						"h": 57
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_concentrator_bullet",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 143,
+						"h": 60
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 143,
+						"h": 60
+					},
+					"frame": {
+						"x": 426,
+						"y": 0,
+						"w": 143,
+						"h": 60
+					}
+				},
+				{
+					"filename": "items/weapons/laser_blaster",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 193,
+						"h": 70
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 193,
+						"h": 70
+					},
+					"frame": {
+						"x": 569,
+						"y": 0,
+						"w": 193,
+						"h": 70
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 79,
+						"h": 77
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 79,
+						"h": 77
+					},
+					"frame": {
+						"x": 762,
+						"y": 0,
+						"w": 79,
+						"h": 77
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 89,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 89,
+						"h": 82
+					},
+					"frame": {
+						"x": 841,
+						"y": 0,
+						"w": 89,
+						"h": 82
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 89,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 89,
+						"h": 82
+					},
+					"frame": {
+						"x": 930,
+						"y": 0,
+						"w": 89,
+						"h": 82
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 58,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					},
+					"frame": {
+						"x": 1019,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_1/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 96,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 96,
+						"h": 86
+					},
+					"frame": {
+						"x": 1077,
+						"y": 0,
+						"w": 96,
+						"h": 86
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 58,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					},
+					"frame": {
+						"x": 1173,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 58,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					},
+					"frame": {
+						"x": 1231,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_1/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 96,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 96,
+						"h": 86
+					},
+					"frame": {
+						"x": 1289,
+						"y": 0,
+						"w": 96,
+						"h": 86
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 58,
+						"h": 86
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					},
+					"frame": {
+						"x": 1385,
+						"y": 0,
+						"w": 58,
+						"h": 86
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 77,
+						"h": 88
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 77,
+						"h": 88
+					},
+					"frame": {
+						"x": 1443,
+						"y": 0,
+						"w": 77,
+						"h": 88
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/backpack",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 162,
+						"h": 89
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 162,
+						"h": 89
+					},
+					"frame": {
+						"x": 1520,
+						"y": 0,
+						"w": 162,
+						"h": 89
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/backpack",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 162,
+						"h": 89
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 162,
+						"h": 89
+					},
+					"frame": {
+						"x": 1682,
+						"y": 0,
+						"w": 162,
+						"h": 89
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 71,
+						"h": 89
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 71,
+						"h": 89
+					},
+					"frame": {
+						"x": 0,
+						"y": 89,
+						"w": 71,
+						"h": 89
+					}
+				},
+				{
+					"filename": "items/weapons/laser_cannon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 281,
+						"h": 91
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 281,
+						"h": 91
+					},
+					"frame": {
+						"x": 71,
+						"y": 89,
+						"w": 281,
+						"h": 91
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_3/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 101,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 101,
+						"h": 92
+					},
+					"frame": {
+						"x": 352,
+						"y": 89,
+						"w": 101,
+						"h": 92
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_2/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 101,
+						"h": 92
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 101,
+						"h": 92
+					},
+					"frame": {
+						"x": 453,
+						"y": 89,
+						"w": 101,
+						"h": 92
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_3/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 74,
+						"h": 98
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 74,
+						"h": 98
+					},
+					"frame": {
+						"x": 554,
+						"y": 89,
+						"w": 74,
+						"h": 98
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 85,
+						"h": 98
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 85,
+						"h": 98
+					},
+					"frame": {
+						"x": 628,
+						"y": 89,
+						"w": 85,
+						"h": 98
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 185,
+						"h": 99
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 185,
+						"h": 99
+					},
+					"frame": {
+						"x": 713,
+						"y": 89,
+						"w": 185,
+						"h": 99
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 185,
+						"h": 99
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 185,
+						"h": 99
+					},
+					"frame": {
+						"x": 898,
+						"y": 89,
+						"w": 185,
+						"h": 99
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 43,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 43,
+						"h": 100
+					},
+					"frame": {
+						"x": 1083,
+						"y": 89,
+						"w": 43,
+						"h": 100
 					}
 				},
 				{
@@ -87,8 +633,8 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 0,
-						"y": 10,
+						"x": 1126,
+						"y": 89,
 						"w": 100,
 						"h": 100
 					}
@@ -108,10 +654,2089 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 0,
-						"y": 110,
+						"x": 1226,
+						"y": 89,
 						"w": 100,
 						"h": 100
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 100
+					},
+					"frame": {
+						"x": 1326,
+						"y": 89,
+						"w": 44,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 100
+					},
+					"frame": {
+						"x": 1370,
+						"y": 89,
+						"w": 44,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 100
+					},
+					"frame": {
+						"x": 1414,
+						"y": 89,
+						"w": 44,
+						"h": 100
+					}
+				},
+				{
+					"filename": "items/weapons/ion_repeater",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 241,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 241,
+						"h": 100
+					},
+					"frame": {
+						"x": 1458,
+						"y": 89,
+						"w": 241,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 175,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 175,
+						"h": 100
+					},
+					"frame": {
+						"x": 1699,
+						"y": 89,
+						"w": 175,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 100
+					},
+					"frame": {
+						"x": 0,
+						"y": 189,
+						"w": 44,
+						"h": 100
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 100
+					},
+					"frame": {
+						"x": 44,
+						"y": 189,
+						"w": 44,
+						"h": 100
+					}
+				},
+				{
+					"filename": "items/weapons/rocket_launcher",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 237,
+						"h": 101
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 237,
+						"h": 101
+					},
+					"frame": {
+						"x": 88,
+						"y": 189,
+						"w": 237,
+						"h": 101
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 68,
+						"h": 101
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 68,
+						"h": 101
+					},
+					"frame": {
+						"x": 325,
+						"y": 189,
+						"w": 68,
+						"h": 101
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 68,
+						"h": 101
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 68,
+						"h": 101
+					},
+					"frame": {
+						"x": 393,
+						"y": 189,
+						"w": 68,
+						"h": 101
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 98,
+						"h": 103
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 98,
+						"h": 103
+					},
+					"frame": {
+						"x": 461,
+						"y": 189,
+						"w": 98,
+						"h": 103
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 98,
+						"h": 103
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 98,
+						"h": 103
+					},
+					"frame": {
+						"x": 559,
+						"y": 189,
+						"w": 98,
+						"h": 103
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 657,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 727,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 797,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 867,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 937,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1007,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_3/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 94,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 94,
+						"h": 104
+					},
+					"frame": {
+						"x": 1077,
+						"y": 189,
+						"w": 94,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1171,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1241,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1311,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_2/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 94,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 94,
+						"h": 104
+					},
+					"frame": {
+						"x": 1381,
+						"y": 189,
+						"w": 94,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1475,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/leg_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1545,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/leg_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 70,
+						"h": 104
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 70,
+						"h": 104
+					},
+					"frame": {
+						"x": 1615,
+						"y": 189,
+						"w": 70,
+						"h": 104
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_concentrator",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 247,
+						"h": 105
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 247,
+						"h": 105
+					},
+					"frame": {
+						"x": 0,
+						"y": 293,
+						"w": 247,
+						"h": 105
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_1/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 95,
+						"h": 109
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 95,
+						"h": 109
+					},
+					"frame": {
+						"x": 247,
+						"y": 293,
+						"w": 95,
+						"h": 109
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 94,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 94,
+						"h": 113
+					},
+					"frame": {
+						"x": 342,
+						"y": 293,
+						"w": 94,
+						"h": 113
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_2/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 92,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 92,
+						"h": 113
+					},
+					"frame": {
+						"x": 436,
+						"y": 293,
+						"w": 92,
+						"h": 113
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_2/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 88,
+						"h": 114
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 88,
+						"h": 114
+					},
+					"frame": {
+						"x": 528,
+						"y": 293,
+						"w": 88,
+						"h": 114
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 45,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 45,
+						"h": 116
+					},
+					"frame": {
+						"x": 616,
+						"y": 293,
+						"w": 45,
+						"h": 116
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 45,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 45,
+						"h": 116
+					},
+					"frame": {
+						"x": 661,
+						"y": 293,
+						"w": 45,
+						"h": 116
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 45,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 45,
+						"h": 116
+					},
+					"frame": {
+						"x": 706,
+						"y": 293,
+						"w": 45,
+						"h": 116
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 45,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 45,
+						"h": 116
+					},
+					"frame": {
+						"x": 751,
+						"y": 293,
+						"w": 45,
+						"h": 116
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 45,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 45,
+						"h": 116
+					},
+					"frame": {
+						"x": 796,
+						"y": 293,
+						"w": 45,
+						"h": 116
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 45,
+						"h": 116
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 45,
+						"h": 116
+					},
+					"frame": {
+						"x": 841,
+						"y": 293,
+						"w": 45,
+						"h": 116
+					}
+				},
+				{
+					"filename": "items/weapons/thermal_blaster",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 249,
+						"h": 117
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 249,
+						"h": 117
+					},
+					"frame": {
+						"x": 886,
+						"y": 293,
+						"w": 249,
+						"h": 117
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 185,
+						"h": 118
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 185,
+						"h": 118
+					},
+					"frame": {
+						"x": 1135,
+						"y": 293,
+						"w": 185,
+						"h": 118
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_3/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 96,
+						"h": 122
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 96,
+						"h": 122
+					},
+					"frame": {
+						"x": 1320,
+						"y": 293,
+						"w": 96,
+						"h": 122
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 193,
+						"h": 124
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 193,
+						"h": 124
+					},
+					"frame": {
+						"x": 1416,
+						"y": 293,
+						"w": 193,
+						"h": 124
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 193,
+						"h": 124
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 193,
+						"h": 124
+					},
+					"frame": {
+						"x": 1609,
+						"y": 293,
+						"w": 193,
+						"h": 124
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/backpack",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 252,
+						"h": 127
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 252,
+						"h": 127
+					},
+					"frame": {
+						"x": 0,
+						"y": 417,
+						"w": 252,
+						"h": 127
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 239,
+						"h": 133
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 239,
+						"h": 133
+					},
+					"frame": {
+						"x": 252,
+						"y": 417,
+						"w": 239,
+						"h": 133
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 239,
+						"h": 133
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 239,
+						"h": 133
+					},
+					"frame": {
+						"x": 491,
+						"y": 417,
+						"w": 239,
+						"h": 133
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 242,
+						"h": 135
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 242,
+						"h": 135
+					},
+					"frame": {
+						"x": 730,
+						"y": 417,
+						"w": 242,
+						"h": 135
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 136
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 136
+					},
+					"frame": {
+						"x": 972,
+						"y": 417,
+						"w": 66,
+						"h": 136
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 136
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 136
+					},
+					"frame": {
+						"x": 1038,
+						"y": 417,
+						"w": 66,
+						"h": 136
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 136
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 136
+					},
+					"frame": {
+						"x": 1104,
+						"y": 417,
+						"w": 66,
+						"h": 136
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 136
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 136
+					},
+					"frame": {
+						"x": 1170,
+						"y": 417,
+						"w": 66,
+						"h": 136
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 67,
+						"h": 138
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 67,
+						"h": 138
+					},
+					"frame": {
+						"x": 1236,
+						"y": 417,
+						"w": 67,
+						"h": 138
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 67,
+						"h": 138
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 67,
+						"h": 138
+					},
+					"frame": {
+						"x": 1303,
+						"y": 417,
+						"w": 67,
+						"h": 138
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_1/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 205,
+						"h": 142
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 205,
+						"h": 142
+					},
+					"frame": {
+						"x": 1370,
+						"y": 417,
+						"w": 205,
+						"h": 142
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_2/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 294,
+						"h": 152
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 294,
+						"h": 152
+					},
+					"frame": {
+						"x": 1575,
+						"y": 417,
+						"w": 294,
+						"h": 152
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_2/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 294,
+						"h": 152
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 294,
+						"h": 152
+					},
+					"frame": {
+						"x": 0,
+						"y": 569,
+						"w": 294,
+						"h": 152
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_1/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 249,
+						"h": 155
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 249,
+						"h": 155
+					},
+					"frame": {
+						"x": 294,
+						"y": 569,
+						"w": 249,
+						"h": 155
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_3/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 272,
+						"h": 157
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 272,
+						"h": 157
+					},
+					"frame": {
+						"x": 543,
+						"y": 569,
+						"w": 272,
+						"h": 157
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_3/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 272,
+						"h": 157
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 272,
+						"h": 157
+					},
+					"frame": {
+						"x": 815,
+						"y": 569,
+						"w": 272,
+						"h": 157
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_1/head",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 161
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 161
+					},
+					"frame": {
+						"x": 1087,
+						"y": 569,
+						"w": 66,
+						"h": 161
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_1/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 67,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 67,
+						"h": 170
+					},
+					"frame": {
+						"x": 1153,
+						"y": 569,
+						"w": 67,
+						"h": 170
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_1/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 67,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 67,
+						"h": 170
+					},
+					"frame": {
+						"x": 1220,
+						"y": 569,
+						"w": 67,
+						"h": 170
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_1/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 248,
+						"h": 171
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 248,
+						"h": 171
+					},
+					"frame": {
+						"x": 1287,
+						"y": 569,
+						"w": 248,
+						"h": 171
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/light/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 66,
+						"h": 182
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 182
+					},
+					"frame": {
+						"x": 1535,
+						"y": 569,
+						"w": 66,
+						"h": 182
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/light/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 57,
+						"h": 182
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 57,
+						"h": 182
+					},
+					"frame": {
+						"x": 1601,
+						"y": 569,
+						"w": 57,
+						"h": 182
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_1/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 242,
+						"h": 188
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 242,
+						"h": 188
+					},
+					"frame": {
+						"x": 1658,
+						"y": 569,
+						"w": 242,
+						"h": 188
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_2/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 242,
+						"h": 188
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 242,
+						"h": 188
+					},
+					"frame": {
+						"x": 0,
+						"y": 757,
+						"w": 242,
+						"h": 188
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_3/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 286,
+						"h": 190
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 286,
+						"h": 190
+					},
+					"frame": {
+						"x": 242,
+						"y": 757,
+						"w": 286,
+						"h": 190
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_3/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 205,
+						"h": 191
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 205,
+						"h": 191
+					},
+					"frame": {
+						"x": 528,
+						"y": 757,
+						"w": 205,
+						"h": 191
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/light/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 71,
+						"h": 194
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 71,
+						"h": 194
+					},
+					"frame": {
+						"x": 733,
+						"y": 757,
+						"w": 71,
+						"h": 194
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_2/torso",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 214,
+						"h": 207
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 214,
+						"h": 207
+					},
+					"frame": {
+						"x": 804,
+						"y": 757,
+						"w": 214,
+						"h": 207
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_1/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 120,
+						"h": 208
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 120,
+						"h": 208
+					},
+					"frame": {
+						"x": 1018,
+						"y": 757,
+						"w": 120,
+						"h": 208
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_1/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 120,
+						"h": 208
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 120,
+						"h": 208
+					},
+					"frame": {
+						"x": 1138,
+						"y": 757,
+						"w": 120,
+						"h": 208
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_1/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 120,
+						"h": 208
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 120,
+						"h": 208
+					},
+					"frame": {
+						"x": 1258,
+						"y": 757,
+						"w": 120,
+						"h": 208
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_1/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 120,
+						"h": 208
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 120,
+						"h": 208
+					},
+					"frame": {
+						"x": 1378,
+						"y": 757,
+						"w": 120,
+						"h": 208
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_1/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 109,
+						"h": 230
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 109,
+						"h": 230
+					},
+					"frame": {
+						"x": 1498,
+						"y": 757,
+						"w": 109,
+						"h": 230
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_2/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 109,
+						"h": 230
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 109,
+						"h": 230
+					},
+					"frame": {
+						"x": 1607,
+						"y": 757,
+						"w": 109,
+						"h": 230
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_2/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 109,
+						"h": 230
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 109,
+						"h": 230
+					},
+					"frame": {
+						"x": 1716,
+						"y": 757,
+						"w": 109,
+						"h": 230
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_1/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 109,
+						"h": 230
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 109,
+						"h": 230
+					},
+					"frame": {
+						"x": 0,
+						"y": 987,
+						"w": 109,
+						"h": 230
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/heavy/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 138,
+						"h": 234
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 138,
+						"h": 234
+					},
+					"frame": {
+						"x": 109,
+						"y": 987,
+						"w": 138,
+						"h": 234
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/heavy/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 160,
+						"h": 234
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 160,
+						"h": 234
+					},
+					"frame": {
+						"x": 247,
+						"y": 987,
+						"w": 160,
+						"h": 234
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_2/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 116,
+						"h": 236
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 116,
+						"h": 236
+					},
+					"frame": {
+						"x": 407,
+						"y": 987,
+						"w": 116,
+						"h": 236
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_2/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 116,
+						"h": 236
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 116,
+						"h": 236
+					},
+					"frame": {
+						"x": 523,
+						"y": 987,
+						"w": 116,
+						"h": 236
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_3/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 135,
+						"h": 238
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 135,
+						"h": 238
+					},
+					"frame": {
+						"x": 639,
+						"y": 987,
+						"w": 135,
+						"h": 238
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_3/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 135,
+						"h": 238
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 135,
+						"h": 238
+					},
+					"frame": {
+						"x": 774,
+						"y": 987,
+						"w": 135,
+						"h": 238
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/heavy/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 101,
+						"h": 239
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 101,
+						"h": 239
+					},
+					"frame": {
+						"x": 909,
+						"y": 987,
+						"w": 101,
+						"h": 239
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_3/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 102,
+						"h": 242
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 242
+					},
+					"frame": {
+						"x": 1010,
+						"y": 987,
+						"w": 102,
+						"h": 242
+					}
+				},
+				{
+					"filename": "objects/armor/green/mark_3/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 102,
+						"h": 242
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 242
+					},
+					"frame": {
+						"x": 1112,
+						"y": 987,
+						"w": 102,
+						"h": 242
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_3/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 102,
+						"h": 242
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 242
+					},
+					"frame": {
+						"x": 1214,
+						"y": 987,
+						"w": 102,
+						"h": 242
+					}
+				},
+				{
+					"filename": "objects/armor/blue/mark_3/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 102,
+						"h": 242
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 242
+					},
+					"frame": {
+						"x": 1316,
+						"y": 987,
+						"w": 102,
+						"h": 242
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_3/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 111,
+						"h": 243
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 111,
+						"h": 243
+					},
+					"frame": {
+						"x": 1418,
+						"y": 987,
+						"w": 111,
+						"h": 243
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_3/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 111,
+						"h": 243
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 111,
+						"h": 243
+					},
+					"frame": {
+						"x": 1529,
+						"y": 987,
+						"w": 111,
+						"h": 243
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_2/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 106,
+						"h": 247
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 106,
+						"h": 247
+					},
+					"frame": {
+						"x": 1640,
+						"y": 987,
+						"w": 106,
+						"h": 247
+					}
+				},
+				{
+					"filename": "objects/armor/red/mark_2/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 106,
+						"h": 247
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 106,
+						"h": 247
+					},
+					"frame": {
+						"x": 1746,
+						"y": 987,
+						"w": 106,
+						"h": 247
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_2/arm_l",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 101,
+						"h": 259
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 101,
+						"h": 259
+					},
+					"frame": {
+						"x": 0,
+						"y": 1234,
+						"w": 101,
+						"h": 259
+					}
+				},
+				{
+					"filename": "objects/aliens/alien_2/arm_r",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 101,
+						"h": 259
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 101,
+						"h": 259
+					},
+					"frame": {
+						"x": 101,
+						"y": 1234,
+						"w": 101,
+						"h": 259
+					}
+				},
+				{
+					"filename": "objects/soldiers/blue/medium/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 92,
+						"h": 281
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 92,
+						"h": 281
+					},
+					"frame": {
+						"x": 202,
+						"y": 1234,
+						"w": 92,
+						"h": 281
+					}
+				},
+				{
+					"filename": "objects/soldiers/red/medium/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 83,
+						"h": 296
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 83,
+						"h": 296
+					},
+					"frame": {
+						"x": 294,
+						"y": 1234,
+						"w": 83,
+						"h": 296
+					}
+				},
+				{
+					"filename": "objects/soldiers/green/medium/weapon",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 90,
+						"h": 296
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 90,
+						"h": 296
+					},
+					"frame": {
+						"x": 377,
+						"y": 1234,
+						"w": 90,
+						"h": 296
+					}
+				},
+				{
+					"filename": "mask",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1280,
+						"h": 720
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1280,
+						"h": 720
+					},
+					"frame": {
+						"x": 467,
+						"y": 1234,
+						"w": 1280,
+						"h": 720
 					}
 				}
 			]
@@ -120,6 +2745,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:fa2cb551f95ac930c27fdf05f0cb2cc1:ce78c39f1b44e621fdd6bde2bcbc6981:7b7b0ab542d8f4476927c1214236c45c$"
+		"smartupdate": "$TexturePacker:SmartUpdate:c8429c2bf23cb06438c3beb3e90e6bbc:b0608b95dc8055037b23bc4d49fd208b:941fdc8fcb393b91cb8b27a54e5a9c98$"
 	}
 }

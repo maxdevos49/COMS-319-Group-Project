@@ -74,7 +74,7 @@ router.get("/logout", (req: Request, res: Response) => {
 /**
  * GET:/Auth/dashboard
  */
-router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+router.get("/dashboard", permit(["user", "admin"], "/Auth/login"), (req: Request, res: Response) => {
     Account.findById(res.locals.authentication.id, { "password": 0 }, (err, data) => {
         if (err) throw err;
         return res.render("Auth/dashboard", View(res, DashboardViewModel, data));
@@ -83,7 +83,7 @@ router.get("/dashboard", permit(["user"], "/Auth/login"), (req: Request, res: Re
 /**
  * POST:/Auth/changeNickname
  */
-router.post("/changeNickname", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+router.post("/changeNickname", permit(["user", "admin"], "/Auth/login"), (req: Request, res: Response) => {
     Account.findById(res.locals.authentication.id, (err, doc: any) => {
         doc.nickname = req.body.nickname;
         req.session.passport.user.nickname = req.body.nickname;
@@ -95,7 +95,7 @@ router.post("/changeNickname", permit(["user"], "/Auth/login"), (req: Request, r
 /**
  * POST:/Auth/changePassword
  */
-router.post("/changePassword", permit(["user"], "/Auth/login"), (req: Request, res: Response) => {
+router.post("/changePassword", permit(["user", "admin"], "/Auth/login"), (req: Request, res: Response) => {
     if (req.body.password === req.body.passwordConfirmation) {
         Account.findById(res.locals.authentication.id, (err, doc: any) => {
             doc.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
@@ -112,14 +112,14 @@ router.post("/changePassword", permit(["user"], "/Auth/login"), (req: Request, r
 /**
  * GET:/Auth/confirmEmail
  */
-router.get("/confirmEmail", permit(["user"]), (req: Request, res: Response) => {
+router.get("/confirmEmail", permit(["user", "admin"]), (req: Request, res: Response) => {
     res.render("Auth/confirmEmail", View(res, DashboardViewModel));
 });
 
 /**
  * POST:/Auth/confirmEmail
  */
-router.post("/confirmEmail", permit(["user"]), (req: Request, res: Response) => {
+router.post("/confirmEmail", permit(["user", "admin"]), (req: Request, res: Response) => {
     Account.findOne({ email: req.body.email }, (err, data) => {
         if (err) throw err;
 

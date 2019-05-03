@@ -15,7 +15,9 @@
                 <div class="row">
 
                     <!--Left Side-->
-                    <div class="col-md-4 p-3">
+                    <div class="col-md-4 p-3" style="border-right: solid 1px #f1f1f1;">
+
+                        <h4>Edit Nickname:</h4>
 
                         <!--Nickname-->
                         <form method="POST" action="/auth/changeNickname" id="nicknameForm">
@@ -30,6 +32,8 @@
                             </div>
                         </form>
 
+                        <h4 class="pt-4">Verify Your Email:</h4>
+
                         <!--Email-->
                         <div class="p-1">
                             @html.LabelFor(model => model.email)
@@ -41,7 +45,8 @@
                     </div>
 
                     <!--Center-->
-                    <div class="col-md-4 p-3">
+                    <div class="col-md-4 p-3"  style="border-right: solid 1px #f1f1f1;">
+                        <h4>Reset your password:</h4>
                         <form method="POST" action="/auth/changePassword" id="passwordForm">
                             <!--Password-->
                             <div class="p-1 class-group">
@@ -70,6 +75,7 @@
                     </div>
 
                 </div>
+                <hr>
             </div>
 
             <div class=" col-md-12 p-4 m-2" style="box-shadow: 0 0 10px;">

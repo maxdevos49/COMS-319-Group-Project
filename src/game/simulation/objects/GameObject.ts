@@ -1,6 +1,5 @@
-// import { b2World } from "../../../../lib/box2d-physics-engine/Dynamics/b2World";
 import { GameSimulation } from "../GameSimulation";
-import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/IObjectDescription";
+import { GameObjectType, IObjectDescription } from "../../../public/javascript/game/models/objects/Descriptions/IObjectDescription";
 import { IPositionUpdate } from "../../../public/javascript/game/models/objects/IPositionUpdate";
 
 export abstract class GameObject {
@@ -8,25 +7,35 @@ export abstract class GameObject {
 	 * The id of the game object
 	 */
     id: string;
+
 	/**
 	 * The type of the game objects
 	 */
     type: GameObjectType;
+
 	/**
 	 * This simulation which this game object belongs to
 	 */
     simulation: GameSimulation;
 
-	/**
-	 * Constructs a new game object that belongs to the given simulation
-	 * @param id
-	 * @param type
-	 * @param simulation The simulation this object belongs to
-	 */
-    protected constructor(id: string, type: GameObjectType, simulation: GameSimulation) {
+    /**
+     * Specifies whether position updates should be send for this object
+     */
+    sendUpdates: boolean;
+
+
+    /**
+     * Constructs a new game object that belongs to the given simulation
+     * @param id
+     * @param type
+     * @param simulation The simulation this object belongs to
+     * @param sendUpdates Whether position updates should be send
+     */
+    protected constructor(id: string, type: GameObjectType, simulation: GameSimulation, sendUpdates: boolean = true) {
         this.id = id;
         this.type = type;
         this.simulation = simulation;
+        this.sendUpdates = sendUpdates;
     }
 
 	/**

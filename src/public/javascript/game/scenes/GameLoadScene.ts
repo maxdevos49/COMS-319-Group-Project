@@ -1,32 +1,39 @@
 import { GameConnection } from "../GameConnection.js";
 import { Player } from "../objects/Player.js";
-import { Bullet } from "../objects/Bullet.js";
+import { AlienShooter } from "../objects/AlienShooter.js";
+import { GameScene } from "./GameScene.js";
 
 export class GameLoadScene extends Phaser.Scene {
 
     /**
      * Socket Connection Object
      */
-    public gameSocket: GameConnection;
+    public connection: GameConnection;
+
+    startedGame: boolean;
 
     constructor() {
         super({ key: "GameLoadScene" });
     }
 
+    init(info: {id: string}): void {
+        this.connection = new GameConnection(info.id);
+        this.startedGame = false;
+    }
+
     preload(): void {
-        this.load.atlas("sprites", "/res/spritesAtlas.png", "/res/spritesAtlas.json");
-        this.load.image("tiles", "/res/tiles.png");
-        this.gameSocket = new GameConnection();
+        this.scene.remove("GameScene");
     }
 
     create(): void {
         Player.createAnimations(this.anims);
-        Bullet.createAnimations(this.anims);
+        AlienShooter.createAnimations(this.anims);
     }
 
     update(): void {
-        if (this.gameSocket.ready) {
-            this.scene.start("GameScene", this.gameSocket);
+        if (this.connection.requiredRecieved && !this.startedGame) {
+            this.scene.add("GameScene", GameScene, true, this.connection);
+            this.startedGame = true;
         }
     }
 }

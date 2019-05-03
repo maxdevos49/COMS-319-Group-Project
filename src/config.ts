@@ -2,10 +2,16 @@ import { IConfig } from "./helpers/vash/lib/Interfaces/IConfig";
 
 export const config: IConfig = {
     title: "B.R.T.D. (Battle Royal Top Down Shooter)",
-    versionRelease: "April 5, 2019",
-    versionTitle: "Alpha",
-    version: "2.0.0",
-    description: "B.R.T.D is a Top Down Battle Royal Shooter Game. ",
+    versionRelease: "May 1, 2019",
+    versionTitle: "Release",
+    version: "3.0.0",
+    description: `B.R.T.D is a Top Down Battle Royal Shooter Game. B.R.T.D was
+                    inspired from many of the currently popular battle royal games
+                    but we wanted to make a different take on what we saw as an
+                    entertaining game. One of the biggest differences we made from
+                    many of the battle royal games we have seen is to make being outside
+                    of the storm not initially hurt you. We instead made enemies spawn
+                    outside to encourage you to stay outside the storm.`,
     owner: ["Maxwell DeVos", "Mason Timmerman", "Joeseph Naberhaus", "John Jago"],
     developers: [
         {
@@ -13,7 +19,7 @@ export const config: IConfig = {
             major: "Software Engineering",
             year: 2021,
             github: "https://github.com/Maxdevos49",
-            website: "",
+            website: "https://thatonespot.herokuapp.com/index.html",
             bio: "",
             image: "/images/default-user.png"
         },
@@ -31,7 +37,7 @@ export const config: IConfig = {
             major: "Software Engineering",
             year: 2020,
             github: "https://github.com/johnjago",
-            website: "",
+            website: "https://johnjago.com",
             bio: "",
             image: "/images/default-user.png"
         },
@@ -40,7 +46,7 @@ export const config: IConfig = {
             major: "Software Engineering",
             year: 2021,
             github: "https://github.com/JosephNaberhaus",
-            website: "",
+            website: "https://www.naberhausj.com",
             bio: "",
             image: "/images/default-user.png"
         }

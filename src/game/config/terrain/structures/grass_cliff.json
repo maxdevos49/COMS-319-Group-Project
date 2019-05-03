@@ -1,0 +1,346 @@
+[
+  {
+    "name": "grass_cliff_plain_1",
+    "rarity": 400,
+    "rarity_usage_decrease": 3,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_1"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_n|@grass_cliff_stone_full",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_w|@grass_cliff_stone_full",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_s|@grass_cliff_stone_full",
+        "required": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_e|@grass_cliff_stone_full",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_ocorner_1_se",
+    "rarity": 1,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_ocorner_1_se"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+          "expects": "@grass_cliff_stone_s",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_e",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_ocorner_1_sw",
+    "rarity": 1,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_ocorner_1_sw"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_w",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_s",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_ocorner_1_nw",
+    "rarity": 1,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_ocorner_1_nw"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_w",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_s",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_ocorner_1_ne",
+    "rarity": 1,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_ocorner_1_ne"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_e",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_n",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_edge_s",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_edge_s"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_s",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_s",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_edge_w",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_edge_w"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_w",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_w",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_edge_n",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_edge_n"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_n",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "west",
+        "expects": "@grass_cliff_stone_n",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "grass_cliff_edge_e",
+    "rarity": 100,
+    "rarity_usage_decrease": 0,
+    "width": 1,
+    "height": 1,
+    "structure": [
+      ["grass_cliff_edge_e"]
+    ],
+    "connections": [
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "east",
+        "expects": "@grass_cliff_stone_full",
+        "required": true,
+        "requiredOnInit": true
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "north",
+        "expects": "@grass_cliff_stone_e",
+        "required": false
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "connection_direction": "south",
+        "expects": "@grass_cliff_stone_e",
+        "required": false
+      }
+    ]
+  }
+]

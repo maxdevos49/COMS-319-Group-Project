@@ -1,0 +1,20 @@
+[
+  {
+    "name": "water",
+    "id": 180,
+    "groups": [
+      "@water"
+    ],
+    "layer": "hole",
+    "animation": [
+      {
+        "duration": 1000,
+        "tileid": 180
+      },
+      {
+        "duration": 1000,
+        "tileid": 181
+      }
+    ]
+  }
+]
