@@ -62,13 +62,13 @@ export class Player extends GameObject {
 
         switch(rand) {
             case 1:
-                type = "heavy";
+                type = "light";
                 break;
             case 2:
-                type = "heavy";
+                type = "light";
                 break;
             case 3:
-                type = "heavy";
+                type = "light";
                 break;
         }
         
@@ -80,9 +80,12 @@ export class Player extends GameObject {
             this.arm_l = new Phaser.GameObjects.Sprite(scene, -85, -70, "sprites", `objects/soldiers/${color}/heavy/arm_l`);
             this.leg_r = new Phaser.GameObjects.Sprite(scene, 42, -25, "sprites", `objects/soldiers/${color}/heavy/leg_r`);
             this.leg_l = new Phaser.GameObjects.Sprite(scene, -42, -25, "sprites", `objects/soldiers/${color}/heavy/leg_l`);
-            //weapon
-            this.weapon = new Phaser.GameObjects.Sprite(scene, 80, -115, "sprites", `objects/soldiers/${color}/heavy/weapon`);
             this.backpack = new Phaser.GameObjects.Sprite(scene, 0, 90, "sprites", `objects/soldiers/${color}/heavy/backpack`);
+            if (color === "green") { 
+                this.weapon = new Phaser.GameObjects.Sprite(scene, -80, -115, "sprites", `objects/soldiers/${color}/heavy/weapon`); 
+            }else { 
+                this.weapon = new Phaser.GameObjects.Sprite(scene, 80, -115, "sprites", `objects/soldiers/${color}/heavy/weapon`); 
+            }
         } else {
             this.torso = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/${type}/torso`);
             this.head = new Phaser.GameObjects.Sprite(scene, 0, 0, "sprites", `objects/soldiers/${color}/${type}/head`);
@@ -90,8 +93,10 @@ export class Player extends GameObject {
             this.arm_l = new Phaser.GameObjects.Sprite(scene, -70, -55, "sprites", `objects/soldiers/${color}/${type}/arm_l`);
             this.leg_r = new Phaser.GameObjects.Sprite(scene, 33, -25, "sprites", `objects/soldiers/${color}/${type}/leg_r`);
             this.leg_l = new Phaser.GameObjects.Sprite(scene, -33, -25, "sprites", `objects/soldiers/${color}/${type}/leg_l`);
-            //weapon
-            this.weapon = new Phaser.GameObjects.Sprite(scene, 70, -55, "sprites", `objects/soldiers/${color}/${type}/weapon`);
+            if (color === "green") {
+                this.weapon = new Phaser.GameObjects.Sprite(scene, -70, -95, "sprites", `objects/soldiers/${color}/${type}/weapon`);
+            } else { this.weapon = new Phaser.GameObjects.Sprite(scene, 70, -95, "sprites", `objects/soldiers/${color}/${type}/weapon`); 
+            }
             this.leg_r.setScale(0.75, 0.75);
             this.leg_l.setScale(0.75, 0.75);
         }
