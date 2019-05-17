@@ -100,8 +100,10 @@ export class GameMatchmaking {
         setInterval(() => {
             // Check if the game should start
             if (this.idToInfo.size >= GameMatchmaking.numPlayerToStart || this.forceStart) {
+
                 // If a new game server exists and it is ready then add the players to it
                 if (this.nextServerId != null && this.games.get(this.nextServerId).curState == GameState.ready) {
+                    
                     console.log("Ready to start the game, informing players of the new server with id " + this.nextServerId);
                     this.idToSocket.forEach((socket: Socket, id: string) => socket.emit("/update/start", this.nextServerId));
                     // Tell the server how many players we are informing about the game so it knows how many to expect

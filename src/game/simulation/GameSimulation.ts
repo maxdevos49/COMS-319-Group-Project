@@ -120,6 +120,7 @@ export class GameSimulation {
      * Advance to the next physics frame.
      */
     public nextFrame(): void {
+
         this.objects.forEach((object) => {
             let move = this.moves.popPlayerMoveUpdate(object.id);
             if (move != null) {
